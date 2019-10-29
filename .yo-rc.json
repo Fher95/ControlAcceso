@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "empaques.controlacceso",
+      "nativeLanguage": "es"
+    },
+    "jhipsterVersion": "6.3.1",
+    "applicationType": "monolith",
+    "baseName": "ControlAcceso",
+    "packageName": "empaques.controlacceso",
+    "packageFolder": "empaques/controlacceso",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ODNiNWQ5NmY0M2ZiNTg3MDI1YjA2N2Y1OGVjMTY1ZWM3NzkxZTdlN2FiZGYyYzM2ZTljNTVkZGZiZmQzZDFlMTJhODNkMTEyNzM5NmY0MDMzZmI4Y2E2YjFkNzg1MDM2NzAwNDhhZDI1NGVjOGIyMDNlMGU3ZDZhNmQyZDk1YWY=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "cerulean",
+    "clientThemeVariant": "dark",
+    "testFrameworks": ["gatling"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "es",
+    "languages": ["es", "en"],
+    "blueprints": []
+  }
+}
