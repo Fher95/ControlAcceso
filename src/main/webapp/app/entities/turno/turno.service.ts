@@ -16,6 +16,7 @@ type EntityArrayResponseType = HttpResponse<ITurno[]>;
 @Injectable({ providedIn: 'root' })
 export class TurnoService {
   public resourceUrl = SERVER_API_URL + 'api/turnos';
+  public resourceSearchUrl = SERVER_API_URL + 'api/_search/turnos';
 
   constructor(protected http: HttpClient) {}
 
@@ -48,6 +49,13 @@ export class TurnoService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  search(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ITurno[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   protected convertDateFromClient(turno: ITurno): ITurno {

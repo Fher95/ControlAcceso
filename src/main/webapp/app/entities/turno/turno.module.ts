@@ -7,11 +7,12 @@ import { TurnoDetailComponent } from './turno-detail.component';
 import { TurnoUpdateComponent } from './turno-update.component';
 import { TurnoDeletePopupComponent, TurnoDeleteDialogComponent } from './turno-delete-dialog.component';
 import { turnoRoute, turnoPopupRoute } from './turno.route';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 const ENTITY_STATES = [...turnoRoute, ...turnoPopupRoute];
 
 @NgModule({
-  imports: [ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [TimepickerModule.forRoot(), ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [TurnoComponent, TurnoDetailComponent, TurnoUpdateComponent, TurnoDeleteDialogComponent, TurnoDeletePopupComponent],
   entryComponents: [TurnoDeleteDialogComponent]
 })

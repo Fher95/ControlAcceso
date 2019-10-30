@@ -9,13 +9,7 @@
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.tipo" for="field_tipo">Tipo</label>
-                    <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
-                        <option value="Laboral">{{'controlAccesoApp.TipoTurno.Laboral' | translate}}</option>
-                        <option value="NoLaboral">{{'controlAccesoApp.TipoTurno.NoLaboral' | translate}}</option>
-                    </select>
-                </div>
+                
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.nombre" for="field_nombre">Nombre</label>
                     <input type="text" class="form-control" name="nombre" id="field_nombre"
@@ -25,6 +19,10 @@
                                *ngIf="editForm.get('nombre').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nombre').errors.pattern" >
+                        Solo se aceptan letras para este campo.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -33,27 +31,47 @@
                            formControlName="descripcion"/>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.tipo" for="field_tipo">Tipo</label>
+                    <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
+                        <option value="Laboral" (click)="esLaboral=true">{{'controlAccesoApp.TipoTurno.Laboral' | translate}}</option>
+                        <option value="NoLaboral" (click)="esLaboral=false">{{'controlAccesoApp.TipoTurno.NoLaboral' | translate}}</option>
+                    </select>
+                </div>
+                <div *ngIf="esLaboral" class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.horaInicio" for="field_horaInicio">Hora Inicio</label>
                     <div class="d-flex">
-                        <input id="field_horaInicio" type="datetime-local" class="form-control" name="horaInicio" formControlName="horaInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                        <!--input id="field_horaInicio" type="datetime-local" class="form-control" name="horaInicio" formControlName="horaInicio" placeholder="YYYY-MM-DD HH:mm"/-->
+                        <timepicker [(ngModel)]="dtHoraInicio" id="field_horaInicio" name="horaInicio" formControlName="horaInicio"></timepicker>
                     </div>
                 </div>
-                <div class="form-group">
+                <div *ngIf="esLaboral" class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.umbralInicio" for="field_umbralInicio">Umbral Inicio</label>
                     <div class="d-flex">
-                        <input id="field_umbralInicio" type="datetime-local" class="form-control" name="umbralInicio" formControlName="umbralInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                        <!--input id="field_umbralInicio" type="datetime-local" class="form-control" name="umbralInicio" formControlName="umbralInicio" placeholder="YYYY-MM-DD HH:mm"/-->
+                        <timepicker [(ngModel)]="dtHoraUmbral" id="field_umbralInicio" name="umbralInicio" formControlName="umbralInicio"></timepicker>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.duracion" for="field_duracion">Duracion</label>
                     <input type="number" class="form-control" name="duracion" id="field_duracion"
                            formControlName="duracion"/>
+                                                                               
+                        
                 </div>
+
+
+
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.color" for="field_color">Color</label>
-                    <input type="text" class="form-control" name="color" id="field_color"
-                           formControlName="color"/>
-                </div>
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.color" for="field_color">Color</label>
+                        <select class="form-control" name="color" formControlName="color" id="field_color">
+                            <option value="Rojo">Rojo</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Azul">Azul</option>
+                        </select>
+                    </div>
+
+
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.estado" for="field_estado">Estado</label>
                     <select class="form-control" name="estado" formControlName="estado" id="field_estado">

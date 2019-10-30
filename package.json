@@ -26,6 +26,7 @@
     "core-js": "3.2.1",
     "moment": "2.24.0",
     "ng-jhipster": "0.11.1",
+    "ngx-bootstrap": "^5.2.0",
     "ngx-cookie": "4.0.2",
     "ngx-infinite-scroll": "8.0.0",
     "ngx-webstorage": "4.0.1",

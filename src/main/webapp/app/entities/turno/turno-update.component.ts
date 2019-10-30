@@ -16,15 +16,18 @@ import { TurnoService } from './turno.service';
 })
 export class TurnoUpdateComponent implements OnInit {
   isSaving: boolean;
+  dtHoraInicio: Date = new Date();
+  dtHoraUmbral: Date = new Date();
+  esLaboral = true;
 
   editForm = this.fb.group({
     id: [],
     tipo: [],
-    nombre: [null, [Validators.required]],
+    nombre: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
     descripcion: [],
     horaInicio: [],
     umbralInicio: [],
-    duracion: [],
+    duracion: [this, [Validators.required, Validators.pattern('[0-9 ]*')]],
     color: [],
     estado: []
   });
@@ -50,6 +53,8 @@ export class TurnoUpdateComponent implements OnInit {
       color: turno.color,
       estado: turno.estado
     });
+    this.dtHoraInicio.setHours(turno.horaInicio.hour(), turno.horaInicio.minute());
+    this.dtHoraUmbral.setHours(turno.umbralInicio.hour(), turno.umbralInicio.minute());
   }
 
   previousState() {
@@ -57,6 +62,10 @@ export class TurnoUpdateComponent implements OnInit {
   }
 
   save() {
+    this.dtHoraInicio.setFullYear(1, 0, 1);
+    this.dtHoraInicio.setSeconds(0);
+    this.dtHoraUmbral.setFullYear(1, 0, 1);
+    this.dtHoraUmbral.setSeconds(0);
     this.isSaving = true;
     const turno = this.createFromForm();
     if (turno.id !== undefined) {
