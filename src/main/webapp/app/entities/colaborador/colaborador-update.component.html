@@ -1,141 +1,175 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-colaborador-heading" jhiTranslate="controlAccesoApp.colaborador.home.createOrEditLabel">Create or edit a Colaborador</h2>
+            <h2 id="jhi-colaborador-heading" jhiTranslate="controlAccesoApp.colaborador.home.createOrEditLabel">Create
+                or edit a Colaborador</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre1" for="field_nombre1">Nombre 1</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre1"
+                        for="field_nombre1">Nombre 1</label>
                     <input type="text" class="form-control" name="nombre1" id="field_nombre1"
-                           formControlName="nombre1"/>
-                    <div *ngIf="editForm.get('nombre1').invalid && (editForm.get('nombre1').dirty || editForm.get('nombre1').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('nombre1').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                        formControlName="nombre1" />
+                    <div
+                        *ngIf="editForm.get('nombre1').invalid && (editForm.get('nombre1').dirty || editForm.get('nombre1').touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('nombre1').errors.required"
+                            jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre2" for="field_nombre2">Nombre 2</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre2"
+                        for="field_nombre2">Nombre 2</label>
                     <input type="text" class="form-control" name="nombre2" id="field_nombre2"
-                           formControlName="nombre2"/>
+                        formControlName="nombre2" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido1" for="field_apellido1">Apellido 1</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido1"
+                        for="field_apellido1">Apellido 1</label>
                     <input type="text" class="form-control" name="apellido1" id="field_apellido1"
-                           formControlName="apellido1"/>
-                    <div *ngIf="editForm.get('apellido1').invalid && (editForm.get('apellido1').dirty || editForm.get('apellido1').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('apellido1').errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
+                        formControlName="apellido1" />
+                    <div
+                        *ngIf="editForm.get('apellido1').invalid && (editForm.get('apellido1').dirty || editForm.get('apellido1').touched)">
+                        <small class="form-text text-danger" *ngIf="editForm.get('apellido1').errors.required"
+                            jhiTranslate="entity.validation.required">
+                            This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido2" for="field_apellido2">Apellido 2</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido2"
+                        for="field_apellido2">Apellido 2</label>
                     <input type="text" class="form-control" name="apellido2" id="field_apellido2"
-                           formControlName="apellido2"/>
+                        formControlName="apellido2" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tipoDocumento" for="field_tipoDocumento">Tipo Documento</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tipoDocumento"
+                        for="field_tipoDocumento">Tipo Documento</label>
                     <input type="text" class="form-control" name="tipoDocumento" id="field_tipoDocumento"
-                           formControlName="tipoDocumento"/>
+                        formControlName="tipoDocumento" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.numeroDocumento" for="field_numeroDocumento">Numero Documento</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
+                        for="field_numeroDocumento">Numero Documento</label>
                     <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
-                           formControlName="numeroDocumento"/>
+                        formControlName="numeroDocumento" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion" for="field_lugarExpedicion">Lugar Expedicion</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion"
+                        for="field_lugarExpedicion">Lugar Expedicion</label>
                     <input type="text" class="form-control" name="lugarExpedicion" id="field_lugarExpedicion"
-                           formControlName="lugarExpedicion"/>
+                        formControlName="lugarExpedicion" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion" for="field_fechaExpedicion">Fecha Expedicion</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion"
+                        for="field_fechaExpedicion">Fecha Expedicion</label>
                     <div class="d-flex">
-                        <input id="field_fechaExpedicion" type="datetime-local" class="form-control" name="fechaExpedicion" formControlName="fechaExpedicion" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fechaExpedicion" type="date" class="form-control"
+                            name="fechaExpedicion" formControlName="fechaExpedicion" placeholder="YYYY-MM-DD HH:mm" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento" for="field_fechaNacimiento">Fecha Nacimiento</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento"
+                        for="field_fechaNacimiento">Fecha Nacimiento</label>
                     <div class="d-flex">
-                        <input id="field_fechaNacimiento" type="datetime-local" class="form-control" name="fechaNacimiento" formControlName="fechaNacimiento" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fechaNacimiento" type="date" class="form-control"
+                            name="fechaNacimiento" formControlName="fechaNacimiento" placeholder="YYYY-MM-DD HH:mm" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.direccionResidencia" for="field_direccionResidencia">Direccion Residencia</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.direccionResidencia"
+                        for="field_direccionResidencia">Direccion Residencia</label>
                     <input type="text" class="form-control" name="direccionResidencia" id="field_direccionResidencia"
-                           formControlName="direccionResidencia"/>
+                        formControlName="direccionResidencia" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.barrio" for="field_barrio">Barrio</label>
-                    <input type="text" class="form-control" name="barrio" id="field_barrio"
-                           formControlName="barrio"/>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.barrio"
+                        for="field_barrio">Barrio</label>
+                    <input type="text" class="form-control" name="barrio" id="field_barrio" formControlName="barrio" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaIngreso" for="field_fechaIngreso">Fecha Ingreso</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaIngreso"
+                        for="field_fechaIngreso">Fecha Ingreso</label>
                     <div class="d-flex">
-                        <input id="field_fechaIngreso" type="datetime-local" class="form-control" name="fechaIngreso" formControlName="fechaIngreso" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fechaIngreso" type="date" class="form-control" name="fechaIngreso"
+                            formControlName="fechaIngreso" />                            
                     </div>
+                    
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido" for="field_tiempoRequerido">Tiempo Requerido</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido"
+                        for="field_tiempoRequerido">Tiempo Requerido</label>
                     <input type="number" class="form-control" name="tiempoRequerido" id="field_tiempoRequerido"
-                           formControlName="tiempoRequerido"/>
+                        formControlName="tiempoRequerido" />
+                        
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar" for="field_cargoDesempeniar">Cargo Desempeniar</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar"
+                        for="field_cargoDesempeniar">Cargo Desempeniar</label>
                     <input type="text" class="form-control" name="cargoDesempeniar" id="field_cargoDesempeniar"
-                           formControlName="cargoDesempeniar"/>
+                        formControlName="cargoDesempeniar" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.salario" for="field_salario">Salario</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.salario"
+                        for="field_salario">Salario</label>
                     <input type="number" class="form-control" name="salario" id="field_salario"
-                           formControlName="salario"/>
+                        formControlName="salario" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.eps" for="field_eps">Eps</label>
-                    <input type="text" class="form-control" name="eps" id="field_eps"
-                           formControlName="eps"/>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.eps"
+                        for="field_eps">Eps</label>
+                    <input type="text" class="form-control" name="eps" id="field_eps" formControlName="eps" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.estado" for="field_estado">Estado</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.estado"
+                        for="field_estado">Estado</label>
                     <select class="form-control" name="estado" formControlName="estado" id="field_estado">
                         <option value="Activo">{{'controlAccesoApp.Estado.Activo' | translate}}</option>
                         <option value="Inactivo">{{'controlAccesoApp.Estado.Inactivo' | translate}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja" for="field_fechaBaja">Fecha Baja</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja"
+                        for="field_fechaBaja">Fecha Baja</label>
                     <div class="d-flex">
-                        <input id="field_fechaBaja" type="datetime-local" class="form-control" name="fechaBaja" formControlName="fechaBaja" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fechaBaja" type="date" class="form-control" name="fechaBaja"
+                            formControlName="fechaBaja"  />                            
                     </div>
                 </div>
 
-                <div class="form-group">
+                <!--div class="form-group">
                     <label jhiTranslate="controlAccesoApp.colaborador.peticion" for="field_peticions">Peticion</label>
-                    <select class="form-control" id="field_peticions" multiple name="peticions" formControlName="peticions">
-                        <option [ngValue]="getSelected(editForm.get('peticions').value, peticionOption)" *ngFor="let peticionOption of peticions; trackBy: trackPeticionById">{{peticionOption.id}}</option>
+                    <select class="form-control" id="field_peticions" multiple name="peticions"
+                        formControlName="peticions">
+                        <option [ngValue]="getSelected(editForm.get('peticions').value, peticionOption)"
+                            *ngFor="let peticionOption of peticions; trackBy: trackPeticionById">{{peticionOption.id}}
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label jhiTranslate="controlAccesoApp.colaborador.asignacionHorasExtras" for="field_asignacionHorasExtras">Asignacion Horas Extras</label>
-                    <select class="form-control" id="field_asignacionHorasExtras" multiple name="asignacionHorasExtras" formControlName="asignacionHorasExtras">
-                        <option [ngValue]="getSelected(editForm.get('asignacionHorasExtras').value, asignacionHorasExtrasOption)" *ngFor="let asignacionHorasExtrasOption of asignacionhorasextras; trackBy: trackAsignacionHorasExtrasById">{{asignacionHorasExtrasOption.id}}</option>
+                    <label jhiTranslate="controlAccesoApp.colaborador.asignacionHorasExtras"
+                        for="field_asignacionHorasExtras">Asignacion Horas Extras</label>
+                    <select class="form-control" id="field_asignacionHorasExtras" multiple name="asignacionHorasExtras"
+                        formControlName="asignacionHorasExtras">
+                        <option
+                            [ngValue]="getSelected(editForm.get('asignacionHorasExtras').value, asignacionHorasExtrasOption)"
+                            *ngFor="let asignacionHorasExtrasOption of asignacionhorasextras; trackBy: trackAsignacionHorasExtrasById">
+                            {{asignacionHorasExtrasOption.id}}</option>
                     </select>
-                </div>
+                </div-->
             </div>
+
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>

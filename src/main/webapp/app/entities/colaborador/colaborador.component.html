@@ -49,17 +49,17 @@
                 <td>{{colaborador.tipoDocumento}}</td>
                 <td>{{colaborador.numeroDocumento}}</td>
                 <td>{{colaborador.lugarExpedicion}}</td>
-                <td>{{colaborador.fechaExpedicion | date:'medium'}}</td>
-                <td>{{colaborador.fechaNacimiento | date:'medium'}}</td>
+                <td>{{colaborador.fechaExpedicion | date:'mediumDate'}}</td>
+                <td>{{colaborador.fechaNacimiento | date:'mediumDate'}}</td>
                 <td>{{colaborador.direccionResidencia}}</td>
                 <td>{{colaborador.barrio}}</td>
-                <td>{{colaborador.fechaIngreso | date:'medium'}}</td>
+                <td>{{colaborador.fechaIngreso | date:'mediumDate'}}</td>
                 <td>{{colaborador.tiempoRequerido}}</td>
                 <td>{{colaborador.cargoDesempeniar}}</td>
                 <td>{{colaborador.salario}}</td>
                 <td>{{colaborador.eps}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</td>
-                <td>{{colaborador.fechaBaja | date:'medium'}}</td>
+                <td>{{colaborador.fechaBaja | date:'mediumDate'}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

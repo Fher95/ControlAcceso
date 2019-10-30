@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IColaborador, Colaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from './colaborador.service';
@@ -106,17 +106,17 @@ export class ColaboradorUpdateComponent implements OnInit {
       tipoDocumento: colaborador.tipoDocumento,
       numeroDocumento: colaborador.numeroDocumento,
       lugarExpedicion: colaborador.lugarExpedicion,
-      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_TIME_FORMAT) : null,
-      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_TIME_FORMAT) : null,
+      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_FORMAT) : null,
+      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_FORMAT) : null,
       direccionResidencia: colaborador.direccionResidencia,
       barrio: colaborador.barrio,
-      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_TIME_FORMAT) : null,
+      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_FORMAT) : null,
       tiempoRequerido: colaborador.tiempoRequerido,
       cargoDesempeniar: colaborador.cargoDesempeniar,
       salario: colaborador.salario,
       eps: colaborador.eps,
       estado: colaborador.estado,
-      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_TIME_FORMAT) : null,
+      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_FORMAT) : null,
       peticions: colaborador.peticions,
       asignacionHorasExtras: colaborador.asignacionHorasExtras
     });
