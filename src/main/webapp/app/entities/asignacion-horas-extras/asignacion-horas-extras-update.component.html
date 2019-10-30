@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-asignacion-horas-extras-heading" jhiTranslate="controlAccesoApp.asignacionHorasExtras.home.createOrEditLabel">Create or edit a Asignacion Horas Extras</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.justificacion" for="field_justificacion">Justificacion</label>
+                    <input type="text" class="form-control" name="justificacion" id="field_justificacion"
+                           formControlName="justificacion"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.observaciones" for="field_observaciones">Observaciones</label>
+                    <input type="text" class="form-control" name="observaciones" id="field_observaciones"
+                           formControlName="observaciones"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.fecha" for="field_fecha">Fecha</label>
+                    <div class="d-flex">
+                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" formControlName="fecha" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.horaInicio" for="field_horaInicio">Hora Inicio</label>
+                    <div class="d-flex">
+                        <input id="field_horaInicio" type="datetime-local" class="form-control" name="horaInicio" formControlName="horaInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.horaFin" for="field_horaFin">Hora Fin</label>
+                    <div class="d-flex">
+                        <input id="field_horaFin" type="datetime-local" class="form-control" name="horaFin" formControlName="horaFin" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.compensatorio" for="field_compensatorio">Compensatorio</label>
+                    <input type="checkbox" class="form-control" name="compensatorio" id="field_compensatorio"
+                           formControlName="compensatorio"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.autorizadasPor" for="field_autorizadasPor">Autorizadas Por</label>
+                    <input type="text" class="form-control" name="autorizadasPor" id="field_autorizadasPor"
+                           formControlName="autorizadasPor"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionHorasExtras.asistenciaHorasExtras" for="field_asistenciaHorasExtras">Asistencia Horas Extras</label>
+                    <select class="form-control" id="field_asistenciaHorasExtras" name="asistenciaHorasExtras" formControlName="asistenciaHorasExtras">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="asistenciaHorasExtrasOption.id === editForm.get('asistenciaHorasExtras').value?.id ? editForm.get('asistenciaHorasExtras').value : asistenciaHorasExtrasOption" *ngFor="let asistenciaHorasExtrasOption of asistenciahorasextras; trackBy: trackAsistenciaHorasExtrasById">{{asistenciaHorasExtrasOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

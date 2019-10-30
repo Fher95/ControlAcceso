@@ -1,0 +1,52 @@
+{
+    "name": "Turno",
+    "fields": [
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoTurno",
+            "fieldValues": "Laboral,NoLaboral"
+        },
+        {
+            "fieldName": "nombre",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "horaInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "umbralInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "duracion",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "color",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "Estado",
+            "fieldValues": "Activo,Inactivo"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191029212428",
+    "entityTableName": "turno",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,32 @@
+{
+    "name": "Novedades",
+    "fields": [
+        {
+            "fieldName": "justificacion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "EstadoPeticion",
+            "fieldValues": "Autorizada,NoAutorizada"
+        },
+        {
+            "fieldName": "fechaInicial",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaFinal",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191029212443",
+    "entityTableName": "novedades",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

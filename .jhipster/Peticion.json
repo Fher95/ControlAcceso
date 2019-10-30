@@ -1,0 +1,58 @@
+{
+    "name": "Peticion",
+    "fields": [
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoPeticion",
+            "fieldValues": "Vacaciones,Permiso"
+        },
+        {
+            "fieldName": "fechaPeticion",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "motivo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "constancia",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fechaInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaFin",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "EstadoPeticion",
+            "fieldValues": "Autorizada,NoAutorizada"
+        },
+        {
+            "fieldName": "autorizadoPor",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "peticion",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191029212435",
+    "entityTableName": "peticion",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

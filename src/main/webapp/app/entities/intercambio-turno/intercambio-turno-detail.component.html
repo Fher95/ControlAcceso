@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="intercambioTurno">
+            <h2><span jhiTranslate="controlAccesoApp.intercambioTurno.detail.title">Intercambio Turno</span> {{intercambioTurno.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.fecha">Fecha</span></dt>
+                <dd>
+                    <span>{{intercambioTurno.fecha}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor">Autorizado Por</span></dt>
+                <dd>
+                    <span>{{intercambioTurno.autorizadoPor}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.observaciones">Observaciones</span></dt>
+                <dd>
+                    <span>{{intercambioTurno.observaciones}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador">Colaborador</span></dt>
+                <dd>
+                    <div *ngIf="intercambioTurno.colaborador">
+                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador?.id, 'view']">{{intercambioTurno.colaborador?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/intercambio-turno', intercambioTurno.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

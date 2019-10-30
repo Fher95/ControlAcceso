@@ -1,0 +1,25 @@
+{
+  "controlAccesoApp": {
+    "centroCosto": {
+      "home": {
+        "title": "Centro Costos",
+        "createLabel": "Create a new Centro Costo",
+        "createOrEditLabel": "Create or edit a Centro Costo",
+        "notFound": "No Centro Costos found"
+      },
+      "created": "A new Centro Costo is created with identifier {{ param }}",
+      "updated": "A Centro Costo is updated with identifier {{ param }}",
+      "deleted": "A Centro Costo is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Centro Costo {{ id }}?"
+      },
+      "detail": {
+        "title": "Centro Costo"
+      },
+      "nombre": "Nombre",
+      "descripcion": "Descripcion",
+      "estado": "Estado",
+      "cargo": "Cargo"
+    }
+  }
+}

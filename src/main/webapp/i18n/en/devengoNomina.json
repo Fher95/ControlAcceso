@@ -1,0 +1,23 @@
+{
+  "controlAccesoApp": {
+    "devengoNomina": {
+      "home": {
+        "title": "Devengo Nominas",
+        "createLabel": "Create a new Devengo Nomina",
+        "createOrEditLabel": "Create or edit a Devengo Nomina",
+        "notFound": "No Devengo Nominas found"
+      },
+      "created": "A new Devengo Nomina is created with identifier {{ param }}",
+      "updated": "A Devengo Nomina is updated with identifier {{ param }}",
+      "deleted": "A Devengo Nomina is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Devengo Nomina {{ id }}?"
+      },
+      "detail": {
+        "title": "Devengo Nomina"
+      },
+      "fechaInicio": "Fecha Inicio",
+      "fechaFin": "Fecha Fin"
+    }
+  }
+}

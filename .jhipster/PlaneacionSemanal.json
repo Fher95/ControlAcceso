@@ -1,0 +1,35 @@
+{
+    "name": "PlaneacionSemanal",
+    "fields": [
+        {
+            "fieldName": "fechaInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaFin",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "EstadoPlaneacion",
+            "fieldValues": "Historica,Actual"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "planeacionSemanal",
+            "relationshipName": "asignacionTurno"
+        }
+    ],
+    "changelogDate": "20191029212437",
+    "entityTableName": "planeacion_semanal",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

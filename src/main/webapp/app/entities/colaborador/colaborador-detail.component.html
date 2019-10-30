@@ -1,0 +1,107 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="colaborador">
+            <h2><span jhiTranslate="controlAccesoApp.colaborador.detail.title">Colaborador</span> {{colaborador.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.nombre1">Nombre 1</span></dt>
+                <dd>
+                    <span>{{colaborador.nombre1}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.nombre2">Nombre 2</span></dt>
+                <dd>
+                    <span>{{colaborador.nombre2}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.apellido1">Apellido 1</span></dt>
+                <dd>
+                    <span>{{colaborador.apellido1}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.apellido2">Apellido 2</span></dt>
+                <dd>
+                    <span>{{colaborador.apellido2}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.tipoDocumento">Tipo Documento</span></dt>
+                <dd>
+                    <span>{{colaborador.tipoDocumento}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.numeroDocumento">Numero Documento</span></dt>
+                <dd>
+                    <span>{{colaborador.numeroDocumento}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion">Lugar Expedicion</span></dt>
+                <dd>
+                    <span>{{colaborador.lugarExpedicion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion">Fecha Expedicion</span></dt>
+                <dd>
+                    <span>{{colaborador.fechaExpedicion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento">Fecha Nacimiento</span></dt>
+                <dd>
+                    <span>{{colaborador.fechaNacimiento}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.direccionResidencia">Direccion Residencia</span></dt>
+                <dd>
+                    <span>{{colaborador.direccionResidencia}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.barrio">Barrio</span></dt>
+                <dd>
+                    <span>{{colaborador.barrio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaIngreso">Fecha Ingreso</span></dt>
+                <dd>
+                    <span>{{colaborador.fechaIngreso}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido">Tiempo Requerido</span></dt>
+                <dd>
+                    <span>{{colaborador.tiempoRequerido}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar">Cargo Desempeniar</span></dt>
+                <dd>
+                    <span>{{colaborador.cargoDesempeniar}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.salario">Salario</span></dt>
+                <dd>
+                    <span>{{colaborador.salario}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.eps">Eps</span></dt>
+                <dd>
+                    <span>{{colaborador.eps}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.estado">Estado</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaBaja">Fecha Baja</span></dt>
+                <dd>
+                    <span>{{colaborador.fechaBaja}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.peticion">Peticion</span></dt>
+                <dd>
+                    <span *ngFor="let peticion of colaborador.peticions; let last = last">
+                        <a [routerLink]="['/peticion', peticion?.id, 'view' ]">{{peticion.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.asignacionHorasExtras">Asignacion Horas Extras</span></dt>
+                <dd>
+                    <span *ngFor="let asignacionHorasExtras of colaborador.asignacionHorasExtras; let last = last">
+                        <a [routerLink]="['/asignacion-horas-extras', asignacionHorasExtras?.id, 'view' ]">{{asignacionHorasExtras.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/colaborador', colaborador.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+{
+    "name": "IntercambioTurno",
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "autorizadoPor",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "observaciones",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "intercambioTurno",
+            "relationshipName": "asignacionTurno",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "intercambioTurno",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191029212436",
+    "entityTableName": "intercambio_turno",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

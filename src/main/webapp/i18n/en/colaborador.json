@@ -1,0 +1,46 @@
+{
+  "controlAccesoApp": {
+    "colaborador": {
+      "home": {
+        "title": "Colaboradors",
+        "createLabel": "Create a new Colaborador",
+        "createOrEditLabel": "Create or edit a Colaborador",
+        "notFound": "No Colaboradors found"
+      },
+      "created": "A new Colaborador is created with identifier {{ param }}",
+      "updated": "A Colaborador is updated with identifier {{ param }}",
+      "deleted": "A Colaborador is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Colaborador {{ id }}?"
+      },
+      "detail": {
+        "title": "Colaborador"
+      },
+      "nombre1": "Nombre 1",
+      "nombre2": "Nombre 2",
+      "apellido1": "Apellido 1",
+      "apellido2": "Apellido 2",
+      "tipoDocumento": "Tipo Documento",
+      "numeroDocumento": "Numero Documento",
+      "lugarExpedicion": "Lugar Expedicion",
+      "fechaExpedicion": "Fecha Expedicion",
+      "fechaNacimiento": "Fecha Nacimiento",
+      "direccionResidencia": "Direccion Residencia",
+      "barrio": "Barrio",
+      "fechaIngreso": "Fecha Ingreso",
+      "tiempoRequerido": "Tiempo Requerido",
+      "cargoDesempeniar": "Cargo Desempeniar",
+      "salario": "Salario",
+      "eps": "Eps",
+      "estado": "Estado",
+      "fechaBaja": "Fecha Baja",
+      "intercambioTurno": "Intercambio Turno",
+      "telefono": "Telefono",
+      "antecedentes": "Antecedentes",
+      "asistenciaPlaneacion": "Asistencia Planeacion",
+      "peticion": "Peticion",
+      "asignacionHorasExtras": "Asignacion Horas Extras",
+      "asignacionTurno": "Asignacion Turno"
+    }
+  }
+}

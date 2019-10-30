@@ -1,0 +1,25 @@
+{
+  "controlAccesoApp": {
+    "planeacionSemanal": {
+      "home": {
+        "title": "Planeacion Semanals",
+        "createLabel": "Create a new Planeacion Semanal",
+        "createOrEditLabel": "Create or edit a Planeacion Semanal",
+        "notFound": "No Planeacion Semanals found"
+      },
+      "created": "A new Planeacion Semanal is created with identifier {{ param }}",
+      "updated": "A Planeacion Semanal is updated with identifier {{ param }}",
+      "deleted": "A Planeacion Semanal is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Planeacion Semanal {{ id }}?"
+      },
+      "detail": {
+        "title": "Planeacion Semanal"
+      },
+      "fechaInicio": "Fecha Inicio",
+      "fechaFin": "Fecha Fin",
+      "estado": "Estado",
+      "asignacionTurno": "Asignacion Turno"
+    }
+  }
+}

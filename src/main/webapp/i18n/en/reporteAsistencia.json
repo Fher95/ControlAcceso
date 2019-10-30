@@ -1,0 +1,24 @@
+{
+  "controlAccesoApp": {
+    "reporteAsistencia": {
+      "home": {
+        "title": "Reporte Asistencias",
+        "createLabel": "Create a new Reporte Asistencia",
+        "createOrEditLabel": "Create or edit a Reporte Asistencia",
+        "notFound": "No Reporte Asistencias found"
+      },
+      "created": "A new Reporte Asistencia is created with identifier {{ param }}",
+      "updated": "A Reporte Asistencia is updated with identifier {{ param }}",
+      "deleted": "A Reporte Asistencia is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Reporte Asistencia {{ id }}?"
+      },
+      "detail": {
+        "title": "Reporte Asistencia"
+      },
+      "tipo": "Tipo",
+      "fechaInicio": "Fecha Inicio",
+      "fechaFin": "Fecha Fin"
+    }
+  }
+}

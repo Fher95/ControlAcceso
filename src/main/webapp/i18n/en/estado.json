@@ -1,0 +1,9 @@
+{
+  "controlAccesoApp": {
+    "Estado": {
+      "null": "",
+      "Activo": "Activo",
+      "Inactivo": "Inactivo"
+    }
+  }
+}

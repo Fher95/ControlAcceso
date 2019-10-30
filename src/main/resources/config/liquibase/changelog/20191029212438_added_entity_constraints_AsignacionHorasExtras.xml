@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity AsignacionHorasExtras.
+    -->
+    <changeSet id="20191029212438-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="asistencia_horas_extras_id"
+                                 baseTableName="asignacion_horas_extras"
+                                 constraintName="fk_asignacion_horas_extras_asistencia_horas_extras_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="asistencia_horas_extras"/>
+
+    </changeSet>
+</databaseChangeLog>

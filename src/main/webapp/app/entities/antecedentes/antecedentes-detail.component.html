@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="antecedentes">
+            <h2><span jhiTranslate="controlAccesoApp.antecedentes.detail.title">Antecedentes</span> {{antecedentes.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.antecedentes.tipo">Tipo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.TipoAntecedente.' + antecedentes.tipo}}">{{antecedentes.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.antecedentes.soporte">Soporte</span></dt>
+                <dd>
+                    <span>{{antecedentes.soporte}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.antecedentes.colaborador">Colaborador</span></dt>
+                <dd>
+                    <div *ngIf="antecedentes.colaborador">
+                        <a [routerLink]="['/colaborador', antecedentes.colaborador?.id, 'view']">{{antecedentes.colaborador?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/antecedentes', antecedentes.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

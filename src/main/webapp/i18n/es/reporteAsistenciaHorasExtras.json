@@ -1,0 +1,24 @@
+{
+  "controlAccesoApp": {
+    "reporteAsistenciaHorasExtras": {
+      "home": {
+        "title": "Reporte Asistencia Horas Extras",
+        "createLabel": "Crear nuevo Reporte Asistencia Horas Extras",
+        "createOrEditLabel": "Crear o editar Reporte Asistencia Horas Extras",
+        "notFound": "No Reporte Asistencia Horas Extras found"
+      },
+      "created": "Un nuevo Reporte Asistencia Horas Extras ha sido creado con el identificador {{ param }}",
+      "updated": "Un Reporte Asistencia Horas Extras ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Reporte Asistencia Horas Extras ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Reporte Asistencia Horas Extras {{ id }}?"
+      },
+      "detail": {
+        "title": "Reporte Asistencia Horas Extras"
+      },
+      "tipo": "Tipo",
+      "fechaInicio": "Fecha Inicio",
+      "fechaFin": "Fecha Fin"
+    }
+  }
+}

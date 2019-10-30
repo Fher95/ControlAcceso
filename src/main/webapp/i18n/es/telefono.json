@@ -1,0 +1,24 @@
+{
+  "controlAccesoApp": {
+    "telefono": {
+      "home": {
+        "title": "Telefonos",
+        "createLabel": "Crear nuevo Telefono",
+        "createOrEditLabel": "Crear o editar Telefono",
+        "notFound": "No Telefonos found"
+      },
+      "created": "Un nuevo Telefono ha sido creado con el identificador {{ param }}",
+      "updated": "Un Telefono ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Telefono ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Telefono {{ id }}?"
+      },
+      "detail": {
+        "title": "Telefono"
+      },
+      "numero": "Numero",
+      "tipo": "Tipo",
+      "colaborador": "Colaborador"
+    }
+  }
+}

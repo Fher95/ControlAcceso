@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="peticion">
+            <h2><span jhiTranslate="controlAccesoApp.peticion.detail.title">Peticion</span> {{peticion.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.peticion.tipo">Tipo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.TipoPeticion.' + peticion.tipo}}">{{peticion.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.fechaPeticion">Fecha Peticion</span></dt>
+                <dd>
+                    <span>{{peticion.fechaPeticion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.motivo">Motivo</span></dt>
+                <dd>
+                    <span>{{peticion.motivo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.constancia">Constancia</span></dt>
+                <dd>
+                    <span>{{peticion.constancia}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.fechaInicio">Fecha Inicio</span></dt>
+                <dd>
+                    <span>{{peticion.fechaInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.fechaFin">Fecha Fin</span></dt>
+                <dd>
+                    <span>{{peticion.fechaFin}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span></dt>
+                <dd>
+                    <span>{{peticion.autorizadoPor}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/peticion', peticion.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

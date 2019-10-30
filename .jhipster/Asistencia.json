@@ -1,0 +1,72 @@
+{
+    "name": "Asistencia",
+    "fields": [
+        {
+            "fieldName": "nombre1",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nombre2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "apellido1",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "apellido2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "turno",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "entrada",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "salida",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "sinEntrada",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "sinSalida",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "ausente",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "minutosTrabajados",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asistenciaPlaneacion",
+            "otherEntityRelationshipName": "asistencia",
+            "relationshipName": "asistenciaPlaneacion",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191029212439",
+    "entityTableName": "asistencia",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

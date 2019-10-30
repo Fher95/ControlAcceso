@@ -1,0 +1,9 @@
+{
+  "controlAccesoApp": {
+    "TipoTurno": {
+      "null": "",
+      "Laboral": "Laboral",
+      "NoLaboral": "NoLaboral"
+    }
+  }
+}

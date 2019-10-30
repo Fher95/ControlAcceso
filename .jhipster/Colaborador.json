@@ -1,0 +1,143 @@
+{
+    "name": "Colaborador",
+    "fields": [
+        {
+            "fieldName": "nombre1",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "nombre2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "apellido1",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "apellido2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tipoDocumento",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "numeroDocumento",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lugarExpedicion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fechaExpedicion",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaNacimiento",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "direccionResidencia",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "barrio",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fechaIngreso",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "tiempoRequerido",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "cargoDesempeniar",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "salario",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "eps",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "Estado",
+            "fieldValues": "Activo,Inactivo"
+        },
+        {
+            "fieldName": "fechaBaja",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "intercambioTurno",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "intercambioTurno"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "telefono",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "telefono"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "antecedentes",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "antecedentes"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "asistenciaPlaneacion",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "asistenciaPlaneacion"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "peticion",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "peticion",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "asignacionHorasExtras",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "asignacionHorasExtras",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "asignacionTurno",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191029212432",
+    "entityTableName": "colaborador",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

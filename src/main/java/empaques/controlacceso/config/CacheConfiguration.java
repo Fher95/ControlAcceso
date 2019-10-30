@@ -45,6 +45,37 @@ public class CacheConfiguration {
             createCache(cm, empaques.controlacceso.domain.User.class.getName());
             createCache(cm, empaques.controlacceso.domain.Authority.class.getName());
             createCache(cm, empaques.controlacceso.domain.User.class.getName() + ".authorities");
+            createCache(cm, empaques.controlacceso.domain.Turno.class.getName());
+            createCache(cm, empaques.controlacceso.domain.AsignacionTurno.class.getName());
+            createCache(cm, empaques.controlacceso.domain.AsignacionTurno.class.getName() + ".colaboradors");
+            createCache(cm, empaques.controlacceso.domain.Cargo.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Cargo.class.getName() + ".asignacionTurnos");
+            createCache(cm, empaques.controlacceso.domain.CentroCosto.class.getName());
+            createCache(cm, empaques.controlacceso.domain.CentroCosto.class.getName() + ".cargos");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".intercambioTurnos");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".telefonos");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".antecedentes");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".asistenciaPlaneacions");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".peticions");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".asignacionHorasExtras");
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".asignacionTurnos");
+            createCache(cm, empaques.controlacceso.domain.Telefono.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Antecedentes.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Peticion.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Peticion.class.getName() + ".colaboradors");
+            createCache(cm, empaques.controlacceso.domain.IntercambioTurno.class.getName());
+            createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName());
+            createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName() + ".asignacionTurnos");
+            createCache(cm, empaques.controlacceso.domain.AsignacionHorasExtras.class.getName());
+            createCache(cm, empaques.controlacceso.domain.AsignacionHorasExtras.class.getName() + ".colaboradors");
+            createCache(cm, empaques.controlacceso.domain.Asistencia.class.getName());
+            createCache(cm, empaques.controlacceso.domain.AsistenciaPlaneacion.class.getName());
+            createCache(cm, empaques.controlacceso.domain.ReporteAsistencia.class.getName());
+            createCache(cm, empaques.controlacceso.domain.DevengoNomina.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Novedades.class.getName());
+            createCache(cm, empaques.controlacceso.domain.AsistenciaHorasExtras.class.getName());
+            createCache(cm, empaques.controlacceso.domain.ReporteAsistenciaHorasExtras.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

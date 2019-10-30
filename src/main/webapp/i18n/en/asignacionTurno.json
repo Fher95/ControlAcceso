@@ -1,0 +1,28 @@
+{
+  "controlAccesoApp": {
+    "asignacionTurno": {
+      "home": {
+        "title": "Asignacion Turnos",
+        "createLabel": "Create a new Asignacion Turno",
+        "createOrEditLabel": "Create or edit a Asignacion Turno",
+        "notFound": "No Asignacion Turnos found"
+      },
+      "created": "A new Asignacion Turno is created with identifier {{ param }}",
+      "updated": "A Asignacion Turno is updated with identifier {{ param }}",
+      "deleted": "A Asignacion Turno is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Asignacion Turno {{ id }}?"
+      },
+      "detail": {
+        "title": "Asignacion Turno"
+      },
+      "fecha": "Fecha",
+      "turno": "Turno",
+      "intercambioTurno": "Intercambio Turno",
+      "asistenciaPlaneacion": "Asistencia Planeacion",
+      "colaborador": "Colaborador",
+      "planeacionSemanal": "Planeacion Semanal",
+      "cargo": "Cargo"
+    }
+  }
+}

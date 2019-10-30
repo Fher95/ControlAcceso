@@ -1,0 +1,32 @@
+{
+    "name": "Antecedentes",
+    "fields": [
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoAntecedente",
+            "fieldValues": "Disciplnario,Penal,Fiscal"
+        },
+        {
+            "fieldName": "soporte",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "antecedentes",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191029212434",
+    "entityTableName": "antecedentes",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

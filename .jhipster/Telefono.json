@@ -1,0 +1,31 @@
+{
+    "name": "Telefono",
+    "fields": [
+        {
+            "fieldName": "numero",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "tipo",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "telefono",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191029212433",
+    "entityTableName": "telefono",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

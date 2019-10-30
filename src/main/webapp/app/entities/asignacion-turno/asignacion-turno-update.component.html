@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-asignacion-turno-heading" jhiTranslate="controlAccesoApp.asignacionTurno.home.createOrEditLabel">Create or edit a Asignacion Turno</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.fecha" for="field_fecha">Fecha</label>
+                    <div class="d-flex">
+                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" formControlName="fecha" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno" for="field_turno">Turno</label>
+                    <select class="form-control" id="field_turno" name="turno" formControlName="turno">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="turnoOption.id === editForm.get('turno').value?.id ? editForm.get('turno').value : turnoOption" *ngFor="let turnoOption of turnos; trackBy: trackTurnoById">{{turnoOption.nombre}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno" for="field_intercambioTurno">Intercambio Turno</label>
+                    <select class="form-control" id="field_intercambioTurno" name="intercambioTurno" formControlName="intercambioTurno">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="intercambioTurnoOption.id === editForm.get('intercambioTurno').value?.id ? editForm.get('intercambioTurno').value : intercambioTurnoOption" *ngFor="let intercambioTurnoOption of intercambioturnos; trackBy: trackIntercambioTurnoById">{{intercambioTurnoOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.asistenciaPlaneacion" for="field_asistenciaPlaneacion">Asistencia Planeacion</label>
+                    <select class="form-control" id="field_asistenciaPlaneacion" name="asistenciaPlaneacion" formControlName="asistenciaPlaneacion">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="asistenciaPlaneacionOption.id === editForm.get('asistenciaPlaneacion').value?.id ? editForm.get('asistenciaPlaneacion').value : asistenciaPlaneacionOption" *ngFor="let asistenciaPlaneacionOption of asistenciaplaneacions; trackBy: trackAsistenciaPlaneacionById">{{asistenciaPlaneacionOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="controlAccesoApp.asignacionTurno.colaborador" for="field_colaboradors">Colaborador</label>
+                    <select class="form-control" id="field_colaboradors" multiple name="colaboradors" formControlName="colaboradors">
+                        <option [ngValue]="getSelected(editForm.get('colaboradors').value, colaboradorOption)" *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">{{colaboradorOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.planeacionSemanal" for="field_planeacionSemanal">Planeacion Semanal</label>
+                    <select class="form-control" id="field_planeacionSemanal" name="planeacionSemanal" formControlName="planeacionSemanal">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="planeacionSemanalOption.id === editForm.get('planeacionSemanal').value?.id ? editForm.get('planeacionSemanal').value : planeacionSemanalOption" *ngFor="let planeacionSemanalOption of planeacionsemanals; trackBy: trackPlaneacionSemanalById">{{planeacionSemanalOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo" for="field_cargo">Cargo</label>
+                    <select class="form-control" id="field_cargo" name="cargo" formControlName="cargo">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="cargoOption.id === editForm.get('cargo').value?.id ? editForm.get('cargo').value : cargoOption" *ngFor="let cargoOption of cargos; trackBy: trackCargoById">{{cargoOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

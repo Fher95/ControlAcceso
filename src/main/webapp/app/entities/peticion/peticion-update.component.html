@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-peticion-heading" jhiTranslate="controlAccesoApp.peticion.home.createOrEditLabel">Create or edit a Peticion</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.tipo" for="field_tipo">Tipo</label>
+                    <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
+                        <option value="Vacaciones">{{'controlAccesoApp.TipoPeticion.Vacaciones' | translate}}</option>
+                        <option value="Permiso">{{'controlAccesoApp.TipoPeticion.Permiso' | translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaPeticion" for="field_fechaPeticion">Fecha Peticion</label>
+                    <div class="d-flex">
+                        <input id="field_fechaPeticion" type="datetime-local" class="form-control" name="fechaPeticion" formControlName="fechaPeticion" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.motivo" for="field_motivo">Motivo</label>
+                    <input type="text" class="form-control" name="motivo" id="field_motivo"
+                           formControlName="motivo"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.constancia" for="field_constancia">Constancia</label>
+                    <input type="text" class="form-control" name="constancia" id="field_constancia"
+                           formControlName="constancia"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaInicio" for="field_fechaInicio">Fecha Inicio</label>
+                    <div class="d-flex">
+                        <input id="field_fechaInicio" type="datetime-local" class="form-control" name="fechaInicio" formControlName="fechaInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaFin" for="field_fechaFin">Fecha Fin</label>
+                    <div class="d-flex">
+                        <input id="field_fechaFin" type="datetime-local" class="form-control" name="fechaFin" formControlName="fechaFin" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.estado" for="field_estado">Estado</label>
+                    <select class="form-control" name="estado" formControlName="estado" id="field_estado">
+                        <option value="Autorizada">{{'controlAccesoApp.EstadoPeticion.Autorizada' | translate}}</option>
+                        <option value="NoAutorizada">{{'controlAccesoApp.EstadoPeticion.NoAutorizada' | translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.autorizadoPor" for="field_autorizadoPor">Autorizado Por</label>
+                    <input type="text" class="form-control" name="autorizadoPor" id="field_autorizadoPor"
+                           formControlName="autorizadoPor"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

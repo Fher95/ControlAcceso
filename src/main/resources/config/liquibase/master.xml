@@ -14,6 +14,33 @@
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212428_added_entity_Turno.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212429_added_entity_AsignacionTurno.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212430_added_entity_Cargo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212431_added_entity_CentroCosto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212432_added_entity_Colaborador.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212433_added_entity_Telefono.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212434_added_entity_Antecedentes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212435_added_entity_Peticion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212436_added_entity_IntercambioTurno.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212437_added_entity_PlaneacionSemanal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212438_added_entity_AsignacionHorasExtras.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212439_added_entity_Asistencia.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212440_added_entity_AsistenciaPlaneacion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212441_added_entity_ReporteAsistencia.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212442_added_entity_DevengoNomina.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212443_added_entity_Novedades.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212444_added_entity_AsistenciaHorasExtras.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212445_added_entity_ReporteAsistenciaHorasExtras.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20191029212429_added_entity_constraints_AsignacionTurno.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212430_added_entity_constraints_Cargo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212432_added_entity_constraints_Colaborador.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212433_added_entity_constraints_Telefono.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212434_added_entity_constraints_Antecedentes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212436_added_entity_constraints_IntercambioTurno.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212438_added_entity_constraints_AsignacionHorasExtras.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212439_added_entity_constraints_Asistencia.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212440_added_entity_constraints_AsistenciaPlaneacion.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

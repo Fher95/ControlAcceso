@@ -1,0 +1,25 @@
+{
+  "controlAccesoApp": {
+    "asistenciaHorasExtras": {
+      "home": {
+        "title": "Asistencia Horas Extras",
+        "createLabel": "Crear nuevo Asistencia Horas Extras",
+        "createOrEditLabel": "Crear o editar Asistencia Horas Extras",
+        "notFound": "No Asistencia Horas Extras found"
+      },
+      "created": "Un nuevo Asistencia Horas Extras ha sido creado con el identificador {{ param }}",
+      "updated": "Un Asistencia Horas Extras ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Asistencia Horas Extras ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Asistencia Horas Extras {{ id }}?"
+      },
+      "detail": {
+        "title": "Asistencia Horas Extras"
+      },
+      "fecha": "Fecha",
+      "horaLlegada": "Hora Llegada",
+      "horaSalida": "Hora Salida",
+      "asignacionHorasExtras": "Asignacion Horas Extras"
+    }
+  }
+}

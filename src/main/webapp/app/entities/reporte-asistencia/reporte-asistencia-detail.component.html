@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="reporteAsistencia">
+            <h2><span jhiTranslate="controlAccesoApp.reporteAsistencia.detail.title">Reporte Asistencia</span> {{reporteAsistencia.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.reporteAsistencia.tipo">Tipo</span></dt>
+                <dd>
+                    <span>{{reporteAsistencia.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.reporteAsistencia.fechaInicio">Fecha Inicio</span></dt>
+                <dd>
+                    <span>{{reporteAsistencia.fechaInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.reporteAsistencia.fechaFin">Fecha Fin</span></dt>
+                <dd>
+                    <span>{{reporteAsistencia.fechaFin}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/reporte-asistencia', reporteAsistencia.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

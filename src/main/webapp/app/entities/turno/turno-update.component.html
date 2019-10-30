@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-turno-heading" jhiTranslate="controlAccesoApp.turno.home.createOrEditLabel">Create or edit a Turno</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.tipo" for="field_tipo">Tipo</label>
+                    <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
+                        <option value="Laboral">{{'controlAccesoApp.TipoTurno.Laboral' | translate}}</option>
+                        <option value="NoLaboral">{{'controlAccesoApp.TipoTurno.NoLaboral' | translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.nombre" for="field_nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="field_nombre"
+                           formControlName="nombre"/>
+                    <div *ngIf="editForm.get('nombre').invalid && (editForm.get('nombre').dirty || editForm.get('nombre').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nombre').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.descripcion" for="field_descripcion">Descripcion</label>
+                    <input type="text" class="form-control" name="descripcion" id="field_descripcion"
+                           formControlName="descripcion"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.horaInicio" for="field_horaInicio">Hora Inicio</label>
+                    <div class="d-flex">
+                        <input id="field_horaInicio" type="datetime-local" class="form-control" name="horaInicio" formControlName="horaInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.umbralInicio" for="field_umbralInicio">Umbral Inicio</label>
+                    <div class="d-flex">
+                        <input id="field_umbralInicio" type="datetime-local" class="form-control" name="umbralInicio" formControlName="umbralInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.duracion" for="field_duracion">Duracion</label>
+                    <input type="number" class="form-control" name="duracion" id="field_duracion"
+                           formControlName="duracion"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.color" for="field_color">Color</label>
+                    <input type="text" class="form-control" name="color" id="field_color"
+                           formControlName="color"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.estado" for="field_estado">Estado</label>
+                    <select class="form-control" name="estado" formControlName="estado" id="field_estado">
+                        <option value="Activo">{{'controlAccesoApp.Estado.Activo' | translate}}</option>
+                        <option value="Inactivo">{{'controlAccesoApp.Estado.Inactivo' | translate}}</option>
+                    </select>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

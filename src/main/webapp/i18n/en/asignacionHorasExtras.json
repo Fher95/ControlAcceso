@@ -1,0 +1,30 @@
+{
+  "controlAccesoApp": {
+    "asignacionHorasExtras": {
+      "home": {
+        "title": "Asignacion Horas Extras",
+        "createLabel": "Create a new Asignacion Horas Extras",
+        "createOrEditLabel": "Create or edit a Asignacion Horas Extras",
+        "notFound": "No Asignacion Horas Extras found"
+      },
+      "created": "A new Asignacion Horas Extras is created with identifier {{ param }}",
+      "updated": "A Asignacion Horas Extras is updated with identifier {{ param }}",
+      "deleted": "A Asignacion Horas Extras is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Asignacion Horas Extras {{ id }}?"
+      },
+      "detail": {
+        "title": "Asignacion Horas Extras"
+      },
+      "justificacion": "Justificacion",
+      "observaciones": "Observaciones",
+      "fecha": "Fecha",
+      "horaInicio": "Hora Inicio",
+      "horaFin": "Hora Fin",
+      "compensatorio": "Compensatorio",
+      "autorizadasPor": "Autorizadas Por",
+      "asistenciaHorasExtras": "Asistencia Horas Extras",
+      "colaborador": "Colaborador"
+    }
+  }
+}

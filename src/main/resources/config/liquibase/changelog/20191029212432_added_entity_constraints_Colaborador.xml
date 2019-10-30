@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Colaborador.
+    -->
+    <changeSet id="20191029212432-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="colaborador_id"
+                                 baseTableName="colaborador_peticion"
+                                 constraintName="fk_colaborador_peticion_colaborador_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="colaborador"/>
+
+        <addForeignKeyConstraint baseColumnNames="peticion_id"
+                                 baseTableName="colaborador_peticion"
+                                 constraintName="fk_colaborador_peticion_peticion_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="peticion"/>
+        
+        <addForeignKeyConstraint baseColumnNames="colaborador_id"
+                                 baseTableName="colaborador_asignacion_horas_extras"
+                                 constraintName="fk_colaborador_asignacion_horas_extras_colaborador_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="colaborador"/>
+
+        <addForeignKeyConstraint baseColumnNames="asignacion_horas_extras_id"
+                                 baseTableName="colaborador_asignacion_horas_extras"
+                                 constraintName="colaborador_asignacion_horas_e_asignacion_horas_extras_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="asignacion_horas_extras"/>
+        
+    </changeSet>
+</databaseChangeLog>

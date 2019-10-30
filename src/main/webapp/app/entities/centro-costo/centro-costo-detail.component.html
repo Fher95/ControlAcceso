@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="centroCosto">
+            <h2><span jhiTranslate="controlAccesoApp.centroCosto.detail.title">Centro Costo</span> {{centroCosto.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.centroCosto.nombre">Nombre</span></dt>
+                <dd>
+                    <span>{{centroCosto.nombre}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.centroCosto.descripcion">Descripcion</span></dt>
+                <dd>
+                    <span>{{centroCosto.descripcion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.centroCosto.estado">Estado</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.Estado.' + centroCosto.estado}}">{{centroCosto.estado}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/centro-costo', centroCosto.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

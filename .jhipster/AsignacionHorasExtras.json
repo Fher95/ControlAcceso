@@ -1,0 +1,60 @@
+{
+    "name": "AsignacionHorasExtras",
+    "fields": [
+        {
+            "fieldName": "justificacion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "observaciones",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaFin",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "compensatorio",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "autorizadasPor",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asistenciaHorasExtras",
+            "otherEntityRelationshipName": "asignacionHorasExtras",
+            "relationshipName": "asistenciaHorasExtras",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "asignacionHorasExtras",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191029212438",
+    "entityTableName": "asignacion_horas_extras",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

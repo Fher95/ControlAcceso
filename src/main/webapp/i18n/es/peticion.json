@@ -1,0 +1,30 @@
+{
+  "controlAccesoApp": {
+    "peticion": {
+      "home": {
+        "title": "Peticions",
+        "createLabel": "Crear nuevo Peticion",
+        "createOrEditLabel": "Crear o editar Peticion",
+        "notFound": "No Peticions found"
+      },
+      "created": "Un nuevo Peticion ha sido creado con el identificador {{ param }}",
+      "updated": "Un Peticion ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Peticion ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Peticion {{ id }}?"
+      },
+      "detail": {
+        "title": "Peticion"
+      },
+      "tipo": "Tipo",
+      "fechaPeticion": "Fecha Peticion",
+      "motivo": "Motivo",
+      "constancia": "Constancia",
+      "fechaInicio": "Fecha Inicio",
+      "fechaFin": "Fecha Fin",
+      "estado": "Estado",
+      "autorizadoPor": "Autorizado Por",
+      "colaborador": "Colaborador"
+    }
+  }
+}

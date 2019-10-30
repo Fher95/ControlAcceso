@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="novedades">
+            <h2><span jhiTranslate="controlAccesoApp.novedades.detail.title">Novedades</span> {{novedades.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.novedades.justificacion">Justificacion</span></dt>
+                <dd>
+                    <span>{{novedades.justificacion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.novedades.estado">Estado</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + novedades.estado}}">{{novedades.estado}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.novedades.fechaInicial">Fecha Inicial</span></dt>
+                <dd>
+                    <span>{{novedades.fechaInicial}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.novedades.fechaFinal">Fecha Final</span></dt>
+                <dd>
+                    <span>{{novedades.fechaFinal}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/novedades', novedades.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

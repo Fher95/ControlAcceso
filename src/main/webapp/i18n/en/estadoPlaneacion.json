@@ -1,0 +1,9 @@
+{
+  "controlAccesoApp": {
+    "EstadoPlaneacion": {
+      "null": "",
+      "Historica": "Historica",
+      "Actual": "Actual"
+    }
+  }
+}

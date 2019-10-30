@@ -1,0 +1,29 @@
+{
+  "controlAccesoApp": {
+    "turno": {
+      "home": {
+        "title": "Turnos",
+        "createLabel": "Create a new Turno",
+        "createOrEditLabel": "Create or edit a Turno",
+        "notFound": "No Turnos found"
+      },
+      "created": "A new Turno is created with identifier {{ param }}",
+      "updated": "A Turno is updated with identifier {{ param }}",
+      "deleted": "A Turno is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Turno {{ id }}?"
+      },
+      "detail": {
+        "title": "Turno"
+      },
+      "tipo": "Tipo",
+      "nombre": "Nombre",
+      "descripcion": "Descripcion",
+      "horaInicio": "Hora Inicio",
+      "umbralInicio": "Umbral Inicio",
+      "duracion": "Duracion",
+      "color": "Color",
+      "estado": "Estado"
+    }
+  }
+}

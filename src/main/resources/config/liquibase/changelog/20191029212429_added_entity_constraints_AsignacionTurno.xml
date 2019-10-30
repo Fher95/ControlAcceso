@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity AsignacionTurno.
+    -->
+    <changeSet id="20191029212429-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="turno_id"
+                                 baseTableName="asignacion_turno"
+                                 constraintName="fk_asignacion_turno_turno_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="turno"/>
+
+        <addForeignKeyConstraint baseColumnNames="intercambio_turno_id"
+                                 baseTableName="asignacion_turno"
+                                 constraintName="fk_asignacion_turno_intercambio_turno_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="intercambio_turno"/>
+
+        <addForeignKeyConstraint baseColumnNames="asistencia_planeacion_id"
+                                 baseTableName="asignacion_turno"
+                                 constraintName="fk_asignacion_turno_asistencia_planeacion_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="asistencia_planeacion"/>
+
+        <addForeignKeyConstraint baseColumnNames="asignacion_turno_id"
+                                 baseTableName="asignacion_turno_colaborador"
+                                 constraintName="fk_asignacion_turno_colaborador_asignacion_turno_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="asignacion_turno"/>
+
+        <addForeignKeyConstraint baseColumnNames="colaborador_id"
+                                 baseTableName="asignacion_turno_colaborador"
+                                 constraintName="fk_asignacion_turno_colaborador_colaborador_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="colaborador"/>
+        
+        <addForeignKeyConstraint baseColumnNames="planeacion_semanal_id"
+                                 baseTableName="asignacion_turno"
+                                 constraintName="fk_asignacion_turno_planeacion_semanal_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="planeacion_semanal"/>
+
+        <addForeignKeyConstraint baseColumnNames="cargo_id"
+                                 baseTableName="asignacion_turno"
+                                 constraintName="fk_asignacion_turno_cargo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cargo"/>
+
+    </changeSet>
+</databaseChangeLog>

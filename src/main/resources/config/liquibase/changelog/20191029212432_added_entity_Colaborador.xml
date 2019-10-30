@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    
+    <!--
+        Added the entity Colaborador.
+    -->
+    <changeSet id="20191029212432-1" author="jhipster">
+        <createTable tableName="colaborador">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nombre_1" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="nombre_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="apellido_1" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="apellido_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tipo_documento" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="numero_documento" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="lugar_expedicion" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="fecha_expedicion" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="fecha_nacimiento" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="direccion_residencia" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="barrio" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="fecha_ingreso" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="tiempo_requerido" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="cargo_desempeniar" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="salario" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="eps" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="estado" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="fecha_baja" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="colaborador" columnName="fecha_expedicion" columnDataType="datetime"/>
+        <dropDefaultValue tableName="colaborador" columnName="fecha_nacimiento" columnDataType="datetime"/>
+        <dropDefaultValue tableName="colaborador" columnName="fecha_ingreso" columnDataType="datetime"/>
+        <dropDefaultValue tableName="colaborador" columnName="fecha_baja" columnDataType="datetime"/>
+    </changeSet>
+
+    <changeSet id="20191029212432-1-relations" author="jhipster">
+
+        <createTable tableName="colaborador_peticion">
+            <column name="peticion_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="colaborador_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="colaborador_id, peticion_id" tableName="colaborador_peticion"/>
+        
+        <createTable tableName="colaborador_asignacion_horas_extras">
+            <column name="asignacion_horas_extras_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="colaborador_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="colaborador_id, asignacion_horas_extras_id" tableName="colaborador_asignacion_horas_extras"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20191029212432-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/colaborador.csv"
+                  separator=";"
+                  tableName="colaborador">
+            <column name="id" type="numeric"/>
+            <column name="nombre_1" type="string"/>
+            <column name="nombre_2" type="string"/>
+            <column name="apellido_1" type="string"/>
+            <column name="apellido_2" type="string"/>
+            <column name="tipo_documento" type="string"/>
+            <column name="numero_documento" type="string"/>
+            <column name="lugar_expedicion" type="string"/>
+            <column name="fecha_expedicion" type="datetime"/>
+            <column name="fecha_nacimiento" type="datetime"/>
+            <column name="direccion_residencia" type="string"/>
+            <column name="barrio" type="string"/>
+            <column name="fecha_ingreso" type="datetime"/>
+            <column name="tiempo_requerido" type="numeric"/>
+            <column name="cargo_desempeniar" type="string"/>
+            <column name="salario" type="numeric"/>
+            <column name="eps" type="string"/>
+            <column name="estado" type="string"/>
+            <column name="fecha_baja" type="datetime"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

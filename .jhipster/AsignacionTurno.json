@@ -1,0 +1,65 @@
+{
+    "name": "AsignacionTurno",
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "turno",
+            "otherEntityRelationshipName": "asignacionTurno",
+            "relationshipName": "turno",
+            "otherEntityField": "nombre",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "intercambioTurno",
+            "otherEntityRelationshipName": "asignacionTurno",
+            "relationshipName": "intercambioTurno",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asistenciaPlaneacion",
+            "otherEntityRelationshipName": "asignacionTurno",
+            "relationshipName": "asistenciaPlaneacion",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "asignacionTurno",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "planeacionSemanal",
+            "otherEntityRelationshipName": "asignacionTurno",
+            "relationshipName": "planeacionSemanal",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "cargo",
+            "otherEntityName": "cargo",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191029212429",
+    "entityTableName": "asignacion_turno",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

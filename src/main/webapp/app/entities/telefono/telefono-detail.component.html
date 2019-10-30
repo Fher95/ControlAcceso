@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="telefono">
+            <h2><span jhiTranslate="controlAccesoApp.telefono.detail.title">Telefono</span> {{telefono.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.telefono.numero">Numero</span></dt>
+                <dd>
+                    <span>{{telefono.numero}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.telefono.tipo">Tipo</span></dt>
+                <dd>
+                    <span>{{telefono.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.telefono.colaborador">Colaborador</span></dt>
+                <dd>
+                    <div *ngIf="telefono.colaborador">
+                        <a [routerLink]="['/colaborador', telefono.colaborador?.id, 'view']">{{telefono.colaborador?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/telefono', telefono.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "controlAccesoApp": {
+    "intercambioTurno": {
+      "home": {
+        "title": "Intercambio Turnos",
+        "createLabel": "Crear nuevo Intercambio Turno",
+        "createOrEditLabel": "Crear o editar Intercambio Turno",
+        "notFound": "No Intercambio Turnos found"
+      },
+      "created": "Un nuevo Intercambio Turno ha sido creado con el identificador {{ param }}",
+      "updated": "Un Intercambio Turno ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Intercambio Turno ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Intercambio Turno {{ id }}?"
+      },
+      "detail": {
+        "title": "Intercambio Turno"
+      },
+      "fecha": "Fecha",
+      "autorizadoPor": "Autorizado Por",
+      "observaciones": "Observaciones",
+      "asignacionTurno": "Asignacion Turno",
+      "colaborador": "Colaborador"
+    }
+  }
+}

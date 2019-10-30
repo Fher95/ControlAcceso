@@ -1,0 +1,40 @@
+{
+    "name": "Cargo",
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "Estado",
+            "fieldValues": "Activo,Inactivo"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "cargo",
+            "relationshipName": "asignacionTurno"
+        },
+        {
+            "relationshipName": "centroCosto",
+            "otherEntityName": "centroCosto",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191029212430",
+    "entityTableName": "cargo",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

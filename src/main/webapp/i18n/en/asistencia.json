@@ -1,0 +1,34 @@
+{
+  "controlAccesoApp": {
+    "asistencia": {
+      "home": {
+        "title": "Asistencias",
+        "createLabel": "Create a new Asistencia",
+        "createOrEditLabel": "Create or edit a Asistencia",
+        "notFound": "No Asistencias found"
+      },
+      "created": "A new Asistencia is created with identifier {{ param }}",
+      "updated": "A Asistencia is updated with identifier {{ param }}",
+      "deleted": "A Asistencia is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Asistencia {{ id }}?"
+      },
+      "detail": {
+        "title": "Asistencia"
+      },
+      "nombre1": "Nombre 1",
+      "nombre2": "Nombre 2",
+      "apellido1": "Apellido 1",
+      "apellido2": "Apellido 2",
+      "fecha": "Fecha",
+      "turno": "Turno",
+      "entrada": "Entrada",
+      "salida": "Salida",
+      "sinEntrada": "Sin Entrada",
+      "sinSalida": "Sin Salida",
+      "ausente": "Ausente",
+      "minutosTrabajados": "Minutos Trabajados",
+      "asistenciaPlaneacion": "Asistencia Planeacion"
+    }
+  }
+}

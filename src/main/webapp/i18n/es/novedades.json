@@ -1,0 +1,25 @@
+{
+  "controlAccesoApp": {
+    "novedades": {
+      "home": {
+        "title": "Novedades",
+        "createLabel": "Crear nuevo Novedades",
+        "createOrEditLabel": "Crear o editar Novedades",
+        "notFound": "No Novedades found"
+      },
+      "created": "Un nuevo Novedades ha sido creado con el identificador {{ param }}",
+      "updated": "Un Novedades ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Novedades ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Novedades {{ id }}?"
+      },
+      "detail": {
+        "title": "Novedades"
+      },
+      "justificacion": "Justificacion",
+      "estado": "Estado",
+      "fechaInicial": "Fecha Inicial",
+      "fechaFinal": "Fecha Final"
+    }
+  }
+}

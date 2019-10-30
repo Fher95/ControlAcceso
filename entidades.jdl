@@ -1,0 +1,205 @@
+enum Estado {
+	Activo,
+    Inactivo
+}
+enum TipoTurno{
+	Laboral,
+    NoLaboral
+}
+enum TipoAntecedente{
+    Disciplnario,
+    Penal,
+    Fiscal
+}
+enum TipoPeticion{
+    Vacaciones,
+    Permiso
+}
+enum EstadoPeticion {
+    Autorizada,
+    NoAutorizada
+}
+enum EstadoPlaneacion{
+    Historica,
+    Actual
+}
+
+entity Turno {
+    tipo TipoTurno,
+    nombre String required,
+    descripcion String,
+    horaInicio Instant,
+    umbralInicio Instant,
+    duracion Integer,
+    color String,
+    estado Estado
+}
+entity AsignacionTurno {
+    fecha Instant
+}
+entity Cargo {
+    nombre String required,
+    estado Estado
+}
+entity CentroCosto {
+    nombre String required,
+    descripcion String,
+    estado Estado
+}
+entity Colaborador {
+    nombre1 String required,
+    nombre2 String,
+    apellido1 String required,
+    apellido2 String,
+    tipoDocumento String,
+    numeroDocumento String,
+    lugarExpedicion String,
+    fechaExpedicion Instant,
+    fechaNacimiento Instant,
+    direccionResidencia String,
+    barrio String,
+    fechaIngreso Instant,
+    tiempoRequerido Integer,
+    cargoDesempeniar String,
+    salario Integer,
+    eps String,
+    estado Estado,
+    fechaBaja Instant
+}
+
+entity Telefono {
+    numero Integer,
+    tipo Integer
+}
+
+entity Antecedentes {
+    tipo TipoAntecedente,
+    soporte String 
+}
+entity Peticion {
+    tipo TipoPeticion,
+    fechaPeticion Instant
+    motivo String,
+    constancia String,
+    fechaInicio Instant,
+    fechaFin Instant,
+    estado EstadoPeticion,
+    autorizadoPor String
+}
+
+entity IntercambioTurno {
+    fecha Instant,
+    autorizadoPor String,
+    observaciones String
+}
+entity PlaneacionSemanal {
+    fechaInicio Instant,
+    fechaFin Instant,
+    estado EstadoPlaneacion
+}
+
+entity AsignacionHorasExtras{
+    justificacion String,
+    observaciones String,
+    fecha Instant,
+    horaInicio Instant,
+    horaFin Instant,
+    compensatorio Boolean,
+    autorizadasPor String    
+}
+
+entity Asistencia{
+    nombre1 String,
+    nombre2 String,
+    apellido1 String,
+    apellido2 String,
+    fecha Instant,
+    turno String,
+    entrada Instant,
+    salida Instant,
+    sinEntrada Boolean,
+    sinSalida Boolean,
+    ausente Boolean,
+    minutosTrabajados Integer
+}
+
+entity AsistenciaPlaneacion{}
+
+entity ReporteAsistencia {
+    tipo String,
+    fechaInicio Instant,
+    fechaFin Instant
+}
+
+entity DevengoNomina{
+    fechaInicio Instant,
+    fechaFin Instant
+}
+
+entity Novedades {
+    justificacion String,
+    estado EstadoPeticion,
+    fechaInicial Instant,
+    fechaFinal Instant
+}
+
+entity AsistenciaHorasExtras{
+    fecha Instant,
+    horaLlegada Instant,
+    horaSalida Instant
+}
+
+entity ReporteAsistenciaHorasExtras{
+    tipo String,
+    fechaInicio Instant,
+    fechaFin Instant
+}
+
+/**
+ * One to one relationship.
+ */
+relationship OneToOne {
+    AsignacionTurno{turno(nombre)} to Turno
+    AsignacionTurno to IntercambioTurno
+    AsignacionTurno to AsistenciaPlaneacion
+    Asistencia to AsistenciaPlaneacion
+    AsignacionHorasExtras to AsistenciaHorasExtras
+
+}
+/**
+ * One to many relationship.
+ */
+relationship OneToMany {
+    Cargo{AsignacionTurno} to AsignacionTurno,
+    CentroCosto{cargo(nombre)} to Cargo
+    Colaborador to IntercambioTurno
+    Colaborador to Telefono
+    Colaborador to Antecedentes
+    Colaborador to AsistenciaPlaneacion
+    PlaneacionSemanal to AsignacionTurno
+}
+
+
+
+
+
+/**
+ * Many to one relationship.
+ */
+ relationship ManyToMany {
+     AsignacionTurno to Colaborador
+     Colaborador to Peticion
+     Colaborador to AsignacionHorasExtras
+ }
+
+paginate Cargo with pagination
+paginate CentroCosto with pagination
+paginate Turno with pagination
+paginate Colaborador with pagination
+paginate Novedades with pagination
+paginate AsistenciaHorasExtras with pagination
+paginate Antecedentes with pagination
+paginate Peticion with pagination
+paginate Asistencia with pagination
+paginate ReporteAsistencia with pagination
+paginate PlaneacionSemanal with pagination

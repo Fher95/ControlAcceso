@@ -1,0 +1,9 @@
+{
+  "controlAccesoApp": {
+    "TipoPeticion": {
+      "null": "",
+      "Vacaciones": "Vacaciones",
+      "Permiso": "Permiso"
+    }
+  }
+}

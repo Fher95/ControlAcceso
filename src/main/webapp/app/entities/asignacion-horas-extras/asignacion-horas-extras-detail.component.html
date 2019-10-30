@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="asignacionHorasExtras">
+            <h2><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.detail.title">Asignacion Horas Extras</span> {{asignacionHorasExtras.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.justificacion">Justificacion</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.justificacion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.observaciones">Observaciones</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.observaciones}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.fecha">Fecha</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.fecha}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.horaInicio">Hora Inicio</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.horaInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.horaFin">Hora Fin</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.horaFin}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.compensatorio">Compensatorio</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.compensatorio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.autorizadasPor">Autorizadas Por</span></dt>
+                <dd>
+                    <span>{{asignacionHorasExtras.autorizadasPor}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionHorasExtras.asistenciaHorasExtras">Asistencia Horas Extras</span></dt>
+                <dd>
+                    <div *ngIf="asignacionHorasExtras.asistenciaHorasExtras">
+                        <a [routerLink]="['/asistencia-horas-extras', asignacionHorasExtras.asistenciaHorasExtras?.id, 'view']">{{asignacionHorasExtras.asistenciaHorasExtras?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/asignacion-horas-extras', asignacionHorasExtras.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

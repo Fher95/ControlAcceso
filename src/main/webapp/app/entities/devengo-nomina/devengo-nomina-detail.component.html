@@ -1,0 +1,31 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="devengoNomina">
+            <h2><span jhiTranslate="controlAccesoApp.devengoNomina.detail.title">Devengo Nomina</span> {{devengoNomina.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.devengoNomina.fechaInicio">Fecha Inicio</span></dt>
+                <dd>
+                    <span>{{devengoNomina.fechaInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.devengoNomina.fechaFin">Fecha Fin</span></dt>
+                <dd>
+                    <span>{{devengoNomina.fechaFin}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/devengo-nomina', devengoNomina.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

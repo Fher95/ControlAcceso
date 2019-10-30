@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="controlAccesoApp.asistencia.home.title">Asistencias</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-asistencia" [routerLink]="['/asistencia/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="controlAccesoApp.asistencia.home.createLabel">
+            Create a new Asistencia
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="asistencias?.length === 0">
+        <span jhiTranslate="controlAccesoApp.asistencia.home.notFound">No asistencias found</span>
+    </div>
+    <div class="table-responsive" *ngIf="asistencias?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nombre1"><span jhiTranslate="controlAccesoApp.asistencia.nombre1">Nombre 1</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nombre2"><span jhiTranslate="controlAccesoApp.asistencia.nombre2">Nombre 2</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="apellido1"><span jhiTranslate="controlAccesoApp.asistencia.apellido1">Apellido 1</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="apellido2"><span jhiTranslate="controlAccesoApp.asistencia.apellido2">Apellido 2</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fecha"><span jhiTranslate="controlAccesoApp.asistencia.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="turno"><span jhiTranslate="controlAccesoApp.asistencia.turno">Turno</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="entrada"><span jhiTranslate="controlAccesoApp.asistencia.entrada">Entrada</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="salida"><span jhiTranslate="controlAccesoApp.asistencia.salida">Salida</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sinEntrada"><span jhiTranslate="controlAccesoApp.asistencia.sinEntrada">Sin Entrada</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sinSalida"><span jhiTranslate="controlAccesoApp.asistencia.sinSalida">Sin Salida</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="ausente"><span jhiTranslate="controlAccesoApp.asistencia.ausente">Ausente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="minutosTrabajados"><span jhiTranslate="controlAccesoApp.asistencia.minutosTrabajados">Minutos Trabajados</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="asistenciaPlaneacion.id"><span jhiTranslate="controlAccesoApp.asistencia.asistenciaPlaneacion">Asistencia Planeacion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let asistencia of asistencias ;trackBy: trackId">
+                <td><a [routerLink]="['/asistencia', asistencia.id, 'view' ]">{{asistencia.id}}</a></td>
+                <td>{{asistencia.nombre1}}</td>
+                <td>{{asistencia.nombre2}}</td>
+                <td>{{asistencia.apellido1}}</td>
+                <td>{{asistencia.apellido2}}</td>
+                <td>{{asistencia.fecha | date:'medium'}}</td>
+                <td>{{asistencia.turno}}</td>
+                <td>{{asistencia.entrada | date:'medium'}}</td>
+                <td>{{asistencia.salida | date:'medium'}}</td>
+                <td>{{asistencia.sinEntrada}}</td>
+                <td>{{asistencia.sinSalida}}</td>
+                <td>{{asistencia.ausente}}</td>
+                <td>{{asistencia.minutosTrabajados}}</td>
+                <td>
+                    <div *ngIf="asistencia.asistenciaPlaneacion">
+                        <a [routerLink]="['/asistencia-planeacion', asistencia.asistenciaPlaneacion?.id, 'view' ]" >{{asistencia.asistenciaPlaneacion?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/asistencia', asistencia.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/asistencia', asistencia.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/asistencia', { outlets: { popup: asistencia.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div [hidden]="asistencias?.length === 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

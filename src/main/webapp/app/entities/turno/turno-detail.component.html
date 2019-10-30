@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="turno">
+            <h2><span jhiTranslate="controlAccesoApp.turno.detail.title">Turno</span> {{turno.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.turno.tipo">Tipo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.TipoTurno.' + turno.tipo}}">{{turno.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.nombre">Nombre</span></dt>
+                <dd>
+                    <span>{{turno.nombre}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.descripcion">Descripcion</span></dt>
+                <dd>
+                    <span>{{turno.descripcion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.horaInicio">Hora Inicio</span></dt>
+                <dd>
+                    <span>{{turno.horaInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.umbralInicio">Umbral Inicio</span></dt>
+                <dd>
+                    <span>{{turno.umbralInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.duracion">Duracion</span></dt>
+                <dd>
+                    <span>{{turno.duracion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.color">Color</span></dt>
+                <dd>
+                    <span>{{turno.color}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.turno.estado">Estado</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.Estado.' + turno.estado}}">{{turno.estado}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/turno', turno.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

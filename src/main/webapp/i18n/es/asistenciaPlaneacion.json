@@ -1,0 +1,24 @@
+{
+  "controlAccesoApp": {
+    "asistenciaPlaneacion": {
+      "home": {
+        "title": "Asistencia Planeacions",
+        "createLabel": "Crear nuevo Asistencia Planeacion",
+        "createOrEditLabel": "Crear o editar Asistencia Planeacion",
+        "notFound": "No Asistencia Planeacions found"
+      },
+      "created": "Un nuevo Asistencia Planeacion ha sido creado con el identificador {{ param }}",
+      "updated": "Un Asistencia Planeacion ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Asistencia Planeacion ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Asistencia Planeacion {{ id }}?"
+      },
+      "detail": {
+        "title": "Asistencia Planeacion"
+      },
+      "asignacionTurno": "Asignacion Turno",
+      "asistencia": "Asistencia",
+      "colaborador": "Colaborador"
+    }
+  }
+}

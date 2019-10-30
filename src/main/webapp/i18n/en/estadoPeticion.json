@@ -1,0 +1,9 @@
+{
+  "controlAccesoApp": {
+    "EstadoPeticion": {
+      "null": "",
+      "Autorizada": "Autorizada",
+      "NoAutorizada": "NoAutorizada"
+    }
+  }
+}

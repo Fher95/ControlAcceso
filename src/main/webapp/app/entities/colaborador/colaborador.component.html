@@ -1,0 +1,99 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="controlAccesoApp.colaborador.home.title">Colaboradors</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-colaborador" [routerLink]="['/colaborador/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="controlAccesoApp.colaborador.home.createLabel">
+            Create a new Colaborador
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="colaboradors?.length === 0">
+        <span jhiTranslate="controlAccesoApp.colaborador.home.notFound">No colaboradors found</span>
+    </div>
+    <div class="table-responsive" *ngIf="colaboradors?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nombre1"><span jhiTranslate="controlAccesoApp.colaborador.nombre1">Nombre 1</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nombre2"><span jhiTranslate="controlAccesoApp.colaborador.nombre2">Nombre 2</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="apellido1"><span jhiTranslate="controlAccesoApp.colaborador.apellido1">Apellido 1</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="apellido2"><span jhiTranslate="controlAccesoApp.colaborador.apellido2">Apellido 2</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tipoDocumento"><span jhiTranslate="controlAccesoApp.colaborador.tipoDocumento">Tipo Documento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="numeroDocumento"><span jhiTranslate="controlAccesoApp.colaborador.numeroDocumento">Numero Documento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="lugarExpedicion"><span jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion">Lugar Expedicion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fechaExpedicion"><span jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion">Fecha Expedicion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fechaNacimiento"><span jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento">Fecha Nacimiento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="direccionResidencia"><span jhiTranslate="controlAccesoApp.colaborador.direccionResidencia">Direccion Residencia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="barrio"><span jhiTranslate="controlAccesoApp.colaborador.barrio">Barrio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fechaIngreso"><span jhiTranslate="controlAccesoApp.colaborador.fechaIngreso">Fecha Ingreso</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tiempoRequerido"><span jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido">Tiempo Requerido</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cargoDesempeniar"><span jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar">Cargo Desempeniar</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="salario"><span jhiTranslate="controlAccesoApp.colaborador.salario">Salario</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="eps"><span jhiTranslate="controlAccesoApp.colaborador.eps">Eps</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.colaborador.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fechaBaja"><span jhiTranslate="controlAccesoApp.colaborador.fechaBaja">Fecha Baja</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let colaborador of colaboradors ;trackBy: trackId">
+                <td><a [routerLink]="['/colaborador', colaborador.id, 'view' ]">{{colaborador.id}}</a></td>
+                <td>{{colaborador.nombre1}}</td>
+                <td>{{colaborador.nombre2}}</td>
+                <td>{{colaborador.apellido1}}</td>
+                <td>{{colaborador.apellido2}}</td>
+                <td>{{colaborador.tipoDocumento}}</td>
+                <td>{{colaborador.numeroDocumento}}</td>
+                <td>{{colaborador.lugarExpedicion}}</td>
+                <td>{{colaborador.fechaExpedicion | date:'medium'}}</td>
+                <td>{{colaborador.fechaNacimiento | date:'medium'}}</td>
+                <td>{{colaborador.direccionResidencia}}</td>
+                <td>{{colaborador.barrio}}</td>
+                <td>{{colaborador.fechaIngreso | date:'medium'}}</td>
+                <td>{{colaborador.tiempoRequerido}}</td>
+                <td>{{colaborador.cargoDesempeniar}}</td>
+                <td>{{colaborador.salario}}</td>
+                <td>{{colaborador.eps}}</td>
+                <td jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</td>
+                <td>{{colaborador.fechaBaja | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/colaborador', colaborador.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/colaborador', colaborador.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/colaborador', { outlets: { popup: colaborador.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div [hidden]="colaboradors?.length === 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

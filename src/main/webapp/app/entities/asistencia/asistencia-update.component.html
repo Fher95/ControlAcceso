@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-asistencia-heading" jhiTranslate="controlAccesoApp.asistencia.home.createOrEditLabel">Create or edit a Asistencia</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.nombre1" for="field_nombre1">Nombre 1</label>
+                    <input type="text" class="form-control" name="nombre1" id="field_nombre1"
+                           formControlName="nombre1"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.nombre2" for="field_nombre2">Nombre 2</label>
+                    <input type="text" class="form-control" name="nombre2" id="field_nombre2"
+                           formControlName="nombre2"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.apellido1" for="field_apellido1">Apellido 1</label>
+                    <input type="text" class="form-control" name="apellido1" id="field_apellido1"
+                           formControlName="apellido1"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.apellido2" for="field_apellido2">Apellido 2</label>
+                    <input type="text" class="form-control" name="apellido2" id="field_apellido2"
+                           formControlName="apellido2"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.fecha" for="field_fecha">Fecha</label>
+                    <div class="d-flex">
+                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" formControlName="fecha" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.turno" for="field_turno">Turno</label>
+                    <input type="text" class="form-control" name="turno" id="field_turno"
+                           formControlName="turno"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.entrada" for="field_entrada">Entrada</label>
+                    <div class="d-flex">
+                        <input id="field_entrada" type="datetime-local" class="form-control" name="entrada" formControlName="entrada" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.salida" for="field_salida">Salida</label>
+                    <div class="d-flex">
+                        <input id="field_salida" type="datetime-local" class="form-control" name="salida" formControlName="salida" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.sinEntrada" for="field_sinEntrada">Sin Entrada</label>
+                    <input type="checkbox" class="form-control" name="sinEntrada" id="field_sinEntrada"
+                           formControlName="sinEntrada"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.sinSalida" for="field_sinSalida">Sin Salida</label>
+                    <input type="checkbox" class="form-control" name="sinSalida" id="field_sinSalida"
+                           formControlName="sinSalida"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.ausente" for="field_ausente">Ausente</label>
+                    <input type="checkbox" class="form-control" name="ausente" id="field_ausente"
+                           formControlName="ausente"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.minutosTrabajados" for="field_minutosTrabajados">Minutos Trabajados</label>
+                    <input type="number" class="form-control" name="minutosTrabajados" id="field_minutosTrabajados"
+                           formControlName="minutosTrabajados"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.asistenciaPlaneacion" for="field_asistenciaPlaneacion">Asistencia Planeacion</label>
+                    <select class="form-control" id="field_asistenciaPlaneacion" name="asistenciaPlaneacion" formControlName="asistenciaPlaneacion">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="asistenciaPlaneacionOption.id === editForm.get('asistenciaPlaneacion').value?.id ? editForm.get('asistenciaPlaneacion').value : asistenciaPlaneacionOption" *ngFor="let asistenciaPlaneacionOption of asistenciaplaneacions; trackBy: trackAsistenciaPlaneacionById">{{asistenciaPlaneacionOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

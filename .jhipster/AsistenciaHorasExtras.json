@@ -1,0 +1,35 @@
+{
+    "name": "AsistenciaHorasExtras",
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaLlegada",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaSalida",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asignacionHorasExtras",
+            "otherEntityRelationshipName": "asistenciaHorasExtras",
+            "relationshipName": "asignacionHorasExtras",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191029212444",
+    "entityTableName": "asistencia_horas_extras",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
