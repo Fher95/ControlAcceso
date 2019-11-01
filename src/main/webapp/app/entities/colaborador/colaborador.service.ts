@@ -33,6 +33,8 @@ export class ColaboradorService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  exportarTodos() {}
+
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IColaborador>(`${this.resourceUrl}/${id}`, { observe: 'response' })

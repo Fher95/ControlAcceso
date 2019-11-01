@@ -76,8 +76,8 @@
                 <td>{{turno.horaInicio | date:'medium'}}</td>
                 <td>{{turno.umbralInicio | date:'medium'}}</td>
             -->
-                    <td>{{manejarMoment(turno.horaInicio)}}</td>
-                    <td>{{manejarMoment(turno.umbralInicio)}}</td>
+                    <td>{{turno.horaInicio | date:'h:mm a'}}</td>
+                    <td>{{turno.umbralInicio | date:'h:mm a'}}</td>
 
                     <td>{{turno.duracion}}</td>
                     <td>{{turno.color}}</td>
