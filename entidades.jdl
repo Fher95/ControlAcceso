@@ -15,6 +15,14 @@ enum TipoPeticion{
     Vacaciones,
     Permiso
 }
+enum TipoPermiso{
+    Luto,
+    Compensatorio,
+    Remunerado,
+    NoRemunerado,
+    Licencia,
+    Otro
+}
 enum EstadoPeticion {
     Autorizada,
     NoAutorizada
@@ -86,7 +94,8 @@ entity Antecedentes {
 }
 entity Peticion {
     tipo TipoPeticion,
-    fechaPeticion Instant
+    tipoPermiso TipoPermiso,
+    fechaPeticion Instant,
     motivo String,
     constancia String,
     fechaInicio Instant,
@@ -186,9 +195,6 @@ relationship OneToMany {
     Colaborador to AsistenciaPlaneacion
     PlaneacionSemanal to AsignacionTurno
 }
-
-
-
 
 
 /**
