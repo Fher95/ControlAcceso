@@ -31,5 +31,5 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
 
     @Query("select colaborador from Colaborador colaborador left join fetch colaborador.peticions left join fetch colaborador.asignacionHorasExtras where colaborador.id =:id")
     Optional<Colaborador> findOneWithEagerRelationships(@Param("id") Long id);    
-    
+        
 }

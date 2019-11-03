@@ -103,6 +103,14 @@ public class TelefonoResource {
         return ResponseUtil.wrapOrNotFound(telefono);
     }
 
+    @GetMapping("/telefonos/colaborador/{id}")
+    public List<Telefono> getTelefonosColaborador(@PathVariable Long id) {
+        log.debug("REST request to get TelefonosColaborador : {}", id);
+        List<Telefono> telefonos = telefonoRepository.findByIdColaborador(id);
+        return telefonos;
+    }
+
+
     /**
      * {@code DELETE  /telefonos/:id} : delete the "id" telefono.
      *
