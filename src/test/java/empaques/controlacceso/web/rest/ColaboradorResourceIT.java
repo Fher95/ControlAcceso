@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import empaques.controlacceso.domain.enumeration.Estado;
+import empaques.controlacceso.domain.enumeration.NivelEducativo;
 /**
  * Integration tests for the {@link ColaboradorResource} REST controller.
  */
@@ -101,6 +102,9 @@ public class ColaboradorResourceIT {
     private static final Instant UPDATED_FECHA_BAJA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_FECHA_BAJA = Instant.ofEpochMilli(-1L);
 
+    private static final NivelEducativo DEFAULT_NIVEL_EDUCATIVO = NivelEducativo.BasicaPrimaria;
+    private static final NivelEducativo UPDATED_NIVEL_EDUCATIVO = NivelEducativo.BasicaSecundaria;
+
     @Autowired
     private ColaboradorRepository colaboradorRepository;
 
@@ -163,7 +167,8 @@ public class ColaboradorResourceIT {
             .salario(DEFAULT_SALARIO)
             .eps(DEFAULT_EPS)
             .estado(DEFAULT_ESTADO)
-            .fechaBaja(DEFAULT_FECHA_BAJA);
+            .fechaBaja(DEFAULT_FECHA_BAJA)
+            .nivelEducativo(DEFAULT_NIVEL_EDUCATIVO);
         return colaborador;
     }
     /**
@@ -191,7 +196,8 @@ public class ColaboradorResourceIT {
             .salario(UPDATED_SALARIO)
             .eps(UPDATED_EPS)
             .estado(UPDATED_ESTADO)
-            .fechaBaja(UPDATED_FECHA_BAJA);
+            .fechaBaja(UPDATED_FECHA_BAJA)
+            .nivelEducativo(UPDATED_NIVEL_EDUCATIVO);
         return colaborador;
     }
 
@@ -233,6 +239,7 @@ public class ColaboradorResourceIT {
         assertThat(testColaborador.getEps()).isEqualTo(DEFAULT_EPS);
         assertThat(testColaborador.getEstado()).isEqualTo(DEFAULT_ESTADO);
         assertThat(testColaborador.getFechaBaja()).isEqualTo(DEFAULT_FECHA_BAJA);
+        assertThat(testColaborador.getNivelEducativo()).isEqualTo(DEFAULT_NIVEL_EDUCATIVO);
     }
 
     @Test
@@ -319,7 +326,8 @@ public class ColaboradorResourceIT {
             .andExpect(jsonPath("$.[*].salario").value(hasItem(DEFAULT_SALARIO)))
             .andExpect(jsonPath("$.[*].eps").value(hasItem(DEFAULT_EPS.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
-            .andExpect(jsonPath("$.[*].fechaBaja").value(hasItem(DEFAULT_FECHA_BAJA.toString())));
+            .andExpect(jsonPath("$.[*].fechaBaja").value(hasItem(DEFAULT_FECHA_BAJA.toString())))
+            .andExpect(jsonPath("$.[*].nivelEducativo").value(hasItem(DEFAULT_NIVEL_EDUCATIVO.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -383,7 +391,8 @@ public class ColaboradorResourceIT {
             .andExpect(jsonPath("$.salario").value(DEFAULT_SALARIO))
             .andExpect(jsonPath("$.eps").value(DEFAULT_EPS.toString()))
             .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()))
-            .andExpect(jsonPath("$.fechaBaja").value(DEFAULT_FECHA_BAJA.toString()));
+            .andExpect(jsonPath("$.fechaBaja").value(DEFAULT_FECHA_BAJA.toString()))
+            .andExpect(jsonPath("$.nivelEducativo").value(DEFAULT_NIVEL_EDUCATIVO.toString()));
     }
 
     @Test
@@ -424,7 +433,8 @@ public class ColaboradorResourceIT {
             .salario(UPDATED_SALARIO)
             .eps(UPDATED_EPS)
             .estado(UPDATED_ESTADO)
-            .fechaBaja(UPDATED_FECHA_BAJA);
+            .fechaBaja(UPDATED_FECHA_BAJA)
+            .nivelEducativo(UPDATED_NIVEL_EDUCATIVO);
 
         restColaboradorMockMvc.perform(put("/api/colaboradors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -453,6 +463,7 @@ public class ColaboradorResourceIT {
         assertThat(testColaborador.getEps()).isEqualTo(UPDATED_EPS);
         assertThat(testColaborador.getEstado()).isEqualTo(UPDATED_ESTADO);
         assertThat(testColaborador.getFechaBaja()).isEqualTo(UPDATED_FECHA_BAJA);
+        assertThat(testColaborador.getNivelEducativo()).isEqualTo(UPDATED_NIVEL_EDUCATIVO);
     }
 
     @Test

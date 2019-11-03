@@ -23,6 +23,13 @@ enum EstadoPlaneacion{
     Historica,
     Actual
 }
+enum NivelEducativo{
+    BasicaPrimaria,
+    BasicaSecundaria,
+    Tecnico,
+    Tecnologo,
+    Profesional
+}
 
 entity Turno {
     tipo TipoTurno,
@@ -64,7 +71,8 @@ entity Colaborador {
     salario Integer,
     eps String,
     estado Estado,
-    fechaBaja Instant
+    fechaBaja Instant,
+    nivelEducativo NivelEducativo
 }
 
 entity Telefono {

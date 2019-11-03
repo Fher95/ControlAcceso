@@ -7,6 +7,7 @@ import { IPeticion } from 'app/shared/model/peticion.model';
 import { IAsignacionHorasExtras } from 'app/shared/model/asignacion-horas-extras.model';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { Estado } from 'app/shared/model/enumerations/estado.model';
+import { NivelEducativo } from 'app/shared/model/enumerations/nivel-educativo.model';
 
 export interface IColaborador {
   id?: number;
@@ -28,6 +29,7 @@ export interface IColaborador {
   eps?: string;
   estado?: Estado;
   fechaBaja?: Moment;
+  nivelEducativo?: NivelEducativo;
   intercambioTurnos?: IIntercambioTurno[];
   telefonos?: ITelefono[];
   antecedentes?: IAntecedentes[];
@@ -58,6 +60,7 @@ export class Colaborador implements IColaborador {
     public eps?: string,
     public estado?: Estado,
     public fechaBaja?: Moment,
+    public nivelEducativo?: NivelEducativo,
     public intercambioTurnos?: IIntercambioTurno[],
     public telefonos?: ITelefono[],
     public antecedentes?: IAntecedentes[],

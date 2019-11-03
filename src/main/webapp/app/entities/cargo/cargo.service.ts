@@ -35,4 +35,8 @@ export class CargoService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  findCargosCentroCosto(idCentroCosto: number): Observable<EntityArrayResponseType> {
+    return this.http.get<ICargo[]>(`${this.resourceUrl}/centrocosto/${idCentroCosto}`, { observe: 'response' });
+  }
 }

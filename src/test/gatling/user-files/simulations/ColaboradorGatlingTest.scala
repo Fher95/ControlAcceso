@@ -90,6 +90,7 @@ class ColaboradorGatlingTest extends Simulation {
                 , "eps":"SAMPLE_TEXT"
                 , "estado":"Activo"
                 , "fechaBaja":"2020-01-01T00:00:00.000Z"
+                , "nivelEducativo":"BasicaPrimaria"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_colaborador_url"))).exitHereIfFailed

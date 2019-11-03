@@ -7,14 +7,13 @@ import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,19 +25,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
 /**
- * REST controller for managing
- * {@link empaques.controlacceso.domain.Colaborador}.
+ * REST controller for managing {@link empaques.controlacceso.domain.Colaborador}.
  */
 @RestController
 @RequestMapping("/api")
@@ -61,62 +49,52 @@ public class ColaboradorResource {
      * {@code POST  /colaboradors} : Create a new colaborador.
      *
      * @param colaborador the colaborador to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new colaborador, or with status {@code 400 (Bad Request)} if
-     *         the colaborador has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new colaborador, or with status {@code 400 (Bad Request)} if the colaborador has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/colaboradors")
-    public ResponseEntity<Colaborador> createColaborador(@Valid @RequestBody Colaborador colaborador)
-            throws URISyntaxException {
+    public ResponseEntity<Colaborador> createColaborador(@Valid @RequestBody Colaborador colaborador) throws URISyntaxException {
         log.debug("REST request to save Colaborador : {}", colaborador);
         if (colaborador.getId() != null) {
             throw new BadRequestAlertException("A new colaborador cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Colaborador result = colaboradorRepository.save(colaborador);
-        return ResponseEntity
-                .created(new URI("/api/colaboradors/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
+        return ResponseEntity.created(new URI("/api/colaboradors/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
     /**
      * {@code PUT  /colaboradors} : Updates an existing colaborador.
      *
      * @param colaborador the colaborador to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated colaborador, or with status {@code 400 (Bad Request)} if
-     *         the colaborador is not valid, or with status
-     *         {@code 500 (Internal Server Error)} if the colaborador couldn't be
-     *         updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated colaborador,
+     * or with status {@code 400 (Bad Request)} if the colaborador is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the colaborador couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/colaboradors")
-    public ResponseEntity<Colaborador> updateColaborador(@Valid @RequestBody Colaborador colaborador)
-            throws URISyntaxException {
+    public ResponseEntity<Colaborador> updateColaborador(@Valid @RequestBody Colaborador colaborador) throws URISyntaxException {
         log.debug("REST request to update Colaborador : {}", colaborador);
         if (colaborador.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Colaborador result = colaboradorRepository.save(colaborador);
-        return ResponseEntity.ok().headers(
-                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, colaborador.getId().toString()))
-                .body(result);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, colaborador.getId().toString()))
+            .body(result);
     }
 
     /**
      * {@code GET  /colaboradors} : get all the colaboradors.
      *
-     * 
-     * @param pageable  the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is
-     *                  applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of colaboradors in body.
+
+     * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of colaboradors in body.
      */
     @GetMapping("/colaboradors")
-    public ResponseEntity<List<Colaborador>> getAllColaboradors(Pageable pageable,
-            @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Colaborador>> getAllColaboradors(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Colaboradors");
         Page<Colaborador> page;
         if (eagerload) {
@@ -124,8 +102,7 @@ public class ColaboradorResource {
         } else {
             page = colaboradorRepository.findAll(pageable);
         }
-        HttpHeaders headers = PaginationUtil
-                .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -133,8 +110,7 @@ public class ColaboradorResource {
      * {@code GET  /colaboradors/:id} : get the "id" colaborador.
      *
      * @param id the id of the colaborador to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the colaborador, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the colaborador, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/colaboradors/{id}")
     public ResponseEntity<Colaborador> getColaborador(@PathVariable Long id) {
@@ -153,49 +129,6 @@ public class ColaboradorResource {
     public ResponseEntity<Void> deleteColaborador(@PathVariable Long id) {
         log.debug("REST request to delete Colaborador : {}", id);
         colaboradorRepository.deleteById(id);
-        return ResponseEntity.noContent()
-                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-                .build();
-    }
-    @GetMapping("/colaboradors/exportar")
-    public ResponseEntity<InputStreamResource> exportarColaboradores(){
-        ByteArrayInputStream stream = this.exportarDatos();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=colaboradores.xls");
-        return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
-    }
-
-    public ByteArrayInputStream exportarDatos() {
-        String[] columnas = { "Cedula", "Nombre", "Apellido", "Direccion" };
-        Workbook workbook = new HSSFWorkbook();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        Sheet sheet = workbook.createSheet();
-        Row row = sheet.createRow(0);
-
-        for (int i = 0; i < columnas.length; i++) {
-            Cell celda = row.createCell(i);
-            celda.setCellValue(columnas[i]);
-        }
-
-        List<Colaborador> colaboradoresList = this.colaboradorRepository.findAll();
-        int initRow = 1;
-        for (Colaborador objCol : colaboradoresList) {
-            row = sheet.createRow(initRow);
-            row.createCell(0).setCellValue(objCol.getId());
-            row.createCell(1).setCellValue(objCol.getNombre1());
-            row.createCell(2).setCellValue(objCol.getApellido1());
-            row.createCell(3).setCellValue(objCol.getDireccionResidencia());
-
-            initRow++;
-        }
-        try {
-            workbook.write(stream);
-            workbook.close();
-            
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return new ByteArrayInputStream(stream.toByteArray());
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

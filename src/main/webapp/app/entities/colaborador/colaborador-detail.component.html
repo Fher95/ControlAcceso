@@ -77,6 +77,10 @@
                 <dd>
                     <span>{{colaborador.fechaBaja}}</span>
                 </dd>
+                <dt><span jhiTranslate="controlAccesoApp.colaborador.nivelEducativo">Nivel Educativo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'controlAccesoApp.NivelEducativo.' + colaborador.nivelEducativo}}">{{colaborador.nivelEducativo}}</span>
+                </dd>
                 <dt><span jhiTranslate="controlAccesoApp.colaborador.peticion">Peticion</span></dt>
                 <dd>
                     <span *ngFor="let peticion of colaborador.peticions; let last = last">

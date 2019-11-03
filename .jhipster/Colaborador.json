@@ -79,6 +79,11 @@
         {
             "fieldName": "fechaBaja",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "nivelEducativo",
+            "fieldType": "NivelEducativo",
+            "fieldValues": "BasicaPrimaria,BasicaSecundaria,Tecnico,Tecnologo,Profesional"
         }
     ],
     "relationships": [

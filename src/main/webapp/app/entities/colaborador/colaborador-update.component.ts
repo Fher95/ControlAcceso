@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IColaborador, Colaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from './colaborador.service';
@@ -17,6 +17,10 @@ import { IAsignacionHorasExtras } from 'app/shared/model/asignacion-horas-extras
 import { AsignacionHorasExtrasService } from 'app/entities/asignacion-horas-extras/asignacion-horas-extras.service';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion-turno.service';
+import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
+import { CargoService } from 'app/entities/cargo/cargo.service';
+import { ICentroCosto } from 'app/shared/model/centro-costo.model';
+import { ICargo } from 'app/shared/model/cargo.model';
 
 @Component({
   selector: 'jhi-colaborador-update',
@@ -30,6 +34,10 @@ export class ColaboradorUpdateComponent implements OnInit {
   asignacionhorasextras: IAsignacionHorasExtras[];
 
   asignacionturnos: IAsignacionTurno[];
+
+  centrocostos: ICentroCosto[];
+
+  cargos: ICargo[];
 
   editForm = this.fb.group({
     id: [],
@@ -51,6 +59,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     eps: [],
     estado: [],
     fechaBaja: [],
+    nivelEducativo: [],
     peticions: [],
     asignacionHorasExtras: []
   });
@@ -61,6 +70,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     protected peticionService: PeticionService,
     protected asignacionHorasExtrasService: AsignacionHorasExtrasService,
     protected asignacionTurnoService: AsignacionTurnoService,
+    protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -94,6 +104,13 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
       )
       .subscribe((res: IAsignacionTurno[]) => (this.asignacionturnos = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.centroCostoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICentroCosto[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICentroCosto[]>) => response.body)
+      )
+      .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(colaborador: IColaborador) {
@@ -106,17 +123,18 @@ export class ColaboradorUpdateComponent implements OnInit {
       tipoDocumento: colaborador.tipoDocumento,
       numeroDocumento: colaborador.numeroDocumento,
       lugarExpedicion: colaborador.lugarExpedicion,
-      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_FORMAT) : null,
-      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_FORMAT) : null,
+      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_TIME_FORMAT) : null,
+      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_TIME_FORMAT) : null,
       direccionResidencia: colaborador.direccionResidencia,
       barrio: colaborador.barrio,
-      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_FORMAT) : null,
+      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_TIME_FORMAT) : null,
       tiempoRequerido: colaborador.tiempoRequerido,
       cargoDesempeniar: colaborador.cargoDesempeniar,
       salario: colaborador.salario,
       eps: colaborador.eps,
       estado: colaborador.estado,
-      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_FORMAT) : null,
+      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_TIME_FORMAT) : null,
+      nivelEducativo: colaborador.nivelEducativo,
       peticions: colaborador.peticions,
       asignacionHorasExtras: colaborador.asignacionHorasExtras
     });
@@ -166,6 +184,7 @@ export class ColaboradorUpdateComponent implements OnInit {
       estado: this.editForm.get(['estado']).value,
       fechaBaja:
         this.editForm.get(['fechaBaja']).value != null ? moment(this.editForm.get(['fechaBaja']).value, DATE_TIME_FORMAT) : undefined,
+      nivelEducativo: this.editForm.get(['nivelEducativo']).value,
       peticions: this.editForm.get(['peticions']).value,
       asignacionHorasExtras: this.editForm.get(['asignacionHorasExtras']).value
     };
@@ -209,4 +228,5 @@ export class ColaboradorUpdateComponent implements OnInit {
     }
     return option;
   }
+  cargarCargos(idCentroCosto: number): void {}
 }

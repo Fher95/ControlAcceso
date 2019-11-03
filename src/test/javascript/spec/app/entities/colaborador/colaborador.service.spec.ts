@@ -6,6 +6,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
 import { IColaborador, Colaborador } from 'app/shared/model/colaborador.model';
 import { Estado } from 'app/shared/model/enumerations/estado.model';
+import { NivelEducativo } from 'app/shared/model/enumerations/nivel-educativo.model';
 
 describe('Service Tests', () => {
   describe('Colaborador Service', () => {
@@ -44,7 +45,8 @@ describe('Service Tests', () => {
         0,
         'AAAAAAA',
         Estado.Activo,
-        currentDate
+        currentDate,
+        NivelEducativo.BasicaPrimaria
       );
     });
 
@@ -118,7 +120,8 @@ describe('Service Tests', () => {
             salario: 1,
             eps: 'BBBBBB',
             estado: 'BBBBBB',
-            fechaBaja: currentDate.format(DATE_TIME_FORMAT)
+            fechaBaja: currentDate.format(DATE_TIME_FORMAT),
+            nivelEducativo: 'BBBBBB'
           },
           elemDefault
         );
@@ -161,7 +164,8 @@ describe('Service Tests', () => {
             salario: 1,
             eps: 'BBBBBB',
             estado: 'BBBBBB',
-            fechaBaja: currentDate.format(DATE_TIME_FORMAT)
+            fechaBaja: currentDate.format(DATE_TIME_FORMAT),
+            nivelEducativo: 'BBBBBB'
           },
           elemDefault
         );

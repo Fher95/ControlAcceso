@@ -13,6 +13,8 @@ import java.util.Set;
 
 import empaques.controlacceso.domain.enumeration.Estado;
 
+import empaques.controlacceso.domain.enumeration.NivelEducativo;
+
 /**
  * A Colaborador.
  */
@@ -84,6 +86,10 @@ public class Colaborador implements Serializable {
 
     @Column(name = "fecha_baja")
     private Instant fechaBaja;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "nivel_educativo")
+    private NivelEducativo nivelEducativo;
 
     @OneToMany(mappedBy = "colaborador")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -363,6 +369,19 @@ public class Colaborador implements Serializable {
         this.fechaBaja = fechaBaja;
     }
 
+    public NivelEducativo getNivelEducativo() {
+        return nivelEducativo;
+    }
+
+    public Colaborador nivelEducativo(NivelEducativo nivelEducativo) {
+        this.nivelEducativo = nivelEducativo;
+        return this;
+    }
+
+    public void setNivelEducativo(NivelEducativo nivelEducativo) {
+        this.nivelEducativo = nivelEducativo;
+    }
+
     public Set<IntercambioTurno> getIntercambioTurnos() {
         return intercambioTurnos;
     }
@@ -577,6 +596,7 @@ public class Colaborador implements Serializable {
             ", eps='" + getEps() + "'" +
             ", estado='" + getEstado() + "'" +
             ", fechaBaja='" + getFechaBaja() + "'" +
+            ", nivelEducativo='" + getNivelEducativo() + "'" +
             "}";
     }
 }

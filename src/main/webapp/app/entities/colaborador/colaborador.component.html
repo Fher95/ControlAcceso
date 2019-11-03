@@ -7,25 +7,8 @@
             Create a new Colaborador
             </span>
         </button>
-        <button class="btn btn-success float-right mr-4" (click)="this.descargarDatos()">Exportar</button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
-                        name="currentSearch" placeholder="Buscar">
-                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                        <fa-icon [icon]="'search'"></fa-icon>
-                    </button>
-                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <fa-icon [icon]="'trash-alt'"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
     <br/>
     <div class="alert alert-warning" *ngIf="colaboradors?.length === 0">
         <span jhiTranslate="controlAccesoApp.colaborador.home.notFound">No colaboradors found</span>
@@ -53,6 +36,7 @@
             <th jhiSortBy="eps"><span jhiTranslate="controlAccesoApp.colaborador.eps">Eps</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.colaborador.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaBaja"><span jhiTranslate="controlAccesoApp.colaborador.fechaBaja">Fecha Baja</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nivelEducativo"><span jhiTranslate="controlAccesoApp.colaborador.nivelEducativo">Nivel Educativo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -66,17 +50,18 @@
                 <td>{{colaborador.tipoDocumento}}</td>
                 <td>{{colaborador.numeroDocumento}}</td>
                 <td>{{colaborador.lugarExpedicion}}</td>
-                <td>{{colaborador.fechaExpedicion | date:'mediumDate'}}</td>
-                <td>{{colaborador.fechaNacimiento | date:'mediumDate'}}</td>
+                <td>{{colaborador.fechaExpedicion | date:'medium'}}</td>
+                <td>{{colaborador.fechaNacimiento | date:'medium'}}</td>
                 <td>{{colaborador.direccionResidencia}}</td>
                 <td>{{colaborador.barrio}}</td>
-                <td>{{colaborador.fechaIngreso | date:'mediumDate'}}</td>
+                <td>{{colaborador.fechaIngreso | date:'medium'}}</td>
                 <td>{{colaborador.tiempoRequerido}}</td>
                 <td>{{colaborador.cargoDesempeniar}}</td>
                 <td>{{colaborador.salario}}</td>
                 <td>{{colaborador.eps}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</td>
-                <td>{{colaborador.fechaBaja | date:'mediumDate'}}</td>
+                <td>{{colaborador.fechaBaja | date:'medium'}}</td>
+                <td jhiTranslate="{{'controlAccesoApp.NivelEducativo.' + colaborador.nivelEducativo}}">{{colaborador.nivelEducativo}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
