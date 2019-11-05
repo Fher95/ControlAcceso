@@ -18,6 +18,9 @@
             <column name="tipo" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="tipo_permiso" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="fecha_peticion" type="datetime">
                 <constraints nullable="true" />
             </column>
@@ -66,6 +69,7 @@
                   tableName="peticion">
             <column name="id" type="numeric"/>
             <column name="tipo" type="string"/>
+            <column name="tipo_permiso" type="string"/>
             <column name="fecha_peticion" type="datetime"/>
             <column name="motivo" type="string"/>
             <column name="constancia" type="string"/>

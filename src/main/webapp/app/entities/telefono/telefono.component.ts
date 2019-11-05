@@ -54,8 +54,8 @@ export class TelefonoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.loadAll();
-    this.loadTelefonosColaborador(2);
+    this.loadAll();
+    // this.loadTelefonosColaborador(2);
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });

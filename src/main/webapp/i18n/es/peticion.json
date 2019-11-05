@@ -17,6 +17,7 @@
         "title": "Peticion"
       },
       "tipo": "Tipo",
+      "tipoPermiso": "Tipo Permiso",
       "fechaPeticion": "Fecha Peticion",
       "motivo": "Motivo",
       "constancia": "Constancia",

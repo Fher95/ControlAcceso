@@ -62,6 +62,18 @@ export class CargoComponent implements OnInit, OnDestroy {
       );
   }
 
+  loadCentroCostoId(parId: number) {
+    this.cargoService
+      .findCargosCentroCosto(parId)
+      .pipe(
+        filter((res: HttpResponse<ICargo[]>) => res.ok),
+        map((res: HttpResponse<ICargo[]>) => res.body)
+      )
+      .subscribe((res: ICargo[]) => {
+        this.cargos = res;
+      });
+  }
+
   loadPage(page: number) {
     if (page !== this.previousPage) {
       this.previousPage = page;
@@ -93,7 +105,8 @@ export class CargoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadAll();
+    // this.loadAll();
+    this.loadCentroCostoId(1);
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });

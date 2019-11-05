@@ -17,6 +17,17 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.tipoPermiso" for="field_tipoPermiso">Tipo Permiso</label>
+                    <select class="form-control" name="tipoPermiso" formControlName="tipoPermiso" id="field_tipoPermiso">
+                        <option value="Luto">{{'controlAccesoApp.TipoPermiso.Luto' | translate}}</option>
+                        <option value="Compensatorio">{{'controlAccesoApp.TipoPermiso.Compensatorio' | translate}}</option>
+                        <option value="Remunerado">{{'controlAccesoApp.TipoPermiso.Remunerado' | translate}}</option>
+                        <option value="NoRemunerado">{{'controlAccesoApp.TipoPermiso.NoRemunerado' | translate}}</option>
+                        <option value="Licencia">{{'controlAccesoApp.TipoPermiso.Licencia' | translate}}</option>
+                        <option value="Otro">{{'controlAccesoApp.TipoPermiso.Otro' | translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaPeticion" for="field_fechaPeticion">Fecha Peticion</label>
                     <div class="d-flex">
                         <input id="field_fechaPeticion" type="datetime-local" class="form-control" name="fechaPeticion" formControlName="fechaPeticion" placeholder="YYYY-MM-DD HH:mm"/>

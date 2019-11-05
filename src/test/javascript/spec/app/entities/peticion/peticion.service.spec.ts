@@ -6,6 +6,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PeticionService } from 'app/entities/peticion/peticion.service';
 import { IPeticion, Peticion } from 'app/shared/model/peticion.model';
 import { TipoPeticion } from 'app/shared/model/enumerations/tipo-peticion.model';
+import { TipoPermiso } from 'app/shared/model/enumerations/tipo-permiso.model';
 import { EstadoPeticion } from 'app/shared/model/enumerations/estado-peticion.model';
 
 describe('Service Tests', () => {
@@ -29,6 +30,7 @@ describe('Service Tests', () => {
       elemDefault = new Peticion(
         0,
         TipoPeticion.Vacaciones,
+        TipoPermiso.Luto,
         currentDate,
         'AAAAAAA',
         'AAAAAAA',
@@ -90,6 +92,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             tipo: 'BBBBBB',
+            tipoPermiso: 'BBBBBB',
             fechaPeticion: currentDate.format(DATE_TIME_FORMAT),
             motivo: 'BBBBBB',
             constancia: 'BBBBBB',
@@ -122,6 +125,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             tipo: 'BBBBBB',
+            tipoPermiso: 'BBBBBB',
             fechaPeticion: currentDate.format(DATE_TIME_FORMAT),
             motivo: 'BBBBBB',
             constancia: 'BBBBBB',

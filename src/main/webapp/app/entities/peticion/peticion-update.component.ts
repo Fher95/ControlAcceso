@@ -26,6 +26,7 @@ export class PeticionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     tipo: [],
+    tipoPermiso: [],
     fechaPeticion: [],
     motivo: [],
     constancia: [],
@@ -61,6 +62,7 @@ export class PeticionUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: peticion.id,
       tipo: peticion.tipo,
+      tipoPermiso: peticion.tipoPermiso,
       fechaPeticion: peticion.fechaPeticion != null ? peticion.fechaPeticion.format(DATE_TIME_FORMAT) : null,
       motivo: peticion.motivo,
       constancia: peticion.constancia,
@@ -90,6 +92,7 @@ export class PeticionUpdateComponent implements OnInit {
       ...new Peticion(),
       id: this.editForm.get(['id']).value,
       tipo: this.editForm.get(['tipo']).value,
+      tipoPermiso: this.editForm.get(['tipoPermiso']).value,
       fechaPeticion:
         this.editForm.get(['fechaPeticion']).value != null
           ? moment(this.editForm.get(['fechaPeticion']).value, DATE_TIME_FORMAT)

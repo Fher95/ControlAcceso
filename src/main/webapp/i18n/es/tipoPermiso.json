@@ -1,0 +1,13 @@
+{
+  "controlAccesoApp": {
+    "TipoPermiso": {
+      "null": "",
+      "Luto": "Luto",
+      "Compensatorio": "Compensatorio",
+      "Remunerado": "Remunerado",
+      "NoRemunerado": "No Remunerado",
+      "Licencia": "Licencia",
+      "Otro": "Otro"
+    }
+  }
+}

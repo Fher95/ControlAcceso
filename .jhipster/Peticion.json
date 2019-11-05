@@ -7,6 +7,11 @@
             "fieldValues": "Vacaciones,Permiso"
         },
         {
+            "fieldName": "tipoPermiso",
+            "fieldType": "TipoPermiso",
+            "fieldValues": "Luto,Compensatorio,Remunerado,NoRemunerado,Licencia,Otro"
+        },
+        {
             "fieldName": "fechaPeticion",
             "fieldType": "Instant"
         },

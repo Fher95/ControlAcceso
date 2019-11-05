@@ -101,6 +101,13 @@ public class CargoResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/cargos/centrocosto/{id}")
+    public List<Cargo> getCargosCentroCosto(@PathVariable Long id) {
+        log.debug("REST request to get CargosCentroCosot : {}", id);
+        List<Cargo> cargos = cargoRepository.findByIdCentroCosto(id);
+        return cargos;
+    }
+
     /**
      * {@code GET  /cargos/:id} : get the "id" cargo.
      *

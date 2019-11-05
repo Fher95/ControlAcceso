@@ -19,6 +19,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="tipo"><span jhiTranslate="controlAccesoApp.peticion.tipo">Tipo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tipoPermiso"><span jhiTranslate="controlAccesoApp.peticion.tipoPermiso">Tipo Permiso</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaPeticion"><span jhiTranslate="controlAccesoApp.peticion.fechaPeticion">Fecha Peticion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="motivo"><span jhiTranslate="controlAccesoApp.peticion.motivo">Motivo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="constancia"><span jhiTranslate="controlAccesoApp.peticion.constancia">Constancia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -33,6 +34,7 @@
             <tr *ngFor="let peticion of peticions ;trackBy: trackId">
                 <td><a [routerLink]="['/peticion', peticion.id, 'view' ]">{{peticion.id}}</a></td>
                 <td jhiTranslate="{{'controlAccesoApp.TipoPeticion.' + peticion.tipo}}">{{peticion.tipo}}</td>
+                <td jhiTranslate="{{'controlAccesoApp.TipoPermiso.' + peticion.tipoPermiso}}">{{peticion.tipoPermiso}}</td>
                 <td>{{peticion.fechaPeticion | date:'medium'}}</td>
                 <td>{{peticion.motivo}}</td>
                 <td>{{peticion.constancia}}</td>

@@ -73,6 +73,7 @@ class PeticionGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "tipo":"Vacaciones"
+                , "tipoPermiso":"Luto"
                 , "fechaPeticion":"2020-01-01T00:00:00.000Z"
                 , "motivo":"SAMPLE_TEXT"
                 , "constancia":"SAMPLE_TEXT"

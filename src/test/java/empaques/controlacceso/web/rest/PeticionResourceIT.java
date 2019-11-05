@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import empaques.controlacceso.domain.enumeration.TipoPeticion;
+import empaques.controlacceso.domain.enumeration.TipoPermiso;
 import empaques.controlacceso.domain.enumeration.EstadoPeticion;
 /**
  * Integration tests for the {@link PeticionResource} REST controller.
@@ -39,6 +40,9 @@ public class PeticionResourceIT {
 
     private static final TipoPeticion DEFAULT_TIPO = TipoPeticion.Vacaciones;
     private static final TipoPeticion UPDATED_TIPO = TipoPeticion.Permiso;
+
+    private static final TipoPermiso DEFAULT_TIPO_PERMISO = TipoPermiso.Luto;
+    private static final TipoPermiso UPDATED_TIPO_PERMISO = TipoPermiso.Compensatorio;
 
     private static final Instant DEFAULT_FECHA_PETICION = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_PETICION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -107,6 +111,7 @@ public class PeticionResourceIT {
     public static Peticion createEntity(EntityManager em) {
         Peticion peticion = new Peticion()
             .tipo(DEFAULT_TIPO)
+            .tipoPermiso(DEFAULT_TIPO_PERMISO)
             .fechaPeticion(DEFAULT_FECHA_PETICION)
             .motivo(DEFAULT_MOTIVO)
             .constancia(DEFAULT_CONSTANCIA)
@@ -125,6 +130,7 @@ public class PeticionResourceIT {
     public static Peticion createUpdatedEntity(EntityManager em) {
         Peticion peticion = new Peticion()
             .tipo(UPDATED_TIPO)
+            .tipoPermiso(UPDATED_TIPO_PERMISO)
             .fechaPeticion(UPDATED_FECHA_PETICION)
             .motivo(UPDATED_MOTIVO)
             .constancia(UPDATED_CONSTANCIA)
@@ -156,6 +162,7 @@ public class PeticionResourceIT {
         assertThat(peticionList).hasSize(databaseSizeBeforeCreate + 1);
         Peticion testPeticion = peticionList.get(peticionList.size() - 1);
         assertThat(testPeticion.getTipo()).isEqualTo(DEFAULT_TIPO);
+        assertThat(testPeticion.getTipoPermiso()).isEqualTo(DEFAULT_TIPO_PERMISO);
         assertThat(testPeticion.getFechaPeticion()).isEqualTo(DEFAULT_FECHA_PETICION);
         assertThat(testPeticion.getMotivo()).isEqualTo(DEFAULT_MOTIVO);
         assertThat(testPeticion.getConstancia()).isEqualTo(DEFAULT_CONSTANCIA);
@@ -197,6 +204,7 @@ public class PeticionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(peticion.getId().intValue())))
             .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
+            .andExpect(jsonPath("$.[*].tipoPermiso").value(hasItem(DEFAULT_TIPO_PERMISO.toString())))
             .andExpect(jsonPath("$.[*].fechaPeticion").value(hasItem(DEFAULT_FECHA_PETICION.toString())))
             .andExpect(jsonPath("$.[*].motivo").value(hasItem(DEFAULT_MOTIVO.toString())))
             .andExpect(jsonPath("$.[*].constancia").value(hasItem(DEFAULT_CONSTANCIA.toString())))
@@ -218,6 +226,7 @@ public class PeticionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(peticion.getId().intValue()))
             .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO.toString()))
+            .andExpect(jsonPath("$.tipoPermiso").value(DEFAULT_TIPO_PERMISO.toString()))
             .andExpect(jsonPath("$.fechaPeticion").value(DEFAULT_FECHA_PETICION.toString()))
             .andExpect(jsonPath("$.motivo").value(DEFAULT_MOTIVO.toString()))
             .andExpect(jsonPath("$.constancia").value(DEFAULT_CONSTANCIA.toString()))
@@ -249,6 +258,7 @@ public class PeticionResourceIT {
         em.detach(updatedPeticion);
         updatedPeticion
             .tipo(UPDATED_TIPO)
+            .tipoPermiso(UPDATED_TIPO_PERMISO)
             .fechaPeticion(UPDATED_FECHA_PETICION)
             .motivo(UPDATED_MOTIVO)
             .constancia(UPDATED_CONSTANCIA)
@@ -267,6 +277,7 @@ public class PeticionResourceIT {
         assertThat(peticionList).hasSize(databaseSizeBeforeUpdate);
         Peticion testPeticion = peticionList.get(peticionList.size() - 1);
         assertThat(testPeticion.getTipo()).isEqualTo(UPDATED_TIPO);
+        assertThat(testPeticion.getTipoPermiso()).isEqualTo(UPDATED_TIPO_PERMISO);
         assertThat(testPeticion.getFechaPeticion()).isEqualTo(UPDATED_FECHA_PETICION);
         assertThat(testPeticion.getMotivo()).isEqualTo(UPDATED_MOTIVO);
         assertThat(testPeticion.getConstancia()).isEqualTo(UPDATED_CONSTANCIA);

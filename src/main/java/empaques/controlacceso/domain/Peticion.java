@@ -12,6 +12,8 @@ import java.util.Set;
 
 import empaques.controlacceso.domain.enumeration.TipoPeticion;
 
+import empaques.controlacceso.domain.enumeration.TipoPermiso;
+
 import empaques.controlacceso.domain.enumeration.EstadoPeticion;
 
 /**
@@ -32,6 +34,10 @@ public class Peticion implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private TipoPeticion tipo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_permiso")
+    private TipoPermiso tipoPermiso;
 
     @Column(name = "fecha_peticion")
     private Instant fechaPeticion;
@@ -80,6 +86,19 @@ public class Peticion implements Serializable {
 
     public void setTipo(TipoPeticion tipo) {
         this.tipo = tipo;
+    }
+
+    public TipoPermiso getTipoPermiso() {
+        return tipoPermiso;
+    }
+
+    public Peticion tipoPermiso(TipoPermiso tipoPermiso) {
+        this.tipoPermiso = tipoPermiso;
+        return this;
+    }
+
+    public void setTipoPermiso(TipoPermiso tipoPermiso) {
+        this.tipoPermiso = tipoPermiso;
     }
 
     public Instant getFechaPeticion() {
@@ -220,6 +239,7 @@ public class Peticion implements Serializable {
         return "Peticion{" +
             "id=" + getId() +
             ", tipo='" + getTipo() + "'" +
+            ", tipoPermiso='" + getTipoPermiso() + "'" +
             ", fechaPeticion='" + getFechaPeticion() + "'" +
             ", motivo='" + getMotivo() + "'" +
             ", constancia='" + getConstancia() + "'" +

@@ -38,6 +38,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   centrocostos: ICentroCosto[];
 
   cargos: ICargo[];
+  centroCostoSeleccionado: number;
 
   editForm = this.fb.group({
     id: [],
@@ -61,7 +62,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     fechaBaja: [],
     nivelEducativo: [],
     peticions: [],
-    asignacionHorasExtras: []
+    asignacionHorasExtras: [],
+    cargos: []
   });
 
   constructor(
@@ -71,6 +73,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     protected asignacionHorasExtrasService: AsignacionHorasExtrasService,
     protected asignacionTurnoService: AsignacionTurnoService,
     protected centroCostoService: CentroCostoService,
+    protected cargoService: CargoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -111,6 +114,8 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.loadCentroCostoId(1);
+    this.centroCostoSeleccionado = -1;
   }
 
   updateForm(colaborador: IColaborador) {
@@ -228,5 +233,25 @@ export class ColaboradorUpdateComponent implements OnInit {
     }
     return option;
   }
-  cargarCargos(idCentroCosto: number): void {}
+
+  loadCentroCostoId(parId: number) {
+    this.cargoService
+      .findCargosCentroCosto(parId)
+      .pipe(
+        filter((res: HttpResponse<ICargo[]>) => res.ok),
+        map((res: HttpResponse<ICargo[]>) => res.body)
+      )
+      .subscribe((res: ICargo[]) => {
+        this.cargos = res;
+      });
+  }
+
+  getCantidadCargos(): number {
+    return this.cargos.length;
+  }
+
+  setCentroCosto(parId: number): void {
+    this.centroCostoSeleccionado = parId;
+    this.loadCentroCostoId(this.centroCostoSeleccionado);
+  }
 }
