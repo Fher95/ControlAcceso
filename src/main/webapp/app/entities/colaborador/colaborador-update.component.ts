@@ -39,6 +39,7 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   cargos: ICargo[];
   centroCostoSeleccionado: number;
+  nombrePrueba: string;
 
   editForm = this.fb.group({
     id: [],
@@ -62,7 +63,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     fechaBaja: [],
     nivelEducativo: [],
     peticions: [],
-    asignacionHorasExtras: []
+    asignacionHorasExtras: [],
+    centroDeCosto: []
   });
 
   constructor(
@@ -113,7 +115,7 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.loadCentroCostoId(1);
+
     this.centroCostoSeleccionado = -1;
   }
 
@@ -252,5 +254,8 @@ export class ColaboradorUpdateComponent implements OnInit {
   setCentroCosto(parId: number): void {
     this.centroCostoSeleccionado = parId;
     this.loadCentroCostoId(this.centroCostoSeleccionado);
+  }
+  cargarCargos() {
+    this.loadCentroCostoId(this.editForm.get(['centroDeCosto']).value);
   }
 }
