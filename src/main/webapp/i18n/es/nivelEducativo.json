@@ -2,8 +2,8 @@
   "controlAccesoApp": {
     "NivelEducativo": {
       "null": "",
-      "BasicaPrimaria": "BasicaPrimaria",
-      "BasicaSecundaria": "BasicaSecundaria",
+      "BasicaPrimaria": "Basica Primaria",
+      "BasicaSecundaria": "Basica Secundaria",
       "Tecnico": "Tecnico",
       "Tecnologo": "Tecnologo",
       "Profesional": "Profesional"

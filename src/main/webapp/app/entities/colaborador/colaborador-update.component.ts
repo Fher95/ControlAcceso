@@ -42,28 +42,27 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    nombre1: [null, [Validators.required]],
-    nombre2: [],
-    apellido1: [null, [Validators.required]],
-    apellido2: [],
+    nombre1: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+    nombre2: [null, [Validators.pattern('[a-zA-Z ]*')]],
+    apellido1: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+    apellido2: [null, [Validators.pattern('[a-zA-Z ]*')]],
     tipoDocumento: [],
-    numeroDocumento: [],
+    numeroDocumento: ['', [Validators.required, Validators.pattern('[0-9 ]*')]],
     lugarExpedicion: [],
     fechaExpedicion: [],
     fechaNacimiento: [],
     direccionResidencia: [],
     barrio: [],
     fechaIngreso: [],
-    tiempoRequerido: [],
+    tiempoRequerido: ['', [Validators.pattern('[0-9 ]*')]],
     cargoDesempeniar: [],
-    salario: [],
+    salario: ['', [Validators.pattern('[0-9 ]*')]],
     eps: [],
     estado: [],
     fechaBaja: [],
     nivelEducativo: [],
     peticions: [],
-    asignacionHorasExtras: [],
-    cargos: []
+    asignacionHorasExtras: []
   });
 
   constructor(

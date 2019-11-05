@@ -9,194 +9,282 @@
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre1"
-                            for="field_nombre1">Primer Nombre</label>
-                        <input type="text" class="form-control" name="nombre1" id="field_nombre1"
-                            formControlName="nombre1" />
-                        <div
-                            *ngIf="editForm.get('nombre1').invalid && (editForm.get('nombre1').dirty || editForm.get('nombre1').touched)">
-                            <small class="form-text text-danger" *ngIf="editForm.get('nombre1').errors.required"
-                                jhiTranslate="entity.validation.required">
-                                This field is required.
-                            </small>
+                <!-------------------------------------------------------------------------------------------------->
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <h3>Perfil Personal</h3>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre1"
+                                for="field_nombre1">Primer Nombre</label>
+                            <input type="text" class="form-control" name="nombre1" id="field_nombre1"
+                                formControlName="nombre1" />
+                            <div
+                                *ngIf="editForm.get('nombre1').invalid && (editForm.get('nombre1').dirty || editForm.get('nombre1').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('nombre1').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="editForm.get('nombre1').errors.pattern">
+                                    Solo se aceptan letras para este campo.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre2"
+                                for="field_nombre2">Segundo Nombre</label>
+                            <input type="text" class="form-control" name="nombre2" id="field_nombre2"
+                                formControlName="nombre2" />
+                            <div
+                                *ngIf="editForm.get('nombre2').invalid && (editForm.get('nombre2').dirty || editForm.get('nombre2').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('nombre2').errors.pattern">
+                                    Solo se aceptan letras para este campo.
+                                </small>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nombre2"
-                            for="field_nombre2">Segundo Nombre</label>
-                        <input type="text" class="form-control" name="nombre2" id="field_nombre2"
-                            formControlName="nombre2" />
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido1"
-                            for="field_apellido1">Primer Apellido</label>
-                        <input type="text" class="form-control" name="apellido1" id="field_apellido1"
-                            formControlName="apellido1" />
-                        <div
-                            *ngIf="editForm.get('apellido1').invalid && (editForm.get('apellido1').dirty || editForm.get('apellido1').touched)">
-                            <small class="form-text text-danger" *ngIf="editForm.get('apellido1').errors.required"
-                                jhiTranslate="entity.validation.required">
-                                This field is required.
-                            </small>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido1"
+                                for="field_apellido1">Primer Apellido</label>
+                            <input type="text" class="form-control" name="apellido1" id="field_apellido1"
+                                formControlName="apellido1" />
+                            <div
+                                *ngIf="editForm.get('apellido1').invalid && (editForm.get('apellido1').dirty || editForm.get('apellido1').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('apellido1').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="editForm.get('apellido1').errors.pattern">
+                                    Solo se aceptan letras para este campo.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido2"
+                                for="field_apellido2">Segundo Apellido</label>
+                            <input type="text" class="form-control" name="apellido2" id="field_apellido2"
+                                formControlName="apellido2" />
+                            <div
+                                *ngIf="editForm.get('apellido2').invalid && (editForm.get('apellido2').dirty || editForm.get('apellido2').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('apellido2').errors.pattern">
+                                    Solo se aceptan letras para este campo.
+                                </small>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.apellido2"
-                            for="field_apellido2">Segundo Apellido</label>
-                        <input type="text" class="form-control" name="apellido2" id="field_apellido2"
-                            formControlName="apellido2" />
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tipoDocumento"
-                            for="field_tipoDocumento">Tipo Documento</label>
-                        <input type="text" class="form-control" name="tipoDocumento" id="field_tipoDocumento"
-                            formControlName="tipoDocumento" />
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
-                            for="field_numeroDocumento">Numero Documento</label>
-                        <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
-                            formControlName="numeroDocumento" />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion"
-                            for="field_lugarExpedicion">Lugar de Expedicion</label>
-                        <input type="text" class="form-control" name="lugarExpedicion" id="field_lugarExpedicion"
-                            formControlName="lugarExpedicion" />
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion"
-                            for="field_fechaExpedicion">Fecha de Expedicion</label>
-                        <div class="d-flex">
-                            <input id="field_fechaExpedicion" type="date" class="form-control" name="fechaExpedicion"
-                                formControlName="fechaExpedicion" placeholder="YYYY-MM-DD HH:mm" />
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tipoDocumento"
+                                for="field_tipoDocumento">Tipo Documento</label>
+                            <input type="text" class="form-control" name="tipoDocumento" id="field_tipoDocumento"
+                                formControlName="tipoDocumento" />
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
+                                for="field_numeroDocumento">Numero Documento</label>
+                            <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
+                                formControlName="numeroDocumento" />
+                            <div
+                                *ngIf="editForm.get('numeroDocumento').invalid && (editForm.get('numeroDocumento').dirty || editForm.get('numeroDocumento').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('numeroDocumento').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('numeroDocumento').errors.pattern">
+                                    Solo se aceptan numeros para este campo.
+                                </small>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento"
-                            for="field_fechaNacimiento">Fecha de Nacimiento</label>
-                        <div class="d-flex">
-                            <input id="field_fechaNacimiento" type="date" class="form-control" name="fechaNacimiento"
-                                formControlName="fechaNacimiento" placeholder="YYYY-MM-DD HH:mm" />
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion"
+                                for="field_lugarExpedicion">Lugar de Expedicion</label>
+                            <input type="text" class="form-control" name="lugarExpedicion" id="field_lugarExpedicion"
+                                formControlName="lugarExpedicion" />
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion"
+                                for="field_fechaExpedicion">Fecha de Expedicion</label>
+                            <div class="d-flex">
+                                <input id="field_fechaExpedicion" type="date" class="form-control"
+                                    name="fechaExpedicion" formControlName="fechaExpedicion"
+                                    placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento"
+                                for="field_fechaNacimiento">Fecha de Nacimiento</label>
+                            <div class="d-flex">
+                                <input id="field_fechaNacimiento" type="date" class="form-control"
+                                    name="fechaNacimiento" formControlName="fechaNacimiento"
+                                    placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.direccionResidencia"
+                                for="field_direccionResidencia">Direccion de Residencia</label>
+                            <input type="text" class="form-control" name="direccionResidencia"
+                                id="field_direccionResidencia" formControlName="direccionResidencia" />
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.barrio"
+                                for="field_barrio">Barrio</label>
+                            <input type="text" class="form-control" name="barrio" id="field_barrio"
+                                formControlName="barrio" />
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.eps"
+                                for="field_eps">Eps</label>
+                            <input type="text" class="form-control" name="eps" id="field_eps" formControlName="eps" />
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.colaborador.direccionResidencia"
-                            for="field_direccionResidencia">Direccion de Residencia</label>
-                        <input type="text" class="form-control" name="direccionResidencia"
-                            id="field_direccionResidencia" formControlName="direccionResidencia" />
+                <!------------------------------------------------------------------------------------------------>
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <h3>Perfil Laboral</h3>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.estado"
+                                for="field_estado">Estado</label>
+                            <select class="form-control" name="estado" formControlName="estado" id="field_estado">
+                                <option value="Activo">{{'controlAccesoApp.Estado.Activo' | translate}}</option>
+                                <option value="Inactivo">{{'controlAccesoApp.Estado.Inactivo' | translate}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido"
+                                for="field_tiempoRequerido">Tiempo Requerido</label>
+                            <input type="number" class="form-control" name="tiempoRequerido" id="field_tiempoRequerido"
+                                formControlName="tiempoRequerido" />
+                            <div
+                                *ngIf="editForm.get('tiempoRequerido').invalid && (editForm.get('tiempoRequerido').dirty || editForm.get('tiempoRequerido').touched)">                                
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('tiempoRequerido').errors.pattern">
+                                    Solo se aceptan numeros positivos para este campo.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaIngreso"
+                                for="field_fechaIngreso">Fecha de Ingreso</label>
+                            <div class="d-flex">
+                                <input id="field_fechaIngreso" type="date" class="form-control" name="fechaIngreso"
+                                    formControlName="fechaIngreso" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.barrio"
-                            for="field_barrio">Barrio</label>
-                        <input type="text" class="form-control" name="barrio" id="field_barrio"
-                            formControlName="barrio" />
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.eps"
-                            for="field_eps">Eps</label>
-                        <input type="text" class="form-control" name="eps" id="field_eps" formControlName="eps" />
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.estado"
-                            for="field_estado">Estado</label>
-                        <select class="form-control" name="estado" formControlName="estado" id="field_estado">
-                            <option value="Activo">{{'controlAccesoApp.Estado.Activo' | translate}}</option>
-                            <option value="Inactivo">{{'controlAccesoApp.Estado.Inactivo' | translate}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tiempoRequerido"
-                            for="field_tiempoRequerido">Tiempo Requerido</label>
-                        <input type="number" class="form-control" name="tiempoRequerido" id="field_tiempoRequerido"
-                            formControlName="tiempoRequerido" />
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaIngreso"
-                            for="field_fechaIngreso">Fecha de Ingreso</label>
-                        <div class="d-flex">
-                            <input id="field_fechaIngreso" type="date" class="form-control" name="fechaIngreso"
-                                formControlName="fechaIngreso" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.salario"
+                                for="field_salario">Salario</label>
+                            <input type="number" class="form-control" name="salario" id="field_salario"
+                                formControlName="salario" />
+                                <div
+                                *ngIf="editForm.get('salario').invalid && (editForm.get('salario').dirty || editForm.get('salario').touched)">                                
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('salario').errors.pattern">
+                                    Solo se aceptan numeros positivos para este campo.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nivelEducativo"
+                                for="field_nivelEducativo">Nivel Educativo</label>
+                            <select class="form-control" name="nivelEducativo" formControlName="nivelEducativo"
+                                id="field_nivelEducativo">
+                                <option value="BasicaPrimaria">
+                                    {{'controlAccesoApp.NivelEducativo.BasicaPrimaria' | translate}}
+                                </option>
+                                <option value="BasicaSecundaria">
+                                    {{'controlAccesoApp.NivelEducativo.BasicaSecundaria' | translate}}</option>
+                                <option value="Tecnico">{{'controlAccesoApp.NivelEducativo.Tecnico' | translate}}
+                                </option>
+                                <option value="Tecnologo">{{'controlAccesoApp.NivelEducativo.Tecnologo' | translate}}
+                                </option>
+                                <option value="Profesional">
+                                    {{'controlAccesoApp.NivelEducativo.Profesional' | translate}}
+                                </option>
+                            </select>
                         </div>
 
+                        <div hidden="true" class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja"
+                                for="field_fechaBaja">Fecha Baja</label>
+                            <div class="d-flex">
+                                <input id="field_fechaBaja" type="date" class="form-control" name="fechaBaja"
+                                    formControlName="fechaBaja" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col-4">
+                            <label for="field_centroCosto">Centro de Costos</label>
+                            <select class="form-control" id="field_centroCosto" name="centroCosto">
+                                <option *ngFor="let centroCostoOption of centrocostos"
+                                    (click)="setCentroCosto(centroCostoOption.id)">
+                                    {{centroCostoOption.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar"
+                                for="field_cargoDesempeniar">Cargo a Desempeniar</label>
+                            <select class="form-control" id="field_peticions" name="cargos">
+                                <option *ngFor="let cargoOpcion of cargos">{{cargoOpcion.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <h3>Antecedentes</h3>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="field_antDisciplinario">Disciplinarios</label>
+                            <select class="form-control" id="field_antDisciplinario" name="antDisciplinario">
+                                <option>No</option>
+                                <option>Si</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-4">
+                            <label for="field_antDisciplinario">Fiscales</label>
+                            <select class="form-control" id="field_antFiscal" name="antFiscal">
+                                <option>No</option>
+                                <option>Si</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-4">
+                            <label for="field_antPenal">Penales</label>
+                            <select class="form-control" id="field_antPenal" name="antPenal">
+                                <option>No</option>
+                                <option>Si</option>
+                            </select>
+                        </div>
                     </div>
 
                 </div>
-
-
-
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.salario"
-                            for="field_salario">Salario</label>
-                        <input type="number" class="form-control" name="salario" id="field_salario"
-                            formControlName="salario" />
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.nivelEducativo"
-                            for="field_nivelEducativo">Nivel Educativo</label>
-                        <select class="form-control" name="nivelEducativo" formControlName="nivelEducativo"
-                            id="field_nivelEducativo">
-                            <option value="BasicaPrimaria">{{'controlAccesoApp.NivelEducativo.BasicaPrimaria' | translate}}
-                            </option>
-                            <option value="BasicaSecundaria">
-                                {{'controlAccesoApp.NivelEducativo.BasicaSecundaria' | translate}}</option>
-                            <option value="Tecnico">{{'controlAccesoApp.NivelEducativo.Tecnico' | translate}}</option>
-                            <option value="Tecnologo">{{'controlAccesoApp.NivelEducativo.Tecnologo' | translate}}</option>
-                            <option value="Profesional">{{'controlAccesoApp.NivelEducativo.Profesional' | translate}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-4">
-                        <label
-                            for="field_centroCosto">Centro de Costos</label>
-                        <select class="form-control" id="field_centroCosto" name="centroCosto">
-                            <option
-                                *ngFor="let centroCostoOption of centrocostos"
-                                (click)="setCentroCosto(centroCostoOption.id)">
-                                {{centroCostoOption.nombre}}</option>
-                        </select>
-
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar"
-                        for="field_cargoDesempeniar">Cargo a Desempeniar</label>
-                        <select class="form-control" id="field_peticions" name="cargos">
-                            <option
-                                *ngFor="let cargoOpcion of cargos">{{cargoOpcion.nombre}}
-                            </option>
-                        </select>
-                </div>
-
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja"
-                        for="field_fechaBaja">Fecha Baja</label>
-                    <div class="d-flex">
-                        <input id="field_fechaBaja" type="date" class="form-control" name="fechaBaja"
-                            formControlName="fechaBaja" />
-                    </div>
-                </div>
-
+                <!------------------------------------------------------------------------------------->
 
                 <!--div class="form-group">
                     <label jhiTranslate="controlAccesoApp.colaborador.peticion" for="field_peticions">Peticion</label>
