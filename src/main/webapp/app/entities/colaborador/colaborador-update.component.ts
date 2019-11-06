@@ -274,23 +274,12 @@ export class ColaboradorUpdateComponent implements OnInit {
       asistenciaPlaneacion: null,
       colaboradors: [
         {
-          id: idColaborador,
-          nombre1: null,
-          nombre2: null,
-          apellido1: null,
-          apellido2: null,
-          tipoDocumento: null,
-          numeroDocumento: null,
-          lugarExpedicion: null
+          id: idColaborador
         }
       ],
       planeacionSemanal: null,
       cargo: {
-        id: idCargo,
-        nombre: null,
-        estado: null,
-        asignacionTurnos: null,
-        centroCosto: null
+        id: idCargo
       }
     };
     this.asignacionTurnoService.create(objAsignacion).subscribe();
