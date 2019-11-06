@@ -64,7 +64,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     nivelEducativo: [],
     peticions: [],
     asignacionHorasExtras: [],
-    centroDeCosto: []
+    centroDeCosto: [],
+    idCargo: []
   });
 
   constructor(
@@ -115,8 +116,6 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
-
-    this.centroCostoSeleccionado = -1;
   }
 
   updateForm(colaborador: IColaborador) {
@@ -201,6 +200,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess() {
+    this.guardarAsignacionCargo();
     this.isSaving = false;
     this.previousState();
   }
@@ -257,5 +257,42 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
   cargarCargos() {
     this.loadCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+  }
+
+  getUltimoColaborador(): number {
+    return this.colaboradorService.idUltimoColaborador;
+  }
+
+  guardarAsignacionCargo() {
+    const idColaborador = this.getUltimoColaborador();
+    const idCargo = this.editForm.get(['idCargo']).value;
+    const objAsignacion = {
+      id: null,
+      fecha: null,
+      turno: null,
+      intercambioTurno: null,
+      asistenciaPlaneacion: null,
+      colaboradors: [
+        {
+          id: idColaborador,
+          nombre1: null,
+          nombre2: null,
+          apellido1: null,
+          apellido2: null,
+          tipoDocumento: null,
+          numeroDocumento: null,
+          lugarExpedicion: null
+        }
+      ],
+      planeacionSemanal: null,
+      cargo: {
+        id: idCargo,
+        nombre: null,
+        estado: null,
+        asignacionTurnos: null,
+        centroCosto: null
+      }
+    };
+    this.asignacionTurnoService.create(objAsignacion).subscribe();
   }
 }

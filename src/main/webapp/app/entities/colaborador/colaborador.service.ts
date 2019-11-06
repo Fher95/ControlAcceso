@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
@@ -12,18 +12,19 @@ import { IColaborador } from 'app/shared/model/colaborador.model';
 
 type EntityResponseType = HttpResponse<IColaborador>;
 type EntityArrayResponseType = HttpResponse<IColaborador[]>;
-
 @Injectable({ providedIn: 'root' })
 export class ColaboradorService {
   public resourceUrl = SERVER_API_URL + 'api/colaboradors';
+  public idUltimoColaborador: number;
 
   constructor(protected http: HttpClient) {}
 
   create(colaborador: IColaborador): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(colaborador);
-    return this.http
-      .post<IColaborador>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<IColaborador>(this.resourceUrl, copy, { observe: 'response' }).pipe(
+      map((res: EntityResponseType) => this.convertDateFromServer(res)),
+      tap((nuevoCol: EntityResponseType) => this.setUltimoColaborador(nuevoCol))
+    );
   }
 
   update(colaborador: IColaborador): Observable<EntityResponseType> {
@@ -31,6 +32,11 @@ export class ColaboradorService {
     return this.http
       .put<IColaborador>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+  setUltimoColaborador(parColReq: EntityResponseType): void {
+    if (parColReq.body) {
+      this.idUltimoColaborador = parColReq.body.id;
+    }
   }
 
   find(id: number): Observable<EntityResponseType> {
@@ -68,6 +74,7 @@ export class ColaboradorService {
       res.body.fechaNacimiento = res.body.fechaNacimiento != null ? moment(res.body.fechaNacimiento) : null;
       res.body.fechaIngreso = res.body.fechaIngreso != null ? moment(res.body.fechaIngreso) : null;
       res.body.fechaBaja = res.body.fechaBaja != null ? moment(res.body.fechaBaja) : null;
+      // this.idUltimoColaborador = res.body.id;
     }
     return res;
   }

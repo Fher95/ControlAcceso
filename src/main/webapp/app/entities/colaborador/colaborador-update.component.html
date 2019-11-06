@@ -236,9 +236,8 @@
                         <div class="form-group col-4">
                             <label for="field_centroCosto">Centro de Costos</label>
                             <select class="form-control" id="field_centroCosto" name="centroCosto"
-                            formControlName="centroDeCosto" (change)="cargarCargos()" >
-                                <option *ngFor="let centroCostoOption of centrocostos" [ngValue]="centroCostoOption.id"
-                                    >
+                            formControlName="centroDeCosto" (change)="cargarCargos()">
+                                <option *ngFor="let centroCostoOption of centrocostos" [ngValue]="centroCostoOption.id"              >
                                     {{centroCostoOption.nombre}}</option>
                             </select>                            
                         </div>
@@ -247,8 +246,10 @@
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar"
                                 for="field_cargoDesempeniar">Cargo a Desempeniar</label>
-                            <select class="form-control" id="field_peticions" name="cargos">
-                                <option *ngFor="let cargoOpcion of cargos">{{cargoOpcion.nombre}}
+                            <select class="form-control" id="field_peticions" name="cargos"
+                            formControlName="idCargo">
+                                <option *ngFor="let cargoOpcion of cargos" [ngValue]="cargoOpcion.id"
+                                >{{cargoOpcion.nombre}}
                                 </option>
                             </select>
                         </div>

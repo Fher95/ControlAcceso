@@ -49,6 +49,10 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     });
   }
 
+  getUltomoColaborador(): number {
+    return this.colaboradorService.idUltimoColaborador;
+  }
+
   loadAll() {
     this.colaboradorService
       .query({
