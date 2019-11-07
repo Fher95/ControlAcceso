@@ -2,7 +2,7 @@
   "controlAccesoApp": {
     "colaborador": {
       "home": {
-        "title": "Colaboradors",
+        "title": "Colaboradores",
         "createLabel": "Crear nuevo Colaborador",
         "createOrEditLabel": "Crear o editar Colaborador",
         "notFound": "No Colaboradors found"

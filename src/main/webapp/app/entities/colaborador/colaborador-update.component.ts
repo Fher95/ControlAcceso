@@ -19,6 +19,7 @@ import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion-turno.service';
 import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
 import { CargoService } from 'app/entities/cargo/cargo.service';
+import { TelefonoService } from 'app/entities/telefono/telefono.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { ICargo } from 'app/shared/model/cargo.model';
 
@@ -36,7 +37,6 @@ export class ColaboradorUpdateComponent implements OnInit {
   asignacionturnos: IAsignacionTurno[];
 
   centrocostos: ICentroCosto[];
-
   cargos: ICargo[];
   centroCostoSeleccionado: number;
   nombrePrueba: string;
@@ -65,7 +65,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     peticions: [],
     asignacionHorasExtras: [],
     centroDeCosto: [],
-    idCargo: []
+    idCargo: [],
+    telefono: []
   });
 
   constructor(
@@ -76,6 +77,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     protected asignacionTurnoService: AsignacionTurnoService,
     protected centroCostoService: CentroCostoService,
     protected cargoService: CargoService,
+    protected telefonoService: TelefonoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -201,6 +203,7 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   protected onSaveSuccess() {
     this.guardarAsignacionCargo();
+    this.guardarTelefono();
     this.isSaving = false;
     this.previousState();
   }
@@ -283,5 +286,14 @@ export class ColaboradorUpdateComponent implements OnInit {
       }
     };
     this.asignacionTurnoService.create(objAsignacion).subscribe();
+  }
+
+  guardarTelefono() {
+    const varTelefono = this.editForm.get(['telefono']).value;
+    if (this.editForm.get(['telefono']).value != null) {
+      const idColaborador = this.getUltimoColaborador();
+      const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador } };
+      this.telefonoService.create(objTelefono).subscribe();
+    }
   }
 }
