@@ -3,7 +3,13 @@
     "fields": [
         {
             "fieldName": "numero",
-            "fieldType": "Integer"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 6,
+            "fieldValidateRulesMaxlength": 15
         },
         {
             "fieldName": "tipo",

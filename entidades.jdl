@@ -84,7 +84,7 @@ entity Colaborador {
 }
 
 entity Telefono {
-    numero Integer min(6) max(15),
+    numero String minlength(6) maxlength(15),
     tipo String
 }
 

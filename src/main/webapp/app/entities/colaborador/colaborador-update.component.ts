@@ -41,8 +41,8 @@ export class ColaboradorUpdateComponent implements OnInit {
   cargos: ICargo[];
   centroCostoSeleccionado: number;
   varAsignacion: IAsignacionTurno;
-  longitudTelValida: boolean;
-  longitudNumDocValida: boolean;
+  longitudTelefono: number;
+
   atrTelefono: ITelefono;
 
   editForm = this.fb.group({
@@ -70,7 +70,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     asignacionHorasExtras: [],
     centroDeCosto: [],
     cargo: [],
-    telefono: [],
+    telefono: [null, [Validators.minLength(7)]],
     tipoTelefono: []
   });
 
@@ -88,6 +88,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.longitudTelefono = 7;
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ colaborador }) => {
       this.updateForm(colaborador);
@@ -351,31 +352,13 @@ export class ColaboradorUpdateComponent implements OnInit {
       }
     }
   }
-  longitudTelefonoValida(): number {
+  setLongitudTelefono(): void {
     const tipo: String = this.editForm.get(['tipoTelefono']).value;
-    const strTel: String = this.editForm.get(['telefono']).value;
-    if (strTel != null) {
-      let longituMinima: number;
-      if (tipo === 'Fijo') {
-        longituMinima = 6;
-      } else if (tipo === 'Celular') {
-        longituMinima = 9;
-      }
-
-      if (strTel.length > longituMinima) {
-        this.longitudTelValida = true;
-      } else {
-        this.longitudTelValida = false;
-      }
-      return longituMinima;
+    if (tipo === 'Fijo') {
+      this.longitudTelefono = 7;
+    } else if (tipo === 'Celular') {
+      this.longitudTelefono = 10;
     }
-  }
-  longitudNumeroIdentificaion() {
-    const strIdentificacion: String = this.editForm.get(['numeroDocumento']).value;
-    if (strIdentificacion.length > 7) {
-      this.longitudNumDocValida = true;
-    } else {
-      this.longitudNumDocValida = false;
-    }
+    this.editForm.get(['telefono']).setValidators([Validators.minLength(this.longitudTelefono)]);
   }
 }

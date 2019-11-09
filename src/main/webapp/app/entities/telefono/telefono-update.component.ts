@@ -23,7 +23,7 @@ export class TelefonoUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
+    numero: [null, [Validators.minLength(6), Validators.maxLength(15)]],
     tipo: [],
     colaborador: []
   });

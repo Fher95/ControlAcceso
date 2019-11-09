@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
@@ -22,8 +23,9 @@ public class Telefono implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "numero")
-    private Integer numero;
+    @Size(min = 6, max = 15)
+    @Column(name = "numero", length = 15)
+    private String numero;
 
     @Column(name = "tipo")
     private String tipo;
@@ -41,16 +43,16 @@ public class Telefono implements Serializable {
         this.id = id;
     }
 
-    public Integer getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public Telefono numero(Integer numero) {
+    public Telefono numero(String numero) {
         this.numero = numero;
         return this;
     }
 
-    public void setNumero(Integer numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -101,7 +103,7 @@ public class Telefono implements Serializable {
     public String toString() {
         return "Telefono{" +
             "id=" + getId() +
-            ", numero=" + getNumero() +
+            ", numero='" + getNumero() + "'" +
             ", tipo='" + getTipo() + "'" +
             "}";
     }

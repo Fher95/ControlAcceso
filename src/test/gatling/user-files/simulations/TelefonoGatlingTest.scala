@@ -72,7 +72,7 @@ class TelefonoGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "numero":"0"
+                , "numero":"SAMPLE_TEXT"
                 , "tipo":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
