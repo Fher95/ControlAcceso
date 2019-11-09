@@ -103,6 +103,13 @@ public class AsignacionTurnoResource {
         return ResponseUtil.wrapOrNotFound(asignacionTurno);
     }
 
+    @GetMapping("/asignacion-turnos/colaborador/{id}")
+    public ResponseEntity<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
+        log.debug("REST request to get AsignacionTurno : {}", id);
+        Optional<AsignacionTurno> asignacionTurno = asignacionTurnoRepository.findCargoColaborador(id);
+        return ResponseUtil.wrapOrNotFound(asignacionTurno);
+    }
+
     /**
      * {@code DELETE  /asignacion-turnos/:id} : delete the "id" asignacionTurno.
      *

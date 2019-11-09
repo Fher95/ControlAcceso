@@ -1,5 +1,6 @@
 package empaques.controlacceso.repository;
 import empaques.controlacceso.domain.AsignacionTurno;
+import empaques.controlacceso.domain.Cargo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -24,5 +25,8 @@ public interface AsignacionTurnoRepository extends JpaRepository<AsignacionTurno
 
     @Query("select asignacionTurno from AsignacionTurno asignacionTurno left join fetch asignacionTurno.colaboradors where asignacionTurno.id =:id")
     Optional<AsignacionTurno> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query("select asignacionTurno from AsignacionTurno asignacionTurno inner join fetch asignacionTurno.colaboradors col where colaborador_id =:id")
+    Optional<AsignacionTurno> findCargoColaborador(@Param("id") Long id);
 
 }

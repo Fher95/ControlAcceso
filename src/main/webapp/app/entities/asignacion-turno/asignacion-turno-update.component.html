@@ -52,9 +52,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo" for="field_cargo">Cargo</label>
-                    <select class="form-control" id="field_cargo" name="cargo" formControlName="cargo">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="cargoOption.id === editForm.get('cargo').value?.id ? editForm.get('cargo').value : cargoOption" *ngFor="let cargoOption of cargos; trackBy: trackCargoById">{{cargoOption.id}}</option>
+                    <select class="form-control" id="field_cargo" name="cargo" formControlName="cargo">                        
+                        <option [ngValue]="cargoOption.id === editForm.get('cargo').value?.id ? editForm.get('cargo').value : cargoOption" *ngFor="let cargoOption of cargos; trackBy: trackCargoById">{{cargoOption.nombre}}</option>
                     </select>
                 </div>
             </div>

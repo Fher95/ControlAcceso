@@ -105,8 +105,8 @@ export class CargoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.loadAll();
-    this.loadCentroCostoId(1);
+    this.loadAll();
+    // this.loadCentroCostoId(1);
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });

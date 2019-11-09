@@ -78,15 +78,20 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.tipoDocumento"
                                 for="field_tipoDocumento">Tipo Documento</label>
-                            <input type="text" class="form-control" name="tipoDocumento" id="field_tipoDocumento"
-                                formControlName="tipoDocumento" />
+                            <select class="form-control" name="tipoDocumento" id="field_tipoDocumento"
+                                formControlName="tipoDocumento">
+                                <option value="Cedula">Cedula</option>
+                                <option value="Pasaporte">Pasaporte</option>
+                                <option value="NUIP">NUIP</option>
+                                <option value="Otro">Otro</option>
+                            </select>
                         </div>
                         <div class="form-group col-6">
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
                                 for="field_numeroDocumento">Numero Documento</label>
                             <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
-                                formControlName="numeroDocumento" />
+                                formControlName="numeroDocumento" (keyup)="this.longitudNumeroIdentificaion()" />
                             <div
                                 *ngIf="editForm.get('numeroDocumento').invalid && (editForm.get('numeroDocumento').dirty || editForm.get('numeroDocumento').touched)">
                                 <small class="form-text text-danger"
@@ -97,6 +102,10 @@
                                 <small class="form-text text-danger"
                                     *ngIf="editForm.get('numeroDocumento').errors.pattern">
                                     Solo se aceptan numeros para este campo.
+                                </small>
+                                <small class="form-text text-danger"
+                                    *ngIf="!this.longitudNumDocValida">
+                                    Identificador demasiado corto
                                 </small>
                             </div>
                         </div>
@@ -153,10 +162,24 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label class="form-control-label"
-                                for="field_telefono">Telefono</label>
+                            <label class="form-control-label" for="field_telefono">Tipo Telefono</label>
+                            <select type="text" class="form-control" name="tipoTelefono" id="field_tipoTelefono"
+                                formControlName="tipoTelefono">
+                                <option value="Celular">Celular</option>
+                                <option value="Fijo">Fijo</option>
+                            </select>
+                        </div>
+                        <div *ngIf="editForm.get(['tipoTelefono']).value !== null" class="form-group col-4">
+                            <label class="form-control-label" for="field_telefono">Telefono</label>                            
                             <input type="text" class="form-control" name="telefono" id="field_telefono"
-                                formControlName="telefono" />
+                                formControlName="telefono" (keyup)="this.longitudTelefonoValida()" />
+                            <div
+                                *ngIf="editForm.get('telefono').invalid && (editForm.get('telefono').dirty || editForm.get('telefono').touched)">
+                                <small class="form-text text-danger" *ngIf="!this.longitudTelValida">
+                                    La longitud minima debe ser de {{longitudTelefonoValida() + 1}}
+                                </small>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -179,7 +202,7 @@
                             <input type="number" class="form-control" name="tiempoRequerido" id="field_tiempoRequerido"
                                 formControlName="tiempoRequerido" />
                             <div
-                                *ngIf="editForm.get('tiempoRequerido').invalid && (editForm.get('tiempoRequerido').dirty || editForm.get('tiempoRequerido').touched)">                                
+                                *ngIf="editForm.get('tiempoRequerido').invalid && (editForm.get('tiempoRequerido').dirty || editForm.get('tiempoRequerido').touched)">
                                 <small class="form-text text-danger"
                                     *ngIf="editForm.get('tiempoRequerido').errors.pattern">
                                     Solo se aceptan numeros positivos para este campo.
@@ -202,10 +225,9 @@
                                 for="field_salario">Salario</label>
                             <input type="number" class="form-control" name="salario" id="field_salario"
                                 formControlName="salario" />
-                                <div
-                                *ngIf="editForm.get('salario').invalid && (editForm.get('salario').dirty || editForm.get('salario').touched)">                                
-                                <small class="form-text text-danger"
-                                    *ngIf="editForm.get('salario').errors.pattern">
+                            <div
+                                *ngIf="editForm.get('salario').invalid && (editForm.get('salario').dirty || editForm.get('salario').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('salario').errors.pattern">
                                     Solo se aceptan numeros positivos para este campo.
                                 </small>
                             </div>
@@ -244,20 +266,20 @@
                         <div class="form-group col-4">
                             <label for="field_centroCosto">Centro de Costos</label>
                             <select class="form-control" id="field_centroCosto" name="centroCosto"
-                            formControlName="centroDeCosto" (change)="cargarCargos()">
-                                <option *ngFor="let centroCostoOption of centrocostos" [ngValue]="centroCostoOption.id"              >
+                                formControlName="centroDeCosto" (change)="cargarCargos()">
+                                <option *ngFor="let centroCostoOption of centrocostos" [ngValue]="centroCostoOption.id">
                                     {{centroCostoOption.nombre}}</option>
-                            </select>                            
+                            </select>
                         </div>
 
                         <div class="form-group col-4">
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar"
                                 for="field_cargoDesempeniar">Cargo a Desempeniar</label>
-                            <select class="form-control" id="field_peticions" name="cargos"
-                            formControlName="idCargo">
-                                <option *ngFor="let cargoOpcion of cargos" [ngValue]="cargoOpcion.id"
-                                >{{cargoOpcion.nombre}}
+                            <select class="form-control" id="field_peticions" name="cargos" formControlName="cargo">
+                                <option *ngFor="let cargoOpcion of cargos"
+                                    [ngValue]="cargoOpcion.id === editForm.get('cargo').value?.id ? editForm.get('cargo').value : cargoOpcion">
+                                    {{cargoOpcion.nombre}}
                                 </option>
                             </select>
                         </div>

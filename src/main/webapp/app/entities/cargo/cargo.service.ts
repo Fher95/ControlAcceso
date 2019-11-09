@@ -39,4 +39,8 @@ export class CargoService {
   findCargosCentroCosto(idCentroCosto: number): Observable<EntityArrayResponseType> {
     return this.http.get<ICargo[]>(`${this.resourceUrl}/centrocosto/${idCentroCosto}`, { observe: 'response' });
   }
+
+  findCargoColaborador(idColaborador: number): Observable<HttpResponse<number>> {
+    return this.http.get<number>(`${this.resourceUrl}/colaborador/${idColaborador}`, { observe: 'response' });
+  }
 }

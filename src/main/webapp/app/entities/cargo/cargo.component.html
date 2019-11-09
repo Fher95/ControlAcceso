@@ -47,7 +47,7 @@
                 <td jhiTranslate="{{'controlAccesoApp.Estado.' + cargo.estado}}">{{cargo.estado}}</td>
                 <td>
                     <div *ngIf="cargo.centroCosto">
-                        <a [routerLink]="['/centro-costo', cargo.centroCosto?.id, 'view' ]" >{{cargo.centroCosto?.id}}</a>
+                        <a [routerLink]="['/centro-costo', cargo.centroCosto?.id, 'view' ]" >{{cargo.centroCosto?.nombre}}</a>
                     </div>
                 </td>
                 <td class="text-right">

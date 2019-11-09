@@ -32,7 +32,7 @@
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.cargo.centroCosto" for="field_centroCosto">Centro Costo</label>
                     <select class="form-control" id="field_centroCosto" name="centroCosto" formControlName="centroCosto">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="centroCostoOption.id === editForm.get('centroCosto').value?.id ? editForm.get('centroCosto').value : centroCostoOption" *ngFor="let centroCostoOption of centrocostos; trackBy: trackCentroCostoById">{{centroCostoOption.id}}</option>
+                        <option [ngValue]="centroCostoOption.id === editForm.get('centroCosto').value?.id ? editForm.get('centroCosto').value : centroCostoOption" *ngFor="let centroCostoOption of centrocostos; trackBy: trackCentroCostoById">{{centroCostoOption.nombre}}</option>
                     </select>
                 </div>
             </div>

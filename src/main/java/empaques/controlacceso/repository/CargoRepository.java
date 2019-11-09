@@ -15,5 +15,5 @@ public interface CargoRepository extends JpaRepository<Cargo, Long> {
 
     @Query("from Cargo cargo where centro_costo_id =:id")
     List<Cargo> findByIdCentroCosto(@Param("id") Long id);
-
+    
 }

@@ -39,7 +39,9 @@ export class ColaboradorUpdateComponent implements OnInit {
   centrocostos: ICentroCosto[];
   cargos: ICargo[];
   centroCostoSeleccionado: number;
-  nombrePrueba: string;
+  varAsignacion: IAsignacionTurno;
+  longitudTelValida: boolean;
+  longitudNumDocValida: boolean;
 
   editForm = this.fb.group({
     id: [],
@@ -48,7 +50,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     apellido1: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
     apellido2: [null, [Validators.pattern('[a-zA-Z ]*')]],
     tipoDocumento: [],
-    numeroDocumento: ['', [Validators.required, Validators.pattern('[0-9 ]*')]],
+    numeroDocumento: [null, [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(6)]],
     lugarExpedicion: [],
     fechaExpedicion: [],
     fechaNacimiento: [],
@@ -65,8 +67,9 @@ export class ColaboradorUpdateComponent implements OnInit {
     peticions: [],
     asignacionHorasExtras: [],
     centroDeCosto: [],
-    idCargo: [],
-    telefono: []
+    cargo: [],
+    telefono: ['', [Validators.minLength(7)]],
+    tipoTelefono: []
   });
 
   constructor(
@@ -87,6 +90,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ colaborador }) => {
       this.updateForm(colaborador);
     });
+    /*
     this.peticionService
       .query()
       .pipe(
@@ -104,6 +108,7 @@ export class ColaboradorUpdateComponent implements OnInit {
         (res: IAsignacionHorasExtras[]) => (this.asignacionhorasextras = res),
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+
     this.asignacionTurnoService
       .query()
       .pipe(
@@ -111,6 +116,8 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
       )
       .subscribe((res: IAsignacionTurno[]) => (this.asignacionturnos = res), (res: HttpErrorResponse) => this.onError(res.message));
+*/
+
     this.centroCostoService
       .query()
       .pipe(
@@ -145,19 +152,9 @@ export class ColaboradorUpdateComponent implements OnInit {
       peticions: colaborador.peticions,
       asignacionHorasExtras: colaborador.asignacionHorasExtras
     });
-  }
 
-  previousState() {
-    window.history.back();
-  }
-
-  save() {
-    this.isSaving = true;
-    const colaborador = this.createFromForm();
     if (colaborador.id !== undefined) {
-      this.subscribeToSaveResponse(this.colaboradorService.update(colaborador));
-    } else {
-      this.subscribeToSaveResponse(this.colaboradorService.create(colaborador));
+      this.loadAsignacionTurno(colaborador.id);
     }
   }
 
@@ -197,12 +194,26 @@ export class ColaboradorUpdateComponent implements OnInit {
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IColaborador>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  previousState() {
+    window.history.back();
   }
 
-  protected onSaveSuccess() {
-    this.guardarAsignacionCargo();
+  save() {
+    this.isSaving = true;
+    const colaborador = this.createFromForm();
+    if (colaborador.id !== undefined) {
+      this.subscribeToSaveResponse(this.colaboradorService.update(colaborador), true);
+    } else {
+      this.subscribeToSaveResponse(this.colaboradorService.create(colaborador), false);
+    }
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IColaborador>>, update: boolean) {
+    result.subscribe(() => this.onSaveSuccess(update), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess(update: boolean) {
+    this.guardarAsignacionCargo(update);
     this.guardarTelefono();
     this.isSaving = false;
     this.previousState();
@@ -238,7 +249,23 @@ export class ColaboradorUpdateComponent implements OnInit {
     return option;
   }
 
-  loadCentroCostoId(parId: number) {
+  loadAsignacionTurno(parIdColaborador: number) {
+    this.asignacionTurnoService
+      .findCargoColaborador(parIdColaborador)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+      )
+      .subscribe((res: IAsignacionTurno) => {
+        this.varAsignacion = res;
+        this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
+        this.editForm.patchValue({
+          centroDeCosto: this.varAsignacion.cargo.centroCosto.id,
+          cargo: this.varAsignacion.cargo
+        });
+      });
+  }
+  loadCargosCentroCostoId(parId: number) {
     this.cargoService
       .findCargosCentroCosto(parId)
       .pipe(
@@ -256,36 +283,34 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   setCentroCosto(parId: number): void {
     this.centroCostoSeleccionado = parId;
-    this.loadCentroCostoId(this.centroCostoSeleccionado);
+    this.loadCargosCentroCostoId(this.centroCostoSeleccionado);
   }
   cargarCargos() {
-    this.loadCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+    this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
   }
 
   getUltimoColaborador(): number {
     return this.colaboradorService.idUltimoColaborador;
   }
 
-  guardarAsignacionCargo() {
+  guardarAsignacionCargo(update: boolean) {
     const idColaborador = this.getUltimoColaborador();
-    const idCargo = this.editForm.get(['idCargo']).value;
-    const objAsignacion = {
-      id: null,
-      fecha: null,
-      turno: null,
-      intercambioTurno: null,
-      asistenciaPlaneacion: null,
-      colaboradors: [
-        {
-          id: idColaborador
-        }
-      ],
-      planeacionSemanal: null,
-      cargo: {
-        id: idCargo
-      }
-    };
-    this.asignacionTurnoService.create(objAsignacion).subscribe();
+    const objCargo = this.editForm.get(['cargo']).value;
+
+    if (update) {
+      this.varAsignacion.cargo = objCargo;
+      this.asignacionTurnoService.update(this.varAsignacion).subscribe();
+    } else {
+      const objAsignacion = {
+        colaboradors: [
+          {
+            id: idColaborador
+          }
+        ],
+        cargo: objCargo
+      };
+      this.asignacionTurnoService.create(objAsignacion).subscribe();
+    }
   }
 
   guardarTelefono() {
@@ -294,6 +319,29 @@ export class ColaboradorUpdateComponent implements OnInit {
       const idColaborador = this.getUltimoColaborador();
       const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador } };
       this.telefonoService.create(objTelefono).subscribe();
+    }
+  }
+  longitudTelefonoValida(): number {
+    const tipo: String = this.editForm.get(['tipoTelefono']).value;
+    const strTel: String = this.editForm.get(['telefono']).value;
+    let longituMinima = 9;
+    if (tipo === 'Fijo') {
+      longituMinima = 6;
+    }
+
+    if (strTel.length > longituMinima) {
+      this.longitudTelValida = true;
+    } else {
+      this.longitudTelValida = false;
+    }
+    return longituMinima;
+  }
+  longitudNumeroIdentificaion() {
+    const strIdentificacion: String = this.editForm.get(['numeroDocumento']).value;
+    if (strIdentificacion.length > 7) {
+      this.longitudNumDocValida = true;
+    } else {
+      this.longitudNumDocValida = false;
     }
   }
 }
