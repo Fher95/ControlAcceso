@@ -73,7 +73,7 @@ class TelefonoGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "numero":"0"
-                , "tipo":"0"
+                , "tipo":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_telefono_url"))).exitHereIfFailed

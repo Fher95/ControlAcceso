@@ -22,6 +22,7 @@ import { CargoService } from 'app/entities/cargo/cargo.service';
 import { TelefonoService } from 'app/entities/telefono/telefono.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { ICargo } from 'app/shared/model/cargo.model';
+import { ITelefono } from 'app/shared/model/telefono.model';
 
 @Component({
   selector: 'jhi-colaborador-update',
@@ -42,6 +43,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   varAsignacion: IAsignacionTurno;
   longitudTelValida: boolean;
   longitudNumDocValida: boolean;
+  atrTelefono: ITelefono;
 
   editForm = this.fb.group({
     id: [],
@@ -68,7 +70,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     asignacionHorasExtras: [],
     centroDeCosto: [],
     cargo: [],
-    telefono: ['', [Validators.minLength(7)]],
+    telefono: [],
     tipoTelefono: []
   });
 
@@ -155,6 +157,7 @@ export class ColaboradorUpdateComponent implements OnInit {
 
     if (colaborador.id !== undefined) {
       this.loadAsignacionTurno(colaborador.id);
+      this.loadTelefonosColaborador(colaborador.id);
     }
   }
 
@@ -214,7 +217,7 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   protected onSaveSuccess(update: boolean) {
     this.guardarAsignacionCargo(update);
-    this.guardarTelefono();
+    this.guardarTelefono(update);
     this.isSaving = false;
     this.previousState();
   }
@@ -277,6 +280,26 @@ export class ColaboradorUpdateComponent implements OnInit {
       });
   }
 
+  loadTelefonosColaborador(parIdColaborador: number) {
+    let arrayTelefonos: ITelefono[];
+    this.telefonoService
+      .findTelefonosColaborador(parIdColaborador)
+      .pipe(
+        filter((res: HttpResponse<ITelefono[]>) => res.ok),
+        map((res: HttpResponse<ITelefono[]>) => res.body)
+      )
+      .subscribe((res: ITelefono[]) => {
+        arrayTelefonos = res;
+        if (arrayTelefonos.length > 0) {
+          this.atrTelefono = arrayTelefonos[arrayTelefonos.length - 1];
+          this.editForm.patchValue({
+            tipoTelefono: arrayTelefonos[arrayTelefonos.length - 1].tipo,
+            telefono: arrayTelefonos[arrayTelefonos.length - 1].numero
+          });
+        }
+      });
+  }
+
   getCantidadCargos(): number {
     return this.cargos.length;
   }
@@ -313,28 +336,39 @@ export class ColaboradorUpdateComponent implements OnInit {
     }
   }
 
-  guardarTelefono() {
+  guardarTelefono(update: boolean) {
     const varTelefono = this.editForm.get(['telefono']).value;
+    const tipoTelefono = this.editForm.get(['tipoTelefono']).value;
     if (this.editForm.get(['telefono']).value != null) {
-      const idColaborador = this.getUltimoColaborador();
-      const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador } };
-      this.telefonoService.create(objTelefono).subscribe();
+      if (update && this.atrTelefono != null) {
+        this.atrTelefono.numero = varTelefono;
+        this.atrTelefono.tipo = tipoTelefono;
+        this.telefonoService.update(this.atrTelefono).subscribe();
+      } else {
+        const idColaborador = this.getUltimoColaborador();
+        const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador }, tipo: tipoTelefono };
+        this.telefonoService.create(objTelefono).subscribe();
+      }
     }
   }
   longitudTelefonoValida(): number {
     const tipo: String = this.editForm.get(['tipoTelefono']).value;
     const strTel: String = this.editForm.get(['telefono']).value;
-    let longituMinima = 9;
-    if (tipo === 'Fijo') {
-      longituMinima = 6;
-    }
+    if (strTel != null) {
+      let longituMinima: number;
+      if (tipo === 'Fijo') {
+        longituMinima = 6;
+      } else if (tipo === 'Celular') {
+        longituMinima = 9;
+      }
 
-    if (strTel.length > longituMinima) {
-      this.longitudTelValida = true;
-    } else {
-      this.longitudTelValida = false;
+      if (strTel.length > longituMinima) {
+        this.longitudTelValida = true;
+      } else {
+        this.longitudTelValida = false;
+      }
+      return longituMinima;
     }
-    return longituMinima;
   }
   longitudNumeroIdentificaion() {
     const strIdentificacion: String = this.editForm.get(['numeroDocumento']).value;

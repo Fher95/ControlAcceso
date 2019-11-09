@@ -7,7 +7,7 @@ enum TipoTurno{
     NoLaboral
 }
 enum TipoAntecedente{
-    Disciplnario,
+    Disciplinario,
     Penal,
     Fiscal
 }
@@ -84,8 +84,8 @@ entity Colaborador {
 }
 
 entity Telefono {
-    numero Integer,
-    tipo Integer
+    numero Integer min(6) max(15),
+    tipo String
 }
 
 entity Antecedentes {

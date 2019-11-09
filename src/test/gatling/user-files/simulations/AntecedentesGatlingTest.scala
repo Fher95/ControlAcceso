@@ -72,7 +72,7 @@ class AntecedentesGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "tipo":"Disciplnario"
+                , "tipo":"Disciplinario"
                 , "soporte":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))

@@ -17,7 +17,6 @@ export class TelefonoComponent implements OnInit, OnDestroy {
   telefonos: ITelefono[];
   currentAccount: any;
   eventSubscriber: Subscription;
-  telefonosColaborador: ITelefono[];
 
   constructor(
     protected telefonoService: TelefonoService,
@@ -41,21 +40,8 @@ export class TelefonoComponent implements OnInit, OnDestroy {
       );
   }
 
-  loadTelefonosColaborador(id: number) {
-    this.telefonoService
-      .findTelefonosColaborador(id)
-      .pipe(
-        filter((res: HttpResponse<ITelefono[]>) => res.ok),
-        map((res: HttpResponse<ITelefono[]>) => res.body)
-      )
-      .subscribe((res: ITelefono[]) => {
-        this.telefonos = res;
-      });
-  }
-
   ngOnInit() {
     this.loadAll();
-    // this.loadTelefonosColaborador(2);
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });

@@ -37,9 +37,8 @@ public class TelefonoResourceIT {
     private static final Integer UPDATED_NUMERO = 2;
     private static final Integer SMALLER_NUMERO = 1 - 1;
 
-    private static final Integer DEFAULT_TIPO = 1;
-    private static final Integer UPDATED_TIPO = 2;
-    private static final Integer SMALLER_TIPO = 1 - 1;
+    private static final String DEFAULT_TIPO = "AAAAAAAAAA";
+    private static final String UPDATED_TIPO = "BBBBBBBBBB";
 
     @Autowired
     private TelefonoRepository telefonoRepository;
@@ -156,7 +155,7 @@ public class TelefonoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(telefono.getId().intValue())))
             .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
-            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO)));
+            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())));
     }
     
     @Test
@@ -171,7 +170,7 @@ public class TelefonoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(telefono.getId().intValue()))
             .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
-            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO));
+            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO.toString()));
     }
 
     @Test

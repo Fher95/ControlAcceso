@@ -26,7 +26,7 @@ public class Telefono implements Serializable {
     private Integer numero;
 
     @Column(name = "tipo")
-    private Integer tipo;
+    private String tipo;
 
     @ManyToOne
     @JsonIgnoreProperties("telefonos")
@@ -54,16 +54,16 @@ public class Telefono implements Serializable {
         this.numero = numero;
     }
 
-    public Integer getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public Telefono tipo(Integer tipo) {
+    public Telefono tipo(String tipo) {
         this.tipo = tipo;
         return this;
     }
 
-    public void setTipo(Integer tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -102,7 +102,7 @@ public class Telefono implements Serializable {
         return "Telefono{" +
             "id=" + getId() +
             ", numero=" + getNumero() +
-            ", tipo=" + getTipo() +
+            ", tipo='" + getTipo() + "'" +
             "}";
     }
 }

@@ -34,7 +34,7 @@ import empaques.controlacceso.domain.enumeration.TipoAntecedente;
 @SpringBootTest(classes = ControlAccesoApp.class)
 public class AntecedentesResourceIT {
 
-    private static final TipoAntecedente DEFAULT_TIPO = TipoAntecedente.Disciplnario;
+    private static final TipoAntecedente DEFAULT_TIPO = TipoAntecedente.Disciplinario;
     private static final TipoAntecedente UPDATED_TIPO = TipoAntecedente.Penal;
 
     private static final String DEFAULT_SOPORTE = "AAAAAAAAAA";

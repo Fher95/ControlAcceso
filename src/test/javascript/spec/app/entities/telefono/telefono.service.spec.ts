@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(TelefonoService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Telefono(0, 0, 0);
+      elemDefault = new Telefono(0, 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -57,7 +57,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             numero: 1,
-            tipo: 1
+            tipo: 'BBBBBB'
           },
           elemDefault
         );
@@ -76,7 +76,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             numero: 1,
-            tipo: 1
+            tipo: 'BBBBBB'
           },
           elemDefault
         );

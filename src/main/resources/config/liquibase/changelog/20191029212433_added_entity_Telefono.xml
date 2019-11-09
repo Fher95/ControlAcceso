@@ -18,7 +18,7 @@
             <column name="numero" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="tipo" type="integer">
+            <column name="tipo" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="colaborador_id" type="bigint">
@@ -48,7 +48,7 @@
                   tableName="telefono">
             <column name="id" type="numeric"/>
             <column name="numero" type="numeric"/>
-            <column name="tipo" type="numeric"/>
+            <column name="tipo" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

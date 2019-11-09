@@ -1,5 +1,5 @@
 export const enum TipoAntecedente {
-  Disciplnario = 'Disciplnario',
+  Disciplinario = 'Disciplinario',
   Penal = 'Penal',
   Fiscal = 'Fiscal'
 }

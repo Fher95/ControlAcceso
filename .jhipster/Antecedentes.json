@@ -4,7 +4,7 @@
         {
             "fieldName": "tipo",
             "fieldType": "TipoAntecedente",
-            "fieldValues": "Disciplnario,Penal,Fiscal"
+            "fieldValues": "Disciplinario,Penal,Fiscal"
         },
         {
             "fieldName": "soporte",

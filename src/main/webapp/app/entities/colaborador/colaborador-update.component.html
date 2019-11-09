@@ -164,7 +164,7 @@
                         <div class="form-group col-4">
                             <label class="form-control-label" for="field_telefono">Tipo Telefono</label>
                             <select type="text" class="form-control" name="tipoTelefono" id="field_tipoTelefono"
-                                formControlName="tipoTelefono">
+                                formControlName="tipoTelefono" (change)="this.longitudTelefonoValida()">
                                 <option value="Celular">Celular</option>
                                 <option value="Fijo">Fijo</option>
                             </select>
@@ -174,13 +174,14 @@
                             <input type="text" class="form-control" name="telefono" id="field_telefono"
                                 formControlName="telefono" (keyup)="this.longitudTelefonoValida()" />
                             <div
-                                *ngIf="editForm.get('telefono').invalid && (editForm.get('telefono').dirty || editForm.get('telefono').touched)">
+                                >
                                 <small class="form-text text-danger" *ngIf="!this.longitudTelValida">
                                     La longitud minima debe ser de {{longitudTelefonoValida() + 1}}
                                 </small>
                             </div>
                             
                         </div>
+                        <p>Telefono cargado: {{this.atrTelefono.id}} Num: {{this.atrTelefono.numero}} Tipo: {{this.atrTelefono.tipo}}</p>
                     </div>
                 </div>
                 <!-------------------------------------------Perfil Laboral-------------------------------------------------->

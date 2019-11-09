@@ -2,7 +2,7 @@
   "controlAccesoApp": {
     "TipoAntecedente": {
       "null": "",
-      "Disciplnario": "Disciplnario",
+      "Disciplinario": "Disciplinario",
       "Penal": "Penal",
       "Fiscal": "Fiscal"
     }

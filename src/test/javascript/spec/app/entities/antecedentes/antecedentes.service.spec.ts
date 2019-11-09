@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(AntecedentesService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Antecedentes(0, TipoAntecedente.Disciplnario, 'AAAAAAA');
+      elemDefault = new Antecedentes(0, TipoAntecedente.Disciplinario, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
