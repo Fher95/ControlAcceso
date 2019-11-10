@@ -91,7 +91,7 @@
                                 jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
                                 for="field_numeroDocumento">Numero Documento</label>
                             <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
-                                formControlName="numeroDocumento"/>
+                                formControlName="numeroDocumento" />
                             <div
                                 *ngIf="editForm.get('numeroDocumento').invalid && (editForm.get('numeroDocumento').dirty || editForm.get('numeroDocumento').touched)">
                                 <small class="form-text text-danger"
@@ -126,9 +126,16 @@
                                 for="field_fechaExpedicion">Fecha de Expedicion</label>
                             <div class="d-flex">
                                 <input id="field_fechaExpedicion" type="date" class="form-control"
-                                    name="fechaExpedicion" formControlName="fechaExpedicion" />
+                                    name="fechaExpedicion" formControlName="fechaExpedicion"
+                                    (change)="this.compararFecha()" />
+                                
                             </div>
-                        </div>                        
+                            <div>
+                                    <small class="form-text text-danger" *ngIf="!this.fechaExpedicionValida">
+                                        La fecha de expedicion no puede ser mayor a la actual
+                                    </small>
+                                </div>
+                        </div>
                         <div class="form-group col-4">
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento"
@@ -290,6 +297,7 @@
                 <div class="border rounded px-4 py-3 my-3 shadow">
                     <h3>Antecedentes</h3>
                     <div class="form-row">
+
                         <div class="form-group col-4">
                             <label for="field_antDisciplinario">Disciplinarios</label>
                             <select class="form-control" id="field_antDisciplinario" name="antDisciplinario"
@@ -299,7 +307,6 @@
                             </select>
                         </div>
 
-                        <p>Antecedente 1: {{this.editForm.get(['antecedente1']).value}}</p>
                         <div class="form-group col-4">
                             <label for="field_antDisciplinario">Fiscales</label>
                             <select class="form-control" id="field_antFiscal" name="antFiscal"
@@ -308,7 +315,7 @@
                                 <option value="Si">Si</option>
                             </select>
                         </div>
-                        <p>Antecedente 1: {{this.editForm.get(['antecedente2']).value}}</p>
+
                         <div class="form-group col-4">
                             <label for="field_antPenal">Penales</label>
                             <select class="form-control" id="field_antPenal" name="antPenal"
@@ -317,9 +324,8 @@
                                 <option value="Si">Si</option>
                             </select>
                         </div>
-                        <p>Antecedente 1: {{this.editForm.get(['antecedente3']).value}}</p>
+
                     </div>
-                    <p>Informacion sobre antecedente1: {{this.temporal}}</p>
                 </div>
                 <!------------------------------------------------------------------------------------->
 

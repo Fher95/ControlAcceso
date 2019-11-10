@@ -47,7 +47,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   longitudTelefono: number;
 
   atrTelefono: ITelefono;
-  temporal: string;
+  fechaExpedicionValida: boolean;
 
   editForm = this.fb.group({
     id: [],
@@ -97,6 +97,7 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.longitudTelefono = 7;
+    this.fechaExpedicionValida = true;
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ colaborador }) => {
       this.updateForm(colaborador);
@@ -278,6 +279,7 @@ export class ColaboradorUpdateComponent implements OnInit {
         });
       });
   }
+
   loadCargosCentroCostoId(parId: number) {
     this.cargoService
       .findCargosCentroCosto(parId)
@@ -318,6 +320,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     this.centroCostoSeleccionado = parId;
     this.loadCargosCentroCostoId(this.centroCostoSeleccionado);
   }
+
   cargarCargos() {
     this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
   }
@@ -410,5 +413,15 @@ export class ColaboradorUpdateComponent implements OnInit {
       this.longitudTelefono = 10;
     }
     this.editForm.get(['telefono']).setValidators([Validators.minLength(this.longitudTelefono)]);
+  }
+
+  compararFecha() {
+    const varFechaActual = new Date();
+    const varFechaExpedicion = new Date(this.editForm.get(['fechaExpedicion']).value);
+    if (varFechaActual > varFechaExpedicion) {
+      this.fechaExpedicionValida = true;
+    } else {
+      this.fechaExpedicionValida = false;
+    }
   }
 }
