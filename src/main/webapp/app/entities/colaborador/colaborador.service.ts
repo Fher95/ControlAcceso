@@ -45,6 +45,12 @@ export class ColaboradorService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  findByNumDocumento(numDocumento: string): Observable<EntityResponseType> {
+    return this.http
+      .get<IColaborador>(`${this.resourceUrl}/documento/${numDocumento}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

@@ -119,6 +119,13 @@ public class ColaboradorResource {
         return ResponseUtil.wrapOrNotFound(colaborador);
     }
 
+    @GetMapping("/colaboradors/documento/{id}")
+    public ResponseEntity<Colaborador> getColaboradorByNumDocumento(@PathVariable String id) {
+        log.debug("REST request to get Colaborador by Documento : {}", id);
+        Optional<Colaborador> colaborador = colaboradorRepository.findColaboradorByNumDocumento(id);
+        return ResponseUtil.wrapOrNotFound(colaborador);
+    }
+
     /**
      * {@code DELETE  /colaboradors/:id} : delete the "id" colaborador.
      *

@@ -22,6 +22,8 @@ export class PeticionUpdateComponent implements OnInit {
   isSaving: boolean;
 
   colaboradors: IColaborador[];
+  colaboradorEncontrado: IColaborador;
+  currentSearch: string;
 
   editForm = this.fb.group({
     id: [],
@@ -75,6 +77,23 @@ export class PeticionUpdateComponent implements OnInit {
 
   previousState() {
     window.history.back();
+  }
+
+  search(parDocumento: string) {
+    this.colaboradorEncontrado = undefined;
+    this.colaboradorService
+      .findByNumDocumento(parDocumento)
+      .pipe(
+        filter((res: HttpResponse<IColaborador>) => res.ok),
+        map((res: HttpResponse<IColaborador>) => res.body)
+      )
+      .subscribe((res: IColaborador) => {
+        this.colaboradorEncontrado = res;
+      });
+  }
+
+  clear() {
+    this.currentSearch = '';
   }
 
   save() {
