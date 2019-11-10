@@ -10,7 +10,7 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    
+
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
@@ -30,7 +30,7 @@
 
     <br />
     <div class="alert alert-warning" *ngIf="turnos?.length === 0">
-        <span >No turnos found</span>
+        <span>No turnos found</span>
     </div>
     <div class="table-responsive" *ngIf="turnos?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
@@ -78,8 +78,8 @@
                 <td>{{turno.horaInicio | date:'medium'}}</td>
                 <td>{{turno.umbralInicio | date:'medium'}}</td>
             -->
-                    <td>{{turno.horaInicio | date:'h:mm a'}}</td>
-                    <td>{{turno.umbralInicio | date:'h:mm a'}}</td>
+                    <td>{{ turno.tipo === 'Laboral' ? (turno.horaInicio | date:'h:mm a') : 'No Aplica'}}</td>
+                    <td>{{ turno.tipo === 'Laboral' ? (turno.umbralInicio | date:'h:mm a') : 'No Aplica'}}</td>
 
                     <td>{{turno.duracion}}</td>
                     <td>{{turno.color}}</td>
