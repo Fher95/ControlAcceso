@@ -91,7 +91,7 @@
                                 jhiTranslate="controlAccesoApp.colaborador.numeroDocumento"
                                 for="field_numeroDocumento">Numero Documento</label>
                             <input type="text" class="form-control" name="numeroDocumento" id="field_numeroDocumento"
-                                formControlName="numeroDocumento" (keyup)="this.longitudNumeroIdentificaion()" />
+                                formControlName="numeroDocumento"/>
                             <div
                                 *ngIf="editForm.get('numeroDocumento').invalid && (editForm.get('numeroDocumento').dirty || editForm.get('numeroDocumento').touched)">
                                 <small class="form-text text-danger"
@@ -124,12 +124,11 @@
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion"
                                 for="field_fechaExpedicion">Fecha de Expedicion</label>
-                            <div class="d-flex">                                
+                            <div class="d-flex">
                                 <input id="field_fechaExpedicion" type="date" class="form-control"
-                                    name="fechaExpedicion" formControlName="fechaExpedicion"
-                                     />
+                                    name="fechaExpedicion" formControlName="fechaExpedicion" />
                             </div>
-                        </div>
+                        </div>                        
                         <div class="form-group col-4">
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.colaborador.fechaNacimiento"
@@ -177,7 +176,8 @@
                             <div
                                 *ngIf="editForm.get('telefono').invalid && (editForm.get('telefono').dirty || editForm.get('telefono').touched)">
                                 <small class="form-text text-danger" *ngIf="editForm.get('telefono').errors.minlength"
-                                    jhiTranslate="entity.validation.minlength" [translateValues]="{ min: this.longitudTelefono }">
+                                    jhiTranslate="entity.validation.minlength"
+                                    [translateValues]="{ min: this.longitudTelefono }">
                                     This field is required to be at least 7 characters.
                                 </small>
                             </div>
@@ -292,31 +292,34 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="field_antDisciplinario">Disciplinarios</label>
-                            <select class="form-control" id="field_antDisciplinario" name="antDisciplinario">
-                                <option>No</option>
-                                <option>Si</option>
+                            <select class="form-control" id="field_antDisciplinario" name="antDisciplinario"
+                                formControlName="antecedente1">
+                                <option value="No">No</option>
+                                <option value="Si">Si</option>
                             </select>
                         </div>
 
-
+                        <p>Antecedente 1: {{this.editForm.get(['antecedente1']).value}}</p>
                         <div class="form-group col-4">
                             <label for="field_antDisciplinario">Fiscales</label>
-                            <select class="form-control" id="field_antFiscal" name="antFiscal">
-                                <option>No</option>
-                                <option>Si</option>
+                            <select class="form-control" id="field_antFiscal" name="antFiscal"
+                                formControlName="antecedente2">
+                                <option value="No">No</option>
+                                <option value="Si">Si</option>
                             </select>
                         </div>
-
-
+                        <p>Antecedente 1: {{this.editForm.get(['antecedente2']).value}}</p>
                         <div class="form-group col-4">
                             <label for="field_antPenal">Penales</label>
-                            <select class="form-control" id="field_antPenal" name="antPenal">
-                                <option>No</option>
-                                <option>Si</option>
+                            <select class="form-control" id="field_antPenal" name="antPenal"
+                                formControlName="antecedente3">
+                                <option value="No">No</option>
+                                <option value="Si">Si</option>
                             </select>
                         </div>
+                        <p>Antecedente 1: {{this.editForm.get(['antecedente3']).value}}</p>
                     </div>
-
+                    <p>Informacion sobre antecedente1: {{this.temporal}}</p>
                 </div>
                 <!------------------------------------------------------------------------------------->
 

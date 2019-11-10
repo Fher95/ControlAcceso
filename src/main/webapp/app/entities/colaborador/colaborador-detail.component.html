@@ -67,7 +67,7 @@
                                     Expedicion</span>
                             </dt>
                             <dd>
-                                <span>{{colaborador.fechaExpedicion}}</span>
+                                <span>{{this.convertirMoment(colaborador.fechaExpedicion)}}</span>
                             </dd>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                                     Nacimiento</span>
                             </dt>
                             <dd>
-                                <span>{{colaborador.fechaNacimiento}}</span>
+                                <span>{{this.convertirMoment(colaborador.fechaNacimiento)}}</span>
                             </dd>
                         </div>
                         <div class="col-3">
@@ -98,6 +98,14 @@
                             <dt><span jhiTranslate="controlAccesoApp.colaborador.eps">Eps</span></dt>
                             <dd>
                                 <span>{{colaborador.eps}}</span>
+                            </dd>
+                        </div>
+                    </div>
+                    <div class= "form-row">
+                        <div class="coll-6">
+                            <dt><span>Telefono</span></dt>
+                            <dd>
+                                <span *ngFor="let objTel of telefonos">{{objTel.tipo +": "+ objTel.numero}}</span>
                             </dd>
                         </div>
                     </div>
@@ -147,10 +155,11 @@
                         <div class="col-4">
                             <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaIngreso">Fecha Ingreso</span></dt>
                             <dd>
-                                <span>{{colaborador.fechaIngreso}}</span>
+                                <span>{{this.convertirMoment(colaborador.fechaIngreso)}}</span>
                             </dd>
                         </div>
                     </div>
+                    
                 </div>
                 <!------------------------------Fin Perfil Laboral------------------------------------->
                 <!--

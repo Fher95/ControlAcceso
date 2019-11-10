@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IColaborador, Colaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from './colaborador.service';
@@ -19,10 +19,13 @@ import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion-turno.service';
 import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
 import { CargoService } from 'app/entities/cargo/cargo.service';
+import { AntecedentesService } from 'app/entities/antecedentes/antecedentes.service';
 import { TelefonoService } from 'app/entities/telefono/telefono.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { ICargo } from 'app/shared/model/cargo.model';
 import { ITelefono } from 'app/shared/model/telefono.model';
+import { TipoAntecedente } from 'app/shared/model/enumerations/tipo-antecedente.model';
+import { IAntecedentes } from 'app/shared/model/antecedentes.model';
 
 @Component({
   selector: 'jhi-colaborador-update',
@@ -44,6 +47,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   longitudTelefono: number;
 
   atrTelefono: ITelefono;
+  temporal: string;
 
   editForm = this.fb.group({
     id: [],
@@ -71,7 +75,10 @@ export class ColaboradorUpdateComponent implements OnInit {
     centroDeCosto: [],
     cargo: [],
     telefono: [null, [Validators.minLength(7)]],
-    tipoTelefono: []
+    tipoTelefono: [],
+    antecedente1: [],
+    antecedente2: [],
+    antecedente3: []
   });
 
   constructor(
@@ -82,6 +89,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     protected asignacionTurnoService: AsignacionTurnoService,
     protected centroCostoService: CentroCostoService,
     protected cargoService: CargoService,
+    protected antecedenteService: AntecedentesService,
     protected telefonoService: TelefonoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -140,17 +148,17 @@ export class ColaboradorUpdateComponent implements OnInit {
       tipoDocumento: colaborador.tipoDocumento,
       numeroDocumento: colaborador.numeroDocumento,
       lugarExpedicion: colaborador.lugarExpedicion,
-      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_TIME_FORMAT) : null,
-      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_TIME_FORMAT) : null,
+      fechaExpedicion: colaborador.fechaExpedicion != null ? colaborador.fechaExpedicion.format(DATE_FORMAT) : null,
+      fechaNacimiento: colaborador.fechaNacimiento != null ? colaborador.fechaNacimiento.format(DATE_FORMAT) : null,
       direccionResidencia: colaborador.direccionResidencia,
       barrio: colaborador.barrio,
-      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_TIME_FORMAT) : null,
+      fechaIngreso: colaborador.fechaIngreso != null ? colaborador.fechaIngreso.format(DATE_FORMAT) : null,
       tiempoRequerido: colaborador.tiempoRequerido,
       cargoDesempeniar: colaborador.cargoDesempeniar,
       salario: colaborador.salario,
       eps: colaborador.eps,
       estado: colaborador.estado,
-      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_TIME_FORMAT) : null,
+      fechaBaja: colaborador.fechaBaja != null ? colaborador.fechaBaja.format(DATE_FORMAT) : null,
       nivelEducativo: colaborador.nivelEducativo,
       peticions: colaborador.peticions,
       asignacionHorasExtras: colaborador.asignacionHorasExtras
@@ -219,6 +227,7 @@ export class ColaboradorUpdateComponent implements OnInit {
   protected onSaveSuccess(update: boolean) {
     this.guardarAsignacionCargo(update);
     this.guardarTelefono(update);
+    this.guardarAntecedentes(false);
     this.isSaving = false;
     this.previousState();
   }
@@ -322,8 +331,20 @@ export class ColaboradorUpdateComponent implements OnInit {
     const objCargo = this.editForm.get(['cargo']).value;
 
     if (update) {
-      this.varAsignacion.cargo = objCargo;
-      this.asignacionTurnoService.update(this.varAsignacion).subscribe();
+      if (this.varAsignacion === null || this.varAsignacion === undefined) {
+        const objAsignacion = {
+          colaboradors: [
+            {
+              id: this.editForm.get(['id']).value
+            }
+          ],
+          cargo: objCargo
+        };
+        this.asignacionTurnoService.create(objAsignacion).subscribe();
+      } else {
+        this.varAsignacion.cargo = objCargo;
+        this.asignacionTurnoService.update(this.varAsignacion).subscribe();
+      }
     } else {
       const objAsignacion = {
         colaboradors: [
@@ -335,6 +356,28 @@ export class ColaboradorUpdateComponent implements OnInit {
       };
       this.asignacionTurnoService.create(objAsignacion).subscribe();
     }
+  }
+
+  guardarAntecedentes(update: boolean) {
+    //const ant1: String = this.editForm.get(['antecedente1']).value;
+    // const ant2: String = this.editForm.get(['antecedente2']).value;
+    // const ant3: String = this.editForm.get(['antecedente3']).value;
+    //const idColaborador = this.getUltimoColaborador();
+    // const objAntecedente1: IAntecedentes = { tipo: TipoAntecedente.Disciplinario, colaborador: {id: idColaborador} }
+    // this.antecedenteService.create(objAntecedente1);
+    /*
+    if (update) {
+      const holaMundo = "Hola mundo";
+    } else {
+      if (ant2 === 'Si') {
+      const objAntecedente2 = { tipo: 'Penal' as TipoAntecedente, colaborador: {id: idColaborador} }
+      this.antecedenteService.create(objAntecedente2);
+    }
+    if (ant3 === "Si") {
+      const objAntecedente3 = { tipo: 'Fiscal' as TipoAntecedente, colaborador: {id: idColaborador} }
+      this.antecedenteService.create(objAntecedente3);
+    }
+    } */
   }
 
   guardarTelefono(update: boolean) {
@@ -352,6 +395,7 @@ export class ColaboradorUpdateComponent implements OnInit {
       }
     }
   }
+
   setLongitudTelefono(): void {
     const tipo: String = this.editForm.get(['tipoTelefono']).value;
     if (tipo === 'Fijo') {
