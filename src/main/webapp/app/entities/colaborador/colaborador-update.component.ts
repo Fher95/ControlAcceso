@@ -359,25 +359,31 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
 
   guardarAntecedentes(update: boolean) {
-    //const ant1: String = this.editForm.get(['antecedente1']).value;
-    // const ant2: String = this.editForm.get(['antecedente2']).value;
-    // const ant3: String = this.editForm.get(['antecedente3']).value;
-    //const idColaborador = this.getUltimoColaborador();
-    // const objAntecedente1: IAntecedentes = { tipo: TipoAntecedente.Disciplinario, colaborador: {id: idColaborador} }
-    // this.antecedenteService.create(objAntecedente1);
-    /*
+    const ant1: String = this.editForm.get(['antecedente1']).value;
+    const ant2: String = this.editForm.get(['antecedente2']).value;
+    const ant3: String = this.editForm.get(['antecedente3']).value;
+
     if (update) {
-      const holaMundo = "Hola mundo";
+      const objAntecedente1: IAntecedentes = {
+        tipo: TipoAntecedente.Disciplinario,
+        colaborador: { id: this.editForm.get(['id']).value }
+      };
+      this.antecedenteService.create(objAntecedente1).subscribe();
     } else {
+      const idColaborador = this.getUltimoColaborador();
+      if (ant1 === 'Si') {
+        const objAntecedente2 = { tipo: TipoAntecedente.Disciplinario, colaborador: { id: idColaborador } };
+        this.antecedenteService.create(objAntecedente2).subscribe();
+      }
       if (ant2 === 'Si') {
-      const objAntecedente2 = { tipo: 'Penal' as TipoAntecedente, colaborador: {id: idColaborador} }
-      this.antecedenteService.create(objAntecedente2);
+        const objAntecedente2 = { tipo: 'Penal' as TipoAntecedente, colaborador: { id: idColaborador } };
+        this.antecedenteService.create(objAntecedente2).subscribe();
+      }
+      if (ant3 === 'Si') {
+        const objAntecedente3 = { tipo: 'Fiscal' as TipoAntecedente, colaborador: { id: idColaborador } };
+        this.antecedenteService.create(objAntecedente3).subscribe();
+      }
     }
-    if (ant3 === "Si") {
-      const objAntecedente3 = { tipo: 'Fiscal' as TipoAntecedente, colaborador: {id: idColaborador} }
-      this.antecedenteService.create(objAntecedente3);
-    }
-    } */
   }
 
   guardarTelefono(update: boolean) {
