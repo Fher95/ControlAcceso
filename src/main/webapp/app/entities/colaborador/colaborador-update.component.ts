@@ -102,7 +102,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ colaborador }) => {
       this.updateForm(colaborador);
     });
-    /*
+
     this.peticionService
       .query()
       .pipe(
@@ -110,7 +110,8 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<IPeticion[]>) => response.body)
       )
       .subscribe((res: IPeticion[]) => (this.peticions = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.asignacionHorasExtrasService
+    /*
+      this.asignacionHorasExtrasService
       .query()
       .pipe(
         filter((mayBeOk: HttpResponse<IAsignacionHorasExtras[]>) => mayBeOk.ok),

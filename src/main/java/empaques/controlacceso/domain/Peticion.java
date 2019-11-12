@@ -63,7 +63,7 @@ public class Peticion implements Serializable {
 
     @ManyToMany(mappedBy = "peticions")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
+     @JsonIgnore
     private Set<Colaborador> colaboradors = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

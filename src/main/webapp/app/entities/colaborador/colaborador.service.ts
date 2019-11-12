@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
@@ -33,6 +33,19 @@ export class ColaboradorService {
       .put<IColaborador>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
+
+  agregarPeticion(idColaborador: number, idPeticion: number) {
+    let colaborador: IColaborador;
+    this.find(idColaborador)
+      .pipe(
+        filter((res: HttpResponse<IColaborador>) => res.ok),
+        map((res: HttpResponse<IColaborador>) => res.body)
+      )
+      .subscribe(res => (colaborador = res));
+    colaborador.peticions = [{ id: idPeticion }];
+    this.update(colaborador).subscribe();
+  }
+
   setUltimoColaborador(parColReq: EntityResponseType): void {
     if (parColReq.body) {
       this.idUltimoColaborador = parColReq.body.id;
@@ -48,6 +61,18 @@ export class ColaboradorService {
   findByNumDocumento(numDocumento: string): Observable<EntityResponseType> {
     return this.http
       .get<IColaborador>(`${this.resourceUrl}/documento/${numDocumento}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  findConPeticiones(numDocumento: string): Observable<EntityResponseType> {
+    return this.http
+      .get<IColaborador>(`${this.resourceUrl}/conPeticion/${numDocumento}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  findByIdPeticion(parIdPeticion: number): Observable<EntityResponseType> {
+    return this.http
+      .get<IColaborador>(`${this.resourceUrl}/peticion/${parIdPeticion}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 

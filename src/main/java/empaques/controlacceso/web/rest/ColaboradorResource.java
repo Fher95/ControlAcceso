@@ -119,10 +119,24 @@ public class ColaboradorResource {
         return ResponseUtil.wrapOrNotFound(colaborador);
     }
 
+    @GetMapping("/colaboradors/conPeticion/{id}")
+    public ResponseEntity<Colaborador> getColaboradorPeticiones(@PathVariable String id) {
+        log.debug("REST request to get Colaborador con peticiones: {}", id);
+        Optional<Colaborador> colaborador = colaboradorRepository.findOneWithPeticions(id);
+        return ResponseUtil.wrapOrNotFound(colaborador);
+    }
+
     @GetMapping("/colaboradors/documento/{id}")
     public ResponseEntity<Colaborador> getColaboradorByNumDocumento(@PathVariable String id) {
         log.debug("REST request to get Colaborador by Documento : {}", id);
         Optional<Colaborador> colaborador = colaboradorRepository.findColaboradorByNumDocumento(id);
+        return ResponseUtil.wrapOrNotFound(colaborador);
+    }
+
+    @GetMapping("/colaboradors/peticion/{id}")
+    public ResponseEntity<Colaborador> getColaboradorByIdPeticion(@PathVariable Long id) {
+        log.debug("REST request to get Colaborador by Documento : {}", id);
+        Optional<Colaborador> colaborador = colaboradorRepository.findByIdPeticion(id);
         return ResponseUtil.wrapOrNotFound(colaborador);
     }
 
