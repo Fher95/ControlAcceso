@@ -193,6 +193,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       cargo: asignacionTurno.cargo,
       centroDeCosto: asignacionTurno.cargo.centroCosto.id
     });
+    this.setColaboradorSinAsignacion();
   }
 
   previousState() {
@@ -277,6 +278,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   setColaborador() {
     this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
     this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+  }
+
+  setColaboradorSinAsignacion() {
+    this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
   }
 
   cargarCargos() {
