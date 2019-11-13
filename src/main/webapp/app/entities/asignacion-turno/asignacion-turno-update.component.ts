@@ -23,6 +23,9 @@ import { IPlaneacionSemanal } from 'app/shared/model/planeacion-semanal.model';
 import { PlaneacionSemanalService } from 'app/entities/planeacion-semanal/planeacion-semanal.service';
 import { ICargo } from 'app/shared/model/cargo.model';
 import { CargoService } from 'app/entities/cargo/cargo.service';
+import { deepStrictEqual } from 'assert';
+import { ICentroCosto } from 'app/shared/model/centro-costo.model';
+import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
 
 @Component({
   selector: 'jhi-asignacion-turno-update',
@@ -39,9 +42,16 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
 
   colaboradors: IColaborador[];
 
+  colaboradoresSeleccionados: IColaborador[];
+
   planeacionsemanals: IPlaneacionSemanal[];
 
   cargos: ICargo[];
+  varAsignacion: IAsignacionTurno;
+
+  currentSearch: string;
+  colaboradorEncontrado: IColaborador;
+  centrocostos: ICentroCosto[];
 
   editForm = this.fb.group({
     id: [],
@@ -49,9 +59,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     turno: [],
     intercambioTurno: [],
     asistenciaPlaneacion: [],
-    colaboradors: [],
+    colaboradors: [null, [Validators.required]],
     planeacionSemanal: [],
-    cargo: []
+    cargo: [],
+    centroDeCosto: []
   });
 
   constructor(
@@ -63,6 +74,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected colaboradorService: ColaboradorService,
     protected planeacionSemanalService: PlaneacionSemanalService,
     protected cargoService: CargoService,
+    protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -72,6 +84,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ asignacionTurno }) => {
       this.updateForm(asignacionTurno);
     });
+    this.loadAllCentroCosto();
     this.turnoService
       .query({ filter: 'asignacionturno-is-null' })
       .pipe(
@@ -205,7 +218,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       turno: this.editForm.get(['turno']).value,
       intercambioTurno: this.editForm.get(['intercambioTurno']).value,
       asistenciaPlaneacion: this.editForm.get(['asistenciaPlaneacion']).value,
-      colaboradors: this.editForm.get(['colaboradors']).value,
+      //colaboradors: this.editForm.get(['colaboradors']).value,
+      colaboradors: this.colaboradoresSeleccionados,
       planeacionSemanal: this.editForm.get(['planeacionSemanal']).value,
       cargo: this.editForm.get(['cargo']).value
     };
@@ -260,5 +274,111 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       }
     }
     return option;
+  }
+
+  searchColaborador(parDocumento: string) {
+    //this.colaboradorEncontrado = undefined;
+    if (parDocumento === '') {
+      this.colaboradorService
+        .query()
+        .pipe(
+          filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+          map((response: HttpResponse<IColaborador[]>) => response.body)
+        )
+        .subscribe(
+          (res: IColaborador[]) => {
+            this.colaboradors = res;
+            this.editForm.patchValue({ colaboradors: [] });
+          },
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    } else {
+      this.colaboradorService
+        .findConPeticiones(parDocumento)
+        .pipe(
+          filter((res: HttpResponse<IColaborador>) => res.ok),
+          map((res: HttpResponse<IColaborador>) => res.body)
+        )
+        .subscribe((res: IColaborador) => {
+          this.colaboradors = [res];
+          this.colaboradorEncontrado = res;
+          this.colaboradoresSeleccionados = [res];
+          //this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
+          this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+        });
+    }
+  }
+  clear(): void {
+    this.currentSearch = '';
+  }
+
+  loadAsignacionTurno(parIdColaborador: number) {
+    this.editForm.patchValue({ id: undefined, centroDeCosto: undefined, cargo: undefined });
+    this.asignacionTurnoService
+      .findCargoColaborador(parIdColaborador)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+      )
+      .subscribe((res: IAsignacionTurno) => {
+        this.varAsignacion = res;
+        if (this.varAsignacion !== undefined) {
+          this.setAsignacionTurno(this.varAsignacion.id);
+          this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
+          this.editForm.patchValue({
+            centroDeCosto: this.varAsignacion.cargo.centroCosto.id ? this.varAsignacion.cargo.centroCosto.id : []
+          });
+        } else {
+          this.editForm.patchValue({
+            id: undefined,
+            centroDeCosto: [],
+            cargo: []
+          });
+        }
+      });
+  }
+  setAsignacionTurno(id: number) {
+    this.asignacionTurnoService
+      .find(id)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+      )
+      .subscribe(res => {
+        this.updateForm(res);
+      });
+  }
+
+  loadCargosCentroCostoId(parId: number) {
+    this.cargoService
+      .findCargosCentroCosto(parId)
+      .pipe(
+        filter((res: HttpResponse<ICargo[]>) => res.ok),
+        map((res: HttpResponse<ICargo[]>) => res.body)
+      )
+      .subscribe((res: ICargo[]) => {
+        this.cargos = res;
+      });
+  }
+
+  setColaboradorSeleccionado(): void {
+    this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value;
+    this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
+    this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+    this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
+  }
+
+  cargarCargos() {
+    this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+  }
+
+  loadAllCentroCosto() {
+    this.centroCostoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICentroCosto[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICentroCosto[]>) => response.body)
+      )
+      .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 }

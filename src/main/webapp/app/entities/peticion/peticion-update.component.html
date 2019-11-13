@@ -28,15 +28,16 @@
                         </form>
                     </div>
                 </div>
-                <p>Colaboradores con peticiones {{this.contador}}</p>
+
                 <div *ngIf="colaboradorEncontrado !== undefined" class="border rounded shadow p-4 my-3">
                     <h4>Datos Colaborador</h4>
                     <div class="form-row">
 
                         <div class="col-3">
-                            <dt><span>Tipo Documento</span></dt>
+                            <dt><span>Documento</span></dt>
                             <dd>
-                                <span>{{colaboradorEncontrado.tipoDocumento}}</span>
+                                <span>{{colaboradorEncontrado.tipoDocumento}}</span><br>
+                                <span>{{colaboradorEncontrado.numeroDocumento}}</span>
                             </dd>
                         </div>
                         <div class="col-3">
