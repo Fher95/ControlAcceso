@@ -23,6 +23,8 @@ import { IPlaneacionSemanal } from 'app/shared/model/planeacion-semanal.model';
 import { PlaneacionSemanalService } from 'app/entities/planeacion-semanal/planeacion-semanal.service';
 import { ICargo } from 'app/shared/model/cargo.model';
 import { CargoService } from 'app/entities/cargo/cargo.service';
+import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
+import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 
 @Component({
   selector: 'jhi-asignacion-turno-update',
@@ -39,9 +41,15 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
 
   colaboradors: IColaborador[];
 
+  colaboradorEncontrado: IColaborador;
+
   planeacionsemanals: IPlaneacionSemanal[];
 
   cargos: ICargo[];
+
+  varAsignacion: IAsignacionTurno;
+
+  centrocostos: ICentroCosto[];
 
   editForm = this.fb.group({
     id: [],
@@ -51,7 +59,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     asistenciaPlaneacion: [],
     colaboradors: [],
     planeacionSemanal: [],
-    cargo: []
+    cargo: [],
+    centroDeCosto: []
   });
 
   constructor(
@@ -63,6 +72,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected colaboradorService: ColaboradorService,
     protected planeacionSemanalService: PlaneacionSemanalService,
     protected cargoService: CargoService,
+    protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -72,6 +82,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ asignacionTurno }) => {
       this.updateForm(asignacionTurno);
     });
+    this.loadCentrosCosto();
     this.turnoService
       .query({ filter: 'asignacionturno-is-null' })
       .pipe(
@@ -179,7 +190,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       asistenciaPlaneacion: asignacionTurno.asistenciaPlaneacion,
       colaboradors: asignacionTurno.colaboradors,
       planeacionSemanal: asignacionTurno.planeacionSemanal,
-      cargo: asignacionTurno.cargo
+      cargo: asignacionTurno.cargo,
+      centroDeCosto: asignacionTurno.cargo.centroCosto.id
     });
   }
 
@@ -260,5 +272,57 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       }
     }
     return option;
+  }
+
+  setColaborador() {
+    this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
+    this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+  }
+
+  cargarCargos() {
+    this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+  }
+
+  loadAsignacionTurno(parIdColaborador: number) {
+    this.asignacionTurnoService
+      .findCargoColaborador(parIdColaborador)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+      )
+      .subscribe((res: IAsignacionTurno) => {
+        this.varAsignacion = res;
+        this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
+        this.editForm.patchValue({
+          centroDeCosto: this.varAsignacion.cargo.centroCosto.id,
+          cargo: this.varAsignacion.cargo
+        });
+      });
+  }
+  setCentroCosto() {
+    //const centroCosto: ICentroCosto = (this.editForm.get(['cargo']).value).centroCosto;
+    this.editForm.patchValue({ centroDeCosto: 2 });
+  }
+
+  loadCargosCentroCostoId(parId: number) {
+    this.cargoService
+      .findCargosCentroCosto(parId)
+      .pipe(
+        filter((res: HttpResponse<ICargo[]>) => res.ok),
+        map((res: HttpResponse<ICargo[]>) => res.body)
+      )
+      .subscribe((res: ICargo[]) => {
+        this.cargos = res;
+      });
+  }
+
+  loadCentrosCosto() {
+    this.centroCostoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICentroCosto[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICentroCosto[]>) => response.body)
+      )
+      .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 }
