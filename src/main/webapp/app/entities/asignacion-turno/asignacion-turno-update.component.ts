@@ -62,6 +62,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     cargo: [],
     centroDeCosto: []
   });
+  currentSearch: string;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -203,7 +204,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   save() {
     this.isSaving = true;
     const asignacionTurno = this.createFromForm();
-    if (asignacionTurno.id !== undefined) {
+    if (asignacionTurno.id !== null) {
       this.subscribeToSaveResponse(this.asignacionTurnoService.update(asignacionTurno));
     } else {
       this.subscribeToSaveResponse(this.asignacionTurnoService.create(asignacionTurno));
@@ -329,5 +330,14 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  searchColaborador() {
+    this.colaboradors.forEach(element => {
+      if (element.numeroDocumento === this.currentSearch) {
+        this.colaboradorEncontrado = element;
+        this.editForm.patchValue({ colaboradors: [element] });
+      }
+    });
   }
 }
