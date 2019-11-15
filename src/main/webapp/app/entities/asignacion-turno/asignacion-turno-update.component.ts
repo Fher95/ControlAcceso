@@ -192,10 +192,15 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       asistenciaPlaneacion: asignacionTurno.asistenciaPlaneacion,
       colaboradors: asignacionTurno.colaboradors,
       planeacionSemanal: asignacionTurno.planeacionSemanal,
-      cargo: asignacionTurno.cargo
+      cargo: asignacionTurno.cargo,
+      centroDeCosto: undefined
     });
     if (this.editForm.get(['colaboradors']).value !== undefined) {
       this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
+    }
+    if (this.editForm.get(['cargo']).value !== undefined) {
+      const idCentro = this.editForm.get(['cargo']).value.centroCosto.id;
+      this.editForm.patchValue({ centroDeCosto: idCentro });
     }
   }
 
