@@ -194,6 +194,9 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       planeacionSemanal: asignacionTurno.planeacionSemanal,
       cargo: asignacionTurno.cargo
     });
+    if (this.editForm.get(['colaboradors']).value !== undefined) {
+      this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
+    }
   }
 
   previousState() {
@@ -218,8 +221,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       turno: this.editForm.get(['turno']).value,
       intercambioTurno: this.editForm.get(['intercambioTurno']).value,
       asistenciaPlaneacion: this.editForm.get(['asistenciaPlaneacion']).value,
-      //colaboradors: this.editForm.get(['colaboradors']).value,
-      colaboradors: this.colaboradoresSeleccionados,
+      colaboradors: this.editForm.get(['colaboradors']).value,
       planeacionSemanal: this.editForm.get(['planeacionSemanal']).value,
       cargo: this.editForm.get(['cargo']).value
     };
@@ -373,10 +375,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   }
 
   setColaboradorSeleccionado(): void {
-    this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value;
-    this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
-    this.loadAsignacionTurno(this.colaboradorEncontrado.id);
-    this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
+    this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
+    //this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
+    //this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+    //this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
   }
 
   cargarCargos() {
