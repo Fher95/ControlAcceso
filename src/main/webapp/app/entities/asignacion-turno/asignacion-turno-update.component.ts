@@ -277,7 +277,17 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   }
 
   searchColaborador(parDocumento: string) {
+    if (parDocumento === '') {
+      this.colaboradorEncontrado = undefined;
+    }
+    this.colaboradors.forEach(element => {
+      if (element.numeroDocumento === parDocumento) {
+        this.colaboradorEncontrado = element;
+        this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
+      }
+    });
     //this.colaboradorEncontrado = undefined;
+    /*
     if (parDocumento === '') {
       this.colaboradorService
         .query()
@@ -307,6 +317,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
           this.loadAsignacionTurno(this.colaboradorEncontrado.id);
         });
     }
+    */
   }
   clear(): void {
     this.currentSearch = '';
