@@ -10,6 +10,8 @@
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
+
+                <div class = "border rounded shadow p-4 my-3">
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.fecha"
                         for="field_fecha">Fecha</label>
@@ -19,7 +21,8 @@
                     </div>
                 </div>
 
-                <div class="row my-4">
+
+                <div class="row my-3">
                     <div class="col-sm-12">
                         <form name="searchForm" class="form-inline">
                             <div class="input-group w-100 mt-3">
@@ -53,7 +56,7 @@
                         </option>
                     </select>
                 </div>   
-                             
+            </div>
                 <div *ngIf="colaboradorEncontrado !== undefined" class="border rounded shadow p-4 my-3">
                     <h4>Datos Colaborador</h4>
                     <div class="form-row">

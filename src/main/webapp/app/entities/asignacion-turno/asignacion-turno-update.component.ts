@@ -286,6 +286,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   searchColaborador(parDocumento: string) {
     if (parDocumento === '') {
       this.colaboradorEncontrado = undefined;
+      this.editForm.patchValue({ colaboradors: [] });
     }
     this.colaboradors.forEach(element => {
       if (element.numeroDocumento === parDocumento) {
@@ -293,7 +294,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
       }
     });
-    //this.colaboradorEncontrado = undefined;
+    // this.colaboradorEncontrado = undefined;
     /*
     if (parDocumento === '') {
       this.colaboradorService
@@ -381,9 +382,9 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
 
   setColaboradorSeleccionado(): void {
     this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
-    //this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
-    //this.loadAsignacionTurno(this.colaboradorEncontrado.id);
-    //this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
+    // this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
+    // this.loadAsignacionTurno(this.colaboradorEncontrado.id);
+    this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
   }
 
   cargarCargos() {
