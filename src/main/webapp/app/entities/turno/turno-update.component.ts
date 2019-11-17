@@ -62,10 +62,10 @@ export class TurnoUpdateComponent implements OnInit {
   }
 
   save() {
-    this.dtHoraInicio.setFullYear(1, 0, 1);
+    this.dtHoraInicio.setFullYear(2012, 12, 12);
     this.dtHoraInicio.setSeconds(0);
-    this.dtHoraUmbral.setFullYear(1, 0, 1);
-    this.dtHoraUmbral.setSeconds(0);
+    this.dtHoraUmbral.setFullYear(2012, 12, 12);
+    this.dtHoraUmbral.setSeconds(0, 0);
     if (this.editForm.get(['tipo']).value === 'NoLaboral') {
       this.dtHoraInicio.setHours(0, 0);
       this.dtHoraUmbral.setHours(0, 0);
@@ -86,8 +86,7 @@ export class TurnoUpdateComponent implements OnInit {
       tipo: this.editForm.get(['tipo']).value,
       nombre: this.editForm.get(['nombre']).value,
       descripcion: this.editForm.get(['descripcion']).value,
-      horaInicio:
-        this.editForm.get(['horaInicio']).value != null ? moment(this.editForm.get(['horaInicio']).value, DATE_TIME_FORMAT) : undefined,
+      horaInicio: this.editForm.get(['horaInicio']).value != null ? this.convertirFecha(this.dtHoraInicio) : undefined,
       umbralInicio:
         this.editForm.get(['umbralInicio']).value != null ? moment(this.editForm.get(['umbralInicio']).value, DATE_TIME_FORMAT) : undefined,
       duracion: this.editForm.get(['duracion']).value,
@@ -107,5 +106,10 @@ export class TurnoUpdateComponent implements OnInit {
 
   protected onSaveError() {
     this.isSaving = false;
+  }
+  convertirFecha(parFecha: Date): moment.Moment {
+    const strFecha = '2012-12-12 ' + parFecha.getHours() + ':' + parFecha.getMinutes();
+    const varMoment = moment(strFecha);
+    return varMoment;
   }
 }

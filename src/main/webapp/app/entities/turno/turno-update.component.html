@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <!------------------------------------------------------------------------------------------->
-                <div *ngIf="esLaboral" class="border rounded px-4 py-3 my-4 shadow">
+                <div *ngIf="this.editForm.get(['tipo']).value === 'Laboral'" class="border rounded px-4 py-3 my-4 shadow">
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.horaInicio"
@@ -98,6 +98,7 @@
 
                     </div>
                 </div>
+                <p>Contenido de horInicia: {{this.editForm.get(['horaInicio']).value}}</p>
                 <!------------------------------------------------------------------------------------>
             </div>
             <div>
