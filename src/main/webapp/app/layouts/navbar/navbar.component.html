@@ -57,7 +57,7 @@
                             <span jhiTranslate="global.menu.entities.colaborador">Colaborador</span>
                         </a>
                     </li>
-                    <li>
+                    <li hidden="true">
                         <a class="dropdown-item" routerLink="telefono" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.telefono">Telefono</span>
@@ -99,7 +99,7 @@
                             <span jhiTranslate="global.menu.entities.asistencia">Asistencia</span>
                         </a>
                     </li>
-                    <li hidden="true">
+                    <li >
                         <a class="dropdown-item" routerLink="asistencia-planeacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.asistenciaPlaneacion">Asistencia Planeacion</span>
