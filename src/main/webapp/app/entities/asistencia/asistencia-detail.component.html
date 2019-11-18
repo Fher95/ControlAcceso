@@ -53,12 +53,6 @@
                 <dd>
                     <span>{{asistencia.minutosTrabajados}}</span>
                 </dd>
-                <dt><span jhiTranslate="controlAccesoApp.asistencia.asistenciaPlaneacion">Asistencia Planeacion</span></dt>
-                <dd>
-                    <div *ngIf="asistencia.asistenciaPlaneacion">
-                        <a [routerLink]="['/asistencia-planeacion', asistencia.asistenciaPlaneacion?.id, 'view']">{{asistencia.asistenciaPlaneacion?.id}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

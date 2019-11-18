@@ -179,7 +179,7 @@ relationship OneToOne {
     AsignacionTurno{turno(nombre)} to Turno
     AsignacionTurno to IntercambioTurno
     AsignacionTurno to AsistenciaPlaneacion
-    Asistencia to AsistenciaPlaneacion
+    AsistenciaPlaneacion to Asistencia
     AsignacionHorasExtras to AsistenciaHorasExtras
 
 }

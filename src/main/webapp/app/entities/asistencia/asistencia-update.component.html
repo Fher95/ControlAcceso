@@ -73,13 +73,6 @@
                            formControlName="minutosTrabajados"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistencia.asistenciaPlaneacion" for="field_asistenciaPlaneacion">Asistencia Planeacion</label>
-                    <select class="form-control" id="field_asistenciaPlaneacion" name="asistenciaPlaneacion" formControlName="asistenciaPlaneacion">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="asistenciaPlaneacionOption.id === editForm.get('asistenciaPlaneacion').value?.id ? editForm.get('asistenciaPlaneacion').value : asistenciaPlaneacionOption" *ngFor="let asistenciaPlaneacionOption of asistenciaplaneacions; trackBy: trackAsistenciaPlaneacionById">{{asistenciaPlaneacionOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

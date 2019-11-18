@@ -1,19 +1,19 @@
-import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { IAsistencia } from 'app/shared/model/asistencia.model';
+import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 
 export interface IAsistenciaPlaneacion {
   id?: number;
-  asignacionTurno?: IAsignacionTurno;
   asistencia?: IAsistencia;
+  asignacionTurno?: IAsignacionTurno;
   colaborador?: IColaborador;
 }
 
 export class AsistenciaPlaneacion implements IAsistenciaPlaneacion {
   constructor(
     public id?: number,
-    public asignacionTurno?: IAsignacionTurno,
     public asistencia?: IAsistencia,
+    public asignacionTurno?: IAsignacionTurno,
     public colaborador?: IColaborador
   ) {}
 }

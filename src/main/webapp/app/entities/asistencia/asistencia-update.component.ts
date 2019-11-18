@@ -36,8 +36,7 @@ export class AsistenciaUpdateComponent implements OnInit {
     sinEntrada: [],
     sinSalida: [],
     ausente: [],
-    minutosTrabajados: [],
-    asistenciaPlaneacion: []
+    minutosTrabajados: []
   });
 
   constructor(
@@ -54,28 +53,13 @@ export class AsistenciaUpdateComponent implements OnInit {
       this.updateForm(asistencia);
     });
     this.asistenciaPlaneacionService
-      .query({ filter: 'asistencia-is-null' })
+      .query()
       .pipe(
         filter((mayBeOk: HttpResponse<IAsistenciaPlaneacion[]>) => mayBeOk.ok),
         map((response: HttpResponse<IAsistenciaPlaneacion[]>) => response.body)
       )
       .subscribe(
-        (res: IAsistenciaPlaneacion[]) => {
-          if (!this.editForm.get('asistenciaPlaneacion').value || !this.editForm.get('asistenciaPlaneacion').value.id) {
-            this.asistenciaplaneacions = res;
-          } else {
-            this.asistenciaPlaneacionService
-              .find(this.editForm.get('asistenciaPlaneacion').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IAsistenciaPlaneacion>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAsistenciaPlaneacion>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IAsistenciaPlaneacion) => (this.asistenciaplaneacions = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
+        (res: IAsistenciaPlaneacion[]) => (this.asistenciaplaneacions = res),
         (res: HttpErrorResponse) => this.onError(res.message)
       );
   }
@@ -94,8 +78,7 @@ export class AsistenciaUpdateComponent implements OnInit {
       sinEntrada: asistencia.sinEntrada,
       sinSalida: asistencia.sinSalida,
       ausente: asistencia.ausente,
-      minutosTrabajados: asistencia.minutosTrabajados,
-      asistenciaPlaneacion: asistencia.asistenciaPlaneacion
+      minutosTrabajados: asistencia.minutosTrabajados
     });
   }
 
@@ -128,8 +111,7 @@ export class AsistenciaUpdateComponent implements OnInit {
       sinEntrada: this.editForm.get(['sinEntrada']).value,
       sinSalida: this.editForm.get(['sinSalida']).value,
       ausente: this.editForm.get(['ausente']).value,
-      minutosTrabajados: this.editForm.get(['minutosTrabajados']).value,
-      asistenciaPlaneacion: this.editForm.get(['asistenciaPlaneacion']).value
+      minutosTrabajados: this.editForm.get(['minutosTrabajados']).value
     };
   }
 

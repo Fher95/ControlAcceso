@@ -23,13 +23,13 @@ public class AsistenciaPlaneacion implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @OneToOne(mappedBy = "asistenciaPlaneacion")
-    @JsonIgnore
-    private AsignacionTurno asignacionTurno;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Asistencia asistencia;
 
     @OneToOne(mappedBy = "asistenciaPlaneacion")
     @JsonIgnore
-    private Asistencia asistencia;
+    private AsignacionTurno asignacionTurno;
 
     @ManyToOne
     @JsonIgnoreProperties("asistenciaPlaneacions")
@@ -44,19 +44,6 @@ public class AsistenciaPlaneacion implements Serializable {
         this.id = id;
     }
 
-    public AsignacionTurno getAsignacionTurno() {
-        return asignacionTurno;
-    }
-
-    public AsistenciaPlaneacion asignacionTurno(AsignacionTurno asignacionTurno) {
-        this.asignacionTurno = asignacionTurno;
-        return this;
-    }
-
-    public void setAsignacionTurno(AsignacionTurno asignacionTurno) {
-        this.asignacionTurno = asignacionTurno;
-    }
-
     public Asistencia getAsistencia() {
         return asistencia;
     }
@@ -68,6 +55,19 @@ public class AsistenciaPlaneacion implements Serializable {
 
     public void setAsistencia(Asistencia asistencia) {
         this.asistencia = asistencia;
+    }
+
+    public AsignacionTurno getAsignacionTurno() {
+        return asignacionTurno;
+    }
+
+    public AsistenciaPlaneacion asignacionTurno(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno = asignacionTurno;
+        return this;
+    }
+
+    public void setAsignacionTurno(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno = asignacionTurno;
     }
 
     public Colaborador getColaborador() {

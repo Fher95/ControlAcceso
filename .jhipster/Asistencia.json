@@ -56,8 +56,7 @@
             "otherEntityName": "asistenciaPlaneacion",
             "otherEntityRelationshipName": "asistencia",
             "relationshipName": "asistenciaPlaneacion",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "ownerSide": false
         }
     ],
     "changelogDate": "20191029212439",

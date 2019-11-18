@@ -96,13 +96,6 @@ public class AsistenciaPlaneacionResource {
                 .filter(asistenciaPlaneacion -> asistenciaPlaneacion.getAsignacionTurno() == null)
                 .collect(Collectors.toList());
         }
-        if ("asistencia-is-null".equals(filter)) {
-            log.debug("REST request to get all AsistenciaPlaneacions where asistencia is null");
-            return StreamSupport
-                .stream(asistenciaPlaneacionRepository.findAll().spliterator(), false)
-                .filter(asistenciaPlaneacion -> asistenciaPlaneacion.getAsistencia() == null)
-                .collect(Collectors.toList());
-        }
         log.debug("REST request to get all AsistenciaPlaneacions");
         return asistenciaPlaneacionRepository.findAll();
     }

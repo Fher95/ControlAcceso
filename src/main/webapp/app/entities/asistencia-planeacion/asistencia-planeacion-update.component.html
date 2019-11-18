@@ -11,6 +11,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia" for="field_asistencia">Asistencia</label>
+                    <select class="form-control" id="field_asistencia" name="asistencia" formControlName="asistencia">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="asistenciaOption.id === editForm.get('asistencia').value?.id ? editForm.get('asistencia').value : asistenciaOption" *ngFor="let asistenciaOption of asistencias; trackBy: trackAsistenciaById">{{asistenciaOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador" for="field_colaborador">Colaborador</label>
                     <select class="form-control" id="field_colaborador" name="colaborador" formControlName="colaborador">
                         <option [ngValue]="null"></option>

@@ -1,4 +1,5 @@
 package empaques.controlacceso.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -58,8 +59,8 @@ public class Asistencia implements Serializable {
     @Column(name = "minutos_trabajados")
     private Integer minutosTrabajados;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(mappedBy = "asistencia")
+    @JsonIgnore
     private AsistenciaPlaneacion asistenciaPlaneacion;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

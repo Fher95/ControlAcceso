@@ -5,6 +5,12 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span></dt>
+                <dd>
+                    <div *ngIf="asistenciaPlaneacion.asistencia">
+                        <a [routerLink]="['/asistencia', asistenciaPlaneacion.asistencia?.id, 'view']">{{asistenciaPlaneacion.asistencia?.id}}</a>
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span></dt>
                 <dd>
                     <div *ngIf="asistenciaPlaneacion.colaborador">

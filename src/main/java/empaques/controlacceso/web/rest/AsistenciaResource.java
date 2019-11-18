@@ -23,6 +23,8 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.Asistencia}.
@@ -90,10 +92,18 @@ public class AsistenciaResource {
 
      * @param pageable the pagination information.
 
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of asistencias in body.
      */
     @GetMapping("/asistencias")
-    public ResponseEntity<List<Asistencia>> getAllAsistencias(Pageable pageable) {
+    public ResponseEntity<List<Asistencia>> getAllAsistencias(Pageable pageable, @RequestParam(required = false) String filter) {
+        if ("asistenciaplaneacion-is-null".equals(filter)) {
+            log.debug("REST request to get all Asistencias where asistenciaPlaneacion is null");
+            return new ResponseEntity<>(StreamSupport
+                .stream(asistenciaRepository.findAll().spliterator(), false)
+                .filter(asistencia -> asistencia.getAsistenciaPlaneacion() == null)
+                .collect(Collectors.toList()), HttpStatus.OK);
+        }
         log.debug("REST request to get a page of Asistencias");
         Page<Asistencia> page = asistenciaRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

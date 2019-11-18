@@ -30,7 +30,6 @@
             <th jhiSortBy="sinSalida"><span jhiTranslate="controlAccesoApp.asistencia.sinSalida">Sin Salida</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="ausente"><span jhiTranslate="controlAccesoApp.asistencia.ausente">Ausente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="minutosTrabajados"><span jhiTranslate="controlAccesoApp.asistencia.minutosTrabajados">Minutos Trabajados</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="asistenciaPlaneacion.id"><span jhiTranslate="controlAccesoApp.asistencia.asistenciaPlaneacion">Asistencia Planeacion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -49,11 +48,6 @@
                 <td>{{asistencia.sinSalida}}</td>
                 <td>{{asistencia.ausente}}</td>
                 <td>{{asistencia.minutosTrabajados}}</td>
-                <td>
-                    <div *ngIf="asistencia.asistenciaPlaneacion">
-                        <a [routerLink]="['/asistencia-planeacion', asistencia.asistenciaPlaneacion?.id, 'view' ]" >{{asistencia.asistenciaPlaneacion?.id}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

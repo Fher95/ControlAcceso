@@ -4,16 +4,17 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "otherEntityName": "asignacionTurno",
-            "otherEntityRelationshipName": "asistenciaPlaneacion",
-            "relationshipName": "asignacionTurno",
-            "ownerSide": false
-        },
-        {
-            "relationshipType": "one-to-one",
             "otherEntityName": "asistencia",
             "otherEntityRelationshipName": "asistenciaPlaneacion",
             "relationshipName": "asistencia",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "asistenciaPlaneacion",
+            "relationshipName": "asignacionTurno",
             "ownerSide": false
         },
         {

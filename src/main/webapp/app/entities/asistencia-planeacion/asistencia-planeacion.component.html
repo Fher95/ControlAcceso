@@ -18,6 +18,7 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span></th>
             <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span></th>
             <th></th>
             </tr>
@@ -25,6 +26,11 @@
             <tbody>
             <tr *ngFor="let asistenciaPlaneacion of asistenciaPlaneacions ;trackBy: trackId">
                 <td><a [routerLink]="['/asistencia-planeacion', asistenciaPlaneacion.id, 'view' ]">{{asistenciaPlaneacion.id}}</a></td>
+                <td>
+                    <div *ngIf="asistenciaPlaneacion.asistencia">
+                        <a [routerLink]="['/asistencia', asistenciaPlaneacion.asistencia?.id, 'view' ]" >{{asistenciaPlaneacion.asistencia?.id}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="asistenciaPlaneacion.colaborador">
                         <a [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]" >{{asistenciaPlaneacion.colaborador?.id}}</a>
