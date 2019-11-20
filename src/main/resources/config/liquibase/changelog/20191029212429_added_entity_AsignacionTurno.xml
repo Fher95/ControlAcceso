@@ -24,9 +24,6 @@
             <column name="intercambio_turno_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_asignacion_turno_intercambio_turno_id" />
             </column>
-            <column name="asistencia_planeacion_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_asignacion_turno_asistencia_planeacion_id" />
-            </column>
             <column name="planeacion_semanal_id" type="bigint">
                 <constraints nullable="true" />
             </column>

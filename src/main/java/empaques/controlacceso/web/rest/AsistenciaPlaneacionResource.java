@@ -17,8 +17,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.AsistenciaPlaneacion}.
@@ -84,18 +82,10 @@ public class AsistenciaPlaneacionResource {
      * {@code GET  /asistencia-planeacions} : get all the asistenciaPlaneacions.
      *
 
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of asistenciaPlaneacions in body.
      */
     @GetMapping("/asistencia-planeacions")
-    public List<AsistenciaPlaneacion> getAllAsistenciaPlaneacions(@RequestParam(required = false) String filter) {
-        if ("asignacionturno-is-null".equals(filter)) {
-            log.debug("REST request to get all AsistenciaPlaneacions where asignacionTurno is null");
-            return StreamSupport
-                .stream(asistenciaPlaneacionRepository.findAll().spliterator(), false)
-                .filter(asistenciaPlaneacion -> asistenciaPlaneacion.getAsignacionTurno() == null)
-                .collect(Collectors.toList());
-        }
+    public List<AsistenciaPlaneacion> getAllAsistenciaPlaneacions() {
         log.debug("REST request to get all AsistenciaPlaneacions");
         return asistenciaPlaneacionRepository.findAll();
     }

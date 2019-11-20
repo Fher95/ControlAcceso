@@ -9,10 +9,10 @@ import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IAsistenciaPlaneacion, AsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
 import { AsistenciaPlaneacionService } from './asistencia-planeacion.service';
-import { IAsistencia } from 'app/shared/model/asistencia.model';
-import { AsistenciaService } from 'app/entities/asistencia/asistencia.service';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion-turno.service';
+import { IAsistencia } from 'app/shared/model/asistencia.model';
+import { AsistenciaService } from 'app/entities/asistencia/asistencia.service';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
 
@@ -23,14 +23,15 @@ import { ColaboradorService } from 'app/entities/colaborador/colaborador.service
 export class AsistenciaPlaneacionUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  asistencias: IAsistencia[];
-
   asignacionturnos: IAsignacionTurno[];
+
+  asistencias: IAsistencia[];
 
   colaboradors: IColaborador[];
 
   editForm = this.fb.group({
     id: [],
+    asignacionTurno: [],
     asistencia: [],
     colaborador: []
   });
@@ -38,8 +39,8 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
-    protected asistenciaService: AsistenciaService,
     protected asignacionTurnoService: AsignacionTurnoService,
+    protected asistenciaService: AsistenciaService,
     protected colaboradorService: ColaboradorService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -50,6 +51,31 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ asistenciaPlaneacion }) => {
       this.updateForm(asistenciaPlaneacion);
     });
+    this.asignacionTurnoService
+      .query({ filter: 'asistenciaplaneacion-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
+      )
+      .subscribe(
+        (res: IAsignacionTurno[]) => {
+          if (!this.editForm.get('asignacionTurno').value || !this.editForm.get('asignacionTurno').value.id) {
+            this.asignacionturnos = res;
+          } else {
+            this.asignacionTurnoService
+              .find(this.editForm.get('asignacionTurno').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IAsignacionTurno>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IAsignacionTurno) => (this.asignacionturnos = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.asistenciaService
       .query({ filter: 'asistenciaplaneacion-is-null' })
       .pipe(
@@ -75,13 +101,6 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
-    this.asignacionTurnoService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
-      )
-      .subscribe((res: IAsignacionTurno[]) => (this.asignacionturnos = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.colaboradorService
       .query()
       .pipe(
@@ -94,6 +113,7 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
   updateForm(asistenciaPlaneacion: IAsistenciaPlaneacion) {
     this.editForm.patchValue({
       id: asistenciaPlaneacion.id,
+      asignacionTurno: asistenciaPlaneacion.asignacionTurno,
       asistencia: asistenciaPlaneacion.asistencia,
       colaborador: asistenciaPlaneacion.colaborador
     });
@@ -117,6 +137,7 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
     return {
       ...new AsistenciaPlaneacion(),
       id: this.editForm.get(['id']).value,
+      asignacionTurno: this.editForm.get(['asignacionTurno']).value,
       asistencia: this.editForm.get(['asistencia']).value,
       colaborador: this.editForm.get(['colaborador']).value
     };
@@ -138,11 +159,11 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackAsistenciaById(index: number, item: IAsistencia) {
+  trackAsignacionTurnoById(index: number, item: IAsignacionTurno) {
     return item.id;
   }
 
-  trackAsignacionTurnoById(index: number, item: IAsignacionTurno) {
+  trackAsistenciaById(index: number, item: IAsistencia) {
     return item.id;
   }
 

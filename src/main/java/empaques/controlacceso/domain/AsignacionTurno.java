@@ -1,4 +1,5 @@
 package empaques.controlacceso.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -36,16 +37,16 @@ public class AsignacionTurno implements Serializable {
     @JoinColumn(unique = true)
     private IntercambioTurno intercambioTurno;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private AsistenciaPlaneacion asistenciaPlaneacion;
-
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "asignacion_turno_colaborador",
                joinColumns = @JoinColumn(name = "asignacion_turno_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"))
     private Set<Colaborador> colaboradors = new HashSet<>();
+
+    @OneToOne(mappedBy = "asignacionTurno")
+    @JsonIgnore
+    private AsistenciaPlaneacion asistenciaPlaneacion;
 
     @ManyToOne
     @JsonIgnoreProperties("asignacionTurnos")
@@ -103,19 +104,6 @@ public class AsignacionTurno implements Serializable {
         this.intercambioTurno = intercambioTurno;
     }
 
-    public AsistenciaPlaneacion getAsistenciaPlaneacion() {
-        return asistenciaPlaneacion;
-    }
-
-    public AsignacionTurno asistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
-        this.asistenciaPlaneacion = asistenciaPlaneacion;
-        return this;
-    }
-
-    public void setAsistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
-        this.asistenciaPlaneacion = asistenciaPlaneacion;
-    }
-
     public Set<Colaborador> getColaboradors() {
         return colaboradors;
     }
@@ -139,6 +127,19 @@ public class AsignacionTurno implements Serializable {
 
     public void setColaboradors(Set<Colaborador> colaboradors) {
         this.colaboradors = colaboradors;
+    }
+
+    public AsistenciaPlaneacion getAsistenciaPlaneacion() {
+        return asistenciaPlaneacion;
+    }
+
+    public AsignacionTurno asistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
+        this.asistenciaPlaneacion = asistenciaPlaneacion;
+        return this;
+    }
+
+    public void setAsistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
+        this.asistenciaPlaneacion = asistenciaPlaneacion;
     }
 
     public PlaneacionSemanal getPlaneacionSemanal() {

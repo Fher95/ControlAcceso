@@ -17,6 +17,8 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.AsignacionTurno}.
@@ -82,10 +84,18 @@ public class AsignacionTurnoResource {
      * {@code GET  /asignacion-turnos} : get all the asignacionTurnos.
      *
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of asignacionTurnos in body.
      */
     @GetMapping("/asignacion-turnos")
-    public List<AsignacionTurno> getAllAsignacionTurnos(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<AsignacionTurno> getAllAsignacionTurnos(@RequestParam(required = false) String filter,@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        if ("asistenciaplaneacion-is-null".equals(filter)) {
+            log.debug("REST request to get all AsignacionTurnos where asistenciaPlaneacion is null");
+            return StreamSupport
+                .stream(asignacionTurnoRepository.findAll().spliterator(), false)
+                .filter(asignacionTurno -> asignacionTurno.getAsistenciaPlaneacion() == null)
+                .collect(Collectors.toList());
+        }
         log.debug("REST request to get all AsignacionTurnos");
         return asignacionTurnoRepository.findAllWithEagerRelationships();
     }
@@ -103,13 +113,6 @@ public class AsignacionTurnoResource {
         return ResponseUtil.wrapOrNotFound(asignacionTurno);
     }
 
-    @GetMapping("/asignacion-turnos/colaborador/{id}")
-    public ResponseEntity<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
-        log.debug("REST request to get AsignacionTurno : {}", id);
-        Optional<AsignacionTurno> asignacionTurno = asignacionTurnoRepository.findCargoColaborador(id);
-        return ResponseUtil.wrapOrNotFound(asignacionTurno);
-    }
-
     /**
      * {@code DELETE  /asignacion-turnos/:id} : delete the "id" asignacionTurno.
      *
@@ -121,5 +124,13 @@ public class AsignacionTurnoResource {
         log.debug("REST request to delete AsignacionTurno : {}", id);
         asignacionTurnoRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    /* Nuevos metodos */
+    @GetMapping("/asignacion-turnos/colaborador/{id}")
+    public ResponseEntity<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
+        log.debug("REST request to get AsignacionTurno : {}", id);
+        Optional<AsignacionTurno> asignacionTurno = asignacionTurnoRepository.findCargoColaborador(id);
+        return ResponseUtil.wrapOrNotFound(asignacionTurno);
     }
 }

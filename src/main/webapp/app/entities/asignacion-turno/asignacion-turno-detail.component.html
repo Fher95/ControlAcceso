@@ -7,34 +7,12 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.fecha">Fecha</span></dt>
                 <dd>
-                    <span>{{asignacionTurno.fecha | date: "mediumDate"}}</span>
+                    <span>{{asignacionTurno.fecha}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.turno">Turno</span></dt>
                 <dd>
                     <div *ngIf="asignacionTurno.turno">
                         <a [routerLink]="['/turno', asignacionTurno.turno?.id, 'view']">{{asignacionTurno.turno?.nombre}}</a>
-                    </div>
-                </dd>
-                
-                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.colaborador">Colaborador</span></dt>
-                <dd>
-                    <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
-                        <a [routerLink]="['/colaborador', colaborador?.id, 'view' ]">{{colaborador.nombre1+" "+colaborador.nombre2
-                        +" "+ colaborador.apellido1+" "+colaborador.apellido2}}</a>{{last ? '' : ', '}}
-                    </span>
-                </dd>
-                
-                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.cargo">Cargo</span></dt>
-                <dd>
-                    <div *ngIf="asignacionTurno.cargo">
-                        <a [routerLink]="['/cargo', asignacionTurno.cargo?.id, 'view']">{{asignacionTurno.cargo?.nombre}}</a>
-                    </div>
-                </dd>
-
-                <!--dt><span jhiTranslate="controlAccesoApp.asignacionTurno.planeacionSemanal">Planeacion Semanal</span></dt>
-                <dd>
-                    <div *ngIf="asignacionTurno.planeacionSemanal">
-                        <a [routerLink]="['/planeacion-semanal', asignacionTurno.planeacionSemanal?.id, 'view']">{{asignacionTurno.planeacionSemanal?.id}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno">Intercambio Turno</span></dt>
@@ -43,13 +21,24 @@
                         <a [routerLink]="['/intercambio-turno', asignacionTurno.intercambioTurno?.id, 'view']">{{asignacionTurno.intercambioTurno?.id}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.asistenciaPlaneacion">Asistencia Planeacion</span></dt>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.colaborador">Colaborador</span></dt>
                 <dd>
-                    <div *ngIf="asignacionTurno.asistenciaPlaneacion">
-                        <a [routerLink]="['/asistencia-planeacion', asignacionTurno.asistenciaPlaneacion?.id, 'view']">{{asignacionTurno.asistenciaPlaneacion?.id}}</a>
+                    <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
+                        <a [routerLink]="['/colaborador', colaborador?.id, 'view' ]">{{colaborador.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.planeacionSemanal">Planeacion Semanal</span></dt>
+                <dd>
+                    <div *ngIf="asignacionTurno.planeacionSemanal">
+                        <a [routerLink]="['/planeacion-semanal', asignacionTurno.planeacionSemanal?.id, 'view']">{{asignacionTurno.planeacionSemanal?.id}}</a>
                     </div>
-                </dd-->
-
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.asignacionTurno.cargo">Cargo</span></dt>
+                <dd>
+                    <div *ngIf="asignacionTurno.cargo">
+                        <a [routerLink]="['/cargo', asignacionTurno.cargo?.id, 'view']">{{asignacionTurno.cargo?.id}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

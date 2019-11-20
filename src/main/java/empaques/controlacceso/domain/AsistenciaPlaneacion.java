@@ -1,5 +1,4 @@
 package empaques.controlacceso.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -25,11 +24,11 @@ public class AsistenciaPlaneacion implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Asistencia asistencia;
-
-    @OneToOne(mappedBy = "asistenciaPlaneacion")
-    @JsonIgnore
     private AsignacionTurno asignacionTurno;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Asistencia asistencia;
 
     @ManyToOne
     @JsonIgnoreProperties("asistenciaPlaneacions")
@@ -44,19 +43,6 @@ public class AsistenciaPlaneacion implements Serializable {
         this.id = id;
     }
 
-    public Asistencia getAsistencia() {
-        return asistencia;
-    }
-
-    public AsistenciaPlaneacion asistencia(Asistencia asistencia) {
-        this.asistencia = asistencia;
-        return this;
-    }
-
-    public void setAsistencia(Asistencia asistencia) {
-        this.asistencia = asistencia;
-    }
-
     public AsignacionTurno getAsignacionTurno() {
         return asignacionTurno;
     }
@@ -68,6 +54,19 @@ public class AsistenciaPlaneacion implements Serializable {
 
     public void setAsignacionTurno(AsignacionTurno asignacionTurno) {
         this.asignacionTurno = asignacionTurno;
+    }
+
+    public Asistencia getAsistencia() {
+        return asistencia;
+    }
+
+    public AsistenciaPlaneacion asistencia(Asistencia asistencia) {
+        this.asistencia = asistencia;
+        return this;
+    }
+
+    public void setAsistencia(Asistencia asistencia) {
+        this.asistencia = asistencia;
     }
 
     public Colaborador getColaborador() {

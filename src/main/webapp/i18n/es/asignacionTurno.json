@@ -19,8 +19,8 @@
       "fecha": "Fecha",
       "turno": "Turno",
       "intercambioTurno": "Intercambio Turno",
-      "asistenciaPlaneacion": "Asistencia Planeacion",
       "colaborador": "Colaborador",
+      "asistenciaPlaneacion": "Asistencia Planeacion",
       "planeacionSemanal": "Planeacion Semanal",
       "cargo": "Cargo"
     }

@@ -20,10 +20,9 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.fecha">Fecha</span></th>
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.turno">Turno</span></th>
-            <!--th><span jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno">Intercambio Turno</span></th>
+            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno">Intercambio Turno</span></th>
+            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.colaborador">Colaborador</span></th>
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.planeacionSemanal">Planeacion Semanal</span></th>
-            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.asistenciaPlaneacion">Asistencia Planeacion</span></th-->
-            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.colaborador">Colaborador</span></th>            
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.cargo">Cargo</span></th>
             <th></th>
             </tr>
@@ -31,18 +30,21 @@
             <tbody>
             <tr *ngFor="let asignacionTurno of asignacionTurnos ;trackBy: trackId">
                 <td><a [routerLink]="['/asignacion-turno', asignacionTurno.id, 'view' ]">{{asignacionTurno.id}}</a></td>
-                <td>{{asignacionTurno.fecha | date:'mediumDate'}}</td>
+                <td>{{asignacionTurno.fecha | date:'medium'}}</td>
                 <td>
                     <div *ngIf="asignacionTurno.turno">
                         <a [routerLink]="['/turno', asignacionTurno.turno?.id, 'view' ]" >{{asignacionTurno.turno?.nombre}}</a>
                     </div>
                 </td>
-
-
-                <!--td>
+                <td>
                     <div *ngIf="asignacionTurno.intercambioTurno">
                         <a [routerLink]="['/intercambio-turno', asignacionTurno.intercambioTurno?.id, 'view' ]" >{{asignacionTurno.intercambioTurno?.id}}</a>
                     </div>
+                </td>
+                <td>
+                    <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
+                            <a class="form-control-static" [routerLink]="['/colaborador', colaborador?.id, 'view' ]">{{colaborador.id}}</a>{{last ? '' : ', '}}
+                        </span>
                 </td>
                 <td>
                     <div *ngIf="asignacionTurno.planeacionSemanal">
@@ -50,24 +52,8 @@
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="asignacionTurno.asistenciaPlaneacion">
-                        <a [routerLink]="['/asistencia-planeacion', asignacionTurno.asistenciaPlaneacion?.id, 'view' ]" >{{asignacionTurno.asistenciaPlaneacion?.id}}</a>
-                    </div>
-                </td-->
-
-
-                <td>
-                    <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
-                            <a class="form-control-static" [routerLink]="['/colaborador', colaborador?.id, 'view' ]">
-                                {{colaborador.nombre1+" "+colaborador.apellido1}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-
-                
-
-                <td>
                     <div *ngIf="asignacionTurno.cargo">
-                        <a [routerLink]="['/cargo', asignacionTurno.cargo?.id, 'view' ]" >{{asignacionTurno.cargo?.nombre}}</a>
+                        <a [routerLink]="['/cargo', asignacionTurno.cargo?.id, 'view' ]" >{{asignacionTurno.cargo?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

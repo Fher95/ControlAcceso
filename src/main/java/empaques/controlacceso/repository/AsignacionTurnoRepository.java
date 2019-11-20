@@ -1,6 +1,5 @@
 package empaques.controlacceso.repository;
 import empaques.controlacceso.domain.AsignacionTurno;
-import empaques.controlacceso.domain.Cargo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;

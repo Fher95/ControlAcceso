@@ -16,8 +16,8 @@
       "detail": {
         "title": "Asistencia Planeacion"
       },
-      "asistencia": "Asistencia",
       "asignacionTurno": "Asignacion Turno",
+      "asistencia": "Asistencia",
       "colaborador": "Colaborador"
     }
   }
