@@ -29,7 +29,7 @@
                 <td><a [routerLink]="['/asistencia-planeacion', asistenciaPlaneacion.id, 'view' ]">{{asistenciaPlaneacion.id}}</a></td>
                 <td>
                     <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                        <a [routerLink]="['/asignacion-turno', asistenciaPlaneacion.asignacionTurno?.id, 'view' ]" >{{asistenciaPlaneacion.asignacionTurno?.id}}</a>
+                        <a [routerLink]="['/asignacion-turno', asistenciaPlaneacion.asignacionTurno?.id, 'view' ]" >{{asistenciaPlaneacion.asignacionTurno?.id +', '+asistenciaPlaneacion.asignacionTurno?.turno.nombre}}</a>
                     </div>
                 </td>
                 <td>
