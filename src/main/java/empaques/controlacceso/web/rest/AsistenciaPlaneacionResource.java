@@ -87,7 +87,7 @@ public class AsistenciaPlaneacionResource {
     @GetMapping("/asistencia-planeacions")
     public List<AsistenciaPlaneacion> getAllAsistenciaPlaneacions() {
         log.debug("REST request to get all AsistenciaPlaneacions");
-        return asistenciaPlaneacionRepository.findAll();
+        return asistenciaPlaneacionRepository.findAllWithEagerRelationships();
     }
 
     /**
