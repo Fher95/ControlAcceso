@@ -112,6 +112,7 @@ public class Colaborador implements Serializable {
     @JoinTable(name = "colaborador_peticion",
                joinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "peticion_id", referencedColumnName = "id"))
+    @JsonIgnore
     private Set<Peticion> peticions = new HashSet<>();
 
     @ManyToMany
