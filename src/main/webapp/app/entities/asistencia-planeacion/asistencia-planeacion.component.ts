@@ -8,6 +8,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { AsistenciaPlaneacionService } from './asistencia-planeacion.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -17,6 +18,8 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
   asistenciaPlaneacions: IAsistenciaPlaneacion[];
   currentAccount: any;
   eventSubscriber: Subscription;
+  asistenciasTardias: IAsistenciaPlaneacion[];
+  asistenciasTempranas: IAsistenciaPlaneacion[];
 
   constructor(
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
@@ -35,6 +38,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: IAsistenciaPlaneacion[]) => {
           this.asistenciaPlaneacions = res;
+          this.setAsistenciasTardiasTempranas(this.asistenciaPlaneacions);
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
@@ -62,5 +66,29 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  setAsistenciasTardiasTempranas(lstAsistencias: IAsistenciaPlaneacion[]) {
+    this.asistenciasTardias = [];
+    this.asistenciasTempranas = [];
+    lstAsistencias.forEach(element => {
+      const fechaAsistencia: moment.Moment = element.asistencia.entrada;
+      const horaTurno: moment.Moment = element.asignacionTurno.turno.horaInicio;
+
+      const strFechaAsistencia = fechaAsistencia.toString();
+      const strHoraTurno = horaTurno.toString();
+
+      const varFechaAsist = new Date(strFechaAsistencia);
+      const varFechaTurno = new Date(strFechaAsistencia);
+      const varHoraTurno = new Date(strHoraTurno);
+      varFechaTurno.setHours(varHoraTurno.getHours());
+      varFechaTurno.setMinutes(varHoraTurno.getMinutes());
+
+      if (varFechaAsist > varFechaTurno) {
+        this.asistenciasTardias.push(element);
+      } else {
+        this.asistenciasTempranas.push(element);
+      }
+    });
   }
 }

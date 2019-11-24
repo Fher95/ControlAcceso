@@ -37,7 +37,7 @@ public class AsignacionTurno implements Serializable {
     @JoinColumn(unique = true)
     private IntercambioTurno intercambioTurno;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "asignacion_turno_colaborador",
                joinColumns = @JoinColumn(name = "asignacion_turno_id", referencedColumnName = "id"),

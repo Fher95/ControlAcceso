@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { ControlAccesoSharedModule } from 'app/shared/shared.module';
 import { AsistenciaPlaneacionComponent } from './asistencia-planeacion.component';
@@ -14,7 +15,7 @@ import { asistenciaPlaneacionRoute, asistenciaPlaneacionPopupRoute } from './asi
 const ENTITY_STATES = [...asistenciaPlaneacionRoute, ...asistenciaPlaneacionPopupRoute];
 
 @NgModule({
-  imports: [ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [TabsModule.forRoot(), ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     AsistenciaPlaneacionComponent,
     AsistenciaPlaneacionDetailComponent,
