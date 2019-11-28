@@ -188,5 +188,103 @@
                 </table>
             </div>
         </tab>
+
+        <tab heading="Salida tarde">
+            <h2 class="my-4">Salidas Tarde</h2>
+            <div class="alert alert-warning" *ngIf="salidasTardias?.length === 0">
+                <span >No se encontraron salidas tarde</span>
+            </div>
+            <div class="table-responsive" *ngIf="salidasTardias?.length > 0">
+                <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asignacionTurno">Asignacion
+                                    Turno</span></th>
+                            <th><span >Salida Asistencia</span>
+                            </th>
+                            <th><span
+                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asistenciaPlaneacion of salidasTardias">
+                            <td>
+                                {{asistenciaPlaneacion.id}}
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
+                                    {{getSalidaTurno(asistenciaPlaneacion.asignacionTurno.turno)}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asistencia">
+                                    {{asistenciaPlaneacion.asistencia?.salida | date: 'medium'}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
+                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
+                                    +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre2
+                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
+                            +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido2}}
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </tab>
+
+        <tab heading="Salida temprano">
+            <h2 class="my-4">Salidas Temprano</h2>
+            <div class="alert alert-warning" *ngIf="salidasTempranas?.length === 0">
+                <span >No se encontraron salidas temprano</span>
+            </div>
+            <div class="table-responsive" *ngIf="salidasTempranas?.length > 0">
+                <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                        <tr>
+                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asignacionTurno">Asignacion
+                                    Turno</span></th>
+                            <th><span>Salida Asistencia</span>
+                            </th>
+                            <th><span
+                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asistenciaPlaneacion of salidasTempranas">
+                            <td>
+                                {{asistenciaPlaneacion.id}}
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
+                                    {{getSalidaTurno(asistenciaPlaneacion.asignacionTurno.turno)}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asistencia">
+                                    {{asistenciaPlaneacion.asistencia?.salida | date: 'medium'}}
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
+                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
+                                    +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre2
+                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
+                            +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido2}}
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </tab>
     </tabset>
 </div>
