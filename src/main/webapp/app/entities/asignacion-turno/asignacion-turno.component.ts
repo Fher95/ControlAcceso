@@ -71,6 +71,8 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
   }
 
   /** Funciones nuevas */
+
+  /** ** Funciones para la creacion de la tabla de ubicacion */
   setTurnosTotales() {
     this.turnos = [];
     this.asignacionTurnos.forEach(asignacion => {
@@ -158,4 +160,5 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
     });
     return nombreColaborador;
   }
+  /** ** FIN de las funciones para la creacion de la tabla de ubicacion */
 }
