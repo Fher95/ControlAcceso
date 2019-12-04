@@ -73,22 +73,50 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
   /** Funciones nuevas */
   setTurnosTotales() {
     this.turnos = [];
-    this.asignacionTurnos.forEach(element => {
-      if (!this.turnos.includes(element.turno)) {
-        this.turnos.push(element.turno);
+    this.asignacionTurnos.forEach(asignacion => {
+      if (!this.enListaTurnos(asignacion.turno.id)) {
+        this.turnos.push(asignacion.turno);
       }
     });
 
     this.setCentrosCosto();
   }
 
+  enListaTurnos(parTurnoId: number): boolean {
+    let respuesta: boolean;
+    if (this.turnos.length === 0) {
+      respuesta = false;
+    } else {
+      this.turnos.forEach(element => {
+        if (element.id === parTurnoId) {
+          respuesta = true;
+        }
+      });
+    }
+    return respuesta;
+  }
+
   setCentrosCosto() {
     this.centrosCosto = [];
     this.asignacionTurnos.forEach(element => {
-      if (!this.turnos.includes(element.cargo.centroCosto)) {
+      if (!this.enListaCentrosCosto(element.cargo.centroCosto.id)) {
         this.centrosCosto.push(element.cargo.centroCosto);
       }
     });
+  }
+
+  enListaCentrosCosto(parCentroCostoId: number): boolean {
+    let respuesta: boolean;
+    if (this.turnos.length === 0) {
+      respuesta = false;
+    } else {
+      this.centrosCosto.forEach(element => {
+        if (element.id === parCentroCostoId) {
+          respuesta = true;
+        }
+      });
+    }
+    return respuesta;
   }
 
   getCargosPorCentroCosto(parCentroCosto: ICentroCosto): ICargo[] {
