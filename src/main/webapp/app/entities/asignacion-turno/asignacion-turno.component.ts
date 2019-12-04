@@ -161,4 +161,11 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
     return nombreColaborador;
   }
   /** ** FIN de las funciones para la creacion de la tabla de ubicacion */
+
+  /** Metodos para rotacion de turnos */
+  rotarAsignacion() {
+    for (let index = 0; index < this.turnos.length; index++) {
+      const element = this.turnos[index];
+    }
+  }
 }
