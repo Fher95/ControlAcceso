@@ -7,11 +7,12 @@ import { AsignacionTurnoDetailComponent } from './asignacion-turno-detail.compon
 import { AsignacionTurnoUpdateComponent } from './asignacion-turno-update.component';
 import { AsignacionTurnoDeletePopupComponent, AsignacionTurnoDeleteDialogComponent } from './asignacion-turno-delete-dialog.component';
 import { asignacionTurnoRoute, asignacionTurnoPopupRoute } from './asignacion-turno.route';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 const ENTITY_STATES = [...asignacionTurnoRoute, ...asignacionTurnoPopupRoute];
 
 @NgModule({
-  imports: [ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [TabsModule.forRoot(), ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
   declarations: [
     AsignacionTurnoComponent,
     AsignacionTurnoDetailComponent,

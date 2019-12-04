@@ -8,6 +8,9 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { AsignacionTurnoService } from './asignacion-turno.service';
+import { ITurno } from 'app/shared/model/turno.model';
+import { ICentroCosto } from 'app/shared/model/centro-costo.model';
+import { ICargo } from 'app/shared/model/cargo.model';
 
 @Component({
   selector: 'jhi-asignacion-turno',
@@ -15,8 +18,10 @@ import { AsignacionTurnoService } from './asignacion-turno.service';
 })
 export class AsignacionTurnoComponent implements OnInit, OnDestroy {
   asignacionTurnos: IAsignacionTurno[];
+  turnos: ITurno[];
   currentAccount: any;
   eventSubscriber: Subscription;
+  centrosCosto: ICentroCosto[];
 
   constructor(
     protected asignacionTurnoService: AsignacionTurnoService,
@@ -35,6 +40,7 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: IAsignacionTurno[]) => {
           this.asignacionTurnos = res;
+          this.setTurnosTotales();
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
@@ -62,5 +68,57 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  /** Funciones nuevas */
+  setTurnosTotales() {
+    this.turnos = [];
+    this.asignacionTurnos.forEach(element => {
+      if (!this.turnos.includes(element.turno)) {
+        this.turnos.push(element.turno);
+      }
+    });
+
+    this.setCentrosCosto();
+  }
+
+  setCentrosCosto() {
+    this.centrosCosto = [];
+    this.asignacionTurnos.forEach(element => {
+      if (!this.turnos.includes(element.cargo.centroCosto)) {
+        this.centrosCosto.push(element.cargo.centroCosto);
+      }
+    });
+  }
+
+  getCargosPorCentroCosto(parCentroCosto: ICentroCosto): ICargo[] {
+    const arrayCargos: ICargo[] = [];
+    this.asignacionTurnos.forEach(element => {
+      if (element.cargo.centroCosto.id === parCentroCosto.id) {
+        arrayCargos.push(element.cargo);
+      }
+    });
+    return arrayCargos;
+  }
+
+  getColaboradorTurnoCargo(parTurno: ITurno, parCargo: ICargo): string {
+    let nombreColaborador: string;
+    nombreColaborador = 'No Asignado';
+    this.asignacionTurnos.forEach(element => {
+      if (element.turno.id === parTurno.id) {
+        if (element.cargo.id === parCargo.id) {
+          nombreColaborador = '';
+          let contador = 0;
+          element.colaboradors.forEach(element2 => {
+            contador++;
+            nombreColaborador += element2.nombre1 + ' ' + element2.nombre2 + ' ' + element2.apellido1 + ' ' + element2.apellido2;
+            if (contador < element.colaboradors.length) {
+              nombreColaborador += ' - ';
+            }
+          });
+        }
+      }
+    });
+    return nombreColaborador;
   }
 }
