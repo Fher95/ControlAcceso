@@ -78,8 +78,17 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
         this.turnos.push(asignacion.turno);
       }
     });
-
+    this.ordenarTurnos();
     this.setCentrosCosto();
+  }
+  ordenarTurnos() {
+    this.turnos.sort((t1, t2) => {
+      if (t1.horaInicio > t2.horaInicio) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
   }
 
   enListaTurnos(parTurnoId: number): boolean {
