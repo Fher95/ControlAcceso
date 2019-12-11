@@ -50,7 +50,8 @@ entity Turno {
     estado Estado
 }
 entity AsignacionTurno {
-    fecha Instant
+    fecha Instant,
+    fechaFin Instant
 }
 entity Cargo {
     nombre String required,

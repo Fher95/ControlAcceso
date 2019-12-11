@@ -15,6 +15,7 @@ export interface IAsignacionTurno {
   asistenciaPlaneacion?: IAsistenciaPlaneacion;
   planeacionSemanal?: IPlaneacionSemanal;
   cargo?: ICargo;
+  fechaFin?: Moment;
 }
 
 export class AsignacionTurno implements IAsignacionTurno {
@@ -26,6 +27,7 @@ export class AsignacionTurno implements IAsignacionTurno {
     public colaboradors?: IColaborador[],
     public asistenciaPlaneacion?: IAsistenciaPlaneacion,
     public planeacionSemanal?: IPlaneacionSemanal,
-    public cargo?: ICargo
+    public cargo?: ICargo,
+    public fechaFin?: Moment
   ) {}
 }

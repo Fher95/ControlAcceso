@@ -143,8 +143,10 @@ public class AsignacionTurnoResource {
         Optional<AsignacionTurno> asignacionTurno = asignacionTurnoRepository.findCargoColaborador(id);
         return ResponseUtil.wrapOrNotFound(asignacionTurno);
     }
+
     @PutMapping("/asignacion-turnos/rotar-turnos")
     public ResponseEntity<AsignacionTurno> rotarTurnos() {
+        System.out.print("Entra a la rotación de turnos");
         Turno turnoPivote = new Turno();
         turnoPivote.setNombre("Pivote");
         ArrayList<Turno> listaTurnos = new ArrayList<Turno>();
@@ -159,7 +161,7 @@ public class AsignacionTurnoResource {
         for (int iterador = 0; iterador < listaTurnos.size(); iterador++) {
 
             for (AsignacionTurno asignacionTurno : varLista) {
-                if(asignacionTurno.getTurno().getId() == listaTurnos.get(iterador).getId()){
+                if (asignacionTurno.getTurno().getId() == listaTurnos.get(iterador).getId()) {
                     AsignacionTurno varAsignacionActualizar = asignacionTurno;
                     varAsignacionActualizar.setTurno(nuevaListaTurnos.get(iterador));
                     asignacionTurnoRepository.save(varAsignacionActualizar);
@@ -168,7 +170,7 @@ public class AsignacionTurnoResource {
 
         }
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,null))
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
     }
 
@@ -185,16 +187,20 @@ public class AsignacionTurnoResource {
 
     private boolean enLista(ArrayList<Turno> parLista, Turno parTurno) {
         boolean result = false;
-        if (parLista.isEmpty()) {
-            result = false;
+        if (parTurno == null) {
+            result = true;
         } else {
+            if (parLista.isEmpty()) {
+                result = false;
+            } else {
 
-            for (int i = 0; i < parLista.size(); parLista.size()) {
-                if(parLista.get(i).getId() == parTurno.getId()){
-                    result = true;
+                for (int i = 0; i < parLista.size(); i++) {
+                    if (parLista.get(i).getId() == parTurno.getId()) {
+                        result = true;
+                    }
                 }
-            }
 
+            }
         }
         return result;
     }

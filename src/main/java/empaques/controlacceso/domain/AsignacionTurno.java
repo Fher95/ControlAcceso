@@ -29,6 +29,9 @@ public class AsignacionTurno implements Serializable {
     @Column(name = "fecha")
     private Instant fecha;
 
+    @Column(name = "fecha_fin")
+    private Instant fechaFin;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Turno turno;
@@ -68,6 +71,9 @@ public class AsignacionTurno implements Serializable {
     public Instant getFecha() {
         return fecha;
     }
+    public Instant getFechaFin() {
+        return fechaFin;
+    }
 
     public AsignacionTurno fecha(Instant fecha) {
         this.fecha = fecha;
@@ -76,6 +82,10 @@ public class AsignacionTurno implements Serializable {
 
     public void setFecha(Instant fecha) {
         this.fecha = fecha;
+    }
+
+    public void setFechaFin(Instant fecha) {
+        this.fechaFin = fecha;
     }
 
     public Turno getTurno() {
