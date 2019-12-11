@@ -164,8 +164,8 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
 
   /** Metodos para rotacion de turnos */
   rotarAsignacion() {
-    for (let index = 0; index < this.turnos.length; index++) {
-      const element = this.turnos[index];
-    }
+    this.asignacionTurnoService.rotar().subscribe(res => {
+      this.loadAll();
+    });
   }
 }
