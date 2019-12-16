@@ -16,18 +16,9 @@
       "detail": {
         "title": "Asistencia"
       },
-      "nombre1": "Nombre 1",
-      "nombre2": "Nombre 2",
-      "apellido1": "Apellido 1",
-      "apellido2": "Apellido 2",
-      "fecha": "Fecha",
-      "turno": "Turno",
+      "documentoColaborador": "Documento Colaborador",
       "entrada": "Entrada",
       "salida": "Salida",
-      "sinEntrada": "Sin Entrada",
-      "sinSalida": "Sin Salida",
-      "ausente": "Ausente",
-      "minutosTrabajados": "Minutos Trabajados",
       "asistenciaPlaneacion": "Asistencia Planeacion"
     }
   }

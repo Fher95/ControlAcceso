@@ -39,7 +39,11 @@ public class IntercambioTurno implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("intercambioTurnos")
-    private Colaborador colaborador;
+    private Colaborador colaborador1;
+
+    @ManyToOne
+    @JsonIgnoreProperties("intercambioTurnos")
+    private Colaborador colaborador2;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -102,17 +106,30 @@ public class IntercambioTurno implements Serializable {
         this.asignacionTurno = asignacionTurno;
     }
 
-    public Colaborador getColaborador() {
-        return colaborador;
+    public Colaborador getColaborador1() {
+        return colaborador1;
     }
 
-    public IntercambioTurno colaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public IntercambioTurno colaborador1(Colaborador colaborador) {
+        this.colaborador1 = colaborador;
         return this;
     }
 
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public void setColaborador1(Colaborador colaborador) {
+        this.colaborador1 = colaborador;
+    }
+
+    public Colaborador getColaborador2() {
+        return colaborador2;
+    }
+
+    public IntercambioTurno colaborador2(Colaborador colaborador) {
+        this.colaborador2 = colaborador;
+        return this;
+    }
+
+    public void setColaborador2(Colaborador colaborador) {
+        this.colaborador2 = colaborador;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

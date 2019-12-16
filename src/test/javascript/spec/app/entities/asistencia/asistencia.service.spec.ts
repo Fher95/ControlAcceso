@@ -24,28 +24,13 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Asistencia(
-        0,
-        'AAAAAAA',
-        'AAAAAAA',
-        'AAAAAAA',
-        'AAAAAAA',
-        currentDate,
-        'AAAAAAA',
-        currentDate,
-        currentDate,
-        false,
-        false,
-        false,
-        0
-      );
+      elemDefault = new Asistencia(0, 'AAAAAAA', currentDate, currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            fecha: currentDate.format(DATE_TIME_FORMAT),
             entrada: currentDate.format(DATE_TIME_FORMAT),
             salida: currentDate.format(DATE_TIME_FORMAT)
           },
@@ -65,7 +50,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            fecha: currentDate.format(DATE_TIME_FORMAT),
             entrada: currentDate.format(DATE_TIME_FORMAT),
             salida: currentDate.format(DATE_TIME_FORMAT)
           },
@@ -73,7 +57,6 @@ describe('Service Tests', () => {
         );
         const expected = Object.assign(
           {
-            fecha: currentDate,
             entrada: currentDate,
             salida: currentDate
           },
@@ -91,25 +74,15 @@ describe('Service Tests', () => {
       it('should update a Asistencia', () => {
         const returnedFromService = Object.assign(
           {
-            nombre1: 'BBBBBB',
-            nombre2: 'BBBBBB',
-            apellido1: 'BBBBBB',
-            apellido2: 'BBBBBB',
-            fecha: currentDate.format(DATE_TIME_FORMAT),
-            turno: 'BBBBBB',
+            documentoColaborador: 'BBBBBB',
             entrada: currentDate.format(DATE_TIME_FORMAT),
-            salida: currentDate.format(DATE_TIME_FORMAT),
-            sinEntrada: true,
-            sinSalida: true,
-            ausente: true,
-            minutosTrabajados: 1
+            salida: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            fecha: currentDate,
             entrada: currentDate,
             salida: currentDate
           },
@@ -127,24 +100,14 @@ describe('Service Tests', () => {
       it('should return a list of Asistencia', () => {
         const returnedFromService = Object.assign(
           {
-            nombre1: 'BBBBBB',
-            nombre2: 'BBBBBB',
-            apellido1: 'BBBBBB',
-            apellido2: 'BBBBBB',
-            fecha: currentDate.format(DATE_TIME_FORMAT),
-            turno: 'BBBBBB',
+            documentoColaborador: 'BBBBBB',
             entrada: currentDate.format(DATE_TIME_FORMAT),
-            salida: currentDate.format(DATE_TIME_FORMAT),
-            sinEntrada: true,
-            sinSalida: true,
-            ausente: true,
-            minutosTrabajados: 1
+            salida: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            fecha: currentDate,
             entrada: currentDate,
             salida: currentDate
           },

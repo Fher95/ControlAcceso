@@ -21,7 +21,8 @@
             <th><span jhiTranslate="controlAccesoApp.intercambioTurno.fecha">Fecha</span></th>
             <th><span jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor">Autorizado Por</span></th>
             <th><span jhiTranslate="controlAccesoApp.intercambioTurno.observaciones">Observaciones</span></th>
-            <th><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador">Colaborador</span></th>
+            <th><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1">Colaborador 1</span></th>
+            <th><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2">Colaborador 2</span></th>
             <th></th>
             </tr>
             </thead>
@@ -32,8 +33,13 @@
                 <td>{{intercambioTurno.autorizadoPor}}</td>
                 <td>{{intercambioTurno.observaciones}}</td>
                 <td>
-                    <div *ngIf="intercambioTurno.colaborador">
-                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador?.id, 'view' ]" >{{intercambioTurno.colaborador?.id}}</a>
+                    <div *ngIf="intercambioTurno.colaborador1">
+                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador1?.id, 'view' ]" >{{intercambioTurno.colaborador1?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="intercambioTurno.colaborador2">
+                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador2?.id, 'view' ]" >{{intercambioTurno.colaborador2?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

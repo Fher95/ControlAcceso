@@ -24,7 +24,10 @@
             <column name="observaciones" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="colaborador_id" type="bigint">
+            <column name="colaborador1_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="colaborador2_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->

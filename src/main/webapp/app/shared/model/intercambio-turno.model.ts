@@ -8,7 +8,8 @@ export interface IIntercambioTurno {
   autorizadoPor?: string;
   observaciones?: string;
   asignacionTurno?: IAsignacionTurno;
-  colaborador?: IColaborador;
+  colaborador1?: IColaborador;
+  colaborador2?: IColaborador;
 }
 
 export class IntercambioTurno implements IIntercambioTurno {
@@ -18,6 +19,7 @@ export class IntercambioTurno implements IIntercambioTurno {
     public autorizadoPor?: string,
     public observaciones?: string,
     public asignacionTurno?: IAsignacionTurno,
-    public colaborador?: IColaborador
+    public colaborador1?: IColaborador,
+    public colaborador2?: IColaborador
   ) {}
 }

@@ -35,24 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ControlAccesoApp.class)
 public class AsistenciaResourceIT {
 
-    private static final String DEFAULT_NOMBRE_1 = "AAAAAAAAAA";
-    private static final String UPDATED_NOMBRE_1 = "BBBBBBBBBB";
-
-    private static final String DEFAULT_NOMBRE_2 = "AAAAAAAAAA";
-    private static final String UPDATED_NOMBRE_2 = "BBBBBBBBBB";
-
-    private static final String DEFAULT_APELLIDO_1 = "AAAAAAAAAA";
-    private static final String UPDATED_APELLIDO_1 = "BBBBBBBBBB";
-
-    private static final String DEFAULT_APELLIDO_2 = "AAAAAAAAAA";
-    private static final String UPDATED_APELLIDO_2 = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_FECHA = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FECHA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-    private static final Instant SMALLER_FECHA = Instant.ofEpochMilli(-1L);
-
-    private static final String DEFAULT_TURNO = "AAAAAAAAAA";
-    private static final String UPDATED_TURNO = "BBBBBBBBBB";
+    private static final String DEFAULT_DOCUMENTO_COLABORADOR = "AAAAAAAAAA";
+    private static final String UPDATED_DOCUMENTO_COLABORADOR = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_ENTRADA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ENTRADA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -61,19 +45,6 @@ public class AsistenciaResourceIT {
     private static final Instant DEFAULT_SALIDA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_SALIDA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_SALIDA = Instant.ofEpochMilli(-1L);
-
-    private static final Boolean DEFAULT_SIN_ENTRADA = false;
-    private static final Boolean UPDATED_SIN_ENTRADA = true;
-
-    private static final Boolean DEFAULT_SIN_SALIDA = false;
-    private static final Boolean UPDATED_SIN_SALIDA = true;
-
-    private static final Boolean DEFAULT_AUSENTE = false;
-    private static final Boolean UPDATED_AUSENTE = true;
-
-    private static final Integer DEFAULT_MINUTOS_TRABAJADOS = 1;
-    private static final Integer UPDATED_MINUTOS_TRABAJADOS = 2;
-    private static final Integer SMALLER_MINUTOS_TRABAJADOS = 1 - 1;
 
     @Autowired
     private AsistenciaRepository asistenciaRepository;
@@ -117,18 +88,9 @@ public class AsistenciaResourceIT {
      */
     public static Asistencia createEntity(EntityManager em) {
         Asistencia asistencia = new Asistencia()
-            .nombre1(DEFAULT_NOMBRE_1)
-            .nombre2(DEFAULT_NOMBRE_2)
-            .apellido1(DEFAULT_APELLIDO_1)
-            .apellido2(DEFAULT_APELLIDO_2)
-            .fecha(DEFAULT_FECHA)
-            .turno(DEFAULT_TURNO)
+            .documentoColaborador(DEFAULT_DOCUMENTO_COLABORADOR)
             .entrada(DEFAULT_ENTRADA)
-            .salida(DEFAULT_SALIDA)
-            .sinEntrada(DEFAULT_SIN_ENTRADA)
-            .sinSalida(DEFAULT_SIN_SALIDA)
-            .ausente(DEFAULT_AUSENTE)
-            .minutosTrabajados(DEFAULT_MINUTOS_TRABAJADOS);
+            .salida(DEFAULT_SALIDA);
         return asistencia;
     }
     /**
@@ -139,18 +101,9 @@ public class AsistenciaResourceIT {
      */
     public static Asistencia createUpdatedEntity(EntityManager em) {
         Asistencia asistencia = new Asistencia()
-            .nombre1(UPDATED_NOMBRE_1)
-            .nombre2(UPDATED_NOMBRE_2)
-            .apellido1(UPDATED_APELLIDO_1)
-            .apellido2(UPDATED_APELLIDO_2)
-            .fecha(UPDATED_FECHA)
-            .turno(UPDATED_TURNO)
+            .documentoColaborador(UPDATED_DOCUMENTO_COLABORADOR)
             .entrada(UPDATED_ENTRADA)
-            .salida(UPDATED_SALIDA)
-            .sinEntrada(UPDATED_SIN_ENTRADA)
-            .sinSalida(UPDATED_SIN_SALIDA)
-            .ausente(UPDATED_AUSENTE)
-            .minutosTrabajados(UPDATED_MINUTOS_TRABAJADOS);
+            .salida(UPDATED_SALIDA);
         return asistencia;
     }
 
@@ -174,18 +127,9 @@ public class AsistenciaResourceIT {
         List<Asistencia> asistenciaList = asistenciaRepository.findAll();
         assertThat(asistenciaList).hasSize(databaseSizeBeforeCreate + 1);
         Asistencia testAsistencia = asistenciaList.get(asistenciaList.size() - 1);
-        assertThat(testAsistencia.getNombre1()).isEqualTo(DEFAULT_NOMBRE_1);
-        assertThat(testAsistencia.getNombre2()).isEqualTo(DEFAULT_NOMBRE_2);
-        assertThat(testAsistencia.getApellido1()).isEqualTo(DEFAULT_APELLIDO_1);
-        assertThat(testAsistencia.getApellido2()).isEqualTo(DEFAULT_APELLIDO_2);
-        assertThat(testAsistencia.getFecha()).isEqualTo(DEFAULT_FECHA);
-        assertThat(testAsistencia.getTurno()).isEqualTo(DEFAULT_TURNO);
+        assertThat(testAsistencia.getDocumentoColaborador()).isEqualTo(DEFAULT_DOCUMENTO_COLABORADOR);
         assertThat(testAsistencia.getEntrada()).isEqualTo(DEFAULT_ENTRADA);
         assertThat(testAsistencia.getSalida()).isEqualTo(DEFAULT_SALIDA);
-        assertThat(testAsistencia.isSinEntrada()).isEqualTo(DEFAULT_SIN_ENTRADA);
-        assertThat(testAsistencia.isSinSalida()).isEqualTo(DEFAULT_SIN_SALIDA);
-        assertThat(testAsistencia.isAusente()).isEqualTo(DEFAULT_AUSENTE);
-        assertThat(testAsistencia.getMinutosTrabajados()).isEqualTo(DEFAULT_MINUTOS_TRABAJADOS);
     }
 
     @Test
@@ -219,18 +163,9 @@ public class AsistenciaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(asistencia.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre1").value(hasItem(DEFAULT_NOMBRE_1.toString())))
-            .andExpect(jsonPath("$.[*].nombre2").value(hasItem(DEFAULT_NOMBRE_2.toString())))
-            .andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_APELLIDO_1.toString())))
-            .andExpect(jsonPath("$.[*].apellido2").value(hasItem(DEFAULT_APELLIDO_2.toString())))
-            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
-            .andExpect(jsonPath("$.[*].turno").value(hasItem(DEFAULT_TURNO.toString())))
+            .andExpect(jsonPath("$.[*].documentoColaborador").value(hasItem(DEFAULT_DOCUMENTO_COLABORADOR.toString())))
             .andExpect(jsonPath("$.[*].entrada").value(hasItem(DEFAULT_ENTRADA.toString())))
-            .andExpect(jsonPath("$.[*].salida").value(hasItem(DEFAULT_SALIDA.toString())))
-            .andExpect(jsonPath("$.[*].sinEntrada").value(hasItem(DEFAULT_SIN_ENTRADA.booleanValue())))
-            .andExpect(jsonPath("$.[*].sinSalida").value(hasItem(DEFAULT_SIN_SALIDA.booleanValue())))
-            .andExpect(jsonPath("$.[*].ausente").value(hasItem(DEFAULT_AUSENTE.booleanValue())))
-            .andExpect(jsonPath("$.[*].minutosTrabajados").value(hasItem(DEFAULT_MINUTOS_TRABAJADOS)));
+            .andExpect(jsonPath("$.[*].salida").value(hasItem(DEFAULT_SALIDA.toString())));
     }
     
     @Test
@@ -244,18 +179,9 @@ public class AsistenciaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(asistencia.getId().intValue()))
-            .andExpect(jsonPath("$.nombre1").value(DEFAULT_NOMBRE_1.toString()))
-            .andExpect(jsonPath("$.nombre2").value(DEFAULT_NOMBRE_2.toString()))
-            .andExpect(jsonPath("$.apellido1").value(DEFAULT_APELLIDO_1.toString()))
-            .andExpect(jsonPath("$.apellido2").value(DEFAULT_APELLIDO_2.toString()))
-            .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
-            .andExpect(jsonPath("$.turno").value(DEFAULT_TURNO.toString()))
+            .andExpect(jsonPath("$.documentoColaborador").value(DEFAULT_DOCUMENTO_COLABORADOR.toString()))
             .andExpect(jsonPath("$.entrada").value(DEFAULT_ENTRADA.toString()))
-            .andExpect(jsonPath("$.salida").value(DEFAULT_SALIDA.toString()))
-            .andExpect(jsonPath("$.sinEntrada").value(DEFAULT_SIN_ENTRADA.booleanValue()))
-            .andExpect(jsonPath("$.sinSalida").value(DEFAULT_SIN_SALIDA.booleanValue()))
-            .andExpect(jsonPath("$.ausente").value(DEFAULT_AUSENTE.booleanValue()))
-            .andExpect(jsonPath("$.minutosTrabajados").value(DEFAULT_MINUTOS_TRABAJADOS));
+            .andExpect(jsonPath("$.salida").value(DEFAULT_SALIDA.toString()));
     }
 
     @Test
@@ -279,18 +205,9 @@ public class AsistenciaResourceIT {
         // Disconnect from session so that the updates on updatedAsistencia are not directly saved in db
         em.detach(updatedAsistencia);
         updatedAsistencia
-            .nombre1(UPDATED_NOMBRE_1)
-            .nombre2(UPDATED_NOMBRE_2)
-            .apellido1(UPDATED_APELLIDO_1)
-            .apellido2(UPDATED_APELLIDO_2)
-            .fecha(UPDATED_FECHA)
-            .turno(UPDATED_TURNO)
+            .documentoColaborador(UPDATED_DOCUMENTO_COLABORADOR)
             .entrada(UPDATED_ENTRADA)
-            .salida(UPDATED_SALIDA)
-            .sinEntrada(UPDATED_SIN_ENTRADA)
-            .sinSalida(UPDATED_SIN_SALIDA)
-            .ausente(UPDATED_AUSENTE)
-            .minutosTrabajados(UPDATED_MINUTOS_TRABAJADOS);
+            .salida(UPDATED_SALIDA);
 
         restAsistenciaMockMvc.perform(put("/api/asistencias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -301,18 +218,9 @@ public class AsistenciaResourceIT {
         List<Asistencia> asistenciaList = asistenciaRepository.findAll();
         assertThat(asistenciaList).hasSize(databaseSizeBeforeUpdate);
         Asistencia testAsistencia = asistenciaList.get(asistenciaList.size() - 1);
-        assertThat(testAsistencia.getNombre1()).isEqualTo(UPDATED_NOMBRE_1);
-        assertThat(testAsistencia.getNombre2()).isEqualTo(UPDATED_NOMBRE_2);
-        assertThat(testAsistencia.getApellido1()).isEqualTo(UPDATED_APELLIDO_1);
-        assertThat(testAsistencia.getApellido2()).isEqualTo(UPDATED_APELLIDO_2);
-        assertThat(testAsistencia.getFecha()).isEqualTo(UPDATED_FECHA);
-        assertThat(testAsistencia.getTurno()).isEqualTo(UPDATED_TURNO);
+        assertThat(testAsistencia.getDocumentoColaborador()).isEqualTo(UPDATED_DOCUMENTO_COLABORADOR);
         assertThat(testAsistencia.getEntrada()).isEqualTo(UPDATED_ENTRADA);
         assertThat(testAsistencia.getSalida()).isEqualTo(UPDATED_SALIDA);
-        assertThat(testAsistencia.isSinEntrada()).isEqualTo(UPDATED_SIN_ENTRADA);
-        assertThat(testAsistencia.isSinSalida()).isEqualTo(UPDATED_SIN_SALIDA);
-        assertThat(testAsistencia.isAusente()).isEqualTo(UPDATED_AUSENTE);
-        assertThat(testAsistencia.getMinutosTrabajados()).isEqualTo(UPDATED_MINUTOS_TRABAJADOS);
     }
 
     @Test

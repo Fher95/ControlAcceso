@@ -23,41 +23,14 @@ public class Asistencia implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "nombre_1")
-    private String nombre1;
-
-    @Column(name = "nombre_2")
-    private String nombre2;
-
-    @Column(name = "apellido_1")
-    private String apellido1;
-
-    @Column(name = "apellido_2")
-    private String apellido2;
-
-    @Column(name = "fecha")
-    private Instant fecha;
-
-    @Column(name = "turno")
-    private String turno;
+    @Column(name = "documento_colaborador")
+    private String documentoColaborador;
 
     @Column(name = "entrada")
     private Instant entrada;
 
     @Column(name = "salida")
     private Instant salida;
-
-    @Column(name = "sin_entrada")
-    private Boolean sinEntrada;
-
-    @Column(name = "sin_salida")
-    private Boolean sinSalida;
-
-    @Column(name = "ausente")
-    private Boolean ausente;
-
-    @Column(name = "minutos_trabajados")
-    private Integer minutosTrabajados;
 
     @OneToOne(mappedBy = "asistencia")
     @JsonIgnore
@@ -72,82 +45,17 @@ public class Asistencia implements Serializable {
         this.id = id;
     }
 
-    public String getNombre1() {
-        return nombre1;
+    public String getDocumentoColaborador() {
+        return documentoColaborador;
     }
 
-    public Asistencia nombre1(String nombre1) {
-        this.nombre1 = nombre1;
+    public Asistencia documentoColaborador(String documentoColaborador) {
+        this.documentoColaborador = documentoColaborador;
         return this;
     }
 
-    public void setNombre1(String nombre1) {
-        this.nombre1 = nombre1;
-    }
-
-    public String getNombre2() {
-        return nombre2;
-    }
-
-    public Asistencia nombre2(String nombre2) {
-        this.nombre2 = nombre2;
-        return this;
-    }
-
-    public void setNombre2(String nombre2) {
-        this.nombre2 = nombre2;
-    }
-
-    public String getApellido1() {
-        return apellido1;
-    }
-
-    public Asistencia apellido1(String apellido1) {
-        this.apellido1 = apellido1;
-        return this;
-    }
-
-    public void setApellido1(String apellido1) {
-        this.apellido1 = apellido1;
-    }
-
-    public String getApellido2() {
-        return apellido2;
-    }
-
-    public Asistencia apellido2(String apellido2) {
-        this.apellido2 = apellido2;
-        return this;
-    }
-
-    public void setApellido2(String apellido2) {
-        this.apellido2 = apellido2;
-    }
-
-    public Instant getFecha() {
-        return fecha;
-    }
-
-    public Asistencia fecha(Instant fecha) {
-        this.fecha = fecha;
-        return this;
-    }
-
-    public void setFecha(Instant fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getTurno() {
-        return turno;
-    }
-
-    public Asistencia turno(String turno) {
-        this.turno = turno;
-        return this;
-    }
-
-    public void setTurno(String turno) {
-        this.turno = turno;
+    public void setDocumentoColaborador(String documentoColaborador) {
+        this.documentoColaborador = documentoColaborador;
     }
 
     public Instant getEntrada() {
@@ -174,58 +82,6 @@ public class Asistencia implements Serializable {
 
     public void setSalida(Instant salida) {
         this.salida = salida;
-    }
-
-    public Boolean isSinEntrada() {
-        return sinEntrada;
-    }
-
-    public Asistencia sinEntrada(Boolean sinEntrada) {
-        this.sinEntrada = sinEntrada;
-        return this;
-    }
-
-    public void setSinEntrada(Boolean sinEntrada) {
-        this.sinEntrada = sinEntrada;
-    }
-
-    public Boolean isSinSalida() {
-        return sinSalida;
-    }
-
-    public Asistencia sinSalida(Boolean sinSalida) {
-        this.sinSalida = sinSalida;
-        return this;
-    }
-
-    public void setSinSalida(Boolean sinSalida) {
-        this.sinSalida = sinSalida;
-    }
-
-    public Boolean isAusente() {
-        return ausente;
-    }
-
-    public Asistencia ausente(Boolean ausente) {
-        this.ausente = ausente;
-        return this;
-    }
-
-    public void setAusente(Boolean ausente) {
-        this.ausente = ausente;
-    }
-
-    public Integer getMinutosTrabajados() {
-        return minutosTrabajados;
-    }
-
-    public Asistencia minutosTrabajados(Integer minutosTrabajados) {
-        this.minutosTrabajados = minutosTrabajados;
-        return this;
-    }
-
-    public void setMinutosTrabajados(Integer minutosTrabajados) {
-        this.minutosTrabajados = minutosTrabajados;
     }
 
     public AsistenciaPlaneacion getAsistenciaPlaneacion() {
@@ -262,18 +118,9 @@ public class Asistencia implements Serializable {
     public String toString() {
         return "Asistencia{" +
             "id=" + getId() +
-            ", nombre1='" + getNombre1() + "'" +
-            ", nombre2='" + getNombre2() + "'" +
-            ", apellido1='" + getApellido1() + "'" +
-            ", apellido2='" + getApellido2() + "'" +
-            ", fecha='" + getFecha() + "'" +
-            ", turno='" + getTurno() + "'" +
+            ", documentoColaborador='" + getDocumentoColaborador() + "'" +
             ", entrada='" + getEntrada() + "'" +
             ", salida='" + getSalida() + "'" +
-            ", sinEntrada='" + isSinEntrada() + "'" +
-            ", sinSalida='" + isSinSalida() + "'" +
-            ", ausente='" + isAusente() + "'" +
-            ", minutosTrabajados=" + getMinutosTrabajados() +
             "}";
     }
 }

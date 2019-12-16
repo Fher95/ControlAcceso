@@ -2,27 +2,7 @@
     "name": "Asistencia",
     "fields": [
         {
-            "fieldName": "nombre1",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "nombre2",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "apellido1",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "apellido2",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "fecha",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "turno",
+            "fieldName": "documentoColaborador",
             "fieldType": "String"
         },
         {
@@ -32,22 +12,6 @@
         {
             "fieldName": "salida",
             "fieldType": "Instant"
-        },
-        {
-            "fieldName": "sinEntrada",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "sinSalida",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "ausente",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "minutosTrabajados",
-            "fieldType": "Integer"
         }
     ],
     "relationships": [

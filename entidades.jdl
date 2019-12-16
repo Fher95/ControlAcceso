@@ -127,18 +127,9 @@ entity AsignacionHorasExtras{
 }
 
 entity Asistencia{
-    nombre1 String,
-    nombre2 String,
-    apellido1 String,
-    apellido2 String,
-    fecha Instant,
-    turno String,
+    documentoColaborador String,
     entrada Instant,
-    salida Instant,
-    sinEntrada Boolean,
-    sinSalida Boolean,
-    ausente Boolean,
-    minutosTrabajados Integer
+    salida Instant   
 }
 
 entity AsistenciaPlaneacion{}
@@ -190,7 +181,8 @@ relationship OneToOne {
 relationship OneToMany {
     Cargo{AsignacionTurno} to AsignacionTurno,
     CentroCosto{cargo(nombre)} to Cargo
-    Colaborador to IntercambioTurno
+    Colaborador{intercambioTurno} to IntercambioTurno{colaborador1}
+    Colaborador{intercambioTurno2} to IntercambioTurno{colaborador2}
     Colaborador to Telefono
     Colaborador to Antecedentes
     Colaborador to AsistenciaPlaneacion

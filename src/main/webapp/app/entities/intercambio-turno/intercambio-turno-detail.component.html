@@ -17,10 +17,16 @@
                 <dd>
                     <span>{{intercambioTurno.observaciones}}</span>
                 </dd>
-                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador">Colaborador</span></dt>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1">Colaborador 1</span></dt>
                 <dd>
-                    <div *ngIf="intercambioTurno.colaborador">
-                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador?.id, 'view']">{{intercambioTurno.colaborador?.id}}</a>
+                    <div *ngIf="intercambioTurno.colaborador1">
+                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador1?.id, 'view']">{{intercambioTurno.colaborador1?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2">Colaborador 2</span></dt>
+                <dd>
+                    <div *ngIf="intercambioTurno.colaborador2">
+                        <a [routerLink]="['/colaborador', intercambioTurno.colaborador2?.id, 'view']">{{intercambioTurno.colaborador2?.id}}</a>
                     </div>
                 </dd>
             </dl>

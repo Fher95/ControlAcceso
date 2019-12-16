@@ -72,18 +72,9 @@ class AsistenciaGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "nombre1":"SAMPLE_TEXT"
-                , "nombre2":"SAMPLE_TEXT"
-                , "apellido1":"SAMPLE_TEXT"
-                , "apellido2":"SAMPLE_TEXT"
-                , "fecha":"2020-01-01T00:00:00.000Z"
-                , "turno":"SAMPLE_TEXT"
+                , "documentoColaborador":"SAMPLE_TEXT"
                 , "entrada":"2020-01-01T00:00:00.000Z"
                 , "salida":"2020-01-01T00:00:00.000Z"
-                , "sinEntrada":null
-                , "sinSalida":null
-                , "ausente":null
-                , "minutosTrabajados":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_asistencia_url"))).exitHereIfFailed

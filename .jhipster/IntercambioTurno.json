@@ -26,7 +26,14 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "colaborador",
             "otherEntityRelationshipName": "intercambioTurno",
-            "relationshipName": "colaborador",
+            "relationshipName": "colaborador1",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "intercambioTurno",
+            "relationshipName": "colaborador2",
             "otherEntityField": "id"
         }
     ],

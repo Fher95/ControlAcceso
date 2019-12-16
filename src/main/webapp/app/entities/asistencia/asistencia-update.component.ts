@@ -25,18 +25,9 @@ export class AsistenciaUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    nombre1: [],
-    nombre2: [],
-    apellido1: [],
-    apellido2: [],
-    fecha: [],
-    turno: [],
+    documentoColaborador: [],
     entrada: [],
-    salida: [],
-    sinEntrada: [],
-    sinSalida: [],
-    ausente: [],
-    minutosTrabajados: []
+    salida: []
   });
 
   constructor(
@@ -67,18 +58,9 @@ export class AsistenciaUpdateComponent implements OnInit {
   updateForm(asistencia: IAsistencia) {
     this.editForm.patchValue({
       id: asistencia.id,
-      nombre1: asistencia.nombre1,
-      nombre2: asistencia.nombre2,
-      apellido1: asistencia.apellido1,
-      apellido2: asistencia.apellido2,
-      fecha: asistencia.fecha != null ? asistencia.fecha.format(DATE_TIME_FORMAT) : null,
-      turno: asistencia.turno,
+      documentoColaborador: asistencia.documentoColaborador,
       entrada: asistencia.entrada != null ? asistencia.entrada.format(DATE_TIME_FORMAT) : null,
-      salida: asistencia.salida != null ? asistencia.salida.format(DATE_TIME_FORMAT) : null,
-      sinEntrada: asistencia.sinEntrada,
-      sinSalida: asistencia.sinSalida,
-      ausente: asistencia.ausente,
-      minutosTrabajados: asistencia.minutosTrabajados
+      salida: asistencia.salida != null ? asistencia.salida.format(DATE_TIME_FORMAT) : null
     });
   }
 
@@ -100,18 +82,9 @@ export class AsistenciaUpdateComponent implements OnInit {
     return {
       ...new Asistencia(),
       id: this.editForm.get(['id']).value,
-      nombre1: this.editForm.get(['nombre1']).value,
-      nombre2: this.editForm.get(['nombre2']).value,
-      apellido1: this.editForm.get(['apellido1']).value,
-      apellido2: this.editForm.get(['apellido2']).value,
-      fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
-      turno: this.editForm.get(['turno']).value,
+      documentoColaborador: this.editForm.get(['documentoColaborador']).value,
       entrada: this.editForm.get(['entrada']).value != null ? moment(this.editForm.get(['entrada']).value, DATE_TIME_FORMAT) : undefined,
-      salida: this.editForm.get(['salida']).value != null ? moment(this.editForm.get(['salida']).value, DATE_TIME_FORMAT) : undefined,
-      sinEntrada: this.editForm.get(['sinEntrada']).value,
-      sinSalida: this.editForm.get(['sinSalida']).value,
-      ausente: this.editForm.get(['ausente']).value,
-      minutosTrabajados: this.editForm.get(['minutosTrabajados']).value
+      salida: this.editForm.get(['salida']).value != null ? moment(this.editForm.get(['salida']).value, DATE_TIME_FORMAT) : undefined
     };
   }
 

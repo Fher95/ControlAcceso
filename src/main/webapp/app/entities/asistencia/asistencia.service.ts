@@ -52,7 +52,6 @@ export class AsistenciaService {
 
   protected convertDateFromClient(asistencia: IAsistencia): IAsistencia {
     const copy: IAsistencia = Object.assign({}, asistencia, {
-      fecha: asistencia.fecha != null && asistencia.fecha.isValid() ? asistencia.fecha.toJSON() : null,
       entrada: asistencia.entrada != null && asistencia.entrada.isValid() ? asistencia.entrada.toJSON() : null,
       salida: asistencia.salida != null && asistencia.salida.isValid() ? asistencia.salida.toJSON() : null
     });
@@ -61,7 +60,6 @@ export class AsistenciaService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.fecha = res.body.fecha != null ? moment(res.body.fecha) : null;
       res.body.entrada = res.body.entrada != null ? moment(res.body.entrada) : null;
       res.body.salida = res.body.salida != null ? moment(res.body.salida) : null;
     }
@@ -71,7 +69,6 @@ export class AsistenciaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((asistencia: IAsistencia) => {
-        asistencia.fecha = asistencia.fecha != null ? moment(asistencia.fecha) : null;
         asistencia.entrada = asistencia.entrada != null ? moment(asistencia.entrada) : null;
         asistencia.salida = asistencia.salida != null ? moment(asistencia.salida) : null;
       });

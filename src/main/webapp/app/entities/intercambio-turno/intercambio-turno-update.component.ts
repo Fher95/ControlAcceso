@@ -32,7 +32,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     fecha: [],
     autorizadoPor: [],
     observaciones: [],
-    colaborador: []
+    colaborador1: [],
+    colaborador2: []
   });
 
   constructor(
@@ -71,7 +72,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       fecha: intercambioTurno.fecha != null ? intercambioTurno.fecha.format(DATE_TIME_FORMAT) : null,
       autorizadoPor: intercambioTurno.autorizadoPor,
       observaciones: intercambioTurno.observaciones,
-      colaborador: intercambioTurno.colaborador
+      colaborador1: intercambioTurno.colaborador1,
+      colaborador2: intercambioTurno.colaborador2
     });
   }
 
@@ -96,7 +98,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
       autorizadoPor: this.editForm.get(['autorizadoPor']).value,
       observaciones: this.editForm.get(['observaciones']).value,
-      colaborador: this.editForm.get(['colaborador']).value
+      colaborador1: this.editForm.get(['colaborador1']).value,
+      colaborador2: this.editForm.get(['colaborador2']).value
     };
   }
 
