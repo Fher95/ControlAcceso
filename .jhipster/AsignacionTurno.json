@@ -4,6 +4,10 @@
         {
             "fieldName": "fecha",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaFin",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [
