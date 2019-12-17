@@ -115,6 +115,14 @@
                 <span>Ubicación</span>
                 <button id="jh-create-entity"
                     class="btn btn-primary float-right jh-create-entity create-asignacion-turno"
+                    (click)="this.cargarAsistencias()">
+                    <!--fa-icon [icon]="'plus'"></fa-icon-->
+                    <span>
+                        Cargar Asistencia
+                    </span>
+                </button>
+                <button id="jh-create-entity"
+                    class="btn btn-primary float-right jh-create-entity create-asignacion-turno"
                     (click)="this.rotarAsignacion()">
                     <!--fa-icon [icon]="'plus'"></fa-icon-->
                     <span>

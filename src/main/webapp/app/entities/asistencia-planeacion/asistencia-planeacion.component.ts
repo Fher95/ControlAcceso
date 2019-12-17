@@ -161,4 +161,8 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
     strSalida += varHoraTurno.getMinutes();
     return strSalida;
   }
+
+  cargarAsistencias() {
+    this.asistenciaPlaneacionService.cargarAsistencia().subscribe();
+  }
 }

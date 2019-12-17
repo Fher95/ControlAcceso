@@ -168,4 +168,7 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
       this.loadAll();
     });
   }
+  cargarAsistencias() {
+    this.asignacionTurnoService.cargarAsistencias().subscribe();
+  }
 }

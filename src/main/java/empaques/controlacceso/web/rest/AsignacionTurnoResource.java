@@ -40,19 +40,19 @@ public class AsignacionTurnoResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final AsignacionTurnoRepository asignacionTurnoRepository;
+    private final AsignacionTurnoRepository asignacionTurnoRepository;   
 
     public AsignacionTurnoResource(AsignacionTurnoRepository asignacionTurnoRepository) {
-        this.asignacionTurnoRepository = asignacionTurnoRepository;
+        this.asignacionTurnoRepository = asignacionTurnoRepository;               
     }
 
     /**
      * {@code POST  /asignacion-turnos} : Create a new asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new asignacionTurno, or with status
-     *         {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new asignacionTurno, or with status
+     * {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/asignacion-turnos")
@@ -66,7 +66,7 @@ public class AsignacionTurnoResource {
         AsignacionTurno result = asignacionTurnoRepository.save(asignacionTurno);
         return ResponseEntity
                 .created(new URI("/api/asignacion-turnos/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -74,11 +74,11 @@ public class AsignacionTurnoResource {
      * {@code PUT  /asignacion-turnos} : Updates an existing asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated asignacionTurno, or with status {@code 400 (Bad Request)}
-     *         if the asignacionTurno is not valid, or with status
-     *         {@code 500 (Internal Server Error)} if the asignacionTurno couldn't
-     *         be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the updated asignacionTurno, or with status
+     * {@code 400 (Bad Request)} if the asignacionTurno is not valid, or with
+     * status {@code 500 (Internal Server Error)} if the asignacionTurno
+     * couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/asignacion-turnos")
@@ -97,10 +97,10 @@ public class AsignacionTurnoResource {
      * {@code GET  /asignacion-turnos} : get all the asignacionTurnos.
      *
      * @param eagerload flag to eager load entities from relationships (This is
-     *                  applicable for many-to-many).
-     * @param filter    the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of asignacionTurnos in body.
+     * applicable for many-to-many).
+     * @param filter the filter of the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
+     * list of asignacionTurnos in body.
      */
     @GetMapping("/asignacion-turnos")
     public List<AsignacionTurno> getAllAsignacionTurnos(@RequestParam(required = false) String filter,
@@ -110,17 +110,18 @@ public class AsignacionTurnoResource {
             return StreamSupport.stream(asignacionTurnoRepository.findAll().spliterator(), false)
                     .filter(asignacionTurno -> asignacionTurno.getAsistenciaPlaneacion() == null)
                     .collect(Collectors.toList());
-        }
+        }        
         log.debug("REST request to get all AsignacionTurnos");
-        return asignacionTurnoRepository.findAllWithEagerRelationships();
+        //return asignacionTurnoRepository.findAllWithEagerRelationships();
+        return asignacionTurnoRepository.findAllAsignacionesActuales();
     }
 
     /**
      * {@code GET  /asignacion-turnos/:id} : get the "id" asignacionTurno.
      *
      * @param id the id of the asignacionTurno to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the asignacionTurno, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the asignacionTurno, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/asignacion-turnos/{id}")
     public ResponseEntity<AsignacionTurno> getAsignacionTurno(@PathVariable Long id) {
@@ -157,7 +158,7 @@ public class AsignacionTurnoResource {
 
         System.out.print("Entra a la rotación de turnos");
         this.leerArchivo();
-        
+
         /*
         Turno turnoPivote = new Turno();
         turnoPivote.setNombre("Pivote");
@@ -180,11 +181,30 @@ public class AsignacionTurnoResource {
             }
 
         }
-        */
+         */
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
-        
 
+    }
+    
+    @PutMapping("/asignacion-turnos/cargar-asistencias")
+    public ResponseEntity<AsignacionTurno> cargarAsignacion(){
+        System.out.print("Carga de datos iniciada");
+        boolean resultado = false;
+        ArrayList<String> lineasArchivo = this.leerArchivo();
+        ArrayList<String[]> matrizDatos = new ArrayList<>();
+        for (int iterador = 0; iterador < lineasArchivo.size(); iterador ++ ){
+            String[] datosLinea = lineasArchivo.get(iterador).split(";");
+            matrizDatos.add(datosLinea);
+        }
+        
+        for(int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++){
+            String varNumDocumento = matrizDatos.get(iterador2)[0];                                    
+        }
+                
+        System.out.print("Carga de datos finalizada");
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
+                .body(null);
     }
 
     private ArrayList<Turno> desfazarListaTurnos(ArrayList<Turno> parListaTurnos) {
@@ -217,25 +237,31 @@ public class AsignacionTurnoResource {
         }
         return result;
     }
-
-    private void leerArchivo() {
+/**
+ * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las lineas
+ * leidas en un vector de Strings
+ * @return ArrayList<String> lineasLeídas
+ */
+    private ArrayList<String> leerArchivo() {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-
+        ArrayList<String> listaLineas = new ArrayList();
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
             // hacer una lectura comoda (disponer del metodo readLine()).
             archivo = new File("datosAsistencia.txt");
-            System.out.println( archivo.getAbsolutePath());   
-                    
+            System.out.println(archivo.getAbsolutePath());
+
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
 
             // Lectura del fichero
             String linea;
-            while ((linea = br.readLine()) != null)
-                System.out.println(linea); 
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+                listaLineas.add(linea);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -250,5 +276,6 @@ public class AsignacionTurnoResource {
                 e2.printStackTrace();
             }
         }
+        return listaLineas;
     }
 }

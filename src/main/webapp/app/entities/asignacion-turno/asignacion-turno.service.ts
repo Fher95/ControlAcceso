@@ -82,4 +82,8 @@ export class AsignacionTurnoService {
       .put<IAsignacionTurno>(`${this.resourceUrl}/rotar-turnos`, null, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
+
+  cargarAsistencias(): Observable<EntityResponseType> {
+    return this.http.put<IAsignacionTurno>(`${this.resourceUrl}/cargar-asistencias`, null, { observe: 'response' }).pipe();
+  }
 }

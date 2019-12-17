@@ -35,4 +35,8 @@ export class AsistenciaPlaneacionService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  cargarAsistencia(): Observable<EntityResponseType> {
+    return this.http.put<IAsistenciaPlaneacion>(`${this.resourceUrl}/cargar-asistencias`, null, { observe: 'response' });
+  }
 }
