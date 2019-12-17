@@ -97,7 +97,7 @@
             "relationshipType": "one-to-many",
             "otherEntityName": "intercambioTurno",
             "otherEntityRelationshipName": "colaborador2",
-            "relationshipName": "intercambioTurno"
+            "relationshipName": "intercambioTurno2"
         },
         {
             "relationshipType": "one-to-many",

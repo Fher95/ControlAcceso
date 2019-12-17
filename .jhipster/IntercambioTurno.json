@@ -32,7 +32,7 @@
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "colaborador",
-            "otherEntityRelationshipName": "intercambioTurno",
+            "otherEntityRelationshipName": "intercambioTurno2",
             "relationshipName": "colaborador2",
             "otherEntityField": "id"
         }
