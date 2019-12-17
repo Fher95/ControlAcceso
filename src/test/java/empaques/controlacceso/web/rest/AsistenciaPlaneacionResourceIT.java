@@ -2,7 +2,9 @@ package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.ControlAccesoApp;
 import empaques.controlacceso.domain.AsistenciaPlaneacion;
+import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.AsistenciaPlaneacionRepository;
+import empaques.controlacceso.repository.AsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,12 @@ public class AsistenciaPlaneacionResourceIT {
     private AsistenciaPlaneacionRepository asistenciaPlaneacionRepository;
 
     @Autowired
+    private AsistenciaRepository asistenciaRepository;
+
+    @Autowired
+    private AsignacionTurnoRepository asignacionRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -58,7 +66,8 @@ public class AsistenciaPlaneacionResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AsistenciaPlaneacionResource asistenciaPlaneacionResource = new AsistenciaPlaneacionResource(asistenciaPlaneacionRepository);
+        final AsistenciaPlaneacionResource asistenciaPlaneacionResource = new AsistenciaPlaneacionResource(asistenciaPlaneacionRepository,
+        asignacionRepository, asistenciaRepository);
         this.restAsistenciaPlaneacionMockMvc = MockMvcBuilders.standaloneSetup(asistenciaPlaneacionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
