@@ -33,7 +33,7 @@ public class AsignacionTurno implements Serializable {
     private Instant fechaFin;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = false)
     private Turno turno;
 
     @OneToOne

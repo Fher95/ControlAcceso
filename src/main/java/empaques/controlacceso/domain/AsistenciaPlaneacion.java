@@ -23,7 +23,7 @@ public class AsistenciaPlaneacion implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = false)
     private AsignacionTurno asignacionTurno;
 
     @OneToOne

@@ -52,7 +52,7 @@ export class AsistenciaPlaneacionUpdateComponent implements OnInit {
       this.updateForm(asistenciaPlaneacion);
     });
     this.asignacionTurnoService
-      .query({ filter: 'asistenciaplaneacion-is-null' })
+      .query()
       .pipe(
         filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
         map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
