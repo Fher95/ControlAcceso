@@ -1,6 +1,7 @@
 package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.domain.AsignacionTurno;
+import empaques.controlacceso.domain.Asistencia;
 import empaques.controlacceso.domain.AsistenciaPlaneacion;
 import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
@@ -21,12 +22,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * REST controller for managing
@@ -145,50 +151,125 @@ public class AsistenciaPlaneacionResource {
     //***************Métodos Nuevos**********************/
     @PutMapping("/asistencia-planeacions/cargar-asistencias")
     public ResponseEntity<AsistenciaPlaneacion> cargarAsignacion() {
-        System.out.println("Carga de datos iniciada");        
+        System.out.println("Carga de datos iniciada");
+        // Creación del arreglo de lectura del archivo
         ArrayList<String> lineasArchivo = this.leerArchivo();
-        
+        // Se crea una matriz de datos para facilitar la manipulación de los datos de cada linea del archivo
         ArrayList<String[]> matrizDatos = this.generarMatrizDeDatos(lineasArchivo);
-        List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();        
-        int contadorCoincidencias = 0;
+        // Se obtiene la lista de asignaciones actuales para verificar la existencia de colaboradores (this.existeColEnAsignacion())
+        List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
+        int contadorInserciones = 0;
+        
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
             String varNumDocumento = matrizDatos.get(iterador2)[0];
-            if(this.existeColEnAsignacion(asignacionesActuales,varNumDocumento)){
-                contadorCoincidencias ++;
-            }            
+            if (this.existeColEnAsignacion(asignacionesActuales, varNumDocumento)) {
+                Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
+                Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
+                            
+                Instant varInstantEntrada = varFechaHoraEntrada.toInstant();   
+                Instant varInstantSalida = varFechaHoraSalida.toInstant();                          
+                //Optional<Asistencia> varAsistencias = this.asistenciaRepository.findAllByEntradaSalida(varNumDocumento, varInstantEntrada, varInstantSalida);
+                boolean existeAsistencia = this.existeAsistencia(varNumDocumento, varInstantEntrada, varInstantSalida);
+                if (!existeAsistencia){
+                    Asistencia nuevaAsistencia = new Asistencia();
+                    nuevaAsistencia.setDocumentoColaborador(varNumDocumento);
+                    nuevaAsistencia.setEntrada(varInstantEntrada);
+                    nuevaAsistencia.setSalida(varInstantSalida);
+                    
+                    Asistencia asistenciaCreada = this.asistenciaRepository.save(nuevaAsistencia);
+                    AsignacionTurno varAsignacionTurno = this.obtenerAsignacionTurno(asignacionesActuales, varNumDocumento);                    
+                    AsistenciaPlaneacion nuevaAsistenciaPlaneacion = new AsistenciaPlaneacion();
+                    nuevaAsistenciaPlaneacion.setAsignacionTurno(varAsignacionTurno);
+                    nuevaAsistenciaPlaneacion.setAsistencia(asistenciaCreada);
+                    nuevaAsistenciaPlaneacion.setColaborador(varAsignacionTurno.getColaboradors().iterator().next());
+                    this.asistenciaPlaneacionRepository.save(nuevaAsistenciaPlaneacion);
+                    System.out.println("Asistencia planeacion creada: ");
+                    contadorInserciones++;
+                }
+                
+            }
         }
-        System.out.print("Colaboradores existentes: " + contadorCoincidencias);
-        System.out.print("Carga de datos finalizada");
+        System.out.println("Se insertaron: " + contadorInserciones);
+        System.out.println("Carga de datos finalizada");
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
     }
     
-    private boolean existeColEnAsignacion (List<AsignacionTurno> parAsignaciones, String docColaborador) {
+    private boolean existeAsistencia(String numDocumento, Instant parEntrada, Instant parSalida){
+        boolean respuesta = false;
+        List<Asistencia> listaAsignaciones = this.asistenciaRepository.findAll();
+        if (!listaAsignaciones.isEmpty()){
+            for (int iterador = 0; iterador < listaAsignaciones.size(); iterador ++){
+                Asistencia varAsis = listaAsignaciones.get(iterador);
+                Instant asisSalida = varAsis.getSalida();
+                if (numDocumento.equals(varAsis.getDocumentoColaborador()) 
+                        && (parEntrada.compareTo(varAsis.getEntrada()) == 0)
+                        && parSalida.compareTo(varAsis.getSalida()) == 0){
+                    respuesta = true;
+                    break;
+                }
+            }
+        }
+        return respuesta;
+    }
+    
+    private Date convertirStringADate(String parString) {
+        Date fechaResult = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            fechaResult = sdf.parse(parString);
+        } catch (ParseException ex) {
+            fechaResult = null;
+        }
+        return fechaResult;
+    }
+
+    private boolean existeColEnAsignacion(List<AsignacionTurno> parAsignaciones, String docColaborador) {
         System.out.println("Inicia comprobacion de existencia.");
         boolean respuesta = false;
-        for (int i = 0; i < parAsignaciones.size(); i ++){
+        for (int i = 0; i < parAsignaciones.size(); i++) {
             AsignacionTurno asignacion = parAsignaciones.get(i);
-            if(!asignacion.getColaboradors().isEmpty()){
+            if (!asignacion.getColaboradors().isEmpty()) {
                 Set<Colaborador> colaboradores = asignacion.getColaboradors();
-                for (Iterator it = colaboradores.iterator(); it.hasNext();){
-                    Colaborador col = (Colaborador)it.next();
-                    if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())){
+                for (Iterator it = colaboradores.iterator(); it.hasNext();) {
+                    Colaborador col = (Colaborador) it.next();
+                    if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())) {
                         respuesta = true;
                     }
-                }                
+                }
             }
         }
         System.out.println("Finaliza comprobacion de existencia.");
         return respuesta;
     }
     
+    private AsignacionTurno obtenerAsignacionTurno(List<AsignacionTurno> parAsignaciones, String docColaborador) {
+        System.out.println("Inicia obtencion de asignacion turno.");
+        AsignacionTurno respuesta = null;
+        for (int i = 0; i < parAsignaciones.size(); i++) {
+            AsignacionTurno asignacion = parAsignaciones.get(i);
+            if (!asignacion.getColaboradors().isEmpty()) {
+                Set<Colaborador> colaboradores = asignacion.getColaboradors();
+                for (Iterator it = colaboradores.iterator(); it.hasNext();) {
+                    Colaborador col = (Colaborador) it.next();
+                    if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())) {
+                        respuesta = asignacion;
+                    }
+                }
+            }
+        }
+        System.out.println("Obtencion de asignacion finalizada.");
+        return respuesta;
+    }
+
     /**
-     * Recibe un lista con cadenas o strings para proceder a separar cada una de esas cadenas
-     * en vectores de strings por medio de algun caracter separador como ";"
+     * Recibe un lista con cadenas o strings para proceder a separar cada una de
+     * esas cadenas en vectores de strings por medio de algun caracter separador
+     * como ";"
+     *
      * @param parLista Lista de strings
      * @return Un arreglo de arreglos
      */
-    
     private ArrayList<String[]> generarMatrizDeDatos(ArrayList<String> parLista) {
         System.out.println("Comienza generacion de matriz de datos.");
         ArrayList<String[]> matrizResult = new ArrayList<>();
@@ -199,6 +280,7 @@ public class AsistenciaPlaneacionResource {
         System.out.println("Finaliza generacio de matriz de datos.");
         return matrizResult;
     }
+
     /**
      * Este método lee un archivo en la ruta raíz del proyecto y retorna todas
      * las lineas leidas en un vector de Strings

@@ -27,7 +27,7 @@ public class AsistenciaPlaneacion implements Serializable {
     private AsignacionTurno asignacionTurno;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = false)
     private Asistencia asistencia;
 
     @ManyToOne
