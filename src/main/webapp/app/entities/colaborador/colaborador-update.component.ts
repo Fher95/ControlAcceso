@@ -268,11 +268,11 @@ export class ColaboradorUpdateComponent implements OnInit {
     this.asignacionTurnoService
       .findCargoColaborador(parIdColaborador)
       .pipe(
-        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
-        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+        filter((res: HttpResponse<IAsignacionTurno[]>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
       )
-      .subscribe((res: IAsignacionTurno) => {
-        this.varAsignacion = res;
+      .subscribe((res: IAsignacionTurno[]) => {
+        this.varAsignacion = res[0];
         this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
         this.editForm.patchValue({
           centroDeCosto: this.varAsignacion.cargo.centroCosto.id,

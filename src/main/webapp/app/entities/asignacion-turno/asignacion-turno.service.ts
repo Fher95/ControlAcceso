@@ -86,4 +86,8 @@ export class AsignacionTurnoService {
   cargarAsistencias(): Observable<EntityResponseType> {
     return this.http.put<IAsignacionTurno>(`${this.resourceUrl}/cargar-asistencias`, null, { observe: 'response' }).pipe();
   }
+
+  findCargoColaborador(idColaborador: number): Observable<HttpResponse<IAsignacionTurno[]>> {
+    return this.http.get<IAsignacionTurno[]>(`${this.resourceUrl}/colaborador/${idColaborador}`, { observe: 'response' });
+  }
 }

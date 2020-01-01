@@ -51,6 +51,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   currentSearch: string;
   colaboradorEncontrado: IColaborador;
   centrocostos: ICentroCosto[];
+  strAsginaciones = 'Sin asignacion';
+  asignacionesColSeleccionado: IAsignacionTurno[];
 
   editForm = this.fb.group({
     id: [],
@@ -393,6 +395,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
 
   turnosCargosColaborador(parId: number): string {
     let result = 'No asignado';
+    this.strAsginaciones = result;
+    this.asignacionesColSeleccionado = [];
     this.asignacionTurnoService
       .findAsignacionesColaborador(parId)
       .pipe(
@@ -400,8 +404,23 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
       )
       .subscribe((res: IAsignacionTurno[]) => {
-        result = '' + res[0].turno.nombre + ' - ' + res[0].cargo.nombre;
+        if (res.length > 0) {
+          result = '';
+          this.asignacionesColSeleccionado = res;
+          res.forEach(element => {
+            result += element.turno.nombre + ' - ' + element.cargo.nombre + ' || ';
+          });
+          // result = '' + res[0].turno.nombre + ' - ' + res[0].cargo.nombre;
+          this.strAsginaciones = result;
+        }
       });
+
+    return result;
+  }
+
+  getCadenaAsignacion(parAsignacion: IAsignacionTurno): string {
+    let result = '';
+    result = parAsignacion.turno.nombre + ' - ' + parAsignacion.cargo.nombre;
     return result;
   }
 }
