@@ -82,6 +82,13 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ asignacionTurno }) => {
       this.updateForm(asignacionTurno);
     });
+    this.colaboradorService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IColaborador[]>) => response.body)
+      )
+      .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
     this.loadAllCentroCosto();
     this.turnoService
       .query({ filter: 'asignacionturno-is-null' })
@@ -158,13 +165,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
-    this.colaboradorService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IColaborador[]>) => response.body)
-      )
-      .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
+
     this.planeacionSemanalService
       .query()
       .pipe(
@@ -322,13 +323,13 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   loadAsignacionTurno(parIdColaborador: number) {
     this.editForm.patchValue({ id: undefined, centroDeCosto: undefined, cargo: undefined });
     this.asignacionTurnoService
-      .findCargoColaborador(parIdColaborador)
+      .findAsignacionesColaborador(parIdColaborador)
       .pipe(
-        filter((res: HttpResponse<IAsignacionTurno>) => res.ok),
-        map((res: HttpResponse<IAsignacionTurno>) => res.body)
+        filter((res: HttpResponse<IAsignacionTurno[]>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
       )
-      .subscribe((res: IAsignacionTurno) => {
-        this.varAsignacion = res;
+      .subscribe((res: IAsignacionTurno[]) => {
+        this.varAsignacion = res[0];
         if (this.varAsignacion !== undefined) {
           this.setAsignacionTurno(this.varAsignacion.id);
           this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
@@ -373,6 +374,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     // this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
     // this.loadAsignacionTurno(this.colaboradorEncontrado.id);
     this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
+    this.turnosCargosColaborador(this.colaboradorEncontrado.id);
   }
 
   cargarCargos() {
@@ -387,5 +389,19 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  turnosCargosColaborador(parId: number): string {
+    let result = 'No asignado';
+    this.asignacionTurnoService
+      .findAsignacionesColaborador(parId)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno[]>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
+      )
+      .subscribe((res: IAsignacionTurno[]) => {
+        result = '' + res[0].turno.nombre + ' - ' + res[0].cargo.nombre;
+      });
+    return result;
   }
 }

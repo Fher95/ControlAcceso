@@ -41,6 +41,15 @@ public interface AsignacionTurnoRepository extends JpaRepository<AsignacionTurno
     
     @Query("select distinct asignacionTurno from AsignacionTurno asignacionTurno inner join fetch asignacionTurno.colaboradors"
             + " where colaborador_id =:num")
-    List<AsignacionTurno> findAllAsignacionesNumColaborador(@Param("num") String num);
+    List<AsignacionTurno> findAllAsignacionesNumColaborador(@Param("num") Long num);
+    
+    /**
+     * Devuelve todos las asignaciones de turnos actuales del colaborador con el id dado
+     * @param id
+     * @return 
+     */
+    @Query("select distinct asignacionTurno from AsignacionTurno asignacionTurno inner join fetch asignacionTurno.colaboradors col"
+            + " where colaborador_id =:id and fecha_fin = null")
+    List<AsignacionTurno> findAsignacionesActualesColaborador(@Param("id") Long id);
 
 }

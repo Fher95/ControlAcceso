@@ -1,6 +1,7 @@
 package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.domain.AsignacionTurno;
+import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.domain.Turno;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -18,10 +19,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -147,10 +152,10 @@ public class AsignacionTurnoResource {
 
     /* Nuevos metodos */
     @GetMapping("/asignacion-turnos/colaborador/{id}")
-    public ResponseEntity<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
+    public List<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
         log.debug("REST request to get AsignacionTurno : {}", id);
-        Optional<AsignacionTurno> asignacionTurno = asignacionTurnoRepository.findCargoColaborador(id);
-        return ResponseUtil.wrapOrNotFound(asignacionTurno);
+        List<AsignacionTurno> asignacionesTurnos = asignacionTurnoRepository.findAsignacionesActualesColaborador(id);
+        return asignacionesTurnos;
     }
 
     @PutMapping("/asignacion-turnos/rotar-turnos")
@@ -277,5 +282,32 @@ public class AsignacionTurnoResource {
             }
         }
         return listaLineas;
+    }
+    /**
+     * Verifica si el turno que se pretende asignar al colaborador, ya ha sido 
+     * @param parAsignacionTurno
+     * @throws URISyntaxException 
+     */
+    private void verificarAsignacionTurno (AsignacionTurno parAsignacionTurno) throws URISyntaxException {
+        // Se obtiene el primer elemento (y unico)
+        Set<Colaborador> cols = parAsignacionTurno.getColaboradors();
+        Iterator it = cols.iterator();
+        Colaborador colaborador = (Colaborador) it.next();
+        List<AsignacionTurno> asignaciones = 
+                this.asignacionTurnoRepository.findAsignacionesActualesColaborador(colaborador.getId());
+        // Se verigica si el colaborador tiene asignaciones actualmente
+        if(asignaciones.size() != 0) {
+            // Si las tiene, se verifica cual es el turno que se quiere reasignar
+            Turno turnoAsignacion = parAsignacionTurno.getTurno();
+            for (int i = 0; i < asignaciones.size(); i++){
+                
+                    Instant momentoActual = Instant.now();
+                    AsignacionTurno asignacionActulizar = asignaciones.get(i);
+                    asignacionActulizar.setFechaFin(momentoActual);
+                    this.updateAsignacionTurno(asignacionActulizar);
+                    break;                
+            }
+        }
+        
     }
 }
