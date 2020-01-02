@@ -150,7 +150,8 @@ public class AsignacionTurnoResource {
                 .build();
     }
 
-    /* Nuevos metodos */
+    /* Nuevos metodos */    
+
     @GetMapping("/asignacion-turnos/colaborador/{id}")
     public List<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
         log.debug("REST request to get AsignacionTurno : {}", id);

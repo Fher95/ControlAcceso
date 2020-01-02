@@ -95,10 +95,11 @@
                         *ngIf="this.asignacionesColSeleccionado.length > 0">
                         <dt><span>Asignacion actual: </span> </dt>
                         <p *ngFor="let item of this.asignacionesColSeleccionado">{{this.getCadenaAsignacion(item)}} 
-                            <button class="btn btn-danger btn-sm">
+                            <button type="button" class="btn btn-danger btn-sm" (click)="this.desasignarTurno(item)">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline"
                                 >Desasignar</span></button> </p>
+                                <jhi-alert></jhi-alert>                                
 
                     </div>
                 </div>

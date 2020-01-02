@@ -423,4 +423,18 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     result = parAsignacion.turno.nombre + ' - ' + parAsignacion.cargo.nombre;
     return result;
   }
+
+  // Recibe un obj asignación, y le establece una fechaFin a la asignación para que deje de ser actual
+  desasignarTurno(parAsignacion: IAsignacionTurno) {
+    const fechaHoraActual: Date = new Date();
+    const momentoActual = moment(fechaHoraActual.toDateString());
+    parAsignacion.fechaFin = momentoActual;
+    this.asignacionTurnoService.update2(parAsignacion).subscribe(
+      () => {
+        this.jhiAlertService.success('Desasignacion exitosa');
+        this.turnosCargosColaborador(this.colaboradorEncontrado.id);
+      },
+      () => this.jhiAlertService.error('No se pudo realizar la desasignacion')
+    );
+  }
 }

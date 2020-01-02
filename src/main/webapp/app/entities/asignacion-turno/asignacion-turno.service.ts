@@ -90,4 +90,11 @@ export class AsignacionTurnoService {
   findCargoColaborador(idColaborador: number): Observable<HttpResponse<IAsignacionTurno[]>> {
     return this.http.get<IAsignacionTurno[]>(`${this.resourceUrl}/colaborador/${idColaborador}`, { observe: 'response' });
   }
+
+  update2(asignacionTurno: IAsignacionTurno): Observable<EntityResponseType> {
+    //const copy = this.convertDateFromClient(asignacionTurno);
+    return this.http
+      .put<IAsignacionTurno>(this.resourceUrl, asignacionTurno, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
 }
