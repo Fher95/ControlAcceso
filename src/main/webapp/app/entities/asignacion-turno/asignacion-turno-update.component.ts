@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IAsignacionTurno, AsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from './asignacion-turno.service';
@@ -57,11 +57,11 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     fecha: [],
-    turno: [],
+    turno: [this, [Validators.required]],
     intercambioTurno: [],
     colaboradors: [],
     planeacionSemanal: [],
-    cargo: [],
+    cargo: [this, [Validators.required]],
     centroDeCosto: []
   });
 
@@ -187,13 +187,16 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   updateForm(asignacionTurno: IAsignacionTurno) {
     this.editForm.patchValue({
       id: asignacionTurno.id,
-      fecha: asignacionTurno.fecha != null ? asignacionTurno.fecha.format(DATE_TIME_FORMAT) : null,
+      fecha: asignacionTurno.fecha != null ? asignacionTurno.fecha.format(DATE_FORMAT) : null,
       turno: asignacionTurno.turno,
       intercambioTurno: asignacionTurno.intercambioTurno,
       colaboradors: asignacionTurno.colaboradors,
       planeacionSemanal: asignacionTurno.planeacionSemanal,
       cargo: asignacionTurno.cargo
     });
+    if (asignacionTurno.id === undefined) {
+      this.editForm.patchValue({ fecha: this.getStringFecha(new Date()) });
+    }
   }
 
   previousState() {
@@ -436,5 +439,19 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       },
       () => this.jhiAlertService.error('No se pudo realizar la desasignacion')
     );
+  }
+
+  getStringFecha(parFecha: Date): string {
+    let res = '';
+    res = parFecha.getFullYear().toString() + '-';
+    if (parFecha.getDate() < 10) {
+      res += '0';
+    }
+    res += parFecha.getDate().toString() + '-';
+    if (parFecha.getDay() < 10) {
+      res += '0';
+    }
+    res += parFecha.getDay().toString();
+    return res;
   }
 }

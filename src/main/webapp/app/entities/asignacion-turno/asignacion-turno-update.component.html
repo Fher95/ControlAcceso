@@ -17,8 +17,8 @@
                             for="field_fecha">Fecha</label>
                         <div class="d-flex">
                             <input id="field_fecha" type="date" class="form-control" name="fecha"
-                                formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
-                        </div>
+                                formControlName="fecha"  />
+                        </div>                        
                     </div>
 
 
@@ -91,20 +91,33 @@
                         </div>
 
                     </div>
-                    <div
-                        *ngIf="this.asignacionesColSeleccionado.length > 0">
-                        <dt><span>Asignacion actual: </span> </dt>
-                        <p *ngFor="let item of this.asignacionesColSeleccionado">{{this.getCadenaAsignacion(item)}} 
-                            <button type="button" class="btn btn-danger btn-sm" (click)="this.desasignarTurno(item)">
-                                <fa-icon [icon]="'times'"></fa-icon>
-                                <span class="d-none d-md-inline"
-                                >Desasignar</span></button> </p>
-                                <jhi-alert></jhi-alert>                                
 
+                </div>
+                <div *ngIf="colaboradorEncontrado !== undefined && this.asignacionesColSeleccionado.length > 0"
+                    class="border rounded shadow p-4 my-3">
+                    <h4>Asignacion Actual </h4>
+                    <div class="row">
+                        <div class="col-3">
+                            <dt>Turno</dt>
+                        </div>
+                        <div class="col-3">
+                            <dt>Cargo</dt>
+                        </div>
+                    </div>
+                    <div *ngFor="let item of this.asignacionesColSeleccionado" class="row my-2">
+                        <div class="col-3">
+                            {{item.turno.nombre}}
+                        </div>
+                        <div class="col-3">
+                            {{item.cargo.nombre}}
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="this.desasignarTurno(item)">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Desasignar</span>
+                        </button>
                     </div>
                 </div>
-
-
+                <jhi-alert></jhi-alert>
 
                 <!--div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno"
@@ -164,6 +177,14 @@
                                     *ngFor="let cargoOption of cargos; trackBy: trackCargoById">{{cargoOption.nombre}}
                                 </option>
                             </select>
+
+                            <div
+                                *ngIf="editForm.get('cargo').invalid ">
+                                <small class="form-text text-danger" *ngIf="editForm.get('cargo').errors.required"
+                                    >
+                                    Debe seleccionar un cargo para poder continuar
+                                </small>                                
+                            </div>
                         </div>
                     </div>
                     <div *ngIf="this.editForm.get(['cargo']).value !== undefined">
@@ -177,6 +198,13 @@
                                     *ngFor="let turnoOption of turnos; trackBy: trackTurnoById">{{turnoOption.nombre}}
                                 </option>
                             </select>
+                            <div
+                                *ngIf="editForm.get('turno').invalid ">
+                                <small class="form-text text-danger" *ngIf="editForm.get('turno').errors.required"
+                                    >
+                                    Debe seleccionar un turno para poder guardar
+                                </small>                                
+                            </div>
                         </div>
                     </div>
                 </div>
