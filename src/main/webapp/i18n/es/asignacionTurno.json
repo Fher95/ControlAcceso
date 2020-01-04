@@ -5,7 +5,7 @@
         "title": "Asignacion Turnos",
         "createLabel": "Crear nuevo Asignacion Turno",
         "createOrEditLabel": "Crear o editar Asignacion Turno",
-        "notFound": "No Asignacion Turnos found"
+        "notFound": "No se encontraro asignaciones"
       },
       "created": "Un nuevo Asignacion Turno ha sido creado con el identificador {{ param }}",
       "updated": "Un Asignacion Turno ha sido actualizado con el identificador {{ param }}",
@@ -15,6 +15,10 @@
       },
       "detail": {
         "title": "Asignacion Turno"
+      },
+      "desasignacion": {
+        "exitosa": "Desasignacion exitosa",
+        "error": "No se pudo realizar la desasignacion"
       },
       "fecha": "Fecha",
       "turno": "Turno",

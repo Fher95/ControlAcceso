@@ -434,13 +434,14 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     parAsignacion.fechaFin = momentoActual;
     this.asignacionTurnoService.update2(parAsignacion).subscribe(
       () => {
-        this.jhiAlertService.success('Desasignacion exitosa');
+        this.jhiAlertService.success('controlAccesoApp.asignacionTurno.desasignacion.exitosa', null, null);
         this.turnosCargosColaborador(this.colaboradorEncontrado.id);
       },
-      () => this.jhiAlertService.error('No se pudo realizar la desasignacion')
+      () => this.jhiAlertService.error('controlAccesoApp.asignacionTurno.desasignacion.error', null, null)
     );
   }
 
+  // Recibe un objeto tipo Date y crea un cadena con el formato YYYY-MM-DD
   getStringFecha(parFecha: Date): string {
     let res = '';
     res = parFecha.getFullYear().toString() + '-';
@@ -453,5 +454,12 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     }
     res += parFecha.getDay().toString();
     return res;
+  }
+
+  // Recibe dos objetos Turno y compara sus horas de entrada para verificar si se cruzan o no
+  turnosCruzados(turno1: ITurno, turno2: ITurno): boolean {
+    const horaEntrada1 = turno1.horaInicio;
+    const horaEntrada2 = turno2.horaInicio;
+    return false;
   }
 }
