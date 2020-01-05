@@ -11,7 +11,7 @@ import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.consta
 import { JhiAlertService } from 'ng-jhipster';
 import { IAsignacionTurno, AsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from './asignacion-turno.service';
-import { ITurno } from 'app/shared/model/turno.model';
+import { ITurno, Turno } from 'app/shared/model/turno.model';
 import { TurnoService } from 'app/entities/turno/turno.service';
 import { IIntercambioTurno } from 'app/shared/model/intercambio-turno.model';
 import { IntercambioTurnoService } from 'app/entities/intercambio-turno/intercambio-turno.service';
@@ -53,6 +53,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   centrocostos: ICentroCosto[];
   strAsginaciones = 'Sin asignacion';
   asignacionesColSeleccionado: IAsignacionTurno[];
+  seleccionTurnoInvalida = false;
+  maximoAsignacionesExcedido = false;
 
   editForm = this.fb.group({
     id: [],
@@ -196,6 +198,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     });
     if (asignacionTurno.id === undefined) {
       this.editForm.patchValue({ fecha: this.getStringFecha(new Date()) });
+    } else {
+      this.setColaboradorSeleccionado();
     }
   }
 
@@ -374,6 +378,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       });
   }
 
+  /**
+   * Método que se activa al seleccionar un colaborador, se establece el atributo colaboradorEncontrado
+   * y además se buscan todas las asignaciones actuales para ese colaborador
+   */
   setColaboradorSeleccionado(): void {
     this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
     // this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
@@ -396,8 +404,15 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
+  /**
+   * Obtiene todos las asignaciones (objetos tipo IAsignacionTurno) que le pertenecen a un Colaborador
+   * y las guarda en el atributo asignacionesColSeleccionado: IAsignacionTurno[], además, devuelve
+   * una cadena de texto con el nombre del turno y el cargo de las asignaciones
+   * @param parId number: Identificador del objeto Colaborador
+   */
   turnosCargosColaborador(parId: number): string {
     let result = 'No asignado';
+    this.maximoAsignacionesExcedido = false;
     this.strAsginaciones = result;
     this.asignacionesColSeleccionado = [];
     this.asignacionTurnoService
@@ -411,9 +426,19 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
           result = '';
           this.asignacionesColSeleccionado = res;
           res.forEach(element => {
-            result += element.turno.nombre + ' - ' + element.cargo.nombre + ' || ';
+            // Verifica si hay alguna asignación sin conclusa (una asignación sin turno)
+            if (element.turno === null) {
+              this.editForm.patchValue({
+                cargo: element.cargo,
+                id: element.id
+              });
+            } else {
+              result += element.turno.nombre + ' - ' + element.cargo.nombre + ' || ';
+            }
           });
-          // result = '' + res[0].turno.nombre + ' - ' + res[0].cargo.nombre;
+          if (res.length >= 2) {
+            this.maximoAsignacionesExcedido = true;
+          }
           this.strAsginaciones = result;
         }
       });
@@ -441,7 +466,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     );
   }
 
-  // Recibe un objeto tipo Date y crea un cadena con el formato YYYY-MM-DD
+  /**
+   * Recibe un objeto tipo Date y crea un cadena con el formato YYYY-MM-DD
+   * @param parFecha Objeto de tipo Date
+   */
   getStringFecha(parFecha: Date): string {
     let res = '';
     res = parFecha.getFullYear().toString() + '-';
@@ -456,10 +484,46 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     return res;
   }
 
-  // Recibe dos objetos Turno y compara sus horas de entrada para verificar si se cruzan o no
+  /**
+   * Recibe dos objetos Turno y compara sus atributos 'horaInicio' y 'duracion' para verificar si se cruzan o no
+   * @param turno1 Objeto de tipo ITurno
+   * @param turno2 Objeto de tipo ITurno
+   */
   turnosCruzados(turno1: ITurno, turno2: ITurno): boolean {
-    const horaEntrada1 = turno1.horaInicio;
-    const horaEntrada2 = turno2.horaInicio;
-    return false;
+    let resultado = false;
+    const fechaHora1 = new Date(turno1.horaInicio.toString());
+    const fechaHora2 = new Date(turno2.horaInicio.toString());
+    const horaInicio1 = fechaHora1.getHours();
+    const horaFin1 = fechaHora1.getHours() + turno1.duracion;
+    const horaInicio2 = fechaHora2.getHours();
+    const horaFin2 = fechaHora2.getHours() + turno2.duracion;
+    // Compara si la hora de inicio del turno2 está dentro del horario de turno1
+    if (horaInicio2 > horaInicio1 && horaInicio2 < horaFin1) {
+      resultado = true;
+    }
+    // Compara si la hora de inicio del turno1 está dentro del intervalo horario de turno2
+    if (horaInicio1 > horaInicio2 && horaInicio1 < horaFin2) {
+      resultado = true;
+    }
+    // Compara si ambos turnos inician al mismo tiempo
+    if (horaInicio1 === horaInicio2) {
+      resultado = true;
+    }
+    return resultado;
+  }
+
+  /**
+   * Verifica que el turno seleccionado para la nueva asignación no se cruce con la asignación
+   * actual de ese colaborador. Actualiza el atributo seleccionTurnoInvalida: boolean
+   */
+
+  comprobarSeleccionTurno() {
+    this.seleccionTurnoInvalida = false;
+    const turnoSeleccionado: Turno = this.editForm.get(['turno']).value;
+    this.asignacionesColSeleccionado.forEach(asignacion => {
+      if (this.turnosCruzados(turnoSeleccionado, asignacion.turno)) {
+        this.seleccionTurnoInvalida = true;
+      }
+    });
   }
 }

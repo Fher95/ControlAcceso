@@ -17,8 +17,8 @@
                             for="field_fecha">Fecha</label>
                         <div class="d-flex">
                             <input id="field_fecha" type="date" class="form-control" name="fecha"
-                                formControlName="fecha"  />
-                        </div>                        
+                                formControlName="fecha" />
+                        </div>
                     </div>
 
 
@@ -106,7 +106,7 @@
                     </div>
                     <div *ngFor="let item of this.asignacionesColSeleccionado" class="row my-2">
                         <div class="col-3">
-                            {{item.turno.nombre}}
+                            {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
                         </div>
                         <div class="col-3">
                             {{item.cargo.nombre}}
@@ -117,8 +117,7 @@
                         </button>
                     </div>
                 </div>
-                <jhi-alert></jhi-alert>
-
+                <jhi-alert></jhi-alert>                
                 <!--div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno"
                         for="field_intercambioTurno">Intercambio Turno</label>
@@ -157,7 +156,13 @@
                             {{planeacionSemanalOption.id}}</option>
                     </select>
                 </div-->
-                <div *ngIf="this.colaboradorEncontrado !== undefined" class="border rounded shadow p-4 my-3">
+                <div *ngIf="this.maximoAsignacionesExcedido" class="mb-3">
+                    <small class="form-text text-warning">
+                        Debe desasignar alguno de los turnos del colaborador actuar para poder asignar uno nuevo
+                    </small>
+                </div>
+                <div *ngIf="this.colaboradorEncontrado !== undefined && !this.maximoAsignacionesExcedido"
+                    class="border rounded shadow p-4 my-3">
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="field_centroCosto">Centro de Costos</label>
@@ -178,12 +183,10 @@
                                 </option>
                             </select>
 
-                            <div
-                                *ngIf="editForm.get('cargo').invalid ">
-                                <small class="form-text text-danger" *ngIf="editForm.get('cargo').errors.required"
-                                    >
+                            <div *ngIf="editForm.get('cargo').invalid ">
+                                <small class="form-text text-danger" *ngIf="editForm.get('cargo').errors.required">
                                     Debe seleccionar un cargo para poder continuar
-                                </small>                                
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -191,19 +194,24 @@
                         <div class="form-group">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
                                 for="field_turno">Turno</label>
-                            <select class="form-control" id="field_turno" name="turno" formControlName="turno">
+                            <select class="form-control" id="field_turno" name="turno" formControlName="turno"
+                                (change)="this.comprobarSeleccionTurno()">
                                 <option [ngValue]="null"></option>
                                 <option
                                     [ngValue]="turnoOption.id === editForm.get('turno').value?.id ? editForm.get('turno').value : turnoOption"
                                     *ngFor="let turnoOption of turnos; trackBy: trackTurnoById">{{turnoOption.nombre}}
                                 </option>
                             </select>
-                            <div
-                                *ngIf="editForm.get('turno').invalid ">
-                                <small class="form-text text-danger" *ngIf="editForm.get('turno').errors.required"
-                                    >
+                            <div *ngIf="editForm.get('turno').invalid ">
+                                <small class="form-text text-danger" *ngIf="editForm.get('turno').errors.required">
                                     Debe seleccionar un turno para poder guardar
-                                </small>                                
+                                </small>
+                            </div>
+                            <div *ngIf="this.seleccionTurnoInvalida">
+                                <small class="form-text text-danger">
+                                    El turno seleccionado se cruza con uno de los turnos asignados actualmente al
+                                    colaborador
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -214,7 +222,8 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                <button type="submit" id="save-entity"
+                    [disabled]="editForm.invalid || isSaving || seleccionTurnoInvalida || maximoAsignacionesExcedido"
                     class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
