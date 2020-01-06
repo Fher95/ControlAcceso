@@ -23,9 +23,9 @@ import { ColaboradorService } from 'app/entities/colaborador/colaborador.service
 export class IntercambioTurnoUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  asignacionturno1s: IAsignacionTurno[];
+  asignacionturnos1: IAsignacionTurno[];
 
-  asignacionturno2s: IAsignacionTurno[];
+  asignacionturnos2: IAsignacionTurno[];
 
   colaboradors: IColaborador[];
 
@@ -39,6 +39,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     colaborador1: [],
     colaborador2: []
   });
+  asignaciones1: IAsignacionTurno[];
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -63,7 +64,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       .subscribe(
         (res: IAsignacionTurno[]) => {
           if (!this.editForm.get('asignacionTurno1').value || !this.editForm.get('asignacionTurno1').value.id) {
-            this.asignacionturno1s = res;
+            this.asignacionturnos1 = res;
           } else {
             this.asignacionTurnoService
               .find(this.editForm.get('asignacionTurno1').value.id)
@@ -72,7 +73,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
                 map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
               )
               .subscribe(
-                (subRes: IAsignacionTurno) => (this.asignacionturno1s = [subRes].concat(res)),
+                (subRes: IAsignacionTurno) => (this.asignacionturnos1 = [subRes].concat(res)),
                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
               );
           }
@@ -88,7 +89,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       .subscribe(
         (res: IAsignacionTurno[]) => {
           if (!this.editForm.get('asignacionTurno2').value || !this.editForm.get('asignacionTurno2').value.id) {
-            this.asignacionturno2s = res;
+            this.asignacionturnos2 = res;
           } else {
             this.asignacionTurnoService
               .find(this.editForm.get('asignacionTurno2').value.id)
@@ -97,7 +98,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
                 map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
               )
               .subscribe(
-                (subRes: IAsignacionTurno) => (this.asignacionturno2s = [subRes].concat(res)),
+                (subRes: IAsignacionTurno) => (this.asignacionturnos2 = [subRes].concat(res)),
                 (subRes: HttpErrorResponse) => this.onError(subRes.message)
               );
           }
@@ -176,5 +177,45 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   trackColaboradorById(index: number, item: IColaborador) {
     return item.id;
+  }
+
+  /**
+   * Se encarga de obtener el colaborador seleccionado de la lista y buscar sus asignaciones actuales corresponientes
+   * @param numVector 1 Para indicar que se buscan las asignaciones del colaborador1 y 2 para las asignaciones del colaborador2
+   */
+
+  setColaboradorSeleccionado(numVector: number) {
+    if (numVector === 1) {
+      const col = this.editForm.get(['colaborador1']).value;
+      this.setAsignacionesColaborador(col.id, numVector);
+    } else if (numVector === 2) {
+      const col = this.editForm.get(['colaborador2']).value;
+      this.setAsignacionesColaborador(col.id, numVector);
+    }
+  }
+
+  /**
+   * Busca todas las asignaciones actuales para un Colaborador con su id, y establece los arreglos asignacionTurno1 y asignacionTurno2 según se indique
+   * @param parId identificador del objeto Colaborador para la busqueda
+   * @param numVector 1 para llenar el array 'asignacionTurno1', 2 para llenar el 'asignacionTurno2'
+   */
+  setAsignacionesColaborador(parId: number, numVector: number) {
+    this.asignacionturnos1 = [];
+    this.asignacionturnos2 = [];
+    this.asignacionTurnoService
+      .findAsignacionesColaborador(parId)
+      .pipe(
+        filter((res: HttpResponse<IAsignacionTurno[]>) => res.ok),
+        map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
+      )
+      .subscribe((res: IAsignacionTurno[]) => {
+        if (res.length > 0) {
+          if (numVector === 1) {
+            this.asignacionturnos1 = res;
+          } else if (numVector === 2) {
+            this.asignacionturnos2 = res;
+          }
+        }
+      });
   }
 }
