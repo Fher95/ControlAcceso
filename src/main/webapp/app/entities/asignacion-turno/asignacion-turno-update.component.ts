@@ -473,14 +473,14 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   getStringFecha(parFecha: Date): string {
     let res = '';
     res = parFecha.getFullYear().toString() + '-';
+    if (parFecha.getMonth() + 1 < 10) {
+      res += '0';
+    }
+    res += (parFecha.getMonth() + 1).toString() + '-';
     if (parFecha.getDate() < 10) {
       res += '0';
     }
-    res += parFecha.getDate().toString() + '-';
-    if (parFecha.getDay() < 10) {
-      res += '0';
-    }
-    res += parFecha.getDay().toString();
+    res += parFecha.getDate().toString();
     return res;
   }
 
