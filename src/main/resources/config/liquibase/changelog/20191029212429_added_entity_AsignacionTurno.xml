@@ -22,7 +22,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="turno_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_asignacion_turno_turno_id" />
+                <constraints nullable="true" />
             </column>
             <column name="planeacion_semanal_id" type="bigint">
                 <constraints nullable="true" />

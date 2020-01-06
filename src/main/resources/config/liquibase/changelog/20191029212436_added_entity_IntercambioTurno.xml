@@ -25,10 +25,10 @@
                 <constraints nullable="true" />
             </column>
             <column name="asignacion_turno1_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_intercambio_turno_asignacion_turno1_id" />
+                <constraints nullable="true" />
             </column>
             <column name="asignacion_turno2_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_intercambio_turno_asignacion_turno2_id" />
+                <constraints nullable="true" />
             </column>
             <column name="colaborador1_id" type="bigint">
                 <constraints nullable="true" />

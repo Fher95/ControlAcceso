@@ -16,7 +16,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="asignacion_turno_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_asistencia_planeacion_asignacion_turno_id" />
+                <constraints nullable="true" />
             </column>
             <column name="asistencia_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_asistencia_planeacion_asistencia_id" />
