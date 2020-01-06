@@ -1,0 +1,9 @@
+Tabla: Asignación Turno:
+	- eliminar restricción de unicidad en campo 'turno_id'
+
+Tabla: Asistencia Planeacion:
+	- eliminar restricción de unicidad campo 'asignación_Turno'
+
+Tabla: Intercambio Turno: 
+	- eliminar Unicidad en campos AsignacionTurno 1 y 2
+	
