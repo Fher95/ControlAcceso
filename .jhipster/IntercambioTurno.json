@@ -24,6 +24,14 @@
             "ownerSide": true
         },
         {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "asignacionTurno",
+            "otherEntityRelationshipName": "intercambioTurno",
+            "relationshipName": "asignacionTurno2",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "colaborador",
             "otherEntityRelationshipName": "intercambioTurno",

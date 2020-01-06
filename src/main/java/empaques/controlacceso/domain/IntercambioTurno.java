@@ -36,6 +36,10 @@ public class IntercambioTurno implements Serializable {
     @JoinColumn(unique = true)
     private AsignacionTurno asignacionTurno1;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private AsignacionTurno asignacionTurno2;
+
     @ManyToOne
     @JsonIgnoreProperties("intercambioTurnos")
     private Colaborador colaborador1;
@@ -103,6 +107,19 @@ public class IntercambioTurno implements Serializable {
 
     public void setAsignacionTurno1(AsignacionTurno asignacionTurno) {
         this.asignacionTurno1 = asignacionTurno;
+    }
+
+    public AsignacionTurno getAsignacionTurno2() {
+        return asignacionTurno2;
+    }
+
+    public IntercambioTurno asignacionTurno2(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno2 = asignacionTurno;
+        return this;
+    }
+
+    public void setAsignacionTurno2(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno2 = asignacionTurno;
     }
 
     public Colaborador getColaborador1() {

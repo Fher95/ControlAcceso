@@ -14,7 +14,6 @@ import { AsignacionTurnoService } from './asignacion-turno.service';
 import { ITurno, Turno } from 'app/shared/model/turno.model';
 import { TurnoService } from 'app/entities/turno/turno.service';
 import { IIntercambioTurno } from 'app/shared/model/intercambio-turno.model';
-import { IntercambioTurnoService } from 'app/entities/intercambio-turno/intercambio-turno.service';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
 import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
@@ -60,7 +59,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     id: [],
     fecha: [],
     turno: [this, [Validators.required]],
-    intercambioTurno: [],
     colaboradors: [],
     planeacionSemanal: [],
     cargo: [this, [Validators.required]],
@@ -71,7 +69,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected asignacionTurnoService: AsignacionTurnoService,
     protected turnoService: TurnoService,
-    protected intercambioTurnoService: IntercambioTurnoService,
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
     protected colaboradorService: ColaboradorService,
     protected planeacionSemanalService: PlaneacionSemanalService,
@@ -119,31 +116,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
-    this.intercambioTurnoService
-      .query({ filter: 'asignacionturno-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IIntercambioTurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IIntercambioTurno[]>) => response.body)
-      )
-      .subscribe(
-        (res: IIntercambioTurno[]) => {
-          if (!this.editForm.get('intercambioTurno').value || !this.editForm.get('intercambioTurno').value.id) {
-            this.intercambioturnos = res;
-          } else {
-            this.intercambioTurnoService
-              .find(this.editForm.get('intercambioTurno').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IIntercambioTurno>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IIntercambioTurno>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IIntercambioTurno) => (this.intercambioturnos = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+
     this.asistenciaPlaneacionService
       .query({ filter: 'asignacionturno-is-null' })
       .pipe(
@@ -191,7 +164,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       id: asignacionTurno.id,
       fecha: asignacionTurno.fecha != null ? asignacionTurno.fecha.format(DATE_FORMAT) : null,
       turno: asignacionTurno.turno,
-      intercambioTurno: asignacionTurno.intercambioTurno,
       colaboradors: asignacionTurno.colaboradors,
       planeacionSemanal: asignacionTurno.planeacionSemanal,
       cargo: asignacionTurno.cargo
@@ -223,7 +195,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       id: this.editForm.get(['id']).value,
       fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
       turno: this.editForm.get(['turno']).value,
-      intercambioTurno: this.editForm.get(['intercambioTurno']).value,
       colaboradors: this.editForm.get(['colaboradors']).value,
       planeacionSemanal: this.editForm.get(['planeacionSemanal']).value,
       cargo: this.editForm.get(['cargo']).value

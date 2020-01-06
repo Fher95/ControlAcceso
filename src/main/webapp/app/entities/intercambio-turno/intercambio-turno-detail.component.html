@@ -23,6 +23,12 @@
                         <a [routerLink]="['/asignacion-turno', intercambioTurno.asignacionTurno1?.id, 'view']">{{intercambioTurno.asignacionTurno1?.id}}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno2">Asignacion Turno 2</span></dt>
+                <dd>
+                    <div *ngIf="intercambioTurno.asignacionTurno2">
+                        <a [routerLink]="['/asignacion-turno', intercambioTurno.asignacionTurno2?.id, 'view']">{{intercambioTurno.asignacionTurno2?.id}}</a>
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1">Colaborador 1</span></dt>
                 <dd>
                     <div *ngIf="intercambioTurno.colaborador1">

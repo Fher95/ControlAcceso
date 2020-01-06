@@ -25,6 +25,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   asignacionturno1s: IAsignacionTurno[];
 
+  asignacionturno2s: IAsignacionTurno[];
+
   colaboradors: IColaborador[];
 
   editForm = this.fb.group({
@@ -33,6 +35,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     autorizadoPor: [],
     observaciones: [],
     asignacionTurno1: [],
+    asignacionTurno2: [],
     colaborador1: [],
     colaborador2: []
   });
@@ -76,6 +79,31 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+    this.asignacionTurnoService
+      .query({ filter: 'intercambioturno-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
+      )
+      .subscribe(
+        (res: IAsignacionTurno[]) => {
+          if (!this.editForm.get('asignacionTurno2').value || !this.editForm.get('asignacionTurno2').value.id) {
+            this.asignacionturno2s = res;
+          } else {
+            this.asignacionTurnoService
+              .find(this.editForm.get('asignacionTurno2').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IAsignacionTurno>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IAsignacionTurno) => (this.asignacionturno2s = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.colaboradorService
       .query()
       .pipe(
@@ -92,6 +120,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       autorizadoPor: intercambioTurno.autorizadoPor,
       observaciones: intercambioTurno.observaciones,
       asignacionTurno1: intercambioTurno.asignacionTurno1,
+      asignacionTurno2: intercambioTurno.asignacionTurno2,
       colaborador1: intercambioTurno.colaborador1,
       colaborador2: intercambioTurno.colaborador2
     });
@@ -119,6 +148,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       autorizadoPor: this.editForm.get(['autorizadoPor']).value,
       observaciones: this.editForm.get(['observaciones']).value,
       asignacionTurno1: this.editForm.get(['asignacionTurno1']).value,
+      asignacionTurno2: this.editForm.get(['asignacionTurno2']).value,
       colaborador1: this.editForm.get(['colaborador1']).value,
       colaborador2: this.editForm.get(['colaborador2']).value
     };

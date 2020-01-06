@@ -29,13 +29,6 @@
         },
         {
             "relationshipType": "one-to-one",
-            "otherEntityName": "intercambioTurno",
-            "otherEntityRelationshipName": "asignacionTurno1",
-            "relationshipName": "intercambioTurno",
-            "ownerSide": false
-        },
-        {
-            "relationshipType": "one-to-one",
             "otherEntityName": "asistenciaPlaneacion",
             "otherEntityRelationshipName": "asignacionTurno",
             "relationshipName": "asistenciaPlaneacion",
