@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Spring Data repository for the AsignacionTurno entity.
+ * Spring Data  repository for the AsignacionTurno entity.
  */
 @Repository
 public interface AsignacionTurnoRepository extends JpaRepository<AsignacionTurno, Long> {
 
     @Query(value = "select distinct asignacionTurno from AsignacionTurno asignacionTurno left join fetch asignacionTurno.colaboradors",
-            countQuery = "select count(distinct asignacionTurno) from AsignacionTurno asignacionTurno")
+        countQuery = "select count(distinct asignacionTurno) from AsignacionTurno asignacionTurno")
     Page<AsignacionTurno> findAllWithEagerRelationships(Pageable pageable);
 
     @Query("select distinct asignacionTurno from AsignacionTurno asignacionTurno left join fetch asignacionTurno.colaboradors")

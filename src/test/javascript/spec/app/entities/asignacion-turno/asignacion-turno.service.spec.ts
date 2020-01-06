@@ -24,14 +24,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AsignacionTurno(0, currentDate);
+      elemDefault = new AsignacionTurno(0, currentDate, currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -49,13 +50,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );
@@ -71,14 +74,16 @@ describe('Service Tests', () => {
       it('should update a AsignacionTurno', () => {
         const returnedFromService = Object.assign(
           {
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );
@@ -94,13 +99,15 @@ describe('Service Tests', () => {
       it('should return a list of AsignacionTurno', () => {
         const returnedFromService = Object.assign(
           {
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );

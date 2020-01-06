@@ -8,6 +8,12 @@
     -->
     <changeSet id="20191029212436-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="asignacion_turno1_id"
+                                 baseTableName="intercambio_turno"
+                                 constraintName="fk_intercambio_turno_asignacion_turno1_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="asignacion_turno"/>
+
         <addForeignKeyConstraint baseColumnNames="colaborador1_id"
                                  baseTableName="intercambio_turno"
                                  constraintName="fk_intercambio_turno_colaborador1_id"

@@ -33,19 +33,19 @@ public class AsignacionTurno implements Serializable {
     private Instant fechaFin;
 
     @OneToOne
-    @JoinColumn(unique = false)
+    @JoinColumn(unique = true)
     private Turno turno;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private IntercambioTurno intercambioTurno;
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "asignacion_turno_colaborador",
                joinColumns = @JoinColumn(name = "asignacion_turno_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"))
     private Set<Colaborador> colaboradors = new HashSet<>();
+
+    @OneToOne(mappedBy = "asignacionTurno1")
+    @JsonIgnore
+    private IntercambioTurno intercambioTurno;
 
     @OneToOne(mappedBy = "asignacionTurno")
     @JsonIgnore
@@ -71,9 +71,6 @@ public class AsignacionTurno implements Serializable {
     public Instant getFecha() {
         return fecha;
     }
-    public Instant getFechaFin() {
-        return fechaFin;
-    }
 
     public AsignacionTurno fecha(Instant fecha) {
         this.fecha = fecha;
@@ -84,8 +81,17 @@ public class AsignacionTurno implements Serializable {
         this.fecha = fecha;
     }
 
-    public void setFechaFin(Instant fecha) {
-        this.fechaFin = fecha;
+    public Instant getFechaFin() {
+        return fechaFin;
+    }
+
+    public AsignacionTurno fechaFin(Instant fechaFin) {
+        this.fechaFin = fechaFin;
+        return this;
+    }
+
+    public void setFechaFin(Instant fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public Turno getTurno() {
@@ -99,19 +105,6 @@ public class AsignacionTurno implements Serializable {
 
     public void setTurno(Turno turno) {
         this.turno = turno;
-    }
-
-    public IntercambioTurno getIntercambioTurno() {
-        return intercambioTurno;
-    }
-
-    public AsignacionTurno intercambioTurno(IntercambioTurno intercambioTurno) {
-        this.intercambioTurno = intercambioTurno;
-        return this;
-    }
-
-    public void setIntercambioTurno(IntercambioTurno intercambioTurno) {
-        this.intercambioTurno = intercambioTurno;
     }
 
     public Set<Colaborador> getColaboradors() {
@@ -137,6 +130,19 @@ public class AsignacionTurno implements Serializable {
 
     public void setColaboradors(Set<Colaborador> colaboradors) {
         this.colaboradors = colaboradors;
+    }
+
+    public IntercambioTurno getIntercambioTurno() {
+        return intercambioTurno;
+    }
+
+    public AsignacionTurno intercambioTurno(IntercambioTurno intercambioTurno) {
+        this.intercambioTurno = intercambioTurno;
+        return this;
+    }
+
+    public void setIntercambioTurno(IntercambioTurno intercambioTurno) {
+        this.intercambioTurno = intercambioTurno;
     }
 
     public AsistenciaPlaneacion getAsistenciaPlaneacion() {
@@ -200,6 +206,7 @@ public class AsignacionTurno implements Serializable {
         return "AsignacionTurno{" +
             "id=" + getId() +
             ", fecha='" + getFecha() + "'" +
+            ", fechaFin='" + getFechaFin() + "'" +
             "}";
     }
 }

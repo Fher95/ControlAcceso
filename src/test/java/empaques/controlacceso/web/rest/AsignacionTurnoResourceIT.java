@@ -44,6 +44,10 @@ public class AsignacionTurnoResourceIT {
     private static final Instant UPDATED_FECHA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_FECHA = Instant.ofEpochMilli(-1L);
 
+    private static final Instant DEFAULT_FECHA_FIN = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FECHA_FIN = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant SMALLER_FECHA_FIN = Instant.ofEpochMilli(-1L);
+
     @Autowired
     private AsignacionTurnoRepository asignacionTurnoRepository;
 
@@ -89,7 +93,8 @@ public class AsignacionTurnoResourceIT {
      */
     public static AsignacionTurno createEntity(EntityManager em) {
         AsignacionTurno asignacionTurno = new AsignacionTurno()
-            .fecha(DEFAULT_FECHA);
+            .fecha(DEFAULT_FECHA)
+            .fechaFin(DEFAULT_FECHA_FIN);
         return asignacionTurno;
     }
     /**
@@ -100,7 +105,8 @@ public class AsignacionTurnoResourceIT {
      */
     public static AsignacionTurno createUpdatedEntity(EntityManager em) {
         AsignacionTurno asignacionTurno = new AsignacionTurno()
-            .fecha(UPDATED_FECHA);
+            .fecha(UPDATED_FECHA)
+            .fechaFin(UPDATED_FECHA_FIN);
         return asignacionTurno;
     }
 
@@ -125,6 +131,7 @@ public class AsignacionTurnoResourceIT {
         assertThat(asignacionTurnoList).hasSize(databaseSizeBeforeCreate + 1);
         AsignacionTurno testAsignacionTurno = asignacionTurnoList.get(asignacionTurnoList.size() - 1);
         assertThat(testAsignacionTurno.getFecha()).isEqualTo(DEFAULT_FECHA);
+        assertThat(testAsignacionTurno.getFechaFin()).isEqualTo(DEFAULT_FECHA_FIN);
     }
 
     @Test
@@ -158,7 +165,8 @@ public class AsignacionTurnoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(asignacionTurno.getId().intValue())))
-            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())));
+            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
+            .andExpect(jsonPath("$.[*].fechaFin").value(hasItem(DEFAULT_FECHA_FIN.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -205,7 +213,8 @@ public class AsignacionTurnoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(asignacionTurno.getId().intValue()))
-            .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()));
+            .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
+            .andExpect(jsonPath("$.fechaFin").value(DEFAULT_FECHA_FIN.toString()));
     }
 
     @Test
@@ -229,7 +238,8 @@ public class AsignacionTurnoResourceIT {
         // Disconnect from session so that the updates on updatedAsignacionTurno are not directly saved in db
         em.detach(updatedAsignacionTurno);
         updatedAsignacionTurno
-            .fecha(UPDATED_FECHA);
+            .fecha(UPDATED_FECHA)
+            .fechaFin(UPDATED_FECHA_FIN);
 
         restAsignacionTurnoMockMvc.perform(put("/api/asignacion-turnos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -241,6 +251,7 @@ public class AsignacionTurnoResourceIT {
         assertThat(asignacionTurnoList).hasSize(databaseSizeBeforeUpdate);
         AsignacionTurno testAsignacionTurno = asignacionTurnoList.get(asignacionTurnoList.size() - 1);
         assertThat(testAsignacionTurno.getFecha()).isEqualTo(UPDATED_FECHA);
+        assertThat(testAsignacionTurno.getFechaFin()).isEqualTo(UPDATED_FECHA_FIN);
     }
 
     @Test

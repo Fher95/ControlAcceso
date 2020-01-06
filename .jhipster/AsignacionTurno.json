@@ -20,20 +20,19 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "intercambioTurno",
-            "otherEntityRelationshipName": "asignacionTurno",
-            "relationshipName": "intercambioTurno",
-            "otherEntityField": "id",
-            "ownerSide": true
-        },
-        {
             "relationshipType": "many-to-many",
             "otherEntityName": "colaborador",
             "otherEntityRelationshipName": "asignacionTurno",
             "relationshipName": "colaborador",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "intercambioTurno",
+            "otherEntityRelationshipName": "asignacionTurno1",
+            "relationshipName": "intercambioTurno",
+            "ownerSide": false
         },
         {
             "relationshipType": "one-to-one",

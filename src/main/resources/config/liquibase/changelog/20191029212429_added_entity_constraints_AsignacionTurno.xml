@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="turno"/>
 
-        <addForeignKeyConstraint baseColumnNames="intercambio_turno_id"
-                                 baseTableName="asignacion_turno"
-                                 constraintName="fk_asignacion_turno_intercambio_turno_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="intercambio_turno"/>
-
         <addForeignKeyConstraint baseColumnNames="asignacion_turno_id"
                                  baseTableName="asignacion_turno_colaborador"
                                  constraintName="fk_asignacion_turno_colaborador_asignacion_turno_id"

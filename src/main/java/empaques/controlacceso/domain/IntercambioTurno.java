@@ -1,5 +1,4 @@
 package empaques.controlacceso.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,16 +32,16 @@ public class IntercambioTurno implements Serializable {
     @Column(name = "observaciones")
     private String observaciones;
 
-    @OneToOne(mappedBy = "intercambioTurno")
-    @JsonIgnore
-    private AsignacionTurno asignacionTurno;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private AsignacionTurno asignacionTurno1;
 
     @ManyToOne
     @JsonIgnoreProperties("intercambioTurnos")
     private Colaborador colaborador1;
 
     @ManyToOne
-    @JsonIgnoreProperties("intercambioTurnos")
+    @JsonIgnoreProperties("intercambioTurno2S")
     private Colaborador colaborador2;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -93,17 +92,17 @@ public class IntercambioTurno implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public AsignacionTurno getAsignacionTurno() {
-        return asignacionTurno;
+    public AsignacionTurno getAsignacionTurno1() {
+        return asignacionTurno1;
     }
 
-    public IntercambioTurno asignacionTurno(AsignacionTurno asignacionTurno) {
-        this.asignacionTurno = asignacionTurno;
+    public IntercambioTurno asignacionTurno1(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno1 = asignacionTurno;
         return this;
     }
 
-    public void setAsignacionTurno(AsignacionTurno asignacionTurno) {
-        this.asignacionTurno = asignacionTurno;
+    public void setAsignacionTurno1(AsignacionTurno asignacionTurno) {
+        this.asignacionTurno1 = asignacionTurno;
     }
 
     public Colaborador getColaborador1() {

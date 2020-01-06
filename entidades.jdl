@@ -169,7 +169,7 @@ entity ReporteAsistenciaHorasExtras{
  */
 relationship OneToOne {
     AsignacionTurno{turno(nombre)} to Turno
-    AsignacionTurno to IntercambioTurno
+    IntercambioTurno{asignacionTurno1} to AsignacionTurno {intercambioTurno}
     AsistenciaPlaneacion to AsignacionTurno
     AsistenciaPlaneacion to Asistencia
     AsignacionHorasExtras to AsistenciaHorasExtras

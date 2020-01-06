@@ -73,6 +73,7 @@ class AsignacionTurnoGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "fecha":"2020-01-01T00:00:00.000Z"
+                , "fechaFin":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_asignacionTurno_url"))).exitHereIfFailed

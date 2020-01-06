@@ -17,8 +17,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.IntercambioTurno}.
@@ -84,18 +82,10 @@ public class IntercambioTurnoResource {
      * {@code GET  /intercambio-turnos} : get all the intercambioTurnos.
      *
 
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of intercambioTurnos in body.
      */
     @GetMapping("/intercambio-turnos")
-    public List<IntercambioTurno> getAllIntercambioTurnos(@RequestParam(required = false) String filter) {
-        if ("asignacionturno-is-null".equals(filter)) {
-            log.debug("REST request to get all IntercambioTurnos where asignacionTurno is null");
-            return StreamSupport
-                .stream(intercambioTurnoRepository.findAll().spliterator(), false)
-                .filter(intercambioTurno -> intercambioTurno.getAsignacionTurno() == null)
-                .collect(Collectors.toList());
-        }
+    public List<IntercambioTurno> getAllIntercambioTurnos() {
         log.debug("REST request to get all IntercambioTurnos");
         return intercambioTurnoRepository.findAll();
     }

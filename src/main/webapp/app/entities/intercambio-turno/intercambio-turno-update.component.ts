@@ -23,7 +23,7 @@ import { ColaboradorService } from 'app/entities/colaborador/colaborador.service
 export class IntercambioTurnoUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  asignacionturnos: IAsignacionTurno[];
+  asignacionturno1s: IAsignacionTurno[];
 
   colaboradors: IColaborador[];
 
@@ -32,6 +32,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     fecha: [],
     autorizadoPor: [],
     observaciones: [],
+    asignacionTurno1: [],
     colaborador1: [],
     colaborador2: []
   });
@@ -51,12 +52,30 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       this.updateForm(intercambioTurno);
     });
     this.asignacionTurnoService
-      .query()
+      .query({ filter: 'intercambioturno-is-null' })
       .pipe(
         filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
         map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
       )
-      .subscribe((res: IAsignacionTurno[]) => (this.asignacionturnos = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: IAsignacionTurno[]) => {
+          if (!this.editForm.get('asignacionTurno1').value || !this.editForm.get('asignacionTurno1').value.id) {
+            this.asignacionturno1s = res;
+          } else {
+            this.asignacionTurnoService
+              .find(this.editForm.get('asignacionTurno1').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IAsignacionTurno>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IAsignacionTurno) => (this.asignacionturno1s = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.colaboradorService
       .query()
       .pipe(
@@ -72,6 +91,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       fecha: intercambioTurno.fecha != null ? intercambioTurno.fecha.format(DATE_TIME_FORMAT) : null,
       autorizadoPor: intercambioTurno.autorizadoPor,
       observaciones: intercambioTurno.observaciones,
+      asignacionTurno1: intercambioTurno.asignacionTurno1,
       colaborador1: intercambioTurno.colaborador1,
       colaborador2: intercambioTurno.colaborador2
     });
@@ -98,6 +118,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
       autorizadoPor: this.editForm.get(['autorizadoPor']).value,
       observaciones: this.editForm.get(['observaciones']).value,
+      asignacionTurno1: this.editForm.get(['asignacionTurno1']).value,
       colaborador1: this.editForm.get(['colaborador1']).value,
       colaborador2: this.editForm.get(['colaborador2']).value
     };

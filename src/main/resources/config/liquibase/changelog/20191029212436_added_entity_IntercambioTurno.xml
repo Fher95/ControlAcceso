@@ -24,6 +24,9 @@
             <column name="observaciones" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="asignacion_turno1_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_intercambio_turno_asignacion_turno1_id" />
+            </column>
             <column name="colaborador1_id" type="bigint">
                 <constraints nullable="true" />
             </column>
