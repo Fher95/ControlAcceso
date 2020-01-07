@@ -42,11 +42,11 @@ public class AsignacionTurno implements Serializable {
                joinColumns = @JoinColumn(name = "asignacion_turno_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"))
     private Set<Colaborador> colaboradors = new HashSet<>();
-
+    /*
     @OneToOne(mappedBy = "asignacionTurno")
     @JsonIgnore
     private AsistenciaPlaneacion asistenciaPlaneacion;
-
+    */
     @ManyToOne
     @JsonIgnoreProperties("asignacionTurnos")
     private PlaneacionSemanal planeacionSemanal;
@@ -127,7 +127,7 @@ public class AsignacionTurno implements Serializable {
     public void setColaboradors(Set<Colaborador> colaboradors) {
         this.colaboradors = colaboradors;
     }
-
+    /*
     public AsistenciaPlaneacion getAsistenciaPlaneacion() {
         return asistenciaPlaneacion;
     }
@@ -140,7 +140,7 @@ public class AsignacionTurno implements Serializable {
     public void setAsistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
         this.asistenciaPlaneacion = asistenciaPlaneacion;
     }
-
+    */
     public PlaneacionSemanal getPlaneacionSemanal() {
         return planeacionSemanal;
     }

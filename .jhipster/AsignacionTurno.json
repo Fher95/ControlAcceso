@@ -28,13 +28,6 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "asistenciaPlaneacion",
-            "otherEntityRelationshipName": "asignacionTurno",
-            "relationshipName": "asistenciaPlaneacion",
-            "ownerSide": false
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "planeacionSemanal",
             "otherEntityRelationshipName": "asignacionTurno",

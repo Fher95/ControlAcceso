@@ -21,11 +21,11 @@ public class AsistenciaPlaneacion implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
+    
     @OneToOne
     @JoinColumn(unique = false)
     private AsignacionTurno asignacionTurno;
-
+    
     @OneToOne
     @JoinColumn(unique = false)
     private Asistencia asistencia;
@@ -42,7 +42,7 @@ public class AsistenciaPlaneacion implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public AsignacionTurno getAsignacionTurno() {
         return asignacionTurno;
     }

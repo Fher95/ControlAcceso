@@ -113,7 +113,10 @@ public class AsignacionTurnoResource {
         if ("asistenciaplaneacion-is-null".equals(filter)) {
             log.debug("REST request to get all AsignacionTurnos where asistenciaPlaneacion is null");
             return StreamSupport.stream(asignacionTurnoRepository.findAll().spliterator(), false)
+                    /*
                     .filter(asignacionTurno -> asignacionTurno.getAsistenciaPlaneacion() == null)
+                    */
+                    .filter(asignacionTurno -> asignacionTurno.getFechaFin() == null)
                     .collect(Collectors.toList());
         }        
         log.debug("REST request to get all AsignacionTurnos");
