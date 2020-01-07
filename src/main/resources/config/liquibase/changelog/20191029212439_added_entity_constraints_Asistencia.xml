@@ -6,13 +6,7 @@
     <!--
         Added the constraints for entity Asistencia.
     -->
-    <changeSet id="20191029212439-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="asistencia_planeacion_id"
-                                 baseTableName="asistencia"
-                                 constraintName="fk_asistencia_asistencia_planeacion_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="asistencia_planeacion"/>
+    <changeSet id="20191029212439-2" author="jhipster">        
 
     </changeSet>
 </databaseChangeLog>

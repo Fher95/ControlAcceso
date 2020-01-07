@@ -186,9 +186,11 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   setColaboradorSeleccionado(numVector: number) {
     if (numVector === 1) {
+      this.asignacionturnos1 = [];
       const col = this.editForm.get(['colaborador1']).value;
       this.setAsignacionesColaborador(col.id, numVector);
     } else if (numVector === 2) {
+      this.asignacionturnos2 = [];
       const col = this.editForm.get(['colaborador2']).value;
       this.setAsignacionesColaborador(col.id, numVector);
     }
@@ -200,8 +202,6 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
    * @param numVector 1 para llenar el array 'asignacionTurno1', 2 para llenar el 'asignacionTurno2'
    */
   setAsignacionesColaborador(parId: number, numVector: number) {
-    this.asignacionturnos1 = [];
-    this.asignacionturnos2 = [];
     this.asignacionTurnoService
       .findAsignacionesColaborador(parId)
       .pipe(
