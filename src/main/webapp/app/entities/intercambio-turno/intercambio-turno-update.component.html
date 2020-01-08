@@ -1,65 +1,208 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-intercambio-turno-heading" jhiTranslate="controlAccesoApp.intercambioTurno.home.createOrEditLabel">Create or edit a Intercambio Turno</h2>
+            <h2 id="jhi-intercambio-turno-heading"
+                jhiTranslate="controlAccesoApp.intercambioTurno.home.createOrEditLabel">Create or edit a Intercambio
+                Turno</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
+
+                <div class="border rounded shadow p-4 my-3">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1"
+                                for="field_colaborador1">Colaborador 1</label>
+                            <select class="form-control" id="field_colaborador1" name="colaborador1"
+                                formControlName="colaborador1" (change)="this.setColaboradorSeleccionado(1)">
+                                <option [ngValue]="null"></option>
+                                <option
+                                    [ngValue]="colaboradorOption.id === editForm.get('colaborador1').value?.id ? editForm.get('colaborador1').value : colaboradorOption"
+                                    *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
+                                    {{colaboradorOption.id}}</option>
+                            </select>
+                            <div *ngIf="this.asignacionturnos1 !== undefined" class="my-2">
+                                <h4>Asignacion Actual </h4>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <dt>Turno</dt>
+                                    </div>
+                                    <div class="col-5">
+                                        <dt>Cargo</dt>
+                                    </div>
+                                </div>
+
+                                <div *ngFor="let item of this.asignacionturnos1" class="row my-2">
+                                    <div class="col-5">
+                                        {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
+                                    </div>
+                                    <div class="col-5">
+                                        {{item.cargo.nombre}}
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">N</span>
+                                    </button>
+                                </div>
+                                <div *ngIf="this.asignacionturnos1 !== undefined">
+                                    <small class="form-text text-danger" *ngIf="this.asignacionturnos1.length > 1">
+                                        Seleccione el turno para el intercambio
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2"
+                                for="field_colaborador2">Colaborador 2</label>
+                            <select class="form-control" id="field_colaborador2" name="colaborador2"
+                                formControlName="colaborador2" (change)="this.setColaboradorSeleccionado(2)">
+                                <option [ngValue]="null"></option>
+                                <option
+                                    [ngValue]="colaboradorOption.id === editForm.get('colaborador2').value?.id ? editForm.get('colaborador2').value : colaboradorOption"
+                                    *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
+                                    {{colaboradorOption.id}}</option>
+                            </select>
+
+                            <div *ngIf="this.asignacionturnos2 !== undefined" class="my-2">
+                                <h4>Asignacion Actual </h4>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <dt>Turno</dt>
+                                    </div>
+                                    <div class="col-5">
+                                        <dt>Cargo</dt>
+                                    </div>
+                                </div>
+                                <div *ngFor="let item of this.asignacionturnos2" class="row my-2">
+                                    <div class="col-5">
+                                        {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
+                                    </div>
+                                    <div class="col-5">
+                                        {{item.cargo.nombre}}
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">N</span>
+                                    </button>
+                                </div>
+                                <div *ngIf="this.asignacionturnos2 !== undefined">
+                                    <small class="form-text text-danger" *ngIf="this.asignacionturnos2.length > 1">
+                                        Seleccione el turno para el intercambio
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="this.asignacionSeleccionada1 !== undefined && this.asignacionSeleccionada2 !== undefined"
+                    class="border rounded shadow p-4 my-3">
+                    <h3>Después del Intercambio </h3>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <dt>Colaborador:</dt><span> {{this.getStrColaborador(1)}}</span>
+                                </div>
+                                <div class="col-5">
+                                    <dt>Turno</dt>
+                                </div>
+                                <div class="col-5">
+                                    <dt>Cargo</dt>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    {{this.asignacionSeleccionada2.turno ? asignacionSeleccionada2.turno.nombre : '(Terminar asignación)'}}
+                                </div>
+                                <div class="col-5">
+                                    {{this.asignacionSeleccionada1.cargo.nombre}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <dt>Colaborador:</dt><span> {{this.getStrColaborador(2)}}</span>
+                                </div>
+                                <div class="col-5">
+                                    <dt>Turno</dt>
+                                </div>
+                                <div class="col-5">
+                                    <dt>Cargo</dt>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    {{this.asignacionSeleccionada1.turno ? asignacionSeleccionada1.turno.nombre : '(Terminar asignación)'}}
+                                </div>
+                                <div class="col-5">
+                                    {{this.asignacionSeleccionada2.cargo.nombre}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <jhi-alert></jhi-alert>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.fecha" for="field_fecha">Fecha</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.fecha"
+                        for="field_fecha">Fecha</label>
                     <div class="d-flex">
-                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" formControlName="fecha" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fecha" type="date" class="form-control" name="fecha" formControlName="fecha"
+                            placeholder="YYYY-MM-DD HH:mm" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor" for="field_autorizadoPor">Autorizado Por</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor"
+                        for="field_autorizadoPor">Autorizado Por</label>
                     <input type="text" class="form-control" name="autorizadoPor" id="field_autorizadoPor"
-                           formControlName="autorizadoPor"/>
+                        formControlName="autorizadoPor" />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.observaciones" for="field_observaciones">Observaciones</label>
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.observaciones"
+                        for="field_observaciones">Observaciones</label>
                     <input type="text" class="form-control" name="observaciones" id="field_observaciones"
-                           formControlName="observaciones"/>
+                        formControlName="observaciones" />
                 </div>
+
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1" for="field_colaborador1">Colaborador 1</label>
-                    <select class="form-control" id="field_colaborador1" name="colaborador1" formControlName="colaborador1" (change)="this.setColaboradorSeleccionado(1)">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno1"
+                        for="field_asignacionTurno1">Asignacion Turno 1</label>
+                    <select class="form-control" id="field_asignacionTurno1" name="asignacionTurno1"
+                        formControlName="asignacionTurno1">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="colaboradorOption.id === editForm.get('colaborador1').value?.id ? editForm.get('colaborador1').value : colaboradorOption" *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">{{colaboradorOption.id}}</option>
+                        <option
+                            [ngValue]="asignacionTurnoOption.id === editForm.get('asignacionTurno1').value?.id ? editForm.get('asignacionTurno1').value : asignacionTurnoOption"
+                            *ngFor="let asignacionTurnoOption of asignacionturnos1; trackBy: trackAsignacionTurnoById">
+                            {{asignacionTurnoOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2" for="field_colaborador2">Colaborador 2</label>
-                    <select class="form-control" id="field_colaborador2" name="colaborador2" formControlName="colaborador2" (change)="this.setColaboradorSeleccionado(2)">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno2"
+                        for="field_asignacionTurno2">Asignacion Turno 2</label>
+                    <select class="form-control" id="field_asignacionTurno2" name="asignacionTurno2"
+                        formControlName="asignacionTurno2">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="colaboradorOption.id === editForm.get('colaborador2').value?.id ? editForm.get('colaborador2').value : colaboradorOption" *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">{{colaboradorOption.id}}</option>
+                        <option
+                            [ngValue]="asignacionTurnoOption.id === editForm.get('asignacionTurno2').value?.id ? editForm.get('asignacionTurno2').value : asignacionTurnoOption"
+                            *ngFor="let asignacionTurnoOption of asignacionturnos2; trackBy: trackAsignacionTurnoById">
+                            {{asignacionTurnoOption.id}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno1" for="field_asignacionTurno1">Asignacion Turno 1</label>
-                    <select class="form-control" id="field_asignacionTurno1" name="asignacionTurno1" formControlName="asignacionTurno1">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="asignacionTurnoOption.id === editForm.get('asignacionTurno1').value?.id ? editForm.get('asignacionTurno1').value : asignacionTurnoOption" *ngFor="let asignacionTurnoOption of asignacionturnos1; trackBy: trackAsignacionTurnoById">{{asignacionTurnoOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno2" for="field_asignacionTurno2">Asignacion Turno 2</label>
-                    <select class="form-control" id="field_asignacionTurno2" name="asignacionTurno2" formControlName="asignacionTurno2">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="asignacionTurnoOption.id === editForm.get('asignacionTurno2').value?.id ? editForm.get('asignacionTurno2').value : asignacionTurnoOption" *ngFor="let asignacionTurnoOption of asignacionturnos2; trackBy: trackAsignacionTurnoById">{{asignacionTurnoOption.id}}</option>
-                    </select>
-                </div>
-                
+
             </div>
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
             </div>

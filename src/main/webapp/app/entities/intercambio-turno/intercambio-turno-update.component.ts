@@ -15,6 +15,7 @@ import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion-turno.service';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
+import { ITurno } from 'app/shared/model/turno.model';
 
 @Component({
   selector: 'jhi-intercambio-turno-update',
@@ -40,6 +41,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     colaborador2: []
   });
   asignaciones1: IAsignacionTurno[];
+  asignacionSeleccionada1: IAsignacionTurno;
+  asignacionSeleccionada2: IAsignacionTurno;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -55,6 +58,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ intercambioTurno }) => {
       this.updateForm(intercambioTurno);
     });
+
+    /*
     this.asignacionTurnoService
       .query({ filter: 'intercambioturno-is-null' })
       .pipe(
@@ -105,6 +110,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+        */
+
     this.colaboradorService
       .query()
       .pipe(
@@ -125,6 +132,15 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       colaborador1: intercambioTurno.colaborador1,
       colaborador2: intercambioTurno.colaborador2
     });
+    if (intercambioTurno.id === undefined) {
+      this.editForm.patchValue({ fecha: this.getStringFecha(new Date()) });
+    }
+    if (intercambioTurno.colaborador1 !== undefined) {
+      this.setColaboradorSeleccionado(1);
+    }
+    if (intercambioTurno.colaborador2 !== undefined) {
+      this.setColaboradorSeleccionado(2);
+    }
   }
 
   previousState() {
@@ -137,8 +153,24 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     if (intercambioTurno.id !== undefined) {
       this.subscribeToSaveResponse(this.intercambioTurnoService.update(intercambioTurno));
     } else {
+      this.cambiarTurnosAsignados(this.asignacionSeleccionada1, this.asignacionSeleccionada2);
       this.subscribeToSaveResponse(this.intercambioTurnoService.create(intercambioTurno));
     }
+  }
+  cambiarTurnosAsignados(parAsignacion1: IAsignacionTurno, parAsignacion2: IAsignacionTurno): boolean {
+    let result = false,
+      guardado1 = false,
+      guardado2 = false;
+    const turno1: ITurno = parAsignacion1.turno;
+    const turno2: ITurno = parAsignacion2.turno;
+    parAsignacion1.turno = turno2;
+    parAsignacion2.turno = turno1;
+    this.asignacionTurnoService.update2(parAsignacion1).subscribe(() => (guardado1 = true), () => (guardado1 = false));
+    this.asignacionTurnoService.update2(parAsignacion2).subscribe(() => (guardado2 = true), () => (guardado2 = false));
+    if (guardado1 && guardado2) {
+      result = true;
+    }
+    return result;
   }
 
   private createFromForm(): IIntercambioTurno {
@@ -176,7 +208,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   }
 
   trackColaboradorById(index: number, item: IColaborador) {
-    return item.id;
+    return item.nombre1;
   }
 
   /**
@@ -186,11 +218,11 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   setColaboradorSeleccionado(numVector: number) {
     if (numVector === 1) {
-      this.asignacionturnos1 = [];
+      this.asignacionturnos1 = undefined;
       const col = this.editForm.get(['colaborador1']).value;
       this.setAsignacionesColaborador(col.id, numVector);
     } else if (numVector === 2) {
-      this.asignacionturnos2 = [];
+      this.asignacionturnos2 = undefined;
       const col = this.editForm.get(['colaborador2']).value;
       this.setAsignacionesColaborador(col.id, numVector);
     }
@@ -212,10 +244,61 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         if (res.length > 0) {
           if (numVector === 1) {
             this.asignacionturnos1 = res;
+            this.setAsignacionSeleccionada(1);
           } else if (numVector === 2) {
             this.asignacionturnos2 = res;
+            this.setAsignacionSeleccionada(2);
           }
         }
       });
+  }
+  setAsignacionSeleccionada(numVector: number) {
+    if (numVector === 1) {
+      if (this.asignacionturnos1.length === 1) {
+        this.asignacionSeleccionada1 = this.asignacionturnos1[0];
+        this.editForm.patchValue({ asignacionTurno1: this.asignacionSeleccionada1 });
+      } else {
+        this.asignacionSeleccionada1 = undefined;
+        this.editForm.patchValue({ asignacionTurno1: [] });
+      }
+    } else if (numVector === 2) {
+      if (this.asignacionturnos2.length === 1) {
+        this.asignacionSeleccionada2 = this.asignacionturnos2[0];
+        this.editForm.patchValue({ asignacionTurno2: this.asignacionSeleccionada2 });
+      } else {
+        this.asignacionSeleccionada2 = undefined;
+        this.editForm.patchValue({ asignacionTurno1: [] });
+      }
+    }
+  }
+
+  /**
+   * Recibe un objeto tipo Date y crea un cadena con el formato YYYY-MM-DD
+   * @param parFecha Objeto de tipo Date
+   */
+  getStringFecha(parFecha: Date): string {
+    let res = '';
+    res = parFecha.getFullYear().toString() + '-';
+    if (parFecha.getMonth() + 1 < 10) {
+      res += '0';
+    }
+    res += (parFecha.getMonth() + 1).toString() + '-';
+    if (parFecha.getDate() < 10) {
+      res += '0';
+    }
+    res += parFecha.getDate().toString();
+    return res;
+  }
+
+  getStrColaborador(numCol: number): string {
+    let nombreCompleto = '';
+    if (numCol === 1) {
+      const objCol: IColaborador = this.editForm.get(['colaborador1']).value;
+      nombreCompleto = objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
+    } else if (numCol === 2) {
+      const objCol: IColaborador = this.editForm.get(['colaborador2']).value;
+      nombreCompleto = objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
+    }
+    return nombreCompleto;
   }
 }

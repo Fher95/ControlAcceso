@@ -47,24 +47,6 @@
                                 </div>
                             </td>
 
-
-                            <!--td>
-                    <div *ngIf="asignacionTurno.intercambioTurno">
-                        <a [routerLink]="['/intercambio-turno', asignacionTurno.intercambioTurno?.id, 'view' ]" >{{asignacionTurno.intercambioTurno?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="asignacionTurno.planeacionSemanal">
-                        <a [routerLink]="['/planeacion-semanal', asignacionTurno.planeacionSemanal?.id, 'view' ]" >{{asignacionTurno.planeacionSemanal?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="asignacionTurno.asistenciaPlaneacion">
-                        <a [routerLink]="['/asistencia-planeacion', asignacionTurno.asistenciaPlaneacion?.id, 'view' ]" >{{asignacionTurno.asistenciaPlaneacion?.id}}</a>
-                    </div>
-                </td-->
-
-
                             <td>
                                 <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
                                     <a class="form-control-static"
