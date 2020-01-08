@@ -157,21 +157,6 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       this.subscribeToSaveResponse(this.intercambioTurnoService.create(intercambioTurno));
     }
   }
-  cambiarTurnosAsignados(parAsignacion1: IAsignacionTurno, parAsignacion2: IAsignacionTurno): boolean {
-    let result = false,
-      guardado1 = false,
-      guardado2 = false;
-    const turno1: ITurno = parAsignacion1.turno;
-    const turno2: ITurno = parAsignacion2.turno;
-    parAsignacion1.turno = turno2;
-    parAsignacion2.turno = turno1;
-    this.asignacionTurnoService.update2(parAsignacion1).subscribe(() => (guardado1 = true), () => (guardado1 = false));
-    this.asignacionTurnoService.update2(parAsignacion2).subscribe(() => (guardado2 = true), () => (guardado2 = false));
-    if (guardado1 && guardado2) {
-      result = true;
-    }
-    return result;
-  }
 
   private createFromForm(): IIntercambioTurno {
     return {
@@ -208,14 +193,36 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   }
 
   trackColaboradorById(index: number, item: IColaborador) {
-    return item.nombre1;
+    return item.id;
+  }
+
+  /**
+   * Toma dos objeto tipo AsignacionTurno. A la primera asignación se le cambia el turno que tenía por el turno de la asignación 2
+   * A la segunda asignación le cambia el turno por el turno que tenía la segunda asignación.
+   * Posteriormente se guardan los cambios en la base de datos.
+   * @param parAsignacion1 Primera asignación, objeto tipo IAsignacionTurno
+   * @param parAsignacion2 Segunda asignación, objeto tipo IAsignacionTurno
+   */
+  cambiarTurnosAsignados(parAsignacion1: IAsignacionTurno, parAsignacion2: IAsignacionTurno): boolean {
+    let result = false,
+      guardado1 = false,
+      guardado2 = false;
+    const turno1: ITurno = parAsignacion1.turno;
+    const turno2: ITurno = parAsignacion2.turno;
+    parAsignacion1.turno = turno2;
+    parAsignacion2.turno = turno1;
+    this.asignacionTurnoService.update2(parAsignacion1).subscribe(() => (guardado1 = true), () => (guardado1 = false));
+    this.asignacionTurnoService.update2(parAsignacion2).subscribe(() => (guardado2 = true), () => (guardado2 = false));
+    if (guardado1 && guardado2) {
+      result = true;
+    }
+    return result;
   }
 
   /**
    * Se encarga de obtener el colaborador seleccionado de la lista y buscar sus asignaciones actuales corresponientes
    * @param numVector 1 Para indicar que se buscan las asignaciones del colaborador1 y 2 para las asignaciones del colaborador2
    */
-
   setColaboradorSeleccionado(numVector: number) {
     if (numVector === 1) {
       this.asignacionturnos1 = undefined;
@@ -252,6 +259,11 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         }
       });
   }
+
+  /**
+   * Recibe el numero del vector para determinar en cual vector de asignaciones llenar el resultado
+   * @param numVector Indicador de cual de los vectores de asignaciones llenar (1 o 2)
+   */
   setAsignacionSeleccionada(numVector: number) {
     if (numVector === 1) {
       if (this.asignacionturnos1.length === 1) {
@@ -290,7 +302,11 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     return res;
   }
 
-  getStrColaborador(numCol: number): string {
+  /**
+   * Recibe un numero indicando a que colaborador seleccionado se le van a sacar los datos en formato 'Nombre1 Nombre2? Apellido1 Apellido2?'
+   * @param numCol Variable para indicar a cual de los dos colaboradores seleccionados se le va a sacar el nombre
+   */
+  getStrColaboradorSelec(numCol: number): string {
     let nombreCompleto = '';
     if (numCol === 1) {
       const objCol: IColaborador = this.editForm.get(['colaborador1']).value;
@@ -299,6 +315,23 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       const objCol: IColaborador = this.editForm.get(['colaborador2']).value;
       nombreCompleto = objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
     }
+    return nombreCompleto;
+  }
+
+  /**
+   * Recibe un objeto Colaborador y devuelve un string con los datos en formato 'Nombre1 Nombre2? Apellido1 Apellido2?'
+   * @param parCol Objeto tipo IColaborador
+   */
+  getStrColaborador(parCol: IColaborador): string {
+    let nombreCompleto = '';
+    nombreCompleto =
+      parCol.nombre1 +
+      ' ' +
+      (parCol.nombre2 ? parCol.nombre2 : '') +
+      ' ' +
+      parCol.apellido1 +
+      ' ' +
+      (parCol.apellido2 ? parCol.apellido2 : '');
     return nombreCompleto;
   }
 }

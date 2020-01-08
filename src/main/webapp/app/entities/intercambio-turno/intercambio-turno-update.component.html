@@ -23,7 +23,7 @@
                                 <option
                                     [ngValue]="colaboradorOption.id === editForm.get('colaborador1').value?.id ? editForm.get('colaborador1').value : colaboradorOption"
                                     *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
-                                    {{colaboradorOption.id}}</option>
+                                    {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
                             <div *ngIf="this.asignacionturnos1 !== undefined" class="my-2">
                                 <h4>Asignacion Actual </h4>
@@ -66,7 +66,7 @@
                                 <option
                                     [ngValue]="colaboradorOption.id === editForm.get('colaborador2').value?.id ? editForm.get('colaborador2').value : colaboradorOption"
                                     *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
-                                    {{colaboradorOption.id}}</option>
+                                    {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
 
                             <div *ngIf="this.asignacionturnos2 !== undefined" class="my-2">
@@ -108,7 +108,7 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-12">
-                                    <dt>Colaborador:</dt><span> {{this.getStrColaborador(1)}}</span>
+                                    <dt>Colaborador:</dt><span> {{this.getStrColaboradorSelec(1)}}</span>
                                 </div>
                                 <div class="col-5">
                                     <dt>Turno</dt>
@@ -129,7 +129,7 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-12">
-                                    <dt>Colaborador:</dt><span> {{this.getStrColaborador(2)}}</span>
+                                    <dt>Colaborador:</dt><span> {{this.getStrColaboradorSelec(2)}}</span>
                                 </div>
                                 <div class="col-5">
                                     <dt>Turno</dt>
