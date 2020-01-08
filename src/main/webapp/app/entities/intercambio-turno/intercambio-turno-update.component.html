@@ -12,8 +12,29 @@
                 </div>
 
                 <div class="border rounded shadow p-4 my-3">
+                    <h4>Selección de colaboradores</h4>
+                    <hr>
                     <div class="row">
                         <div class="form-group col-6">
+                            <div class="row my-3">
+                                <div class="col-sm-12">
+                                    <form name="searchForm" class="form-inline">
+                                        <div class="input-group w-100 mt-3">
+                                            <input type="text" class="form-control" [(ngModel)]="currentSearch"
+                                                id="currentSearch" name="currentSearch"
+                                                placeholder="Ingrese el numero de documento del Colaborador">
+                                            <button class="input-group-append btn btn-info"
+                                                (click)="searchColaborador(currentSearch,1)">
+                                                <fa-icon [icon]="'search'"></fa-icon>
+                                            </button>
+                                            <button class="input-group-append btn btn-danger" (click)="clear()"
+                                                *ngIf="currentSearch">
+                                                <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1"
                                 for="field_colaborador1">Colaborador 1</label>
@@ -26,9 +47,9 @@
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
                             <div *ngIf="this.asignacionturnos1 !== undefined" class="my-2">
-                                <h4>Asignacion Actual </h4>
+                                <h4>Asignacion actual </h4>
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <dt>Turno</dt>
                                     </div>
                                     <div class="col-5">
@@ -37,16 +58,23 @@
                                 </div>
 
                                 <div *ngFor="let item of this.asignacionturnos1" class="row my-2">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
                                     </div>
                                     <div class="col-5">
                                         {{item.cargo.nombre}}
                                     </div>
-                                    <button type="button" class="btn btn-danger btn-sm">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                        <span class="d-none d-md-inline">N</span>
-                                    </button>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            (click)="this.setSeleccionAsignacion(item, 1)"
+                                            *ngIf="!this.asignacionSeleccionada(item,1)">
+                                            <fa-icon [icon]="'times-circle'"></fa-icon>
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm"
+                                            *ngIf="this.asignacionSeleccionada(item,1)">
+                                            <fa-icon [icon]="'check'"></fa-icon>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div *ngIf="this.asignacionturnos1 !== undefined">
                                     <small class="form-text text-danger" *ngIf="this.asignacionturnos1.length > 1">
@@ -56,7 +84,25 @@
                             </div>
                         </div>
                         <div class="form-group col-6">
-
+                            <div class="row my-3">
+                                <div class="col-sm-12">
+                                    <form name="searchForm" class="form-inline">
+                                        <div class="input-group w-100 mt-3">
+                                            <input type="text" class="form-control" [(ngModel)]="currentSearch"
+                                                id="currentSearch" name="currentSearch"
+                                                placeholder="Ingrese el numero de documento del Colaborador">
+                                            <button class="input-group-append btn btn-info"
+                                                (click)="searchColaborador(currentSearch,2)">
+                                                <fa-icon [icon]="'search'"></fa-icon>
+                                            </button>
+                                            <button class="input-group-append btn btn-danger" (click)="clear()"
+                                                *ngIf="currentSearch">
+                                                <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2"
                                 for="field_colaborador2">Colaborador 2</label>
@@ -70,9 +116,9 @@
                             </select>
 
                             <div *ngIf="this.asignacionturnos2 !== undefined" class="my-2">
-                                <h4>Asignacion Actual </h4>
+                                <h4>Asignacion actual </h4>
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <dt>Turno</dt>
                                     </div>
                                     <div class="col-5">
@@ -80,19 +126,27 @@
                                     </div>
                                 </div>
                                 <div *ngFor="let item of this.asignacionturnos2" class="row my-2">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
                                     </div>
                                     <div class="col-5">
                                         {{item.cargo.nombre}}
                                     </div>
-                                    <button type="button" class="btn btn-danger btn-sm">
-                                        <fa-icon [icon]="'times'"></fa-icon>
-                                        <span class="d-none d-md-inline">N</span>
-                                    </button>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            (click)="this.setSeleccionAsignacion(item, 2)"
+                                            *ngIf="!this.asignacionSeleccionada(item,2)">
+                                            <fa-icon [icon]="'times-circle'"></fa-icon>
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm"
+                                            *ngIf="this.asignacionSeleccionada(item,2)">
+                                            <fa-icon [icon]="'check'"></fa-icon>
+                                        </button>
+                                    </div>
+
                                 </div>
-                                <div *ngIf="this.asignacionturnos2 !== undefined">
-                                    <small class="form-text text-danger" *ngIf="this.asignacionturnos2.length > 1">
+                                <div *ngIf="this.asignacionSeleccionada2 === undefined">
+                                    <small class="form-text text-danger">
                                         Seleccione el turno para el intercambio
                                     </small>
                                 </div>
@@ -103,7 +157,8 @@
 
                 <div *ngIf="this.asignacionSeleccionada1 !== undefined && this.asignacionSeleccionada2 !== undefined"
                     class="border rounded shadow p-4 my-3">
-                    <h3>Después del Intercambio </h3>
+                    <h3>Después del intercambio </h3>
+                    <hr>
                     <div class="row">
                         <div class="col-6">
                             <div class="row">
@@ -126,6 +181,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-12">
@@ -150,27 +206,59 @@
                     </div>
                 </div>
                 <jhi-alert></jhi-alert>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.fecha"
-                        for="field_fecha">Fecha</label>
-                    <div class="d-flex">
-                        <input id="field_fecha" type="date" class="form-control" name="fecha" formControlName="fecha"
-                            placeholder="YYYY-MM-DD HH:mm" />
+                <div class="border rounded shadow p-4 my-3">
+
+                    <h4>Seleccion de fecha</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="form-check col-6 text-center">
+                            <input class="form-check-input" type="radio" name="radioButton" id="inlineRadio1"
+                                formControlName="radioButton" value="dia">
+                            <label class="form-check-label" for="inlineRadio1">Día</label>
+                        </div>
+
+                        <div class="form-check col-6 text-center">
+                            <input formControlName="radioButton" class="form-check-input" type="radio"
+                                name="radioButton" id="inlineRadio2" value="dias">
+                            <label class="form-check-label" for="inlineRadio2">Días</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="field_fecha">Fecha inicio</label>
+                            <div class="d-flex">
+                                <input id="field_fecha" type="date" class="form-control" name="fecha"
+                                    formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
+                        <div *ngIf="this.editForm.get(['radioButton']).value === 'dias'" class="form-group col-6">
+                            <label class="form-control-label" for="field_fecha_fin">Fecha fin</label>
+                            <div class="d-flex">
+                                <input id="field_fecha_fin" type="date" class="form-control" name="fecha_fin"
+                                    formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor"
-                        for="field_autorizadoPor">Autorizado Por</label>
-                    <input type="text" class="form-control" name="autorizadoPor" id="field_autorizadoPor"
-                        formControlName="autorizadoPor" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.observaciones"
-                        for="field_observaciones">Observaciones</label>
-                    <input type="text" class="form-control" name="observaciones" id="field_observaciones"
-                        formControlName="observaciones" />
+
+                <div class="border rounded shadow p-4 my-3">
+                    <h4>Información adicional</h4>
+                    <hr>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.autorizadoPor"
+                            for="field_autorizadoPor">Autorizado Por</label>
+                        <input type="text" class="form-control" name="autorizadoPor" id="field_autorizadoPor"
+                            formControlName="autorizadoPor" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.observaciones"
+                            for="field_observaciones">Observaciones</label>
+                        <textarea type="text" class="form-control" name="observaciones" id="field_observaciones"
+                            formControlName="observaciones"></textarea>
+                    </div>
                 </div>
 
+                <!--
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno1"
                         for="field_asignacionTurno1">Asignacion Turno 1</label>
@@ -195,6 +283,7 @@
                             {{asignacionTurnoOption.id}}</option>
                     </select>
                 </div>
+            -->
 
             </div>
             <div>

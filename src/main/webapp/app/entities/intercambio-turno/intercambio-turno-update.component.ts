@@ -38,11 +38,15 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     asignacionTurno1: [],
     asignacionTurno2: [],
     colaborador1: [],
-    colaborador2: []
+    colaborador2: [],
+    radioButton: ['dia']
   });
   asignaciones1: IAsignacionTurno[];
   asignacionSeleccionada1: IAsignacionTurno;
   asignacionSeleccionada2: IAsignacionTurno;
+  currentSearch: string;
+  colaboradorEncontrado: IColaborador;
+  radioButton = '';
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -333,5 +337,53 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       ' ' +
       (parCol.apellido2 ? parCol.apellido2 : '');
     return nombreCompleto;
+  }
+
+  searchColaborador(parDocumento: string) {
+    if (parDocumento === '') {
+      this.colaboradorEncontrado = undefined;
+      this.editForm.patchValue({ colaboradors: [] });
+    }
+    this.colaboradors.forEach(element => {
+      if (element.numeroDocumento === parDocumento) {
+        this.colaboradorEncontrado = element;
+        this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
+      }
+    });
+  }
+  clear(): void {
+    this.currentSearch = '';
+  }
+
+  setSeleccionAsignacion(parAsignacion: IAsignacionTurno, numSeleccion: number) {
+    if (numSeleccion === 1) {
+      this.asignacionSeleccionada1 = parAsignacion;
+      this.editForm.patchValue({ asignacionTurno1: parAsignacion });
+    } else if (numSeleccion === 2) {
+      this.asignacionSeleccionada2 = parAsignacion;
+      this.editForm.patchValue({ asignacionTurno2: parAsignacion });
+    }
+  }
+
+  asignacionSeleccionada(parAsignacion: IAsignacionTurno, numAsig: number): boolean {
+    let result = false;
+    if (numAsig === 1) {
+      if (this.asignacionSeleccionada1 === undefined) {
+        return false;
+      } else {
+        if (this.asignacionSeleccionada1 === parAsignacion) {
+          result = true;
+        }
+      }
+    } else if (numAsig === 2) {
+      if (this.asignacionSeleccionada2 === undefined) {
+        return false;
+      } else {
+        if (this.asignacionSeleccionada2 === parAsignacion) {
+          result = true;
+        }
+      }
+    }
+    return result;
   }
 }
