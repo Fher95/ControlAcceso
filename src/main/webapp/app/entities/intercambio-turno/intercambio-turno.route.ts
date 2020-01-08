@@ -11,6 +11,7 @@ import { IntercambioTurnoDetailComponent } from './intercambio-turno-detail.comp
 import { IntercambioTurnoUpdateComponent } from './intercambio-turno-update.component';
 import { IntercambioTurnoDeletePopupComponent } from './intercambio-turno-delete-dialog.component';
 import { IIntercambioTurno } from 'app/shared/model/intercambio-turno.model';
+import { JhiResolvePagingParams } from 'ng-jhipster';
 
 @Injectable({ providedIn: 'root' })
 export class IntercambioTurnoResolve implements Resolve<IIntercambioTurno> {
@@ -32,8 +33,12 @@ export const intercambioTurnoRoute: Routes = [
   {
     path: '',
     component: IntercambioTurnoComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
     data: {
       authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
