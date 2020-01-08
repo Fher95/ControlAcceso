@@ -1,7 +1,6 @@
 import { Moment } from 'moment';
 import { ITurno } from 'app/shared/model/turno.model';
 import { IColaborador } from 'app/shared/model/colaborador.model';
-import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
 import { IPlaneacionSemanal } from 'app/shared/model/planeacion-semanal.model';
 import { ICargo } from 'app/shared/model/cargo.model';
 
