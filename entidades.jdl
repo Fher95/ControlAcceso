@@ -211,3 +211,4 @@ paginate Peticion with pagination
 paginate Asistencia with pagination
 paginate ReporteAsistencia with pagination
 paginate PlaneacionSemanal with pagination
+paginate IntercambioTurno with pagination

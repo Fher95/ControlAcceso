@@ -49,7 +49,7 @@
     "changelogDate": "20191029212436",
     "entityTableName": "intercambio_turno",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
