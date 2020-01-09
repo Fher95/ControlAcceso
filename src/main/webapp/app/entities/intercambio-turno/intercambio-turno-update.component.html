@@ -82,12 +82,11 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div *ngIf="this.asignacionturnos1 !== undefined">
-                                    <small class="form-text text-danger" *ngIf="this.asignacionturnos1.length > 1">
+                                <div *ngIf="this.asignacionSeleccionada1 === undefined">
+                                    <small class="form-text text-danger">
                                         Seleccione el turno para el intercambio
                                     </small>
                                 </div>
-
                             </div>
                         </div>
                         <div class="form-group col-6">
@@ -131,7 +130,7 @@
                                 </small>
                             </div>
                             <div *ngIf="this.asignacionturnos2 !== undefined" class="my-2">
-                                <h4>Asignacion actual </h4>
+                                <h4>Asignación actual </h4>
                                 <div class="row">
                                     <div class="col-4">
                                         <dt>Turno</dt>
@@ -219,6 +218,17 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="this.cruceAsignaciones">
+                        <small class="form-text text-danger">
+                            Conflicto de cruce de turnos en las asignaciones.
+                        </small>
+                    </div>
+                    <div *ngIf="this.turnosCruzados(this.asignacionSeleccionada1.turno, this.asignacionSeleccionada2.turno)">
+                        <small class="form-text text-danger">
+                            Los turnos seleccionados se cruzan. No se puede realizar el intercambio.
+                        </small>
+                    </div>
+                    
                 </div>
                 <jhi-alert></jhi-alert>
                 <div class="border rounded shadow p-4 my-3">
@@ -311,7 +321,7 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving || this.cruceAsignaciones"
                     class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>

@@ -50,6 +50,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   radioButton = '';
   sinAsignacionesCol1 = false;
   sinAsignacionesCol2 = false;
+  cruceAsignaciones = false;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -382,6 +383,27 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       this.asignacionSeleccionada2 = parAsignacion;
       this.editForm.patchValue({ asignacionTurno2: parAsignacion });
     }
+    this.comprobarCrucesTurnos();
+  }
+  comprobarCrucesTurnos() {
+    this.cruceAsignaciones = false;
+    if (this.asignacionSeleccionada1 !== undefined && this.asignacionSeleccionada2 !== undefined) {
+      if (this.asignacionturnos2.length > 1) {
+        this.asignacionturnos2.forEach(element => {
+          if (this.turnosCruzados(this.asignacionSeleccionada1.turno, element.turno)) {
+            this.cruceAsignaciones = true;
+          }
+        });
+      }
+
+      if (this.asignacionturnos1.length > 1) {
+        this.asignacionturnos1.forEach(element => {
+          if (this.turnosCruzados(this.asignacionSeleccionada2.turno, element.turno)) {
+            this.cruceAsignaciones = true;
+          }
+        });
+      }
+    }
   }
 
   asignacionSeleccionada(parAsignacion: IAsignacionTurno, numAsig: number): boolean {
@@ -404,5 +426,33 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       }
     }
     return result;
+  }
+
+  /**
+   * Recibe dos objetos Turno y compara sus atributos 'horaInicio' y 'duracion' para verificar si se cruzan o no
+   * @param turno1 Objeto de tipo ITurno
+   * @param turno2 Objeto de tipo ITurno
+   */
+  turnosCruzados(turno1: ITurno, turno2: ITurno): boolean {
+    let resultado = false;
+    const fechaHora1 = new Date(turno1.horaInicio.toString());
+    const fechaHora2 = new Date(turno2.horaInicio.toString());
+    const horaInicio1 = fechaHora1.getHours();
+    const horaFin1 = fechaHora1.getHours() + turno1.duracion;
+    const horaInicio2 = fechaHora2.getHours();
+    const horaFin2 = fechaHora2.getHours() + turno2.duracion;
+    // Compara si la hora de inicio del turno2 está dentro del horario de turno1
+    if (horaInicio2 > horaInicio1 && horaInicio2 < horaFin1) {
+      resultado = true;
+    }
+    // Compara si la hora de inicio del turno1 está dentro del intervalo horario de turno2
+    if (horaInicio1 > horaInicio2 && horaInicio1 < horaFin2) {
+      resultado = true;
+    }
+    // Compara si ambos turnos inician al mismo tiempo
+    if (horaInicio1 === horaInicio2) {
+      resultado = true;
+    }
+    return resultado;
   }
 }

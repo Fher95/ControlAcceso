@@ -60,6 +60,8 @@ export class IntercambioTurnoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.predicate = 'fecha';
+    this.reverse = false;
     this.loadAll();
     this.accountService.identity().then(account => {
       this.currentAccount = account;
