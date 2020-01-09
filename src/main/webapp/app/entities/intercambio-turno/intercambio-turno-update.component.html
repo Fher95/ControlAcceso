@@ -45,9 +45,15 @@
                                     [ngValue]="colaboradorOption.id === editForm.get('colaborador1').value?.id ? editForm.get('colaborador1').value : colaboradorOption"
                                     *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
-                            </select>
+                            </select>                            
+                            <div *ngIf="editForm.get('colaborador1').dirty || editForm.get('colaborador1').touched">
+                                <small class="form-text text-danger" *ngIf="this.sinAsignacionesCol1">
+                                    El colaborador seleccionado no tiene asignado un turno actualmente.
+                                    No se puede realizar el intercambio.
+                                </small>
+                            </div>
                             <div *ngIf="this.asignacionturnos1 !== undefined" class="my-2">
-                                <h4>Asignacion actual </h4>
+                                <h4>Asignación actual </h4>
                                 <div class="row">
                                     <div class="col-4">
                                         <dt>Turno</dt>
@@ -81,6 +87,7 @@
                                         Seleccione el turno para el intercambio
                                     </small>
                                 </div>
+
                             </div>
                         </div>
                         <div class="form-group col-6">
@@ -114,7 +121,15 @@
                                     *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
-
+                            <div *ngIf="editForm.get('colaborador2').dirty || editForm.get('colaborador2').touched">
+                                <small class="form-text text-danger" *ngIf="this.editForm.get('colaborador2') === []">
+                                    Debe seleccionar un colaborador.
+                                </small>
+                                <small class="form-text text-danger" *ngIf="this.sinAsignacionesCol2">
+                                    El colaborador seleccionado no tiene asignado un turno actualmente.
+                                    No se puede realizar el intercambio.
+                                </small>
+                            </div>
                             <div *ngIf="this.asignacionturnos2 !== undefined" class="my-2">
                                 <h4>Asignacion actual </h4>
                                 <div class="row">
@@ -208,7 +223,7 @@
                 <jhi-alert></jhi-alert>
                 <div class="border rounded shadow p-4 my-3">
 
-                    <h4>Seleccion de fecha</h4>
+                    <h4>Selección de fecha{{this.editForm.get(['radioButton']).value === 'dias' ? 's' : ''}}</h4>
                     <hr>
                     <div class="row">
                         <div class="form-check col-6 text-center">
@@ -225,17 +240,23 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label class="form-control-label" for="field_fecha">Fecha inicio</label>
+                            <label class="form-control-label" for="field_fecha">Fecha
+                                {{this.editForm.get(['radioButton']).value === 'dias' ? 'inicio' : ''}}</label>
                             <div class="d-flex">
                                 <input id="field_fecha" type="date" class="form-control" name="fecha"
                                     formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                            <div *ngIf="editForm.get('fecha').invalid && editForm.get('fecha').dirty || editForm.get('fecha').touched">
+                                <small class="form-text text-danger" *ngIf="editForm.get('fecha').errors.required">
+                                    Debe seleccionar una fecha
+                                </small>
                             </div>
                         </div>
                         <div *ngIf="this.editForm.get(['radioButton']).value === 'dias'" class="form-group col-6">
                             <label class="form-control-label" for="field_fecha_fin">Fecha fin</label>
                             <div class="d-flex">
-                                <input id="field_fecha_fin" type="date" class="form-control" name="fecha_fin"
-                                    formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
+                                <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin"
+                                    formControlName="fechaFin" placeholder="YYYY-MM-DD HH:mm" />
                             </div>
                         </div>
                     </div>

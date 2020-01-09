@@ -32,13 +32,14 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    fecha: [],
+    fecha: [null, [Validators.required]],
+    fechaFin: [],
     autorizadoPor: [],
     observaciones: [],
-    asignacionTurno1: [],
-    asignacionTurno2: [],
-    colaborador1: [],
-    colaborador2: [],
+    asignacionTurno1: [null, [Validators.required]],
+    asignacionTurno2: [undefined, [Validators.required]],
+    colaborador1: [undefined, [Validators.required]],
+    colaborador2: [undefined, [Validators.required]],
     radioButton: ['dia']
   });
   asignaciones1: IAsignacionTurno[];
@@ -47,6 +48,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   currentSearch: string;
   colaboradorEncontrado: IColaborador;
   radioButton = '';
+  sinAsignacionesCol1 = false;
+  sinAsignacionesCol2 = false;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -231,11 +234,19 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     if (numVector === 1) {
       this.asignacionturnos1 = undefined;
       const col = this.editForm.get(['colaborador1']).value;
-      this.setAsignacionesColaborador(col.id, numVector);
+      this.editForm.patchValue({ asignacionTurno1: [] });
+      this.asignacionSeleccionada1 = undefined;
+      if (col !== null) {
+        this.getAsignacionesColaborador(col.id, numVector);
+      }
     } else if (numVector === 2) {
       this.asignacionturnos2 = undefined;
       const col = this.editForm.get(['colaborador2']).value;
-      this.setAsignacionesColaborador(col.id, numVector);
+      this.asignacionSeleccionada2 = undefined;
+      this.editForm.patchValue({ asignacionTurno2: [] });
+      if (col !== null) {
+        this.getAsignacionesColaborador(col.id, numVector);
+      }
     }
   }
 
@@ -244,7 +255,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
    * @param parId identificador del objeto Colaborador para la busqueda
    * @param numVector 1 para llenar el array 'asignacionTurno1', 2 para llenar el 'asignacionTurno2'
    */
-  setAsignacionesColaborador(parId: number, numVector: number) {
+  getAsignacionesColaborador(parId: number, numVector: number) {
     this.asignacionTurnoService
       .findAsignacionesColaborador(parId)
       .pipe(
@@ -254,12 +265,16 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       .subscribe((res: IAsignacionTurno[]) => {
         if (res.length > 0) {
           if (numVector === 1) {
+            this.sinAsignacionesCol1 = false;
             this.asignacionturnos1 = res;
             this.setAsignacionSeleccionada(1);
           } else if (numVector === 2) {
+            this.sinAsignacionesCol2 = false;
             this.asignacionturnos2 = res;
             this.setAsignacionSeleccionada(2);
           }
+        } else {
+          numVector === 1 ? (this.sinAsignacionesCol1 = true) : (this.sinAsignacionesCol2 = true);
         }
       });
   }
@@ -283,7 +298,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         this.editForm.patchValue({ asignacionTurno2: this.asignacionSeleccionada2 });
       } else {
         this.asignacionSeleccionada2 = undefined;
-        this.editForm.patchValue({ asignacionTurno1: [] });
+        this.editForm.patchValue({ asignacionTurno2: [] });
       }
     }
   }
@@ -312,11 +327,13 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
    */
   getStrColaboradorSelec(numCol: number): string {
     let nombreCompleto = '';
+    let objCol: IColaborador = null;
     if (numCol === 1) {
-      const objCol: IColaborador = this.editForm.get(['colaborador1']).value;
-      nombreCompleto = objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
+      objCol = this.editForm.get(['colaborador1']).value;
     } else if (numCol === 2) {
-      const objCol: IColaborador = this.editForm.get(['colaborador2']).value;
+      objCol = this.editForm.get(['colaborador2']).value;
+    }
+    if (objCol !== null) {
       nombreCompleto = objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
     }
     return nombreCompleto;
@@ -328,14 +345,16 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
    */
   getStrColaborador(parCol: IColaborador): string {
     let nombreCompleto = '';
-    nombreCompleto =
-      parCol.nombre1 +
-      ' ' +
-      (parCol.nombre2 ? parCol.nombre2 : '') +
-      ' ' +
-      parCol.apellido1 +
-      ' ' +
-      (parCol.apellido2 ? parCol.apellido2 : '');
+    if (parCol !== null) {
+      nombreCompleto =
+        parCol.nombre1 +
+        ' ' +
+        (parCol.nombre2 ? parCol.nombre2 : '') +
+        ' ' +
+        parCol.apellido1 +
+        ' ' +
+        (parCol.apellido2 ? parCol.apellido2 : '');
+    }
     return nombreCompleto;
   }
 
