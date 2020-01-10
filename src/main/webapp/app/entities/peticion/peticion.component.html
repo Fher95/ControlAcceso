@@ -1,7 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Peticiones</span>
-        <p>Cuenta: {{this.currentAccount.login}}</p>
+        <span>Peticiones</span>        
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-peticion"
             [routerLink]="['/peticion/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -15,6 +14,17 @@
     <div class="alert alert-warning" *ngIf="peticions?.length === 0">
         <span jhiTranslate="controlAccesoApp.peticion.home.notFound">No peticions found</span>
     </div>
+    <div class="form-inline mb-2">
+
+        <dt>Mostrar:</dt> 
+        <select class="form-control ml-2" name="estado" [(ngModel)]="this.mostrando" id="field_mostrando" 
+        (change)="this.loadAll()">
+            <option value="Pendientes">Pendientes
+            </option>
+            <option value="Historial">Historial
+            </option>
+        </select>
+    </div>        
     <div class="table-responsive" *ngIf="peticions?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -26,9 +36,11 @@
                             Peticion</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="colaborador.nombre1"><span
+                    <th >
+                    <!--th jhiSortBy="colaborador.nombre1"-->
+                        <span
                             jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span>
-                        <fa-icon [icon]="'sort'"></fa-icon>
+                        <!--fa-icon [icon]="'sort'"></fa-icon-->
                     </th>
                     <th jhiSortBy="tipo"><span>Peticion</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
@@ -42,11 +54,11 @@
                     <th jhiSortBy="fechaFin"><span>Hasta</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span>
+                    <th *ngIf="this.mostrando === 'Historial'" jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th><span>Acciones</span></th>
-                    <!--th jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
+                    <th *ngIf="this.mostrando === 'Pendientes'"><span>Acciones</span></th>
+                    <th  *ngIf="this.mostrando === 'Historial'" jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <th></th>
                 </tr>
             </thead>
@@ -66,9 +78,8 @@
                     <!--td>{{peticion.constancia}}</td-->
                     <td>{{peticion.fechaInicio | date:'mediumDate'}}</td>
                     <td>{{peticion.fechaFin | date:'mediumDate'}}</td>
-                    <td jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>
-                    <!--td>{{peticion.autorizadoPor}}</td-->
-                    <td>
+                    <td *ngIf="this.mostrando === 'Historial'" jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>                    
+                    <td *ngIf="this.mostrando === 'Pendientes'">
                         <div *ngIf="!peticion.estado">
                             <button class="btn btn-success btn-sm col-12 my-1"
                             (click)="this.guardarCambioDeEstado(peticion,true)">Aceptar</button>
@@ -76,6 +87,7 @@
                             (click)="this.guardarCambioDeEstado(peticion,false)">Rechazar</button>
                         </div>
                     </td>
+                    <td *ngIf="this.mostrando === 'Historial'">{{peticion.autorizadoPor}}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/peticion', peticion.id, 'view' ]"

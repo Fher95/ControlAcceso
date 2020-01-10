@@ -23,6 +23,8 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.Peticion}.
@@ -48,7 +50,9 @@ public class PeticionResource {
      * {@code POST  /peticions} : Create a new peticion.
      *
      * @param peticion the peticion to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new peticion, or with status {@code 400 (Bad Request)} if the peticion has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new peticion, or with status {@code 400 (Bad Request)} if
+     *         the peticion has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/peticions")
@@ -58,18 +62,21 @@ public class PeticionResource {
             throw new BadRequestAlertException("A new peticion cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Peticion result = peticionRepository.save(peticion);
-        return ResponseEntity.created(new URI("/api/peticions/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity
+                .created(new URI("/api/peticions/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /peticions} : Updates an existing peticion.
      *
      * @param peticion the peticion to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated peticion,
-     * or with status {@code 400 (Bad Request)} if the peticion is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the peticion couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated peticion, or with status {@code 400 (Bad Request)} if the
+     *         peticion is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the peticion couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/peticions")
@@ -79,24 +86,41 @@ public class PeticionResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Peticion result = peticionRepository.save(peticion);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, peticion.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(
+                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, peticion.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code GET  /peticions} : get all the peticions.
      *
-
+     * 
      * @param pageable the pagination information.
-
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of peticions in body.
+     * 
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of peticions in body.
      */
     @GetMapping("/peticions")
-    public ResponseEntity<List<Peticion>> getAllPeticions(Pageable pageable) {
+    public ResponseEntity<List<Peticion>> getAllPeticions(Pageable pageable,
+            @RequestParam(required = false) String filter) {
+        if ("estado-is-null".equals(filter)) {
+            log.debug("REST request to get a page of Peticions con ESTADO null");
+            Page<Peticion> page = peticionRepository.findAllWithEstadoNull(pageable);
+            HttpHeaders headers = PaginationUtil
+                    .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        }
+        if ("estado-is-not-null".equals(filter)) {
+            log.debug("REST request to get a page of Peticions con ESTADO NO null");
+            Page<Peticion> page = peticionRepository.findAllWithEstadoNotNull(pageable);
+            HttpHeaders headers = PaginationUtil
+                    .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        }
         log.debug("REST request to get a page of Peticions");
         Page<Peticion> page = peticionRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -104,7 +128,8 @@ public class PeticionResource {
      * {@code GET  /peticions/:id} : get the "id" peticion.
      *
      * @param id the id of the peticion to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the peticion, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the peticion, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/peticions/{id}")
     public ResponseEntity<Peticion> getPeticion(@PathVariable Long id) {
@@ -123,6 +148,8 @@ public class PeticionResource {
     public ResponseEntity<Void> deletePeticion(@PathVariable Long id) {
         log.debug("REST request to delete Peticion : {}", id);
         peticionRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

@@ -32,6 +32,7 @@ export class PeticionComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  mostrando = 'Pendientes';
 
   constructor(
     protected peticionService: PeticionService,
@@ -53,8 +54,15 @@ export class PeticionComponent implements OnInit, OnDestroy {
   }
 
   loadAll() {
+    let filtro = '';
+    if (this.mostrando === 'Pendientes') {
+      filtro = 'estado-is-null';
+    } else if (this.mostrando === 'Historial') {
+      filtro = 'estado-is-not-null';
+    }
     this.peticionService
       .query({
+        filter: filtro,
         page: this.page - 1,
         size: this.itemsPerPage,
         sort: this.sort()
@@ -145,6 +153,7 @@ export class PeticionComponent implements OnInit, OnDestroy {
   }
 
   protected onSaveSuccess() {
+    this.loadAll();
     this.jhiAlertService.success('Estado de peticion actualziado', null, null);
   }
 
