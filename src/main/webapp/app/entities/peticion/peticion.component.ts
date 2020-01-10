@@ -12,6 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PeticionService } from './peticion.service';
 import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
+import { EstadoPeticion } from 'app/shared/model/enumerations/estado-peticion.model';
 
 @Component({
   selector: 'jhi-peticion',
@@ -130,5 +131,24 @@ export class PeticionComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  guardarCambioDeEstado(parPeticion: IPeticion, aceptado: boolean) {
+    if (aceptado) {
+      parPeticion.estado = EstadoPeticion.Autorizada;
+    } else {
+      parPeticion.estado = EstadoPeticion.NoAutorizada;
+    }
+    const autorizadoPor = this.currentAccount.firstName + ' ' + this.currentAccount.lastName;
+    parPeticion.autorizadoPor = autorizadoPor;
+    this.peticionService.update(parPeticion).subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess() {
+    this.jhiAlertService.success('Estado de peticion actualziado', null, null);
+  }
+
+  protected onSaveError() {
+    this.jhiAlertService.error('Problema al intentar actualizar el estado de la peticion', null, null);
   }
 }

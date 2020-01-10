@@ -28,17 +28,18 @@ export class PeticionUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    tipo: [],
+    tipo: [undefined, [Validators.required]],
     tipoPermiso: [],
-    fechaPeticion: [],
+    fechaPeticion: [undefined, [Validators.required]],
     motivo: [],
     constancia: [],
     fechaInicio: [],
     fechaFin: [],
     estado: [],
     autorizadoPor: [],
-    colaborador: []
+    colaborador: [undefined, [Validators.required]]
   });
+  fechasNoValidas = true;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -167,5 +168,19 @@ export class PeticionUpdateComponent implements OnInit {
 
   setColaboradorEncontrado() {
     this.colaboradorEncontrado = this.editForm.get(['colaborador']).value;
+  }
+
+  /**
+   * Comprueba que si el tipo de permiso es Vacaciones, las fechas de inicio y fin sean correctas
+   */
+  verificarFechas() {
+    if (this.editForm.get(['tipo']).value === 'Vacaciones') {
+      this.fechasNoValidas = this.utilidadesFecha.fechaMayorQue(
+        this.editForm.get(['fechaInicio']).value,
+        this.editForm.get(['fechaFin']).value
+      );
+    } else {
+      this.fechasNoValidas = false;
+    }
   }
 }

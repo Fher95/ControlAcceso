@@ -1,6 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span>Peticiones</span>
+        <p>Cuenta: {{this.currentAccount.login}}</p>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-peticion"
             [routerLink]="['/peticion/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -25,23 +26,26 @@
                             Peticion</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="colaborador.nombre1"><span jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="colaborador.nombre1"><span
+                            jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
                     <th jhiSortBy="tipo"><span>Peticion</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <!--th jhiSortBy="tipoPermiso"><span jhiTranslate="controlAccesoApp.peticion.tipoPermiso">Tipo Permiso</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
 
                     <!--th jhiSortBy="constancia"><span jhiTranslate="controlAccesoApp.peticion.constancia">Constancia</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
-                    <th jhiSortBy="fechaInicio"><span jhiTranslate="controlAccesoApp.peticion.fechaInicio">Fecha
-                            Inicio</span>
+                    <th jhiSortBy="fechaInicio"><span>Desde</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="fechaFin"><span jhiTranslate="controlAccesoApp.peticion.fechaFin">Fecha Fin</span>
+                    <th jhiSortBy="fechaFin"><span>Hasta</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
+                    <th><span>Acciones</span></th>
                     <!--th jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
                     <th></th>
                 </tr>
@@ -52,10 +56,11 @@
                     <td>{{peticion.fechaPeticion | date:'mediumDate'}}</td>
                     <td>
                         <div *ngIf="peticion.colaborador">
-                            <a [routerLink]="['/colaborador', peticion.colaborador?.id, 'view' ]" >{{utilidadesCol.getStrColaborador(peticion.colaborador)}}</a>
+                            <a
+                                [routerLink]="['/colaborador', peticion.colaborador?.id, 'view' ]">{{utilidadesCol.getStrColaborador(peticion.colaborador)}}</a>
                         </div>
                     </td>
-                    <td>{{peticion.tipo+' - '+peticion.tipoPermiso}}</td>
+                    <td>{{peticion.tipo + (peticion.tipoPermiso ? ' - ' + peticion.tipoPermiso : '')}}</td>
                     <!--td jhiTranslate="{{'controlAccesoApp.TipoPermiso.' + peticion.tipoPermiso}}">{{peticion.tipoPermiso}}</td-->
 
                     <!--td>{{peticion.constancia}}</td-->
@@ -63,6 +68,14 @@
                     <td>{{peticion.fechaFin | date:'mediumDate'}}</td>
                     <td jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>
                     <!--td>{{peticion.autorizadoPor}}</td-->
+                    <td>
+                        <div *ngIf="!peticion.estado">
+                            <button class="btn btn-success btn-sm col-12 my-1"
+                            (click)="this.guardarCambioDeEstado(peticion,true)">Aceptar</button>
+                            <button class="btn btn-danger btn-sm col-12 my-1"
+                            (click)="this.guardarCambioDeEstado(peticion,false)">Rechazar</button>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/peticion', peticion.id, 'view' ]"
