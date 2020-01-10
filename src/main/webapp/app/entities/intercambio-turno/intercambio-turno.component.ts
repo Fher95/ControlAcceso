@@ -10,6 +10,7 @@ import { IIntercambioTurno } from 'app/shared/model/intercambio-turno.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { IntercambioTurnoService } from './intercambio-turno.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
+import { IColaborador } from 'app/shared/model/colaborador.model';
 
 @Component({
   selector: 'jhi-intercambio-turno',
@@ -127,5 +128,24 @@ export class IntercambioTurnoComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.intercambioTurnos = data;
+  }
+
+  /**
+   * Recibe un objeto Colaborador y concatena todos sus nombres para devolverlos en una sola cadena de texto.
+   * @param parCol Objeto tipo IColaborador
+   */
+  getStrColaborador(parCol: IColaborador): string {
+    let nombreCompleto = '';
+    if (parCol !== null) {
+      nombreCompleto =
+        parCol.nombre1 +
+        ' ' +
+        (parCol.nombre2 ? parCol.nombre2 : '') +
+        ' ' +
+        parCol.apellido1 +
+        ' ' +
+        (parCol.apellido2 ? parCol.apellido2 : '');
+    }
+    return nombreCompleto;
   }
 }

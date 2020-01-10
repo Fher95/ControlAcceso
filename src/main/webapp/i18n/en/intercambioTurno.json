@@ -17,6 +17,7 @@
         "title": "Intercambio Turno"
       },
       "fecha": "Fecha",
+      "fechaFin": "Fecha Fin",
       "autorizadoPor": "Autorizado Por",
       "observaciones": "Observaciones",
       "asignacionTurno1": "Asignacion Turno 1",

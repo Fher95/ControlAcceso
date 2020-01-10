@@ -107,6 +107,7 @@ entity Peticion {
 
 entity IntercambioTurno {
     fecha Instant,
+    fechaFin Instant,
     autorizadoPor String,
     observaciones String
 }

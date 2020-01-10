@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IIntercambioTurno, IntercambioTurno } from 'app/shared/model/intercambio-turno.model';
 import { IntercambioTurnoService } from './intercambio-turno.service';
@@ -32,8 +32,8 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    fecha: [null, [Validators.required]],
-    fechaFin: [],
+    fecha: [undefined, [Validators.required]],
+    fechaFin: [undefined],
     autorizadoPor: [],
     observaciones: [],
     asignacionTurno1: [null, [Validators.required]],
@@ -51,6 +51,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   sinAsignacionesCol1 = false;
   sinAsignacionesCol2 = false;
   cruceAsignaciones = false;
+  fechasInvalidas = false;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -132,13 +133,14 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
   updateForm(intercambioTurno: IIntercambioTurno) {
     this.editForm.patchValue({
       id: intercambioTurno.id,
-      fecha: intercambioTurno.fecha != null ? intercambioTurno.fecha.format(DATE_TIME_FORMAT) : null,
+      fecha: intercambioTurno.fecha != null ? intercambioTurno.fecha.format(DATE_FORMAT) : null,
       autorizadoPor: intercambioTurno.autorizadoPor,
       observaciones: intercambioTurno.observaciones,
       asignacionTurno1: intercambioTurno.asignacionTurno1,
       asignacionTurno2: intercambioTurno.asignacionTurno2,
       colaborador1: intercambioTurno.colaborador1,
-      colaborador2: intercambioTurno.colaborador2
+      colaborador2: intercambioTurno.colaborador2,
+      radioButton: intercambioTurno.fechaFin != null ? 'dias' : 'dia'
     });
     if (intercambioTurno.id === undefined) {
       this.editForm.patchValue({ fecha: this.getStringFecha(new Date()) });
@@ -148,6 +150,9 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     }
     if (intercambioTurno.colaborador2 !== undefined) {
       this.setColaboradorSeleccionado(2);
+    }
+    if (intercambioTurno.fechaFin !== undefined) {
+      this.editForm.patchValue({ fechaFin: intercambioTurno.fechaFin.format(DATE_FORMAT) });
     }
   }
 
@@ -171,6 +176,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       ...new IntercambioTurno(),
       id: this.editForm.get(['id']).value,
       fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
+      fechaFin: this.getFechaFin(),
       autorizadoPor: this.editForm.get(['autorizadoPor']).value,
       observaciones: this.editForm.get(['observaciones']).value,
       asignacionTurno1: this.editForm.get(['asignacionTurno1']).value,
@@ -178,6 +184,13 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       colaborador1: this.editForm.get(['colaborador1']).value,
       colaborador2: this.editForm.get(['colaborador2']).value
     };
+  }
+  getFechaFin(): moment.Moment {
+    if (this.editForm.get(['radioButton']).value === 'dias') {
+      return this.editForm.get(['fechaFin']).value != null ? moment(this.editForm.get(['fechaFin']).value, DATE_TIME_FORMAT) : undefined;
+    } else {
+      return undefined;
+    }
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IIntercambioTurno>>) {
@@ -302,6 +315,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         this.editForm.patchValue({ asignacionTurno2: [] });
       }
     }
+    this.comprobarCrucesTurnos();
   }
 
   /**
@@ -453,6 +467,40 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     if (horaInicio1 === horaInicio2) {
       resultado = true;
     }
+    this.cruceAsignaciones = resultado;
     return resultado;
+  }
+
+  /**
+   * Verifica si la variable "fecha" es mayor que "fechaFin" y guarda el resultado en la variable "fechasInvalidas"
+   */
+  validarFechas() {
+    this.fechasInvalidas = false;
+    if (this.editForm.get('radioButton').value === 'dias') {
+      if (this.editForm.get(['fecha']).value !== null && this.editForm.get(['fechaFin']).value !== null) {
+        const fecha1 = new Date(this.editForm.get(['fecha']).value);
+        const fecha2 = new Date(this.editForm.get(['fechaFin']).value);
+        if (this.fechaMayorQue(fecha1, fecha2)) {
+          this.fechasInvalidas = true;
+        } else {
+          this.fechasInvalidas = false;
+        }
+      }
+    }
+  }
+
+  /**
+   * Recibe dos fechas para comparar. Si la fecha1 es mayor que fecha2, devuelve True, de lo contrario devuelve False
+   * @param parFecha1 Objeto Date
+   * @param parFecha2 Objeto Date
+   */
+  fechaMayorQue(parFecha1: Date, parFecha2: Date): boolean {
+    let respuesta;
+    if (parFecha1 > parFecha2) {
+      respuesta = true;
+    } else {
+      respuesta = false;
+    }
+    return respuesta;
   }
 }

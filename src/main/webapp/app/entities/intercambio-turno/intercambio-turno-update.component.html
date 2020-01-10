@@ -47,6 +47,9 @@
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>                            
                             <div *ngIf="editForm.get('colaborador1').dirty || editForm.get('colaborador1').touched">
+                                <small class="form-text text-danger" *ngIf="this.editForm.get('colaborador1').errors">
+                                    Debe seleccionar un colaborador.
+                                </small>
                                 <small class="form-text text-danger" *ngIf="this.sinAsignacionesCol1">
                                     El colaborador seleccionado no tiene asignado un turno actualmente.
                                     No se puede realizar el intercambio.
@@ -121,7 +124,7 @@
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
                             <div *ngIf="editForm.get('colaborador2').dirty || editForm.get('colaborador2').touched">
-                                <small class="form-text text-danger" *ngIf="this.editForm.get('colaborador2') === []">
+                                <small class="form-text text-danger" *ngIf="this.editForm.get('colaborador2').errors">
                                     Debe seleccionar un colaborador.
                                 </small>
                                 <small class="form-text text-danger" *ngIf="this.sinAsignacionesCol2">
@@ -222,7 +225,7 @@
                         <small class="form-text text-danger">
                             Conflicto de cruce de turnos en las asignaciones.
                         </small>
-                    </div>
+                    </div>                   
                     <div *ngIf="this.turnosCruzados(this.asignacionSeleccionada1.turno, this.asignacionSeleccionada2.turno)">
                         <small class="form-text text-danger">
                             Los turnos seleccionados se cruzan. No se puede realizar el intercambio.
@@ -238,12 +241,14 @@
                     <div class="row">
                         <div class="form-check col-6 text-center">
                             <input class="form-check-input" type="radio" name="radioButton" id="inlineRadio1"
+                            (change)="this.validarFechas()"
                                 formControlName="radioButton" value="dia">
                             <label class="form-check-label" for="inlineRadio1">Día</label>
                         </div>
 
                         <div class="form-check col-6 text-center">
                             <input formControlName="radioButton" class="form-check-input" type="radio"
+                            (change)="this.validarFechas()"
                                 name="radioButton" id="inlineRadio2" value="dias">
                             <label class="form-check-label" for="inlineRadio2">Días</label>
                         </div>
@@ -254,21 +259,34 @@
                                 {{this.editForm.get(['radioButton']).value === 'dias' ? 'inicio' : ''}}</label>
                             <div class="d-flex">
                                 <input id="field_fecha" type="date" class="form-control" name="fecha"
-                                    formControlName="fecha" placeholder="YYYY-MM-DD HH:mm" />
+                                (change)="this.validarFechas()"
+                                    formControlName="fecha"/>
                             </div>
                             <div *ngIf="editForm.get('fecha').invalid && editForm.get('fecha').dirty || editForm.get('fecha').touched">
-                                <small class="form-text text-danger" *ngIf="editForm.get('fecha').errors.required">
+                                <small class="form-text text-danger" *ngIf="editForm.get('fecha').errors">
                                     Debe seleccionar una fecha
                                 </small>
-                            </div>
+                            </div>                            
                         </div>
                         <div *ngIf="this.editForm.get(['radioButton']).value === 'dias'" class="form-group col-6">
                             <label class="form-control-label" for="field_fecha_fin">Fecha fin</label>
                             <div class="d-flex">
-                                <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin"
-                                    formControlName="fechaFin" placeholder="YYYY-MM-DD HH:mm" />
+                                <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin" (change)="this.validarFechas();"
+                                    formControlName="fechaFin" />
                             </div>
+                            <div *ngIf="editForm.get('radioButton').value === 'dias' &&
+                             (editForm.get(['fechaFin']).value === '' || editForm.get(['fechaFin']).value === null)">
+                                <small class="form-text text-danger" >
+                                    Debe seleccionar una fecha
+                                </small>
+                            </div>  
+                                                        
                         </div>
+                        <div *ngIf="this.fechasInvalidas">
+                            <small class="form-text text-danger p-3" >
+                                La fecha de inicio no puede ser mayor a la de fin
+                            </small>
+                        </div> 
                     </div>
                 </div>
 
@@ -321,7 +339,7 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving || this.cruceAsignaciones"
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving || this.cruceAsignaciones || this.fechasInvalidas"
                     class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>

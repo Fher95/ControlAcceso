@@ -5,6 +5,7 @@ import { IColaborador } from 'app/shared/model/colaborador.model';
 export interface IIntercambioTurno {
   id?: number;
   fecha?: Moment;
+  fechaFin?: Moment;
   autorizadoPor?: string;
   observaciones?: string;
   asignacionTurno1?: IAsignacionTurno;
@@ -17,6 +18,7 @@ export class IntercambioTurno implements IIntercambioTurno {
   constructor(
     public id?: number,
     public fecha?: Moment,
+    public fechaFin?: Moment,
     public autorizadoPor?: string,
     public observaciones?: string,
     public asignacionTurno1?: IAsignacionTurno,

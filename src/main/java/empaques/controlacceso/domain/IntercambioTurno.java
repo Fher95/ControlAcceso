@@ -26,6 +26,9 @@ public class IntercambioTurno implements Serializable {
     @Column(name = "fecha")
     private Instant fecha;
 
+    @Column(name = "fecha_fin")
+    private Instant fechaFin;
+
     @Column(name = "autorizado_por")
     private String autorizadoPor;
 
@@ -68,6 +71,19 @@ public class IntercambioTurno implements Serializable {
 
     public void setFecha(Instant fecha) {
         this.fecha = fecha;
+    }
+
+    public Instant getFechaFin() {
+        return fechaFin;
+    }
+
+    public IntercambioTurno fechaFin(Instant fechaFin) {
+        this.fechaFin = fechaFin;
+        return this;
+    }
+
+    public void setFechaFin(Instant fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public String getAutorizadoPor() {
@@ -170,6 +186,7 @@ public class IntercambioTurno implements Serializable {
         return "IntercambioTurno{" +
             "id=" + getId() +
             ", fecha='" + getFecha() + "'" +
+            ", fechaFin='" + getFechaFin() + "'" +
             ", autorizadoPor='" + getAutorizadoPor() + "'" +
             ", observaciones='" + getObservaciones() + "'" +
             "}";

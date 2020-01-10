@@ -6,6 +6,10 @@
             "fieldType": "Instant"
         },
         {
+            "fieldName": "fechaFin",
+            "fieldType": "Instant"
+        },
+        {
             "fieldName": "autorizadoPor",
             "fieldType": "String"
         },

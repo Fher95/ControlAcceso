@@ -39,6 +39,10 @@ public class IntercambioTurnoResourceIT {
     private static final Instant UPDATED_FECHA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_FECHA = Instant.ofEpochMilli(-1L);
 
+    private static final Instant DEFAULT_FECHA_FIN = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FECHA_FIN = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant SMALLER_FECHA_FIN = Instant.ofEpochMilli(-1L);
+
     private static final String DEFAULT_AUTORIZADO_POR = "AAAAAAAAAA";
     private static final String UPDATED_AUTORIZADO_POR = "BBBBBBBBBB";
 
@@ -88,6 +92,7 @@ public class IntercambioTurnoResourceIT {
     public static IntercambioTurno createEntity(EntityManager em) {
         IntercambioTurno intercambioTurno = new IntercambioTurno()
             .fecha(DEFAULT_FECHA)
+            .fechaFin(DEFAULT_FECHA_FIN)
             .autorizadoPor(DEFAULT_AUTORIZADO_POR)
             .observaciones(DEFAULT_OBSERVACIONES);
         return intercambioTurno;
@@ -101,6 +106,7 @@ public class IntercambioTurnoResourceIT {
     public static IntercambioTurno createUpdatedEntity(EntityManager em) {
         IntercambioTurno intercambioTurno = new IntercambioTurno()
             .fecha(UPDATED_FECHA)
+            .fechaFin(UPDATED_FECHA_FIN)
             .autorizadoPor(UPDATED_AUTORIZADO_POR)
             .observaciones(UPDATED_OBSERVACIONES);
         return intercambioTurno;
@@ -127,6 +133,7 @@ public class IntercambioTurnoResourceIT {
         assertThat(intercambioTurnoList).hasSize(databaseSizeBeforeCreate + 1);
         IntercambioTurno testIntercambioTurno = intercambioTurnoList.get(intercambioTurnoList.size() - 1);
         assertThat(testIntercambioTurno.getFecha()).isEqualTo(DEFAULT_FECHA);
+        assertThat(testIntercambioTurno.getFechaFin()).isEqualTo(DEFAULT_FECHA_FIN);
         assertThat(testIntercambioTurno.getAutorizadoPor()).isEqualTo(DEFAULT_AUTORIZADO_POR);
         assertThat(testIntercambioTurno.getObservaciones()).isEqualTo(DEFAULT_OBSERVACIONES);
     }
@@ -163,6 +170,7 @@ public class IntercambioTurnoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(intercambioTurno.getId().intValue())))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
+            .andExpect(jsonPath("$.[*].fechaFin").value(hasItem(DEFAULT_FECHA_FIN.toString())))
             .andExpect(jsonPath("$.[*].autorizadoPor").value(hasItem(DEFAULT_AUTORIZADO_POR.toString())))
             .andExpect(jsonPath("$.[*].observaciones").value(hasItem(DEFAULT_OBSERVACIONES.toString())));
     }
@@ -179,6 +187,7 @@ public class IntercambioTurnoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(intercambioTurno.getId().intValue()))
             .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
+            .andExpect(jsonPath("$.fechaFin").value(DEFAULT_FECHA_FIN.toString()))
             .andExpect(jsonPath("$.autorizadoPor").value(DEFAULT_AUTORIZADO_POR.toString()))
             .andExpect(jsonPath("$.observaciones").value(DEFAULT_OBSERVACIONES.toString()));
     }
@@ -205,6 +214,7 @@ public class IntercambioTurnoResourceIT {
         em.detach(updatedIntercambioTurno);
         updatedIntercambioTurno
             .fecha(UPDATED_FECHA)
+            .fechaFin(UPDATED_FECHA_FIN)
             .autorizadoPor(UPDATED_AUTORIZADO_POR)
             .observaciones(UPDATED_OBSERVACIONES);
 
@@ -218,6 +228,7 @@ public class IntercambioTurnoResourceIT {
         assertThat(intercambioTurnoList).hasSize(databaseSizeBeforeUpdate);
         IntercambioTurno testIntercambioTurno = intercambioTurnoList.get(intercambioTurnoList.size() - 1);
         assertThat(testIntercambioTurno.getFecha()).isEqualTo(UPDATED_FECHA);
+        assertThat(testIntercambioTurno.getFechaFin()).isEqualTo(UPDATED_FECHA_FIN);
         assertThat(testIntercambioTurno.getAutorizadoPor()).isEqualTo(UPDATED_AUTORIZADO_POR);
         assertThat(testIntercambioTurno.getObservaciones()).isEqualTo(UPDATED_OBSERVACIONES);
     }

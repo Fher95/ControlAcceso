@@ -24,14 +24,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new IntercambioTurno(0, currentDate, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new IntercambioTurno(0, currentDate, currentDate, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -49,13 +50,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            fecha: currentDate.format(DATE_TIME_FORMAT)
+            fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );
@@ -72,6 +75,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT),
             autorizadoPor: 'BBBBBB',
             observaciones: 'BBBBBB'
           },
@@ -80,7 +84,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );
@@ -97,6 +102,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             fecha: currentDate.format(DATE_TIME_FORMAT),
+            fechaFin: currentDate.format(DATE_TIME_FORMAT),
             autorizadoPor: 'BBBBBB',
             observaciones: 'BBBBBB'
           },
@@ -104,7 +110,8 @@ describe('Service Tests', () => {
         );
         const expected = Object.assign(
           {
-            fecha: currentDate
+            fecha: currentDate,
+            fechaFin: currentDate
           },
           returnedFromService
         );

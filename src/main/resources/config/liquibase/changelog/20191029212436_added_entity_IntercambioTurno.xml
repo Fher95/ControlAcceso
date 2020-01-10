@@ -18,6 +18,9 @@
             <column name="fecha" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="fecha_fin" type="datetime">
+                <constraints nullable="true" />
+            </column>
             <column name="autorizado_por" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -39,6 +42,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="intercambio_turno" columnName="fecha" columnDataType="datetime"/>
+        <dropDefaultValue tableName="intercambio_turno" columnName="fecha_fin" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20191029212436-1-relations" author="jhipster">
@@ -61,6 +65,7 @@
                   tableName="intercambio_turno">
             <column name="id" type="numeric"/>
             <column name="fecha" type="datetime"/>
+            <column name="fecha_fin" type="datetime"/>
             <column name="autorizado_por" type="string"/>
             <column name="observaciones" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
