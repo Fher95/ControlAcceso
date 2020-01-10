@@ -41,6 +41,12 @@
                 <dd>
                     <span>{{peticion.autorizadoPor}}</span>
                 </dd>
+                <dt><span jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span></dt>
+                <dd>
+                    <div *ngIf="peticion.colaborador">
+                        <a [routerLink]="['/colaborador', peticion.colaborador?.id, 'view']">{{peticion.colaborador?.id}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

@@ -9,18 +9,6 @@
     <changeSet id="20191029212432-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="colaborador_id"
-                                 baseTableName="colaborador_peticion"
-                                 constraintName="fk_colaborador_peticion_colaborador_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="colaborador"/>
-
-        <addForeignKeyConstraint baseColumnNames="peticion_id"
-                                 baseTableName="colaborador_peticion"
-                                 constraintName="fk_colaborador_peticion_peticion_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="peticion"/>
-        
-        <addForeignKeyConstraint baseColumnNames="colaborador_id"
                                  baseTableName="colaborador_asignacion_horas_extras"
                                  constraintName="fk_colaborador_asignacion_horas_extras_colaborador_id"
                                  referencedColumnNames="id"

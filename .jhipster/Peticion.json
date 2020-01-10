@@ -43,12 +43,11 @@
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-many",
+            "relationshipType": "many-to-one",
             "otherEntityName": "colaborador",
             "otherEntityRelationshipName": "peticion",
             "relationshipName": "colaborador",
-            "otherEntityField": "id",
-            "ownerSide": false
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20191029212435",

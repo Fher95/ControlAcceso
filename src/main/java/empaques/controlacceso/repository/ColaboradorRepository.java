@@ -28,10 +28,4 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
     @Query("from Colaborador colaborador where numero_documento =:id")
     Optional<Colaborador> findColaboradorByNumDocumento(@Param("id") String id);
 
-    @Query("select colaborador from Colaborador colaborador left join fetch colaborador.peticions pets where numero_documento =:id")
-    Optional<Colaborador> findOneWithPeticions(@Param("id") String id);
-
-    @Query("select colaborador from Colaborador colaborador inner join fetch colaborador.peticions pets where peticion_id =:id")
-    Optional<Colaborador> findByIdPeticion(@Param("id") Long id);
 }
-

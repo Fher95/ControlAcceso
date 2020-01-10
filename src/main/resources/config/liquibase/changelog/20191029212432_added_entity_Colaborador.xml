@@ -82,17 +82,6 @@
 
     <changeSet id="20191029212432-1-relations" author="jhipster">
 
-        <createTable tableName="colaborador_peticion">
-            <column name="peticion_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="colaborador_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="colaborador_id, peticion_id" tableName="colaborador_peticion"/>
-        
         <createTable tableName="colaborador_asignacion_horas_extras">
             <column name="asignacion_horas_extras_id" type="bigint">
                 <constraints nullable="false"/>

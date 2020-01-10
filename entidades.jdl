@@ -188,6 +188,7 @@ relationship OneToMany {
     Colaborador to Telefono
     Colaborador to Antecedentes
     Colaborador to AsistenciaPlaneacion
+    Colaborador to Peticion{colaborador}
     PlaneacionSemanal to AsignacionTurno
 }
 
@@ -196,8 +197,7 @@ relationship OneToMany {
  * Many to one relationship.
  */
  relationship ManyToMany {
-     AsignacionTurno to Colaborador
-     Colaborador to Peticion
+     AsignacionTurno to Colaborador     
      Colaborador to AsignacionHorasExtras
  }
 

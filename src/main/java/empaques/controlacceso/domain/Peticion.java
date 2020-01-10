@@ -1,5 +1,5 @@
 package empaques.controlacceso.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,8 +7,6 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 import empaques.controlacceso.domain.enumeration.TipoPeticion;
 
@@ -61,9 +59,9 @@ public class Peticion implements Serializable {
     @Column(name = "autorizado_por")
     private String autorizadoPor;
 
-    @ManyToMany(mappedBy = "peticions",fetch = FetchType.EAGER)
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)     
-    private Set<Colaborador> colaboradors = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties("peticions")
+    private Colaborador colaborador;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -191,29 +189,17 @@ public class Peticion implements Serializable {
         this.autorizadoPor = autorizadoPor;
     }
 
-    public Set<Colaborador> getColaboradors() {
-        return colaboradors;
+    public Colaborador getColaborador() {
+        return colaborador;
     }
 
-    public Peticion colaboradors(Set<Colaborador> colaboradors) {
-        this.colaboradors = colaboradors;
+    public Peticion colaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
         return this;
     }
 
-    public Peticion addColaborador(Colaborador colaborador) {
-        this.colaboradors.add(colaborador);
-        colaborador.getPeticions().add(this);
-        return this;
-    }
-
-    public Peticion removeColaborador(Colaborador colaborador) {
-        this.colaboradors.remove(colaborador);
-        colaborador.getPeticions().remove(this);
-        return this;
-    }
-
-    public void setColaboradors(Set<Colaborador> colaboradors) {
-        this.colaboradors = colaboradors;
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

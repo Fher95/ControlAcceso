@@ -97,7 +97,7 @@ public class Colaborador implements Serializable {
 
     @OneToMany(mappedBy = "colaborador2")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<IntercambioTurno> intercambioTurnos2 = new HashSet<>();
+    private Set<IntercambioTurno> intercambioTurno2S = new HashSet<>();
 
     @OneToMany(mappedBy = "colaborador")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -111,11 +111,8 @@ public class Colaborador implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AsistenciaPlaneacion> asistenciaPlaneacions = new HashSet<>();
 
-    @ManyToMany
+    @OneToMany(mappedBy = "colaborador")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "colaborador_peticion",
-               joinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "peticion_id", referencedColumnName = "id"))
     private Set<Peticion> peticions = new HashSet<>();
 
     @ManyToMany
@@ -411,29 +408,29 @@ public class Colaborador implements Serializable {
         this.intercambioTurnos = intercambioTurnos;
     }
 
-    public Set<IntercambioTurno> getIntercambioTurnos2() {
-        return intercambioTurnos2;
+    public Set<IntercambioTurno> getIntercambioTurno2S() {
+        return intercambioTurno2S;
     }
 
-    public Colaborador intercambioTurnos2(Set<IntercambioTurno> intercambioTurnos) {
-        this.intercambioTurnos2 = intercambioTurnos;
+    public Colaborador intercambioTurno2S(Set<IntercambioTurno> intercambioTurnos) {
+        this.intercambioTurno2S = intercambioTurnos;
         return this;
     }
 
     public Colaborador addIntercambioTurno2(IntercambioTurno intercambioTurno) {
-        this.intercambioTurnos2.add(intercambioTurno);
+        this.intercambioTurno2S.add(intercambioTurno);
         intercambioTurno.setColaborador2(this);
         return this;
     }
 
     public Colaborador removeIntercambioTurno2(IntercambioTurno intercambioTurno) {
-        this.intercambioTurnos2.remove(intercambioTurno);
+        this.intercambioTurno2S.remove(intercambioTurno);
         intercambioTurno.setColaborador2(null);
         return this;
     }
 
-    public void setIntercambioTurnos2(Set<IntercambioTurno> intercambioTurnos) {
-        this.intercambioTurnos2 = intercambioTurnos;
+    public void setIntercambioTurno2S(Set<IntercambioTurno> intercambioTurnos) {
+        this.intercambioTurno2S = intercambioTurnos;
     }
 
     public Set<Telefono> getTelefonos() {
@@ -522,13 +519,13 @@ public class Colaborador implements Serializable {
 
     public Colaborador addPeticion(Peticion peticion) {
         this.peticions.add(peticion);
-        peticion.getColaboradors().add(this);
+        peticion.setColaborador(this);
         return this;
     }
 
     public Colaborador removePeticion(Peticion peticion) {
         this.peticions.remove(peticion);
-        peticion.getColaboradors().remove(this);
+        peticion.setColaborador(null);
         return this;
     }
 

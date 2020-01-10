@@ -76,6 +76,7 @@ public class CacheConfiguration {
             createCache(cm, empaques.controlacceso.domain.Novedades.class.getName());
             createCache(cm, empaques.controlacceso.domain.AsistenciaHorasExtras.class.getName());
             createCache(cm, empaques.controlacceso.domain.ReporteAsistenciaHorasExtras.class.getName());
+            createCache(cm, empaques.controlacceso.domain.Colaborador.class.getName() + ".intercambioTurno2S");
             // jhipster-needle-ehcache-add-entry
         };
     }

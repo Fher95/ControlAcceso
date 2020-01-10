@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
@@ -16,24 +16,14 @@ type EntityArrayResponseType = HttpResponse<IPeticion[]>;
 @Injectable({ providedIn: 'root' })
 export class PeticionService {
   public resourceUrl = SERVER_API_URL + 'api/peticions';
-  idUltimaPeticion: number;
 
   constructor(protected http: HttpClient) {}
 
   create(peticion: IPeticion): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(peticion);
-    return this.http.post<IPeticion>(this.resourceUrl, copy, { observe: 'response' }).pipe(
-      map((res: EntityResponseType) => this.convertDateFromServer(res)),
-      tap((nuevaPeticion: EntityResponseType) => this.setIdUltimaPeticion(nuevaPeticion))
-    );
-  }
-  setIdUltimaPeticion(nuevaPeticion: HttpResponse<IPeticion>): void {
-    if (nuevaPeticion.body) {
-      this.idUltimaPeticion = nuevaPeticion.body.id;
-    }
-  }
-  getIdUltimaPeticion(): number {
-    return this.idUltimaPeticion;
+    return this.http
+      .post<IPeticion>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   update(peticion: IPeticion): Observable<EntityResponseType> {

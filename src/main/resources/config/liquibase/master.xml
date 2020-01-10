@@ -42,5 +42,6 @@
     <include file="config/liquibase/changelog/20191029212438_added_entity_constraints_AsignacionHorasExtras.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212439_added_entity_constraints_Asistencia.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212440_added_entity_constraints_AsistenciaPlaneacion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191029212435_added_entity_constraints_Peticion.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

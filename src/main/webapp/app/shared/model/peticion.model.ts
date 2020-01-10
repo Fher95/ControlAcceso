@@ -15,7 +15,7 @@ export interface IPeticion {
   fechaFin?: Moment;
   estado?: EstadoPeticion;
   autorizadoPor?: string;
-  colaboradors?: IColaborador[];
+  colaborador?: IColaborador;
 }
 
 export class Peticion implements IPeticion {
@@ -30,6 +30,6 @@ export class Peticion implements IPeticion {
     public fechaFin?: Moment,
     public estado?: EstadoPeticion,
     public autorizadoPor?: string,
-    public colaboradors?: IColaborador[]
+    public colaborador?: IColaborador
   ) {}
 }

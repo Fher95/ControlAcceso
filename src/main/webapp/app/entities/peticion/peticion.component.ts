@@ -11,8 +11,6 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PeticionService } from './peticion.service';
-import { ColaboradorService } from '../colaborador/colaborador.service';
-import { IColaborador } from 'app/shared/model/colaborador.model';
 
 @Component({
   selector: 'jhi-peticion',
@@ -35,7 +33,6 @@ export class PeticionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected peticionService: PeticionService,
-    protected colaboradorService: ColaboradorService,
     protected parseLinks: JhiParseLinks,
     protected jhiAlertService: JhiAlertService,
     protected accountService: AccountService,
@@ -131,19 +128,5 @@ export class PeticionComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  getIdColaborador(parIdPeticion: number): number {
-    let colaborador: IColaborador;
-    this.colaboradorService
-      .findByIdPeticion(parIdPeticion)
-      .pipe(
-        filter((res: HttpResponse<IColaborador>) => res.ok),
-        map((res: HttpResponse<IColaborador>) => res.body)
-      )
-      .subscribe((res: IColaborador) => {
-        colaborador = res;
-      });
-    return colaborador.id ? colaborador.id : 0;
   }
 }

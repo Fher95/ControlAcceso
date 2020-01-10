@@ -118,12 +118,10 @@
             "relationshipName": "asistenciaPlaneacion"
         },
         {
-            "relationshipType": "many-to-many",
+            "relationshipType": "one-to-many",
             "otherEntityName": "peticion",
             "otherEntityRelationshipName": "colaborador",
-            "relationshipName": "peticion",
-            "otherEntityField": "id",
-            "ownerSide": true
+            "relationshipName": "peticion"
         },
         {
             "relationshipType": "many-to-many",

@@ -22,12 +22,6 @@ export class PeticionUpdateComponent implements OnInit {
   isSaving: boolean;
 
   colaboradors: IColaborador[];
-  colaboradorEncontrado: IColaborador;
-  currentSearch: string;
-  peticionActual: IPeticion;
-  elementosPeticionesCol = 0;
-  contador = 0;
-  colaboradorPrueba: IColaborador;
 
   editForm = this.fb.group({
     id: [],
@@ -40,7 +34,7 @@ export class PeticionUpdateComponent implements OnInit {
     fechaFin: [],
     estado: [],
     autorizadoPor: [],
-    colaboradores: []
+    colaborador: []
   });
 
   constructor(
@@ -56,7 +50,6 @@ export class PeticionUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ peticion }) => {
       this.updateForm(peticion);
     });
-    /*
     this.colaboradorService
       .query()
       .pipe(
@@ -64,11 +57,6 @@ export class PeticionUpdateComponent implements OnInit {
         map((response: HttpResponse<IColaborador[]>) => response.body)
       )
       .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
-      this.colaboradors.forEach(element => {
-        if (element.peticions !== null){
-          this.contador++;
-        }
-    }); */
   }
 
   updateForm(peticion: IPeticion) {
@@ -82,7 +70,8 @@ export class PeticionUpdateComponent implements OnInit {
       fechaInicio: peticion.fechaInicio != null ? peticion.fechaInicio.format(DATE_TIME_FORMAT) : null,
       fechaFin: peticion.fechaFin != null ? peticion.fechaFin.format(DATE_TIME_FORMAT) : null,
       estado: peticion.estado,
-      autorizadoPor: peticion.autorizadoPor
+      autorizadoPor: peticion.autorizadoPor,
+      colaborador: peticion.colaborador
     });
   }
 
@@ -90,45 +79,9 @@ export class PeticionUpdateComponent implements OnInit {
     window.history.back();
   }
 
-  search(parDocumento: string) {
-    this.colaboradorEncontrado = undefined;
-    /*
-        this.colaboradorService
-          .findByNumDocumento(parDocumento)
-          .pipe(
-            filter((res: HttpResponse<IColaborador>) => res.ok),
-            map((res: HttpResponse<IColaborador>) => res.body)
-          )
-          .subscribe((res: IColaborador) => {
-            this.colaboradorEncontrado = res;
-            this.elementosPeticionesCol = this.colaboradorEncontrado.peticions.length;
-            this.editForm.patchValue(
-              {
-                colaborador: res
-              }
-            ) 
-          }); */
-
-    this.colaboradorService
-      .findConPeticiones(parDocumento)
-      .pipe(
-        filter((res: HttpResponse<IColaborador>) => res.ok),
-        map((res: HttpResponse<IColaborador>) => res.body)
-      )
-      .subscribe((res: IColaborador) => {
-        this.colaboradorEncontrado = res;
-        this.contador = this.colaboradorEncontrado.peticions.length;
-      });
-  }
-
-  clear() {
-    this.currentSearch = '';
-  }
-
   save() {
     this.isSaving = true;
     const peticion = this.createFromForm();
-    this.peticionActual = this.createFromForm();
     if (peticion.id !== undefined) {
       this.subscribeToSaveResponse(this.peticionService.update(peticion));
     } else {
@@ -152,7 +105,8 @@ export class PeticionUpdateComponent implements OnInit {
         this.editForm.get(['fechaInicio']).value != null ? moment(this.editForm.get(['fechaInicio']).value, DATE_TIME_FORMAT) : undefined,
       fechaFin: this.editForm.get(['fechaFin']).value != null ? moment(this.editForm.get(['fechaFin']).value, DATE_TIME_FORMAT) : undefined,
       estado: this.editForm.get(['estado']).value,
-      autorizadoPor: this.editForm.get(['autorizadoPor']).value
+      autorizadoPor: this.editForm.get(['autorizadoPor']).value,
+      colaborador: this.editForm.get(['colaborador']).value
     };
   }
 
@@ -161,24 +115,8 @@ export class PeticionUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess() {
-    const idPeticion: number = this.getIdUltimaPeticion();
-    if (this.colaboradorEncontrado.peticions !== null) {
-      this.colaboradorEncontrado.peticions.push({ id: idPeticion });
-    } else {
-      this.colaboradorEncontrado.peticions = [{ id: idPeticion }];
-    }
-    this.colaboradorService
-      .update(this.colaboradorEncontrado)
-      .subscribe(
-        () => this.jhiAlertService.warning('Numero de elementos en el array ahora' + this.colaboradorEncontrado.peticions.length),
-        () => this.jhiAlertService.info('Hubo un eror')
-      );
-
     this.isSaving = false;
     this.previousState();
-  }
-  getIdUltimaPeticion(): number {
-    return this.peticionService.getIdUltimaPeticion();
   }
 
   protected onSaveError() {
@@ -190,16 +128,5 @@ export class PeticionUpdateComponent implements OnInit {
 
   trackColaboradorById(index: number, item: IColaborador) {
     return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

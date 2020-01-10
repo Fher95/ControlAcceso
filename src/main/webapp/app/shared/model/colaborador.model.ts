@@ -31,6 +31,7 @@ export interface IColaborador {
   fechaBaja?: Moment;
   nivelEducativo?: NivelEducativo;
   intercambioTurnos?: IIntercambioTurno[];
+  intercambioTurno2S?: IIntercambioTurno[];
   telefonos?: ITelefono[];
   antecedentes?: IAntecedentes[];
   asistenciaPlaneacions?: IAsistenciaPlaneacion[];
@@ -62,6 +63,7 @@ export class Colaborador implements IColaborador {
     public fechaBaja?: Moment,
     public nivelEducativo?: NivelEducativo,
     public intercambioTurnos?: IIntercambioTurno[],
+    public intercambioTurno2S?: IIntercambioTurno[],
     public telefonos?: ITelefono[],
     public antecedentes?: IAntecedentes[],
     public asistenciaPlaneacions?: IAsistenciaPlaneacion[],

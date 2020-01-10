@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span >Peticiones</span>
+        <span jhiTranslate="controlAccesoApp.peticion.home.title">Peticions</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-peticion" [routerLink]="['/peticion/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Crear Petición
+            <span  jhiTranslate="controlAccesoApp.peticion.home.createLabel">
+            Create a new Peticion
             </span>
         </button>
     </h2>
@@ -18,39 +18,36 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tipo"><span jhiTranslate="controlAccesoApp.peticion.tipo">Tipo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tipoPermiso"><span jhiTranslate="controlAccesoApp.peticion.tipoPermiso">Tipo Permiso</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaPeticion"><span jhiTranslate="controlAccesoApp.peticion.fechaPeticion">Fecha Peticion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="motivo"><span >Colaborador</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="tipo"><span >Peticion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!--th jhiSortBy="tipoPermiso"><span jhiTranslate="controlAccesoApp.peticion.tipoPermiso">Tipo Permiso</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
-            
-            <!--th jhiSortBy="constancia"><span jhiTranslate="controlAccesoApp.peticion.constancia">Constancia</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
+            <th jhiSortBy="motivo"><span jhiTranslate="controlAccesoApp.peticion.motivo">Motivo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="constancia"><span jhiTranslate="controlAccesoApp.peticion.constancia">Constancia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaInicio"><span jhiTranslate="controlAccesoApp.peticion.fechaInicio">Fecha Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaFin"><span jhiTranslate="controlAccesoApp.peticion.fechaFin">Fecha Fin</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!--th jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
+            <th jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="colaborador.id"><span jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let peticion of peticions ;trackBy: trackId">
                 <td><a [routerLink]="['/peticion', peticion.id, 'view' ]">{{peticion.id}}</a></td>
-                <td>{{peticion.fechaPeticion | date:'mediumDate'}}</td>
-                <td>
-                    <div *ngIf="peticion.colaboradors[0]">
-                        <a [routerLink]="['/colaborador', peticion.colaboradors[0]?.id, 'view' ]">
-                    {{peticion.colaboradors[0] ? peticion.colaboradors[0].nombre1+' '+peticion.colaboradors[0].nombre2
-                    +' '+peticion.colaboradors[0].apellido1+' '+peticion.colaboradors[0].apellido2 : 'Sin Colaborador'}}
-                </a>
-                </div>
-                </td>
-                <td >{{peticion.tipo+' - '+peticion.tipoPermiso}}</td>
-                <!--td jhiTranslate="{{'controlAccesoApp.TipoPermiso.' + peticion.tipoPermiso}}">{{peticion.tipoPermiso}}</td-->
-                
-                <!--td>{{peticion.constancia}}</td-->
-                <td>{{peticion.fechaInicio | date:'mediumDate'}}</td>
-                <td>{{peticion.fechaFin | date:'mediumDate'}}</td>
+                <td jhiTranslate="{{'controlAccesoApp.TipoPeticion.' + peticion.tipo}}">{{peticion.tipo}}</td>
+                <td jhiTranslate="{{'controlAccesoApp.TipoPermiso.' + peticion.tipoPermiso}}">{{peticion.tipoPermiso}}</td>
+                <td>{{peticion.fechaPeticion | date:'medium'}}</td>
+                <td>{{peticion.motivo}}</td>
+                <td>{{peticion.constancia}}</td>
+                <td>{{peticion.fechaInicio | date:'medium'}}</td>
+                <td>{{peticion.fechaFin | date:'medium'}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>
-                <!--td>{{peticion.autorizadoPor}}</td-->
+                <td>{{peticion.autorizadoPor}}</td>
+                <td>
+                    <div *ngIf="peticion.colaborador">
+                        <a [routerLink]="['/colaborador', peticion.colaborador?.id, 'view' ]" >{{peticion.colaborador?.id}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
