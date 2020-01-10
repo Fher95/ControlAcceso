@@ -1,6 +1,186 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-peticion-heading" jhiTranslate="controlAccesoApp.peticion.home.createOrEditLabel">Create or edit
+                a Peticion</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+
+                <div class="row my-4">
+                    <div class="col-sm-12">
+                        <form name="searchForm" class="form-inline">
+                            <div class="input-group w-100 mt-3">
+                                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                                    name="currentSearch" placeholder="Ingrese el numero de documento del Colaborador">
+                                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                                    <fa-icon [icon]="'search'"></fa-icon>
+                                </button>
+                                <button class="input-group-append btn btn-danger" (click)="clear()"
+                                    *ngIf="currentSearch">
+                                    <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.colaborador" for="field_colaborador">Colaborador</label>
+                        <select class="form-control" id="field_colaborador" name="colaborador" formControlName="colaborador"
+                        (change)="setColaboradorEncontrado()">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="colaboradorOption.id === editForm.get('colaborador').value?.id ? editForm.get('colaborador').value : colaboradorOption" *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">{{utilidadesCol.getStrColaboradorConDocumento(colaboradorOption)}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="colaboradorEncontrado !== undefined" class="border rounded shadow p-4 my-3">
+                    <h4>Datos Colaborador</h4>
+                    <div class="form-row">
+
+                        <div class="col-3">
+                            <dt><span>Documento</span></dt>
+                            <dd>
+                                <span>{{colaboradorEncontrado.tipoDocumento}}</span><br>
+                                <span>{{colaboradorEncontrado.numeroDocumento}}</span>
+                            </dd>
+                        </div>
+                        <div class="col-3">
+                            <dt><span>Nombres</span></dt>
+                            <dd>
+                                <span>{{colaboradorEncontrado.nombre1 +" "+ colaboradorEncontrado.nombre2}}</span>
+                            </dd>
+                        </div>
+                        <div class="col-3">
+                            <dt><span>Apellidos</span></dt>
+                            <dd>
+                                <span>{{colaboradorEncontrado.apellido1 + " " + colaboradorEncontrado.apellido2}}</span>
+                            </dd>
+                        </div>
+                        <div class="col-3">
+                            <dt><span>Fecha de Ingreso</span></dt>
+                            <dd>
+                                <span>{{colaboradorEncontrado.fechaIngreso | date: 'mediumDate'}}</span>
+                            </dd>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!---------------------------------------------------------------------------------->
+
+                <div *ngIf="this.colaboradorEncontrado !== undefined" class="border rounded shadow p-4 my-3">
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaPeticion"
+                            for="field_fechaPeticion">Fecha Peticion</label>
+                        <div class="d-flex">
+                            <input id="field_fechaPeticion" type="date" class="form-control" name="fechaPeticion"
+                                formControlName="fechaPeticion" placeholder="YYYY-MM-DD HH:mm" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.tipo"
+                            for="field_tipo">Tipo</label>
+                        <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
+                            <option value="Vacaciones">{{'controlAccesoApp.TipoPeticion.Vacaciones' | translate}}
+                            </option>
+                            <option value="Permiso">{{'controlAccesoApp.TipoPeticion.Permiso' | translate}}</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="this.editForm.get(['tipo']).value === 'Permiso'">
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.tipoPermiso"
+                                for="field_tipoPermiso">Tipo Permiso</label>
+                            <select class="form-control" name="tipoPermiso" formControlName="tipoPermiso"
+                                id="field_tipoPermiso">
+                                <option value="Luto">{{'controlAccesoApp.TipoPermiso.Luto' | translate}}</option>
+                                <option value="Compensatorio">
+                                    {{'controlAccesoApp.TipoPermiso.Compensatorio' | translate}}
+                                </option>
+                                <option value="Remunerado">{{'controlAccesoApp.TipoPermiso.Remunerado' | translate}}
+                                </option>
+                                <option value="NoRemunerado">{{'controlAccesoApp.TipoPermiso.NoRemunerado' | translate}}
+                                </option>
+                                <option value="Licencia">{{'controlAccesoApp.TipoPermiso.Licencia' | translate}}
+                                </option>
+                                <option value="Otro">{{'controlAccesoApp.TipoPermiso.Otro' | translate}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.motivo"
+                                for="field_motivo">Motivo</label>
+                            <input type="text" class="form-control" name="motivo" id="field_motivo"
+                                formControlName="motivo" />
+                        </div>
+                    </div>
+
+                    <div *ngIf="this.editForm.get(['tipo']).value === 'Vacaciones'">
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaInicio"
+                                for="field_fechaInicio">Fecha Inicio</label>
+                            <div class="d-flex">
+                                <input id="field_fechaInicio" type="date" class="form-control" name="fechaInicio"
+                                    formControlName="fechaInicio" placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.fechaFin"
+                                for="field_fechaFin">Fecha Fin</label>
+                            <div class="d-flex">
+                                <input id="field_fechaFin" type="date" class="form-control" name="fechaFin"
+                                    formControlName="fechaFin" placeholder="YYYY-MM-DD HH:mm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.constancia"
+                            for="field_constancia">Constancia</label>
+                        <input type="text" class="form-control" name="constancia" id="field_constancia"
+                            formControlName="constancia" />
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.estado"
+                            for="field_estado">Estado</label>
+                        <select class="form-control" name="estado" formControlName="estado" id="field_estado">
+                            <option value="Autorizada">{{'controlAccesoApp.EstadoPeticion.Autorizada' | translate}}
+                            </option>
+                            <option value="NoAutorizada">{{'controlAccesoApp.EstadoPeticion.NoAutorizada' | translate}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="controlAccesoApp.peticion.autorizadoPor"
+                            for="field_autorizadoPor">Autorizado Por</label>
+                        <input type="text" class="form-control" name="autorizadoPor" id="field_autorizadoPor"
+                            formControlName="autorizadoPor" />
+                    </div>
+                </div>
+                <!---------------------------------------------------------------------------------->
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity"
+                    [disabled]="editForm.invalid || isSaving || colaboradorEncontrado === undefined"
+                    class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-peticion-heading" jhiTranslate="controlAccesoApp.peticion.home.createOrEditLabel">Create or edit a Peticion</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -86,4 +266,4 @@
             </div>
         </form>
     </div>
-</div>
+</div-->

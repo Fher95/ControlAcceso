@@ -7,12 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT, DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPeticion, Peticion } from 'app/shared/model/peticion.model';
 import { PeticionService } from './peticion.service';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
+import { UtilidadesColaborador, UtilidadesFecha } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-peticion-update',
@@ -22,6 +23,8 @@ export class PeticionUpdateComponent implements OnInit {
   isSaving: boolean;
 
   colaboradors: IColaborador[];
+  colaboradorEncontrado: IColaborador = undefined;
+  currentSearch: string;
 
   editForm = this.fb.group({
     id: [],
@@ -42,7 +45,9 @@ export class PeticionUpdateComponent implements OnInit {
     protected peticionService: PeticionService,
     protected colaboradorService: ColaboradorService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected utilidadesCol: UtilidadesColaborador,
+    protected utilidadesFecha: UtilidadesFecha
   ) {}
 
   ngOnInit() {
@@ -64,15 +69,24 @@ export class PeticionUpdateComponent implements OnInit {
       id: peticion.id,
       tipo: peticion.tipo,
       tipoPermiso: peticion.tipoPermiso,
-      fechaPeticion: peticion.fechaPeticion != null ? peticion.fechaPeticion.format(DATE_TIME_FORMAT) : null,
+      fechaPeticion: peticion.fechaPeticion != null ? peticion.fechaPeticion.format(DATE_FORMAT) : null,
       motivo: peticion.motivo,
       constancia: peticion.constancia,
-      fechaInicio: peticion.fechaInicio != null ? peticion.fechaInicio.format(DATE_TIME_FORMAT) : null,
-      fechaFin: peticion.fechaFin != null ? peticion.fechaFin.format(DATE_TIME_FORMAT) : null,
+      fechaInicio: peticion.fechaInicio != null ? peticion.fechaInicio.format(DATE_FORMAT) : null,
+      fechaFin: peticion.fechaFin != null ? peticion.fechaFin.format(DATE_FORMAT) : null,
       estado: peticion.estado,
       autorizadoPor: peticion.autorizadoPor,
-      colaborador: peticion.colaborador
+      colaborador: peticion.colaborador !== undefined ? peticion.colaborador : undefined
     });
+    if (peticion.id === undefined) {
+      this.editForm.patchValue({ fechaPeticion: this.utilidadesFecha.getStringFecha(new Date()) });
+    } else {
+      if (peticion.colaborador !== undefined) {
+        this.colaboradorEncontrado = peticion.colaborador;
+      } else {
+        this.colaboradorEncontrado = undefined;
+      }
+    }
   }
 
   previousState() {
@@ -128,5 +142,30 @@ export class PeticionUpdateComponent implements OnInit {
 
   trackColaboradorById(index: number, item: IColaborador) {
     return item.id;
+  }
+
+  search(parDocumento: string) {
+    this.colaboradorEncontrado = undefined;
+
+    this.colaboradorService
+      .findByNumDocumento(parDocumento)
+      .pipe(
+        filter((res: HttpResponse<IColaborador>) => res.ok),
+        map((res: HttpResponse<IColaborador>) => res.body)
+      )
+      .subscribe((res: IColaborador) => {
+        this.colaboradorEncontrado = res;
+        this.editForm.patchValue({
+          colaborador: res
+        });
+      });
+  }
+
+  clear() {
+    this.currentSearch = '';
+  }
+
+  setColaboradorEncontrado() {
+    this.colaboradorEncontrado = this.editForm.get(['colaborador']).value;
   }
 }
