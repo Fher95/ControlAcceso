@@ -80,7 +80,9 @@ export class PeticionUpdateComponent implements OnInit {
       colaborador: peticion.colaborador !== undefined ? peticion.colaborador : undefined
     });
     if (peticion.id === undefined) {
-      this.editForm.patchValue({ fechaPeticion: this.utilidadesFecha.getStringFecha(new Date()) });
+      this.editForm.patchValue({
+        fechaPeticion: this.utilidadesFecha.getStringFecha(new Date())
+      });
     } else {
       if (peticion.colaborador !== undefined) {
         this.colaboradorEncontrado = peticion.colaborador;
@@ -179,6 +181,9 @@ export class PeticionUpdateComponent implements OnInit {
         this.editForm.get(['fechaInicio']).value,
         this.editForm.get(['fechaFin']).value
       );
+      if (!this.editForm.get(['fechaInicio']).value || !this.editForm.get(['fechaFin']).value) {
+        this.fechasNoValidas = true;
+      }
     } else {
       this.fechasNoValidas = false;
     }

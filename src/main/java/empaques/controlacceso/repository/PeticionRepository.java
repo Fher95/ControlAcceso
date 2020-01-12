@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PeticionRepository extends JpaRepository<Peticion, Long> {
     @Query(value = "select distinct peticion from Peticion peticion where estado = null",
-    countQuery = "select count(distinct peticion) from Peticion peticion")
+    countQuery = "select count(distinct peticion) from Peticion peticion where estado = null")
     Page<Peticion> findAllWithEstadoNull (Pageable pageable);
 
     @Query(value = "select distinct peticion from Peticion peticion where estado != null",
-    countQuery = "select count(distinct peticion) from Peticion peticion")
+    countQuery = "select count(distinct peticion) from Peticion peticion where estado != null")
     Page<Peticion> findAllWithEstadoNotNull (Pageable pageable);
 }

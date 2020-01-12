@@ -9,7 +9,7 @@
             </span>
         </button>
     </h2>
-    <jhi-alert></jhi-alert>
+    <jhi-alert></jhi-alert>    
     <br />
     <div class="alert alert-warning" *ngIf="peticions?.length === 0">
         <span jhiTranslate="controlAccesoApp.peticion.home.notFound">No peticions found</span>
@@ -18,11 +18,13 @@
 
         <dt>Mostrar:</dt> 
         <select class="form-control ml-2" name="estado" [(ngModel)]="this.mostrando" id="field_mostrando" 
-        (change)="this.loadAll()">
+        (change)="this.cambiarListado()">
             <option value="Pendientes">Pendientes
             </option>
             <option value="Historial">Historial
             </option>
+            <!--<option value="Todo">Todo
+            </option>-->
         </select>
     </div>        
     <div class="table-responsive" *ngIf="peticions?.length > 0">
@@ -54,12 +56,12 @@
                     <th jhiSortBy="fechaFin"><span>Hasta</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th *ngIf="this.mostrando === 'Historial'" jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span>
+                    <th *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'" jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th *ngIf="this.mostrando === 'Pendientes'"><span>Acciones</span></th>
-                    <th  *ngIf="this.mostrando === 'Historial'" jhiSortBy="autorizadoPor"><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                    <th></th>
+                    <th *ngIf="this.mostrando === 'Pendientes' || this.mostrando === 'Todo'"><span>Acciones</span></th>
+                    <th  *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'" jhiSortBy="autorizadoPor"><span>Autorizado por</span> <fa-icon [icon]="'sort'"></fa-icon></th>                                        
+                    <!--th > </th-->
                 </tr>
             </thead>
             <tbody>
@@ -78,8 +80,8 @@
                     <!--td>{{peticion.constancia}}</td-->
                     <td>{{peticion.fechaInicio | date:'mediumDate'}}</td>
                     <td>{{peticion.fechaFin | date:'mediumDate'}}</td>
-                    <td *ngIf="this.mostrando === 'Historial'" jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>                    
-                    <td *ngIf="this.mostrando === 'Pendientes'">
+                    <td *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'" jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</td>                    
+                    <td *ngIf="this.mostrando === 'Pendientes' || this.mostrando === 'Todo'">
                         <div *ngIf="!peticion.estado">
                             <button class="btn btn-success btn-sm col-12 my-1"
                             (click)="this.guardarCambioDeEstado(peticion,true)">Aceptar</button>
@@ -87,8 +89,8 @@
                             (click)="this.guardarCambioDeEstado(peticion,false)">Rechazar</button>
                         </div>
                     </td>
-                    <td *ngIf="this.mostrando === 'Historial'">{{peticion.autorizadoPor}}</td>
-                    <td class="text-right">
+                    <td *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'">{{peticion.autorizadoPor}}</td>
+                    <!--td class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/peticion', peticion.id, 'view' ]"
                                 class="btn btn-info btn-sm">
@@ -107,7 +109,7 @@
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                             </button>
                         </div>
-                    </td>
+                    </td -->
                 </tr>
             </tbody>
         </table>
