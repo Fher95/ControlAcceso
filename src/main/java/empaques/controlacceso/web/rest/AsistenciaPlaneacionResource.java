@@ -243,9 +243,9 @@ public class AsistenciaPlaneacionResource {
         return respuesta;
     }
     
-    private AsignacionTurno obtenerAsignacionTurno(List<AsignacionTurno> parAsignaciones, String docColaborador) {
+    private ArrayList<AsignacionTurno> obtenerAsignacionTurno(List<AsignacionTurno> parAsignaciones, String docColaborador) {
         System.out.println("Inicia obtencion de asignacion turno.");
-        AsignacionTurno respuesta = null;
+        ArrayList<AsignacionTurno> respuesta = new ArrayList<>();
         for (int i = 0; i < parAsignaciones.size(); i++) {
             AsignacionTurno asignacion = parAsignaciones.get(i);
             if (!asignacion.getColaboradors().isEmpty()) {
@@ -253,7 +253,7 @@ public class AsistenciaPlaneacionResource {
                 for (Iterator it = colaboradores.iterator(); it.hasNext();) {
                     Colaborador col = (Colaborador) it.next();
                     if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())) {
-                        respuesta = asignacion;
+                        respuesta.add(asignacion);
                     }
                 }
             }
