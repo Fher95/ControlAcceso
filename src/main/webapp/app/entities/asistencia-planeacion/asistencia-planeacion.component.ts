@@ -10,6 +10,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { AsistenciaPlaneacionService } from './asistencia-planeacion.service';
 import * as moment from 'moment';
 import { ITurno } from 'app/shared/model/turno.model';
+import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -28,7 +29,8 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected utilCol: UtilidadesColaborador
   ) {}
 
   loadAll() {

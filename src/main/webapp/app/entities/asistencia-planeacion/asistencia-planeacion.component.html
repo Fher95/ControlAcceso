@@ -64,7 +64,7 @@
                                 <td>
                                     <div *ngIf="asistenciaPlaneacion.colaborador">
                                         <a
-                                            [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{asistenciaPlaneacion.colaborador?.id}}</a>
+                                            [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
                                     </div>
                                 </td>
                                 <td class="text-right">
@@ -135,11 +135,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
-                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
-                                    
-                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
-                            }}
+                                <div *ngIf="asistenciaPlaneacion.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
                                 </div>
                             </td>
 
@@ -185,11 +183,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
-                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
-                                    +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre2
-                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
-                            +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido2}}
+                                <div *ngIf="asistenciaPlaneacion.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
                                 </div>
                             </td>
 
@@ -235,11 +231,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
-                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
-                                    +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre2
-                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
-                            +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido2}}
+                                <div *ngIf="asistenciaPlaneacion.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
                                 </div>
                             </td>
 
@@ -285,11 +279,9 @@
                                 </div>
                             </td>
                             <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno.colaboradors">
-                                    {{asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre1
-                                    +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].nombre2
-                                +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido1
-                            +' '+asistenciaPlaneacion.asignacionTurno.colaboradors[0].apellido2}}
+                                <div *ngIf="asistenciaPlaneacion.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
                                 </div>
                             </td>
 
