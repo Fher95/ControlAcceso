@@ -81,7 +81,7 @@
                     <td>{{ turno.tipo === 'Laboral' ? (turno.horaInicio | date:'h:mm a') : 'No Aplica'}}</td>
                     <td>{{ turno.tipo === 'Laboral' ? (turno.umbralInicio | date:'h:mm a') : 'No Aplica'}}</td>
 
-                    <td>{{turno.duracion}}</td>
+                    <td>{{turno.duracion ? turno.duracion + ' horas' : ''}}</td>
                     <td>{{turno.color}}</td>
                     <td jhiTranslate="{{'controlAccesoApp.Estado.' + turno.estado}}">{{turno.estado}}</td>
                     <td class="text-right">

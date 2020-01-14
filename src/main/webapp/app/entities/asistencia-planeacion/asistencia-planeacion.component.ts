@@ -11,6 +11,8 @@ import { AsistenciaPlaneacionService } from './asistencia-planeacion.service';
 import * as moment from 'moment';
 import { ITurno } from 'app/shared/model/turno.model';
 import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
+import { Respuesta } from 'app/shared/model/respuesta';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -145,6 +147,15 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
   }
 
   getSalidaTurno(parTurno: ITurno): string {
+    const fechaHora = new Date(parTurno.horaInicio.toString());
+    fechaHora.setHours(fechaHora.getHours() + parTurno.duracion);
+    /*
+    let resultado = '';
+    resultado += fechaHora.getFullYear() + '-' +
+    (fechaHora.getMonth() + 1) + '-' + fechaHora.getDate() + 'T'
+    + fechaHora.getHours() + ':' + fechaHora.getMinutes() + ':00Z' 
+    this.stringTurno = resultado;
+    this.momentPrueba = parTurno.horaInicio;
     const strHoraTurno = parTurno.horaInicio.toString();
     let duracionTurno = parTurno.duracion;
     if (duracionTurno > 12) {
@@ -161,10 +172,25 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       strSalida += 0;
     }
     strSalida += varHoraTurno.getMinutes();
-    return strSalida;
+
+    */
+    return fechaHora.toISOString();
   }
 
   cargarAsistencias() {
-    this.asistenciaPlaneacionService.cargarAsistencia().subscribe();
+    this.asistenciaPlaneacionService
+      .cargarAsistencia()
+      .pipe(
+        filter((res: HttpResponse<Respuesta>) => res.ok),
+        map((res: HttpResponse<Respuesta>) => res.body)
+      )
+      .subscribe((res: Respuesta) => {
+        this.jhiAlertService.i18nEnabled = false;
+        this.jhiAlertService.info(
+          'Se registraron ' + res.numAsignaciones + (res.numAsignaciones !== 0 ? ' nuevas asistencias.' : ' asistenicas.')
+        );
+        this.jhiAlertService.i18nEnabled = true;
+        this.loadAll();
+      });
   }
 }

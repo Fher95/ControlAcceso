@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
+import { Respuesta } from 'app/shared/model/respuesta';
 
 type EntityResponseType = HttpResponse<IAsistenciaPlaneacion>;
 type EntityArrayResponseType = HttpResponse<IAsistenciaPlaneacion[]>;
@@ -36,7 +37,7 @@ export class AsistenciaPlaneacionService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  cargarAsistencia(): Observable<EntityResponseType> {
-    return this.http.put<IAsistenciaPlaneacion>(`${this.resourceUrl}/cargar-asistencias`, null, { observe: 'response' });
+  cargarAsistencia(): Observable<HttpResponse<Respuesta>> {
+    return this.http.get<Respuesta>(`${this.resourceUrl}/cargar-asistencias`, { observe: 'response' });
   }
 }

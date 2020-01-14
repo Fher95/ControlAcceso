@@ -4,6 +4,7 @@ import empaques.controlacceso.domain.AsignacionTurno;
 import empaques.controlacceso.domain.Asistencia;
 import empaques.controlacceso.domain.AsistenciaPlaneacion;
 import empaques.controlacceso.domain.Colaborador;
+import empaques.controlacceso.domain.Respuesta;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.AsistenciaPlaneacionRepository;
 import empaques.controlacceso.repository.AsistenciaRepository;
@@ -153,8 +154,8 @@ public class AsistenciaPlaneacionResource {
     }
 
     // ***************Métodos Nuevos**********************/
-    @PutMapping("/asistencia-planeacions/cargar-asistencias")
-    public ResponseEntity<AsistenciaPlaneacion> cargarAsignacion() {
+    @GetMapping("/asistencia-planeacions/cargar-asistencias")
+    public ResponseEntity<Respuesta> cargarAsignacion() {
         System.out.println("Carga de datos iniciada");
         // Creación del arreglo de lectura del archivo
         ArrayList<String> lineasArchivo = this.leerArchivo();
@@ -223,8 +224,8 @@ public class AsistenciaPlaneacionResource {
         System.out.println("Se insertaron: " + contadorInserciones);
         System.out.println("Colaboradores con doble Asignación: " + numAsigDobles);
         System.out.println("Carga de datos finalizada");
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
-                .body(null);
+        Respuesta objRes = new Respuesta(contadorInserciones);    
+        return ResponseEntity.ok().body(objRes);
     }
 
     /**
@@ -403,4 +404,7 @@ public class AsistenciaPlaneacionResource {
         System.out.println("Lectura Finalizada.");
         return listaLineas;
     }
+    
 }
+
+
