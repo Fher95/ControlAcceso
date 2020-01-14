@@ -54,8 +54,7 @@ public class AsistenciaPlaneacionResource {
     private final AsistenciaRepository asistenciaRepository;
 
     public AsistenciaPlaneacionResource(AsistenciaPlaneacionRepository asistenciaPlaneacionRepository,
-            AsignacionTurnoRepository asignacionTurnoRepository,
-            AsistenciaRepository asistenciaRepository) {
+            AsignacionTurnoRepository asignacionTurnoRepository, AsistenciaRepository asistenciaRepository) {
         this.asistenciaPlaneacionRepository = asistenciaPlaneacionRepository;
         this.asignacionTurnoReposity = asignacionTurnoRepository;
         this.asistenciaRepository = asistenciaRepository;
@@ -65,20 +64,24 @@ public class AsistenciaPlaneacionResource {
      * {@code POST  /asistencia-planeacions} : Create a new asistenciaPlaneacion.
      *
      * @param asistenciaPlaneacion the asistenciaPlaneacion to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
-     * with body the new asistenciaPlaneacion, or with status
-     * {@code 400 (Bad Request)} if the asistenciaPlaneacion has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new asistenciaPlaneacion, or with status
+     *         {@code 400 (Bad Request)} if the asistenciaPlaneacion has already an
+     *         ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/asistencia-planeacions")
-    public ResponseEntity<AsistenciaPlaneacion> createAsistenciaPlaneacion(@RequestBody AsistenciaPlaneacion asistenciaPlaneacion) throws URISyntaxException {
+    public ResponseEntity<AsistenciaPlaneacion> createAsistenciaPlaneacion(
+            @RequestBody AsistenciaPlaneacion asistenciaPlaneacion) throws URISyntaxException {
         log.debug("REST request to save AsistenciaPlaneacion : {}", asistenciaPlaneacion);
         if (asistenciaPlaneacion.getId() != null) {
-            throw new BadRequestAlertException("A new asistenciaPlaneacion cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new asistenciaPlaneacion cannot already have an ID", ENTITY_NAME,
+                    "idexists");
         }
         AsistenciaPlaneacion result = asistenciaPlaneacionRepository.save(asistenciaPlaneacion);
-        return ResponseEntity.created(new URI("/api/asistencia-planeacions/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity
+                .created(new URI("/api/asistencia-planeacions/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -87,31 +90,31 @@ public class AsistenciaPlaneacionResource {
      * asistenciaPlaneacion.
      *
      * @param asistenciaPlaneacion the asistenciaPlaneacion to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the updated asistenciaPlaneacion, or with status
-     * {@code 400 (Bad Request)} if the asistenciaPlaneacion is not valid, or
-     * with status {@code 500 (Internal Server Error)} if the
-     * asistenciaPlaneacion couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated asistenciaPlaneacion, or with status
+     *         {@code 400 (Bad Request)} if the asistenciaPlaneacion is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         asistenciaPlaneacion couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/asistencia-planeacions")
-    public ResponseEntity<AsistenciaPlaneacion> updateAsistenciaPlaneacion(@RequestBody AsistenciaPlaneacion asistenciaPlaneacion) throws URISyntaxException {
+    public ResponseEntity<AsistenciaPlaneacion> updateAsistenciaPlaneacion(
+            @RequestBody AsistenciaPlaneacion asistenciaPlaneacion) throws URISyntaxException {
         log.debug("REST request to update AsistenciaPlaneacion : {}", asistenciaPlaneacion);
         if (asistenciaPlaneacion.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         AsistenciaPlaneacion result = asistenciaPlaneacionRepository.save(asistenciaPlaneacion);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, asistenciaPlaneacion.getId().toString()))
-                .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
+                asistenciaPlaneacion.getId().toString())).body(result);
     }
 
     /**
      * {@code GET  /asistencia-planeacions} : get all the asistenciaPlaneacions.
      *
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
-     * list of asistenciaPlaneacions in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of asistenciaPlaneacions in body.
      */
     @GetMapping("/asistencia-planeacions")
     public List<AsistenciaPlaneacion> getAllAsistenciaPlaneacions() {
@@ -120,12 +123,11 @@ public class AsistenciaPlaneacionResource {
     }
 
     /**
-     * {@code GET  /asistencia-planeacions/:id} : get the "id"
-     * asistenciaPlaneacion.
+     * {@code GET  /asistencia-planeacions/:id} : get the "id" asistenciaPlaneacion.
      *
      * @param id the id of the asistenciaPlaneacion to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the asistenciaPlaneacion, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the asistenciaPlaneacion, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/asistencia-planeacions/{id}")
     public ResponseEntity<AsistenciaPlaneacion> getAsistenciaPlaneacion(@PathVariable Long id) {
@@ -145,66 +147,139 @@ public class AsistenciaPlaneacionResource {
     public ResponseEntity<Void> deleteAsistenciaPlaneacion(@PathVariable Long id) {
         log.debug("REST request to delete AsistenciaPlaneacion : {}", id);
         asistenciaPlaneacionRepository.deleteById(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+                .build();
     }
 
-    //***************Métodos Nuevos**********************/
+    // ***************Métodos Nuevos**********************/
     @PutMapping("/asistencia-planeacions/cargar-asistencias")
     public ResponseEntity<AsistenciaPlaneacion> cargarAsignacion() {
         System.out.println("Carga de datos iniciada");
         // Creación del arreglo de lectura del archivo
         ArrayList<String> lineasArchivo = this.leerArchivo();
-        // Se crea una matriz de datos para facilitar la manipulación de los datos de cada linea del archivo
+        // Se crea una matriz de datos para facilitar la manipulación de los datos de
+        // cada linea del archivo
         ArrayList<String[]> matrizDatos = this.generarMatrizDeDatos(lineasArchivo);
-        // Se obtiene la lista de asignaciones actuales para verificar la existencia de colaboradores (this.existeColEnAsignacion())
+        // Se obtiene la lista de asignaciones actuales para verificar la existencia de
+        // colaboradores (this.existeColEnAsignacion())
         List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
         int contadorInserciones = 0;
-        
+        int numAsigDobles = 0;
+        // Se recorre la matriz
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
+            // Se obtiene el numero de documento del registro de asistencia
             String varNumDocumento = matrizDatos.get(iterador2)[0];
+            // Y se compruba si el numero de ese colaborador existen en las asignaciones
+            // actuales
             if (this.existeColEnAsignacion(asignacionesActuales, varNumDocumento)) {
+                // Si existe, se procede a sacar las fechas y horas registradas en el archivo de
+                // asistencia
                 Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
                 Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
-                            
-                Instant varInstantEntrada = varFechaHoraEntrada.toInstant();   
-                Instant varInstantSalida = varFechaHoraSalida.toInstant();                          
-                //Optional<Asistencia> varAsistencias = this.asistenciaRepository.findAllByEntradaSalida(varNumDocumento, varInstantEntrada, varInstantSalida);
+
+                Instant varInstantEntrada = varFechaHoraEntrada.toInstant();
+                Instant varInstantSalida = varFechaHoraSalida.toInstant();
+                // Optional<Asistencia> varAsistencias =
+                // this.asistenciaRepository.findAllByEntradaSalida(varNumDocumento,
+                // varInstantEntrada, varInstantSalida);
+                // Se comprueba si esa asistencia leida del archivo de asistencias ya fue
+                // registrada                
                 boolean existeAsistencia = this.existeAsistencia(varNumDocumento, varInstantEntrada, varInstantSalida);
-                if (!existeAsistencia){
-                    Asistencia nuevaAsistencia = new Asistencia();
-                    nuevaAsistencia.setDocumentoColaborador(varNumDocumento);
-                    nuevaAsistencia.setEntrada(varInstantEntrada);
-                    nuevaAsistencia.setSalida(varInstantSalida);
-                    
-                    Asistencia asistenciaCreada = this.asistenciaRepository.save(nuevaAsistencia);
-                    AsignacionTurno varAsignacionTurno = this.obtenerAsignacionTurno(asignacionesActuales, varNumDocumento);                    
-                    AsistenciaPlaneacion nuevaAsistenciaPlaneacion = new AsistenciaPlaneacion();
-                    nuevaAsistenciaPlaneacion.setAsignacionTurno(varAsignacionTurno);
-                    nuevaAsistenciaPlaneacion.setAsistencia(asistenciaCreada);
-                    nuevaAsistenciaPlaneacion.setColaborador(varAsignacionTurno.getColaboradors().iterator().next());
-                    this.asistenciaPlaneacionRepository.save(nuevaAsistenciaPlaneacion);
-                    System.out.println("Asistencia planeacion creada: ");
-                    contadorInserciones++;
+                if (!existeAsistencia) {
+
+                    ArrayList<AsignacionTurno> vecAsignaciones = this.obtenerAsignacionesTurnos(asignacionesActuales,
+                            varNumDocumento);
+                    AsignacionTurno varAsignacionTurno = null;
+                    if (vecAsignaciones.size() == 1) {
+                        varAsignacionTurno = vecAsignaciones.get(0);
+                    } else {
+                        numAsigDobles ++ ;
+                        varAsignacionTurno = this.determinarAsignacion(vecAsignaciones, varInstantEntrada, 1);
+                    }
+                    if (varAsignacionTurno != null) {
+                        // Si no existe, se crea, se configura y se guarda en la base de datos
+                        Asistencia nuevaAsistencia = new Asistencia();
+                        nuevaAsistencia.setDocumentoColaborador(varNumDocumento);
+                        nuevaAsistencia.setEntrada(varInstantEntrada);
+                        nuevaAsistencia.setSalida(varInstantSalida);
+                        Asistencia asistenciaCreada = this.asistenciaRepository.save(nuevaAsistencia);
+
+                        // AsignacionTurno varAsignacionTurno =
+                        // this.obtenerAsignacionTurno(asignacionesActuales, varNumDocumento);
+                        AsistenciaPlaneacion nuevaAsistenciaPlaneacion = new AsistenciaPlaneacion();
+                        nuevaAsistenciaPlaneacion.setAsignacionTurno(varAsignacionTurno);
+                        nuevaAsistenciaPlaneacion.setAsistencia(asistenciaCreada);
+                        nuevaAsistenciaPlaneacion
+                                .setColaborador(varAsignacionTurno.getColaboradors().iterator().next());
+                        this.asistenciaPlaneacionRepository.save(nuevaAsistenciaPlaneacion);
+                        System.out.println("Asistencia planeacion creada: ");
+                        contadorInserciones++;
+                    }
                 }
-                
+
             }
         }
         System.out.println("Se insertaron: " + contadorInserciones);
+        System.out.println("Colaboradores con doble Asignación: " + numAsigDobles);
         System.out.println("Carga de datos finalizada");
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
     }
-    
-    private boolean existeAsistencia(String numDocumento, Instant parEntrada, Instant parSalida){
+
+    /**
+     * En los casos en que un colaborador tenga más de 1 asignación de turnos al
+     * mismo tiempo, se toma la hora de entrada de la asistencia, luego se intenta
+     * determinar a cuál de esos turnos debería corresponder la asistencia en
+     * cuestión. La forma en la que lo determina este algoritmo, es que si la hora
+     * de llegada esté dentro del intervalo de una hora antes de la hora entrada del
+     * turno y una hora después de la hora de salida del turno
+     * 
+     * @param vecAsignaciones   Vector de asignaciones de turnos para cuando un
+     *                          colaborador tiene más de un turno asignado
+     *                          actualmente
+     * @param varInstantEntrada La fecha de entrada de la asistencia con respecto a
+     *                          la cual se compararán las horas de entrada de los
+     *                          turnos
+     * @param desfaseHoras      determina cuántas horas después y antes de la hora
+     *                          de asistencia del turno se valida la asistencia a
+     *                          guardar
+     * @return
+     */
+    private AsignacionTurno determinarAsignacion(ArrayList<AsignacionTurno> vecAsignaciones, Instant varInstantEntrada,
+            int desfaseHoras) {
+                System.out.println("ENTRA A DETERMINAR ASIGNACION MULTIPLE");
+        AsignacionTurno asignacionRespuesta = null;
+        for (AsignacionTurno asignacionTurno : vecAsignaciones) {
+            Date horaInicioTurno = Date.from(asignacionTurno.getTurno().getHoraInicio());
+            Date horaEntrada = Date.from(varInstantEntrada);
+            int horasEntrada = horaEntrada.getHours();
+            int horaTurno = horaInicioTurno.getHours();
+            int minutosEntrada = horaEntrada.getMinutes();
+            int minutosTurno = horaInicioTurno.getMinutes();
+            if (horasEntrada <= (horaTurno + desfaseHoras)
+                    && horasEntrada >= (horaTurno - desfaseHoras)) {                
+                if (horasEntrada == horaTurno) {
+                    asignacionRespuesta = asignacionTurno;
+                } else if(horasEntrada > horaTurno && minutosEntrada <= minutosTurno) {
+                    asignacionRespuesta = asignacionTurno;
+                } else if (horasEntrada < horaTurno && minutosEntrada >= minutosTurno) {
+                    asignacionRespuesta = asignacionTurno;
+                }               
+            }
+        }
+        return asignacionRespuesta;
+    }
+
+    private boolean existeAsistencia(String numDocumento, Instant parEntrada, Instant parSalida) {
         boolean respuesta = false;
         List<Asistencia> listaAsignaciones = this.asistenciaRepository.findAll();
-        if (!listaAsignaciones.isEmpty()){
-            for (int iterador = 0; iterador < listaAsignaciones.size(); iterador ++){
-                Asistencia varAsis = listaAsignaciones.get(iterador);
-                Instant asisSalida = varAsis.getSalida();
-                if (numDocumento.equals(varAsis.getDocumentoColaborador()) 
+        if (!listaAsignaciones.isEmpty()) {
+            for (int iterador = 0; iterador < listaAsignaciones.size(); iterador++) {
+                Asistencia varAsis = listaAsignaciones.get(iterador);                
+                if (numDocumento.equals(varAsis.getDocumentoColaborador())
                         && (parEntrada.compareTo(varAsis.getEntrada()) == 0)
-                        && parSalida.compareTo(varAsis.getSalida()) == 0){
+                        && parSalida.compareTo(varAsis.getSalida()) == 0) {
                     respuesta = true;
                     break;
                 }
@@ -212,7 +287,7 @@ public class AsistenciaPlaneacionResource {
         }
         return respuesta;
     }
-    
+
     private Date convertirStringADate(String parString) {
         Date fechaResult = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -233,7 +308,8 @@ public class AsistenciaPlaneacionResource {
                 Set<Colaborador> colaboradores = asignacion.getColaboradors();
                 for (Iterator it = colaboradores.iterator(); it.hasNext();) {
                     Colaborador col = (Colaborador) it.next();
-                    if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())) {
+                    if (docColaborador == null ? col.getNumeroDocumento() == null
+                            : docColaborador.equals(col.getNumeroDocumento())) {
                         respuesta = true;
                     }
                 }
@@ -242,8 +318,9 @@ public class AsistenciaPlaneacionResource {
         System.out.println("Finaliza comprobacion de existencia.");
         return respuesta;
     }
-    
-    private ArrayList<AsignacionTurno> obtenerAsignacionTurno(List<AsignacionTurno> parAsignaciones, String docColaborador) {
+
+    private ArrayList<AsignacionTurno> obtenerAsignacionesTurnos(List<AsignacionTurno> parAsignaciones,
+            String docColaborador) {
         System.out.println("Inicia obtencion de asignacion turno.");
         ArrayList<AsignacionTurno> respuesta = new ArrayList<>();
         for (int i = 0; i < parAsignaciones.size(); i++) {
@@ -252,7 +329,8 @@ public class AsistenciaPlaneacionResource {
                 Set<Colaborador> colaboradores = asignacion.getColaboradors();
                 for (Iterator it = colaboradores.iterator(); it.hasNext();) {
                     Colaborador col = (Colaborador) it.next();
-                    if (docColaborador == null ? col.getNumeroDocumento() == null : docColaborador.equals(col.getNumeroDocumento())) {
+                    if (docColaborador == null ? col.getNumeroDocumento() == null
+                            : docColaborador.equals(col.getNumeroDocumento())) {
                         respuesta.add(asignacion);
                     }
                 }
@@ -282,8 +360,8 @@ public class AsistenciaPlaneacionResource {
     }
 
     /**
-     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas
-     * las lineas leidas en un vector de Strings
+     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las
+     * lineas leidas en un vector de Strings
      *
      * @return ArrayList<String> lineasLeídas
      */
