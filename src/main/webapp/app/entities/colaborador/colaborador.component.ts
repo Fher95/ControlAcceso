@@ -30,6 +30,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  currentSearch = '';
 
   constructor(
     protected colaboradorService: ColaboradorService,
@@ -85,6 +86,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   }
 
   clear() {
+    this.currentSearch = '';
     this.page = 0;
     this.router.navigate([
       '/colaborador',
@@ -132,5 +134,28 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  search(nombres: string) {
+    const listaDatos: string[] = this.getArrayPalabras(nombres);
+    this.previousPage = 0;
+    this.page = 1;
+    this.colaboradorService
+      .findByNombre1(listaDatos)
+      .subscribe(
+        (res: HttpResponse<IColaborador[]>) => this.paginateColaboradors(res.body, res.headers),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  /**
+   * Recibe una cadena de texto a la cual se deben separar sus palabras por espacios, para devolver un
+   * vector de datos string[] con las palabras de la cadena de texto.
+   * @param nombres
+   */
+  getArrayPalabras(nombres: string): string[] {
+    const arrayInicial = nombres.split(' ');
+    const arrayFinal = arrayInicial.filter((valor: string) => valor !== '');
+    return arrayFinal;
   }
 }

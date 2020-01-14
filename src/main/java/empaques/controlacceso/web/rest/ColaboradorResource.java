@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link empaques.controlacceso.domain.Colaborador}.
+ * REST controller for managing
+ * {@link empaques.controlacceso.domain.Colaborador}.
  */
 @RestController
 @RequestMapping("/api")
@@ -49,7 +51,9 @@ public class ColaboradorResource {
      * {@code POST  /colaboradors} : Create a new colaborador.
      *
      * @param colaborador the colaborador to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new colaborador, or with status {@code 400 (Bad Request)} if the colaborador has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new colaborador, or with status {@code 400 (Bad Request)}
+     * if the colaborador has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/colaboradors")
@@ -60,17 +64,19 @@ public class ColaboradorResource {
         }
         Colaborador result = colaboradorRepository.save(colaborador);
         return ResponseEntity.created(new URI("/api/colaboradors/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /colaboradors} : Updates an existing colaborador.
      *
      * @param colaborador the colaborador to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated colaborador,
-     * or with status {@code 400 (Bad Request)} if the colaborador is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the colaborador couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the updated colaborador, or with status {@code 400 (Bad Request)} if
+     * the colaborador is not valid, or with status
+     * {@code 500 (Internal Server Error)} if the colaborador couldn't be
+     * updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/colaboradors")
@@ -81,17 +87,19 @@ public class ColaboradorResource {
         }
         Colaborador result = colaboradorRepository.save(colaborador);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, colaborador.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, colaborador.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code GET  /colaboradors} : get all the colaboradors.
      *
-
+     *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of colaboradors in body.
+     * @param eagerload flag to eager load entities from relationships (This is
+     * applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
+     * list of colaboradors in body.
      */
     @GetMapping("/colaboradors")
     public ResponseEntity<List<Colaborador>> getAllColaboradors(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
@@ -110,7 +118,8 @@ public class ColaboradorResource {
      * {@code GET  /colaboradors/:id} : get the "id" colaborador.
      *
      * @param id the id of the colaborador to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the colaborador, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the colaborador, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/colaboradors/{id}")
     public ResponseEntity<Colaborador> getColaborador(@PathVariable Long id) {
@@ -125,7 +134,6 @@ public class ColaboradorResource {
         Optional<Colaborador> colaborador = colaboradorRepository.findColaboradorByNumDocumento(id);
         return ResponseUtil.wrapOrNotFound(colaborador);
     }
-    
 
     /**
      * {@code DELETE  /colaboradors/:id} : delete the "id" colaborador.
@@ -138,5 +146,17 @@ public class ColaboradorResource {
         log.debug("REST request to delete Colaborador : {}", id);
         colaboradorRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @PutMapping("/colaboradors/porNombres")
+    public ResponseEntity<List<Colaborador>> getByNombre1(Pageable pageable, @Valid @RequestBody String[] vecNombres) {        
+        log.debug("REST request to get Colaborador Por Nombre: {}", Arrays.toString(vecNombres));
+        String nom1 = vecNombres[0].toLowerCase(), nom2 = vecNombres[1].toLowerCase(),
+                ape1 = vecNombres[2].toLowerCase(), ape2 = vecNombres[3].toLowerCase();
+        Page<Colaborador> page;
+        page = colaboradorRepository.findByNombre1(pageable, nom1, nom2, ape1, ape2);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        System.out.println("Se obtuvieron: " + page.getTotalElements() + " elementos");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

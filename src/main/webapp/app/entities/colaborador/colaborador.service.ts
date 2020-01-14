@@ -121,4 +121,14 @@ export class ColaboradorService {
     }
     return res;
   }
+
+  findByNombre1(parListaNombres: string[]): Observable<EntityArrayResponseType> {
+    const vecNombres: string[] = ['', '', '', ''];
+    for (let index = 0; index < (parListaNombres.length < vecNombres.length ? parListaNombres.length : vecNombres.length); index++) {
+      vecNombres[index] = parListaNombres[index];
+    }
+    return this.http
+      .put<IColaborador[]>(`${this.resourceUrl}/porNombres`, vecNombres, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
 }
