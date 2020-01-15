@@ -48,11 +48,11 @@
                         <div class="form-group col-4">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.turno.color"
                                 for="field_color">Color</label>
-                            <select class="form-control" name="color" formControlName="color" id="field_color">
-                                <option value="Rojo">Rojo</option>
-                                <option value="Verde">Verde</option>
-                                <option value="Amarillo">Amarillo</option>
-                                <option value="Azul">Azul</option>
+                            <select class={{getClaseSelectColor()}}  name="color" formControlName="color" id="field_color">
+                                <option class ="rojo" value="Rojo">Rojo</option>
+                                <option class ="verde" value="Verde">Verde</option>
+                                <option class ="amarillo" value="Amarillo">Amarillo</option>
+                                <option class ="azul" value="Azul">Azul</option>
                             </select>
                         </div>
                         <div class="form-group col-4">

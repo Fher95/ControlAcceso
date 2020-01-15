@@ -15,7 +15,8 @@ import { Moment } from 'moment';
 
 @Component({
   selector: 'jhi-turno',
-  templateUrl: './turno.component.html'
+  templateUrl: './turno.component.html',
+  styleUrls: ['../../shared/css/estilos-turno.scss']
 })
 export class TurnoComponent implements OnInit, OnDestroy {
   currentAccount: any;

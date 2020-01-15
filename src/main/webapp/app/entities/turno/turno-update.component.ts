@@ -12,7 +12,8 @@ import { TurnoService } from './turno.service';
 
 @Component({
   selector: 'jhi-turno-update',
-  templateUrl: './turno-update.component.html'
+  templateUrl: './turno-update.component.html',
+  styleUrls: ['../../shared/css/estilos-turno.scss']
 })
 export class TurnoUpdateComponent implements OnInit {
   isSaving: boolean;
@@ -111,5 +112,13 @@ export class TurnoUpdateComponent implements OnInit {
     const strFecha = '2012-12-12 ' + parFecha.getHours() + ':' + parFecha.getMinutes();
     const varMoment = moment(strFecha);
     return varMoment;
+  }
+
+  getClaseSelectColor() {
+    let res = 'form-control ';
+    if (this.editForm.get(['color']).value) {
+      res += this.editForm.get(['color']).value.toLowerCase();
+    }
+    return res;
   }
 }
