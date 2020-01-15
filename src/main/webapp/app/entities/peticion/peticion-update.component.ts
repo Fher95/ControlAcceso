@@ -13,7 +13,7 @@ import { IPeticion, Peticion } from 'app/shared/model/peticion.model';
 import { PeticionService } from './peticion.service';
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
-import { UtilidadesColaborador, UtilidadesFecha } from 'app/shared/util/utilidades-generales';
+import { UtilidadesColaborador, UtilidadesFecha, UtilidadesString } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-peticion-update',
@@ -25,6 +25,7 @@ export class PeticionUpdateComponent implements OnInit {
   colaboradors: IColaborador[];
   colaboradorEncontrado: IColaborador = undefined;
   currentSearch: string;
+  seEncontraronColaboradores = true;
 
   editForm = this.fb.group({
     id: [],
@@ -48,7 +49,8 @@ export class PeticionUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     protected utilidadesCol: UtilidadesColaborador,
-    protected utilidadesFecha: UtilidadesFecha
+    protected utilidadesFecha: UtilidadesFecha,
+    protected utilString: UtilidadesString
   ) {}
 
   ngOnInit() {
@@ -56,6 +58,10 @@ export class PeticionUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ peticion }) => {
       this.updateForm(peticion);
     });
+    this.loadColaboradores();
+  }
+
+  loadColaboradores() {
     this.colaboradorService
       .query()
       .pipe(
@@ -147,28 +153,88 @@ export class PeticionUpdateComponent implements OnInit {
     return item.id;
   }
 
-  searchColaborador(parDocumento: string) {
+  searchColaborador(parStrBusqueda: string) {
     this.colaboradorEncontrado = undefined;
-    if (parDocumento !== '') {
-      this.colaboradorService
-        .findByNumDocumento(parDocumento)
-        .pipe(
-          filter((res: HttpResponse<IColaborador[]>) => res.ok),
-          map((res: HttpResponse<IColaborador[]>) => res.body)
-        )
-        .subscribe((res: IColaborador[]) => {
+    // Si la variable de busqueda contiene numeros, se buscan los colaboradores por num documento
+    if (this.utilString.contieneNumeros(parStrBusqueda)) {
+      this.buscarColsPorDocumento(parStrBusqueda);
+    } else {
+      // De lo contrario se buscan por sus nombres
+      if (parStrBusqueda !== '') {
+        this.buscarColsPorNombres(parStrBusqueda);
+      } else {
+        this.loadColaboradores();
+        this.editForm.patchValue({
+          colaborador: undefined
+        });
+      }
+    }
+  }
+
+  buscarColsPorNombres(parCadena: string) {
+    const listaDatos: string[] = this.utilString.getArrayPalabras(parCadena);
+    this.colaboradorService
+      .findByNombres(listaDatos)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe(
+        (res: IColaborador[]) => {
+          if (res.length >= 1) {
+            this.seEncontraronColaboradores = true;
+            this.colaboradors = res;
+            this.colaboradorEncontrado = res[0];
+            this.editForm.patchValue({
+              colaborador: res[0]
+            });
+          } else {
+            this.seEncontraronColaboradores = false;
+            this.loadColaboradores();
+            this.colaboradorEncontrado = undefined;
+            this.editForm.patchValue({
+              colaborador: undefined
+            });
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  buscarColsPorDocumento(parNumDocumento: string) {
+    this.colaboradorService
+      .findByNumDocumento(parNumDocumento)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe((res: IColaborador[]) => {
+        if (res.length >= 1) {
+          this.seEncontraronColaboradores = true;
+          this.colaboradors = res;
           this.colaboradorEncontrado = res[0];
           this.editForm.patchValue({
             colaborador: res[0]
           });
-        });
-    }
+        } else {
+          this.seEncontraronColaboradores = false;
+          this.loadColaboradores();
+          this.colaboradorEncontrado = undefined;
+          this.editForm.patchValue({
+            colaborador: undefined
+          });
+        }
+      });
   }
 
   clear() {
     this.currentSearch = '';
+    this.seEncontraronColaboradores = true;
   }
 
+  /**
+   * Toma el valor del campo 'colaborador' el editForm y lo guarda en la variable colaboradorEncontrado
+   */
   setColaboradorEncontrado() {
     this.colaboradorEncontrado = this.editForm.get(['colaborador']).value;
   }
