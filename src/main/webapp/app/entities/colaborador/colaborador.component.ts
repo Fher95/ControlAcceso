@@ -136,16 +136,27 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  search(nombres: string) {
-    const listaDatos: string[] = this.getArrayPalabras(nombres);
+  search(parStrNombres: string) {
     this.previousPage = 0;
     this.page = 1;
-    this.colaboradorService
-      .findByNombre1(listaDatos)
-      .subscribe(
-        (res: HttpResponse<IColaborador[]>) => this.paginateColaboradors(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+    // Si la cadena de busqueda contiene numero, entonces la busca de colaboradores se hará por id.
+    if (this.contieneNumeros(this.currentSearch)) {
+      this.colaboradorService
+        .findByNumDocumento(this.currentSearch)
+        .subscribe(
+          (res: HttpResponse<IColaborador[]>) => this.paginateColaboradors(res.body, res.headers),
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    } else {
+      // De lo contrario se busca por los nombres
+      const listaDatos: string[] = this.getArrayPalabras(parStrNombres);
+      this.colaboradorService
+        .findByNombres(listaDatos)
+        .subscribe(
+          (res: HttpResponse<IColaborador[]>) => this.paginateColaboradors(res.body, res.headers),
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
   }
 
   /**
@@ -157,5 +168,25 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     const arrayInicial = nombres.split(' ');
     const arrayFinal = arrayInicial.filter((valor: string) => valor !== '');
     return arrayFinal;
+  }
+
+  contieneNumeros(parCadena: string): boolean {
+    const str = parCadena.trim();
+    if (
+      str.includes('0') ||
+      str.includes('1') ||
+      str.includes('2') ||
+      str.includes('3') ||
+      str.includes('4') ||
+      str.includes('5') ||
+      str.includes('6') ||
+      str.includes('7') ||
+      str.includes('8') ||
+      str.includes('9')
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

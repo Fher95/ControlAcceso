@@ -25,8 +25,8 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
     @Query("select colaborador from Colaborador colaborador left join fetch colaborador.peticions left join fetch colaborador.asignacionHorasExtras where colaborador.id =:id")
     Optional<Colaborador> findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query("from Colaborador colaborador where numero_documento =:id")
-    Optional<Colaborador> findColaboradorByNumDocumento(@Param("id") String id);
+    @Query("select distinct colaborador from Colaborador colaborador where numero_documento like %:id%")
+    Page<Colaborador> findColaboradorByNumDocumento(Pageable pageable, @Param("id") String id);
     
     @Query(value = "select distinct colaborador from Colaborador colaborador where lower(nombre_1) like %:nombre1% "
             + "and lower(nombre_2) like %:nombre2% and lower(apellido_1) like %:apellido1% and lower(apellido_2) like %:apellido2%",

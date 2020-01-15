@@ -126,4 +126,13 @@ public class TurnoResource {
         turnoRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+    
+    
+    @GetMapping("/turnos/{nombre}")
+    public ResponseEntity<List<Turno>> getCargosByNombre(Pageable pageable, @PathVariable String nombre) {
+        log.debug("REST request to get a page of Cargos");
+        Page<Turno> page = turnoRepository.findTurnoByNombre(pageable, nombre);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

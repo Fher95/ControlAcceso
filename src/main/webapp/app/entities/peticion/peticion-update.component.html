@@ -17,7 +17,7 @@
                             <div class="input-group w-100 mt-3">
                                 <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
                                     name="currentSearch" placeholder="Ingrese el numero de documento del Colaborador">
-                                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                                <button class="input-group-append btn btn-info" (click)="searchColaborador(currentSearch)">
                                     <fa-icon [icon]="'search'"></fa-icon>
                                 </button>
                                 <button class="input-group-append btn btn-danger" (click)="clear()"

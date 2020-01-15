@@ -129,10 +129,13 @@ public class ColaboradorResource {
     }
 
     @GetMapping("/colaboradors/documento/{id}")
-    public ResponseEntity<Colaborador> getColaboradorByNumDocumento(@PathVariable String id) {
-        log.debug("REST request to get Colaborador by Documento : {}", id);
-        Optional<Colaborador> colaborador = colaboradorRepository.findColaboradorByNumDocumento(id);
-        return ResponseUtil.wrapOrNotFound(colaborador);
+    public ResponseEntity<List<Colaborador>> getColaboradorByNumDocumento(Pageable pageable, @PathVariable String id) {
+        log.debug("REST request to get Colaboradores by Documento : {}", id);
+        Page<Colaborador> page;
+        page = colaboradorRepository.findColaboradorByNumDocumento(pageable, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        System.out.println("Se obtuvieron: " + page.getTotalElements() + " elementos");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -148,8 +151,18 @@ public class ColaboradorResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
+    /**
+     * Este método recibe un arreglo de Strings, en el que en la posición 0 está
+     * el nombre1, en la posición 1 el nombre 2. en la posición 2, el apellido1,
+     * y en la posición 3 el apellido2
+     *
+     * @param pageable
+     * @param vecNombres pos[0]: nombre1, pos[1]: nombre2, pos[2]: apellido1,
+     * pos[3]: apellido2
+     * @return 
+     */
     @PutMapping("/colaboradors/porNombres")
-    public ResponseEntity<List<Colaborador>> getByNombre1(Pageable pageable, @Valid @RequestBody String[] vecNombres) {        
+    public ResponseEntity<List<Colaborador>> getByNombre1(Pageable pageable, @Valid @RequestBody String[] vecNombres) {
         log.debug("REST request to get Colaborador Por Nombre: {}", Arrays.toString(vecNombres));
         String nom1 = vecNombres[0].toLowerCase(), nom2 = vecNombres[1].toLowerCase(),
                 ape1 = vecNombres[2].toLowerCase(), ape2 = vecNombres[3].toLowerCase();

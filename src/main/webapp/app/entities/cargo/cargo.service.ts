@@ -43,4 +43,8 @@ export class CargoService {
   findCargoColaborador(idColaborador: number): Observable<HttpResponse<number>> {
     return this.http.get<number>(`${this.resourceUrl}/colaborador/${idColaborador}`, { observe: 'response' });
   }
+
+  findByNombre(parNombre: string): Observable<EntityArrayResponseType> {
+    return this.http.get<ICargo[]>(`${this.resourceUrl}/nombre/${parNombre}`, { observe: 'response' });
+  }
 }

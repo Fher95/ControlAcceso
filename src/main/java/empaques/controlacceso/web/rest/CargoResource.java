@@ -133,4 +133,14 @@ public class CargoResource {
         cargoRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/cargos/nombre/{nombre}")
+    public ResponseEntity<List<Cargo>> getCargosByNombre(Pageable pageable, @PathVariable String nombre) {
+        log.debug("REST request to get a page of CargosPorNombre");
+        System.err.println("ENTRA AL METODO GET CARGOS POR NOMBRE");
+        Page<Cargo> page = cargoRepository.findCargoByNombre(pageable, nombre);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        System.err.println("Se ENCONTRARON: " + page.getTotalElements());
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

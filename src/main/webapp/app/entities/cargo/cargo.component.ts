@@ -30,6 +30,7 @@ export class CargoComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  currentSearch = '';
 
   constructor(
     protected cargoService: CargoService,
@@ -141,5 +142,19 @@ export class CargoComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+  search(parCadena: string) {
+    this.previousPage = 0;
+    this.page = 1;
+    if (parCadena !== '') {
+      this.cargoService
+        .findByNombre(parCadena)
+        .subscribe(
+          (res: HttpResponse<ICargo[]>) => this.paginateCargos(res.body, res.headers),
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    } else {
+      this.loadAll();
+    }
   }
 }

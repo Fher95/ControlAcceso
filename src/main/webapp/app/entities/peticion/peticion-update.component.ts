@@ -147,21 +147,22 @@ export class PeticionUpdateComponent implements OnInit {
     return item.id;
   }
 
-  search(parDocumento: string) {
+  searchColaborador(parDocumento: string) {
     this.colaboradorEncontrado = undefined;
-
-    this.colaboradorService
-      .findByNumDocumento(parDocumento)
-      .pipe(
-        filter((res: HttpResponse<IColaborador>) => res.ok),
-        map((res: HttpResponse<IColaborador>) => res.body)
-      )
-      .subscribe((res: IColaborador) => {
-        this.colaboradorEncontrado = res;
-        this.editForm.patchValue({
-          colaborador: res
+    if (parDocumento !== '') {
+      this.colaboradorService
+        .findByNumDocumento(parDocumento)
+        .pipe(
+          filter((res: HttpResponse<IColaborador[]>) => res.ok),
+          map((res: HttpResponse<IColaborador[]>) => res.body)
+        )
+        .subscribe((res: IColaborador[]) => {
+          this.colaboradorEncontrado = res[0];
+          this.editForm.patchValue({
+            colaborador: res[0]
+          });
         });
-      });
+    }
   }
 
   clear() {
