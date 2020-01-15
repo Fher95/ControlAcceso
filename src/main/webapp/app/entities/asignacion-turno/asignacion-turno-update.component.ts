@@ -24,6 +24,7 @@ import { ICargo } from 'app/shared/model/cargo.model';
 import { CargoService } from 'app/entities/cargo/cargo.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { CentroCostoService } from '../centro-costo/centro-costo.service';
+import { UtilidadesString } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-asignacion-turno-update',
@@ -64,6 +65,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     cargo: [this, [Validators.required]],
     centroDeCosto: []
   });
+  seEncontraronColaboradores = true;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -75,6 +77,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected cargoService: CargoService,
     protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
+    protected utilString: UtilidadesString,
     private fb: FormBuilder
   ) {}
 
@@ -83,13 +86,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ asignacionTurno }) => {
       this.updateForm(asignacionTurno);
     });
-    this.colaboradorService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IColaborador[]>) => response.body)
-      )
-      .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.loadColaboradores();
     this.loadAllCentroCosto();
     this.turnoService
       .query({ filter: 'asignacionturno-is-null' })
@@ -252,17 +249,33 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     return option;
   }
 
-  searchColaborador(parDocumento: string) {
-    if (parDocumento === '') {
-      this.colaboradorEncontrado = undefined;
-      this.editForm.patchValue({ colaboradors: [] });
-    }
-    this.colaboradors.forEach(element => {
-      if (element.numeroDocumento === parDocumento) {
-        this.colaboradorEncontrado = element;
-        this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
+  loadColaboradores() {
+    this.colaboradorService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IColaborador[]>) => response.body)
+      )
+      .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  searchColaborador(parStrBusqueda: string) {
+    this.colaboradorEncontrado = undefined;
+    // Si la variable de busqueda contiene numeros, se buscan los colaboradores por num documento
+    if (this.utilString.contieneNumeros(parStrBusqueda)) {
+      this.buscarColsPorDocumento(parStrBusqueda);
+    } else {
+      // De lo contrario se buscan por sus nombres
+      if (parStrBusqueda !== '') {
+        this.buscarColsPorNombres(parStrBusqueda);
+      } else {
+        this.loadColaboradores();
+        this.editForm.patchValue({
+          colaboradors: undefined
+        });
       }
-    });
+      this.setColaboradorSeleccionado();
+    }
     // this.colaboradorEncontrado = undefined;
     /*
     if (parDocumento === '') {
@@ -298,6 +311,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   }
   clear(): void {
     this.currentSearch = '';
+    this.seEncontraronColaboradores = true;
   }
 
   loadAsignacionTurno(parIdColaborador: number) {
@@ -357,7 +371,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     this.colaboradorEncontrado = this.editForm.get(['colaboradors']).value[0];
     // this.colaboradoresSeleccionados = [this.colaboradorEncontrado];
     // this.loadAsignacionTurno(this.colaboradorEncontrado.id);
-    this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
+    // this.currentSearch = this.colaboradorEncontrado.numeroDocumento;
     this.turnosCargosColaborador(this.colaboradorEncontrado.id);
   }
 
@@ -496,5 +510,65 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         this.seleccionTurnoInvalida = true;
       }
     });
+  }
+
+  buscarColsPorNombres(parCadena: string) {
+    const listaDatos: string[] = this.utilString.getArrayPalabras(parCadena);
+    this.colaboradorService
+      .findByNombres(listaDatos)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe(
+        (res: IColaborador[]) => {
+          if (res.length >= 1) {
+            this.seEncontraronColaboradores = true;
+            this.colaboradors = res;
+            this.colaboradorEncontrado = res[0];
+            this.turnosCargosColaborador(this.colaboradorEncontrado.id);
+            const arrCol: IColaborador[] = [res[0]];
+
+            this.editForm.patchValue({
+              colaboradors: arrCol
+            });
+          } else {
+            this.seEncontraronColaboradores = false;
+            this.loadColaboradores();
+            this.colaboradorEncontrado = undefined;
+            this.editForm.patchValue({
+              colaboradors: undefined
+            });
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  buscarColsPorDocumento(parNumDocumento: string) {
+    this.colaboradorService
+      .findByNumDocumento(parNumDocumento)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe((res: IColaborador[]) => {
+        if (res.length >= 1) {
+          this.seEncontraronColaboradores = true;
+          this.colaboradors = res;
+          this.colaboradorEncontrado = res[0];
+          this.turnosCargosColaborador(this.colaboradorEncontrado.id);
+          this.editForm.patchValue({
+            colaboradors: [res[0]]
+          });
+        } else {
+          this.seEncontraronColaboradores = false;
+          this.loadColaboradores();
+          this.colaboradorEncontrado = undefined;
+          this.editForm.patchValue({
+            colaboradors: undefined
+          });
+        }
+      });
   }
 }
