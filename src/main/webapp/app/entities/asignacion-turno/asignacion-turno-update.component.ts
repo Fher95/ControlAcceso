@@ -28,7 +28,8 @@ import { UtilidadesString } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-asignacion-turno-update',
-  templateUrl: './asignacion-turno-update.component.html'
+  templateUrl: './asignacion-turno-update.component.html',
+  styleUrls: ['../../shared/css/estilos-turno.scss']
 })
 export class AsignacionTurnoUpdateComponent implements OnInit {
   isSaving: boolean;

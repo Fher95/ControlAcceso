@@ -11,10 +11,13 @@ import { AsignacionTurnoService } from './asignacion-turno.service';
 import { ITurno } from 'app/shared/model/turno.model';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { ICargo } from 'app/shared/model/cargo.model';
+import { IColaborador } from 'app/shared/model/colaborador.model';
+import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-asignacion-turno',
-  templateUrl: './asignacion-turno.component.html'
+  templateUrl: './asignacion-turno.component.html',
+  styleUrls: ['../../shared/css/estilos-turno.scss']
 })
 export class AsignacionTurnoComponent implements OnInit, OnDestroy {
   asignacionTurnos: IAsignacionTurno[];
@@ -27,7 +30,8 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
     protected asignacionTurnoService: AsignacionTurnoService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected colUtil: UtilidadesColaborador
   ) {}
 
   loadAll() {
@@ -130,11 +134,24 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
     return respuesta;
   }
 
+  /**
+   * Obtiene todos los cargos (distintos) de la lista de asignaciones
+   * @param parCentroCosto Centro de costo del que se quieren sacar los cargos
+   */
   getCargosPorCentroCosto(parCentroCosto: ICentroCosto): ICargo[] {
     const arrayCargos: ICargo[] = [];
     this.asignacionTurnos.forEach(element => {
       if (element.cargo.centroCosto.id === parCentroCosto.id) {
-        arrayCargos.push(element.cargo);
+        let existeEnArrayCargos = false;
+        arrayCargos.forEach(element2 => {
+          if (element2.id === element.cargo.id) {
+            existeEnArrayCargos = true;
+          }
+        });
+
+        if (!existeEnArrayCargos) {
+          arrayCargos.push(element.cargo);
+        }
       }
     });
     return arrayCargos;
@@ -142,23 +159,42 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
 
   getColaboradorTurnoCargo(parTurno: ITurno, parCargo: ICargo): string {
     let nombreColaborador: string;
-    nombreColaborador = 'No Asignado';
+    nombreColaborador = '';
     this.asignacionTurnos.forEach(element => {
       if (element.turno.id === parTurno.id) {
         if (element.cargo.id === parCargo.id) {
-          nombreColaborador = '';
-          let contador = 0;
-          element.colaboradors.forEach(element2 => {
-            contador++;
-            nombreColaborador += element2.nombre1 + ' ' + element2.nombre2 + ' ' + element2.apellido1 + ' ' + element2.apellido2;
-            if (contador < element.colaboradors.length) {
-              nombreColaborador += ' - ';
-            }
-          });
+          if (element.colaboradors) {
+            const objCol = element.colaboradors[0];
+            nombreColaborador += objCol.nombre1 + ' ' + objCol.nombre2 + ' ' + objCol.apellido1 + ' ' + objCol.apellido2;
+            nombreColaborador += ' - ';
+          }
         }
       }
     });
     return nombreColaborador;
+  }
+
+  /**
+   * Obtiene la lista de colaboradores que tienen asignados el turno y el cargo dados
+   * de la lista de asignaciones
+   * @param parTurno
+   * @param parCargo
+   */
+  getArryColaboradores(parTurno: ITurno, parCargo: ICargo): IColaborador[] {
+    const arrayCols: IColaborador[] = [];
+    this.asignacionTurnos.forEach(element => {
+      if (element.turno.id === parTurno.id) {
+        if (element.cargo.id === parCargo.id) {
+          if (element.colaboradors) {
+            // Recordar que en una asignacion normal, apesar de que el atributo colaboradors
+            // es un array, éste solo debe contener un unico colaborador
+            const objCol = element.colaboradors[0];
+            arrayCols.push(objCol);
+          }
+        }
+      }
+    });
+    return arrayCols;
   }
   /** ** FIN de las funciones para la creacion de la tabla de ubicacion */
 

@@ -14,7 +14,8 @@ import { IColaborador } from 'app/shared/model/colaborador.model';
 
 @Component({
   selector: 'jhi-intercambio-turno',
-  templateUrl: './intercambio-turno.component.html'
+  templateUrl: './intercambio-turno.component.html',
+  styleUrls: ['../../shared/css/estilos-turno.scss']
 })
 export class IntercambioTurnoComponent implements OnInit, OnDestroy {
   intercambioTurnos: IIntercambioTurno[];

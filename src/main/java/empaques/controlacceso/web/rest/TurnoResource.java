@@ -128,9 +128,9 @@ public class TurnoResource {
     }
     
     
-    @GetMapping("/turnos/{nombre}")
-    public ResponseEntity<List<Turno>> getCargosByNombre(Pageable pageable, @PathVariable String nombre) {
-        log.debug("REST request to get a page of Cargos");
+    @GetMapping("/turnos/nombre/{nombre}")
+    public ResponseEntity<List<Turno>> getTurnosByNombre(Pageable pageable, @PathVariable String nombre) {
+        log.debug("REST request to get a page of Turnos");
         Page<Turno> page = turnoRepository.findTurnoByNombre(pageable, nombre);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

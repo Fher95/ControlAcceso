@@ -24,8 +24,8 @@
                     <th><span jhiTranslate="controlAccesoApp.intercambioTurno.observaciones">Observaciones</span></th>
                     <!--th><span jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno1">Asignacion Turno 1</span></th>
             <th><span jhiTranslate="controlAccesoApp.intercambioTurno.asignacionTurno2">Asignacion Turno 2</span></th-->
-                    <th class="col-3"><span >Turno programado</span></th>
-                    <th class="col-3"><span >Turno reprogramado</span></th>
+                    <th class="col-3"><span>Turno programado</span></th>
+                    <th class="col-3"><span>Turno reprogramado</span></th>
                     <!--th><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2">Colaborador 2</span></th-->
                     <th></th>
                 </tr>
@@ -35,7 +35,9 @@
                     <!--td><a
                             [routerLink]="['/intercambio-turno', intercambioTurno.id, 'view' ]">{{intercambioTurno.id}}</a>
                     </td-->
-                    <td>{{intercambioTurno.fecha | date:'mediumDate'}}<p>{{intercambioTurno.fechaFin ? ' - ' + (intercambioTurno.fechaFin | date:'mediumDate') : ''}}</p>
+                    <td>{{intercambioTurno.fecha | date:'mediumDate'}}<p>
+                            {{intercambioTurno.fechaFin ? ' - ' + (intercambioTurno.fechaFin | date:'mediumDate') : ''}}
+                        </p>
                     </td>
                     <td>{{intercambioTurno.autorizadoPor}}</td>
                     <td>{{intercambioTurno.observaciones}}</td>
@@ -52,9 +54,8 @@
                 </td>
                 -->
                     <td>
-                        <div class="mx-1"
-                            *ngIf="intercambioTurno.colaborador1 && intercambioTurno.asignacionTurno1
-                            && intercambioTurno.colaborador2 && intercambioTurno.asignacionTurno2">                            
+                        <div class="mx-1" *ngIf="intercambioTurno.colaborador1 && intercambioTurno.asignacionTurno1
+                            && intercambioTurno.colaborador2 && intercambioTurno.asignacionTurno2">
                             <div class="row border bg-primary">
                                 <div class="col-7">
                                     <strong>Colaborador</strong>
@@ -71,7 +72,9 @@
                                 </div>
                                 <div class="col-5 border">
                                     <a *ngIf="intercambioTurno.asignacionTurno2">
-                                        {{intercambioTurno.asignacionTurno2.turno?.nombre}}
+                                        <div class={{intercambioTurno.asignacionTurno2.turno.color?.toLowerCase()}}>
+                                            {{intercambioTurno.asignacionTurno2.turno?.nombre}}
+                                        </div>
                                     </a>
                                 </div>
                             </div>
@@ -83,17 +86,18 @@
                                 </div>
                                 <div class="col-5 border">
                                     <a *ngIf="intercambioTurno.asignacionTurno1">
-                                        {{intercambioTurno.asignacionTurno1.turno?.nombre}}
+                                        <div class={{intercambioTurno.asignacionTurno1.turno.color?.toLowerCase()}}>
+                                            {{intercambioTurno.asignacionTurno1.turno?.nombre}}
+                                        </div>
                                     </a>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </td>
 
                     <td>
-                        <div class="mx-1"
-                            *ngIf="intercambioTurno.colaborador1 && intercambioTurno.asignacionTurno1
-                            && intercambioTurno.colaborador2 && intercambioTurno.asignacionTurno2">                            
+                        <div class="mx-1" *ngIf="intercambioTurno.colaborador1 && intercambioTurno.asignacionTurno1
+                            && intercambioTurno.colaborador2 && intercambioTurno.asignacionTurno2">
                             <div class="row border bg-success">
                                 <div class="col-7">
                                     <strong>Colaborador</strong>
@@ -110,7 +114,9 @@
                                 </div>
                                 <div class="col-5 border">
                                     <a *ngIf="intercambioTurno.asignacionTurno1">
-                                        {{intercambioTurno.asignacionTurno1.turno?.nombre}}
+                                        <div class={{intercambioTurno.asignacionTurno1.turno.color?.toLowerCase()}}>
+                                            {{intercambioTurno.asignacionTurno1.turno?.nombre}}
+                                        </div>
                                     </a>
                                 </div>
                             </div>
@@ -122,11 +128,13 @@
                                 </div>
                                 <div class="col-5 border">
                                     <a *ngIf="intercambioTurno.asignacionTurno2">
-                                        {{intercambioTurno.asignacionTurno2.turno?.nombre}}
+                                        <div class={{intercambioTurno.asignacionTurno2.turno.color?.toLowerCase()}}>
+                                            {{intercambioTurno.asignacionTurno2.turno?.nombre}}
+                                        </div>
                                     </a>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </td>
 
                     <!--td>

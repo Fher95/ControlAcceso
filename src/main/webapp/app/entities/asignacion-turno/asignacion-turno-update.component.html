@@ -38,7 +38,7 @@
                                         *ngIf="currentSearch">
                                         <fa-icon [icon]="'trash-alt'"></fa-icon>
                                     </button>
-                                    
+
                                 </div>
                                 <small *ngIf="!this.seEncontraronColaboradores" class="text-danger">
                                     No se encontraron colaboradores con ese nombre o número.</small>
@@ -110,7 +110,9 @@
                     </div>
                     <div *ngFor="let item of this.asignacionesColSeleccionado" class="row my-2">
                         <div class="col-3">
-                            {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
+                            <div class={{item.turno.color?.toLowerCase()}}>
+                                {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
+                            </div>
                         </div>
                         <div class="col-3">
                             {{item.cargo.nombre}}
