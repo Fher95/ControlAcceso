@@ -20,19 +20,21 @@
                                 <div class="col-sm-12">
                                     <form name="searchForm" class="form-inline">
                                         <div class="input-group w-100 mt-3">
-                                            <input type="text" class="form-control" [(ngModel)]="currentSearch"
-                                                id="currentSearch" name="currentSearch"
+                                            <input type="text" class="form-control" [(ngModel)]="currentSearch1"
+                                                id="currentSearch1" name="currentSearch1"
                                                 placeholder="Ingrese el numero de documento del Colaborador">
                                             <button class="input-group-append btn btn-info"
-                                                (click)="searchColaborador(currentSearch,1)">
+                                                (click)="searchColaborador(currentSearch1,1)">
                                                 <fa-icon [icon]="'search'"></fa-icon>
                                             </button>
-                                            <button class="input-group-append btn btn-danger" (click)="clear()"
-                                                *ngIf="currentSearch">
+                                            <button class="input-group-append btn btn-danger" (click)="clear(1)"
+                                                *ngIf="currentSearch1">
                                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                                             </button>
                                         </div>
                                     </form>
+                                    <small class="text-danger" *ngIf="!this.seEncontraronColaboradores1">No se
+                                        encontraron colaboradores</small>
                                 </div>
                             </div>
                             <label class="form-control-label"
@@ -43,9 +45,9 @@
                                 <option [ngValue]="null"></option>
                                 <option
                                     [ngValue]="colaboradorOption.id === editForm.get('colaborador1').value?.id ? editForm.get('colaborador1').value : colaboradorOption"
-                                    *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
+                                    *ngFor="let colaboradorOption of colaboradores1; trackBy: trackColaboradorById">
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
-                            </select>                            
+                            </select>
                             <div *ngIf="editForm.get('colaborador1').dirty || editForm.get('colaborador1').touched">
                                 <small class="form-text text-danger" *ngIf="this.editForm.get('colaborador1').errors">
                                     Debe seleccionar un colaborador.
@@ -97,19 +99,21 @@
                                 <div class="col-sm-12">
                                     <form name="searchForm" class="form-inline">
                                         <div class="input-group w-100 mt-3">
-                                            <input type="text" class="form-control" [(ngModel)]="currentSearch"
-                                                id="currentSearch" name="currentSearch"
+                                            <input type="text" class="form-control" [(ngModel)]="currentSearch2"
+                                                id="currentSearch2" name="currentSearch2"
                                                 placeholder="Ingrese el numero de documento del Colaborador">
                                             <button class="input-group-append btn btn-info"
-                                                (click)="searchColaborador(currentSearch,2)">
+                                                (click)="searchColaborador(currentSearch2,2)">
                                                 <fa-icon [icon]="'search'"></fa-icon>
                                             </button>
-                                            <button class="input-group-append btn btn-danger" (click)="clear()"
-                                                *ngIf="currentSearch">
+                                            <button class="input-group-append btn btn-danger" (click)="clear(2)"
+                                                *ngIf="currentSearch2">
                                                 <fa-icon [icon]="'trash-alt'"></fa-icon>
                                             </button>
                                         </div>
                                     </form>
+                                    <small class="text-danger" *ngIf="!this.seEncontraronColaboradores2">No se
+                                        encontraron colaboradores</small>
                                 </div>
                             </div>
                             <label class="form-control-label"
@@ -120,7 +124,7 @@
                                 <option [ngValue]="null"></option>
                                 <option
                                     [ngValue]="colaboradorOption.id === editForm.get('colaborador2').value?.id ? editForm.get('colaborador2').value : colaboradorOption"
-                                    *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
+                                    *ngFor="let colaboradorOption of colaboradores2; trackBy: trackColaboradorById">
                                     {{this.getStrColaborador(colaboradorOption)}}</option>
                             </select>
                             <div *ngIf="editForm.get('colaborador2').dirty || editForm.get('colaborador2').touched">
@@ -225,13 +229,14 @@
                         <small class="form-text text-danger">
                             Conflicto de cruce de turnos en las asignaciones.
                         </small>
-                    </div>                   
-                    <div *ngIf="this.turnosCruzados(this.asignacionSeleccionada1.turno, this.asignacionSeleccionada2.turno)">
+                    </div>
+                    <div
+                        *ngIf="this.turnosCruzados(this.asignacionSeleccionada1.turno, this.asignacionSeleccionada2.turno)">
                         <small class="form-text text-danger">
                             Los turnos seleccionados se cruzan. No se puede realizar el intercambio.
                         </small>
                     </div>
-                    
+
                 </div>
                 <jhi-alert></jhi-alert>
                 <div class="border rounded shadow p-4 my-3">
@@ -241,15 +246,13 @@
                     <div class="row">
                         <div class="form-check col-6 text-center">
                             <input class="form-check-input" type="radio" name="radioButton" id="inlineRadio1"
-                            (change)="this.validarFechas()"
-                                formControlName="radioButton" value="dia">
+                                (change)="this.validarFechas()" formControlName="radioButton" value="dia">
                             <label class="form-check-label" for="inlineRadio1">Día</label>
                         </div>
 
                         <div class="form-check col-6 text-center">
                             <input formControlName="radioButton" class="form-check-input" type="radio"
-                            (change)="this.validarFechas()"
-                                name="radioButton" id="inlineRadio2" value="dias">
+                                (change)="this.validarFechas()" name="radioButton" id="inlineRadio2" value="dias">
                             <label class="form-check-label" for="inlineRadio2">Días</label>
                         </div>
                     </div>
@@ -259,34 +262,34 @@
                                 {{this.editForm.get(['radioButton']).value === 'dias' ? 'inicio' : ''}}</label>
                             <div class="d-flex">
                                 <input id="field_fecha" type="date" class="form-control" name="fecha"
-                                (change)="this.validarFechas()"
-                                    formControlName="fecha"/>
+                                    (change)="this.validarFechas()" formControlName="fecha" />
                             </div>
-                            <div *ngIf="editForm.get('fecha').invalid && editForm.get('fecha').dirty || editForm.get('fecha').touched">
+                            <div
+                                *ngIf="editForm.get('fecha').invalid && editForm.get('fecha').dirty || editForm.get('fecha').touched">
                                 <small class="form-text text-danger" *ngIf="editForm.get('fecha').errors">
                                     Debe seleccionar una fecha
                                 </small>
-                            </div>                            
+                            </div>
                         </div>
                         <div *ngIf="this.editForm.get(['radioButton']).value === 'dias'" class="form-group col-6">
                             <label class="form-control-label" for="field_fecha_fin">Fecha fin</label>
                             <div class="d-flex">
-                                <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin" (change)="this.validarFechas();"
-                                    formControlName="fechaFin" />
+                                <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin"
+                                    (change)="this.validarFechas();" formControlName="fechaFin" />
                             </div>
                             <div *ngIf="editForm.get('radioButton').value === 'dias' &&
                              (editForm.get(['fechaFin']).value === '' || editForm.get(['fechaFin']).value === null)">
-                                <small class="form-text text-danger" >
+                                <small class="form-text text-danger">
                                     Debe seleccionar una fecha
                                 </small>
-                            </div>  
-                                                        
+                            </div>
+
                         </div>
                         <div *ngIf="this.fechasInvalidas">
-                            <small class="form-text text-danger p-3" >
+                            <small class="form-text text-danger p-3">
                                 La fecha de inicio no puede ser mayor a la de fin
                             </small>
-                        </div> 
+                        </div>
                     </div>
                 </div>
 
@@ -339,7 +342,8 @@
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving || this.cruceAsignaciones || this.fechasInvalidas"
+                <button type="submit" id="save-entity"
+                    [disabled]="editForm.invalid || isSaving || this.cruceAsignaciones || this.fechasInvalidas"
                     class="btn btn-primary">
                     <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>

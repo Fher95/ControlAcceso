@@ -16,6 +16,7 @@ import { AsignacionTurnoService } from 'app/entities/asignacion-turno/asignacion
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
 import { ITurno } from 'app/shared/model/turno.model';
+import { UtilidadesString } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-intercambio-turno-update',
@@ -28,7 +29,20 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
 
   asignacionturnos2: IAsignacionTurno[];
 
-  colaboradors: IColaborador[];
+  colaboradores1: IColaborador[];
+  colaboradores2: IColaborador[];
+
+  asignaciones1: IAsignacionTurno[];
+  asignacionSeleccionada1: IAsignacionTurno;
+  asignacionSeleccionada2: IAsignacionTurno;
+  currentSearch1 = '';
+  currentSearch2 = '';
+  colaboradorEncontrado: IColaborador;
+  radioButton = '';
+  sinAsignacionesCol1 = false;
+  sinAsignacionesCol2 = false;
+  cruceAsignaciones = false;
+  fechasInvalidas = false;
 
   editForm = this.fb.group({
     id: [],
@@ -42,16 +56,9 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     colaborador2: [undefined, [Validators.required]],
     radioButton: ['dia']
   });
-  asignaciones1: IAsignacionTurno[];
-  asignacionSeleccionada1: IAsignacionTurno;
-  asignacionSeleccionada2: IAsignacionTurno;
-  currentSearch: string;
-  colaboradorEncontrado: IColaborador;
-  radioButton = '';
-  sinAsignacionesCol1 = false;
-  sinAsignacionesCol2 = false;
-  cruceAsignaciones = false;
-  fechasInvalidas = false;
+  seEncontraronColaboradores1 = true;
+  seEncontraronColaboradores2 = true;
+  busquedaPorNombre: boolean;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -59,6 +66,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     protected asignacionTurnoService: AsignacionTurnoService,
     protected colaboradorService: ColaboradorService,
     protected activatedRoute: ActivatedRoute,
+    protected utilStr: UtilidadesString,
     private fb: FormBuilder
   ) {}
 
@@ -119,15 +127,16 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
-        */
 
-    this.colaboradorService
+      this.colaboradorService
       .query()
       .pipe(
         filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
         map((response: HttpResponse<IColaborador[]>) => response.body)
       )
-      .subscribe((res: IColaborador[]) => (this.colaboradors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: IColaborador[]) => (this.colaboradores1 = res, this.colaboradores2 = res), (res: HttpErrorResponse) => this.onError(res.message));
+        */
+    this.loadColaboradores(3);
   }
 
   updateForm(intercambioTurno: IIntercambioTurno) {
@@ -373,20 +382,165 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     return nombreCompleto;
   }
 
-  searchColaborador(parDocumento: string) {
-    if (parDocumento === '') {
-      this.colaboradorEncontrado = undefined;
-      this.editForm.patchValue({ colaboradors: [] });
-    }
-    this.colaboradors.forEach(element => {
-      if (element.numeroDocumento === parDocumento) {
-        this.colaboradorEncontrado = element;
-        this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
+  searchColaborador(parStrBusqueda: string, numCol: number) {
+    if (this.utilStr.contieneNumeros(parStrBusqueda)) {
+      this.buscarColsPorDocumento(parStrBusqueda, numCol);
+    } else {
+      // De lo contrario se buscan por sus nombres
+      if (parStrBusqueda !== '') {
+        this.busquedaPorNombre = true;
+        this.buscarColsPorNombres(parStrBusqueda, numCol);
+      } else {
+        this.loadColaboradores(numCol);
+        this.clear(numCol);
       }
-    });
+      // this.setColaboradorSeleccionado(numCol);
+    }
   }
-  clear(): void {
-    this.currentSearch = '';
+
+  buscarColsPorNombres(parCadena: string, numCol: number) {
+    const listaDatos: string[] = this.utilStr.getArrayPalabras(parCadena);
+    this.colaboradorService
+      .findByNombres(listaDatos)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe(
+        (res: IColaborador[]) => {
+          if (res.length >= 1) {
+            if (numCol === 1) {
+              this.seEncontraronColaboradores1 = true;
+              this.colaboradores1 = res;
+              this.editForm.patchValue({
+                colaborador1: res[0]
+              });
+              this.setColaboradorSeleccionado(1);
+            } else if (numCol === 2) {
+              this.seEncontraronColaboradores2 = true;
+              this.colaboradores2 = res;
+              this.editForm.patchValue({
+                colaborador2: res[0]
+              });
+              this.setColaboradorSeleccionado(2);
+            }
+          } else {
+            if (numCol === 1) {
+              this.seEncontraronColaboradores1 = false;
+              this.loadColaboradores(1);
+              this.editForm.patchValue({
+                colaborador1: undefined
+              });
+            } else if (numCol === 2) {
+              this.seEncontraronColaboradores2 = false;
+              this.loadColaboradores(2);
+              this.editForm.patchValue({
+                colaborador2: undefined
+              });
+            }
+            this.colaboradorEncontrado = undefined;
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  /**
+   * Este metodo carga todos los colaboradores
+   * Si numCol es 1 se carga la lista colaboradores1
+   * Si numCol es 2 se carga la lista colaboradores2
+   * sin numCol es 3 se cargan las dos listas
+   * @param numCol
+   */
+  loadColaboradores(numCol: number) {
+    if (numCol === 3) {
+      this.colaboradorService
+        .query()
+        .pipe(
+          filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+          map((response: HttpResponse<IColaborador[]>) => response.body)
+        )
+        .subscribe(
+          (res: IColaborador[]) => ((this.colaboradores1 = res), (this.colaboradores2 = res)),
+          (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    } else if (numCol === 1) {
+      this.colaboradorService
+        .query()
+        .pipe(
+          filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+          map((response: HttpResponse<IColaborador[]>) => response.body)
+        )
+        .subscribe((res: IColaborador[]) => (this.colaboradores1 = res), (res: HttpErrorResponse) => this.onError(res.message));
+    } else if (numCol === 2) {
+      this.colaboradorService
+        .query()
+        .pipe(
+          filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+          map((response: HttpResponse<IColaborador[]>) => response.body)
+        )
+        .subscribe((res: IColaborador[]) => (this.colaboradores2 = res), (res: HttpErrorResponse) => this.onError(res.message));
+    }
+  }
+
+  buscarColsPorDocumento(parNumDocumento: string, numCol: number) {
+    this.colaboradorService
+      .findByNumDocumento(parNumDocumento)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe((res: IColaborador[]) => {
+        if (res.length >= 1) {
+          if (numCol === 1) {
+            this.seEncontraronColaboradores1 = true;
+            this.colaboradores1 = res;
+            this.editForm.patchValue({
+              colaborador1: res[0]
+            });
+            this.setColaboradorSeleccionado(1);
+          } else if (numCol === 2) {
+            this.seEncontraronColaboradores2 = true;
+            this.colaboradores2 = res;
+            this.editForm.patchValue({
+              colaborador2: res[0]
+            });
+            this.setColaboradorSeleccionado(1);
+          }
+        } else {
+          this.loadColaboradores(numCol);
+          if (numCol === 1) {
+            this.seEncontraronColaboradores1 = true;
+            this.editForm.patchValue({
+              colaborador1: undefined
+            });
+          } else if (numCol === 2) {
+            this.seEncontraronColaboradores2 = true;
+            this.editForm.patchValue({
+              colaborador2: undefined
+            });
+          }
+        }
+      });
+  }
+  clear(numCol: number): void {
+    if (numCol === 1) {
+      this.loadColaboradores(1);
+      this.currentSearch1 = '';
+      this.editForm.patchValue({
+        colaborador1: undefined
+      });
+      this.asignacionturnos1 = undefined;
+      this.seEncontraronColaboradores1 = true;
+    } else if (numCol === 2) {
+      this.loadColaboradores(2);
+      this.currentSearch2 = '';
+      this.editForm.patchValue({
+        colaborador2: undefined
+      });
+      this.asignacionturnos2 = undefined;
+      this.seEncontraronColaboradores2 = true;
+    }
   }
 
   setSeleccionAsignacion(parAsignacion: IAsignacionTurno, numSeleccion: number) {

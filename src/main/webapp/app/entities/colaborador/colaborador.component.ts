@@ -140,9 +140,9 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
     this.previousPage = 0;
     this.page = 1;
     // Si la cadena de busqueda contiene numero, entonces la busca de colaboradores se hará por id.
-    if (this.contieneNumeros(this.currentSearch)) {
+    if (this.contieneNumeros(parStrNombres)) {
       this.colaboradorService
-        .findByNumDocumento(this.currentSearch)
+        .findByNumDocumento(parStrNombres)
         .subscribe(
           (res: HttpResponse<IColaborador[]>) => this.paginateColaboradors(res.body, res.headers),
           (res: HttpErrorResponse) => this.onError(res.message)
