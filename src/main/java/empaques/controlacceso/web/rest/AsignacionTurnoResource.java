@@ -7,12 +7,17 @@ import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,19 +50,19 @@ public class AsignacionTurnoResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final AsignacionTurnoRepository asignacionTurnoRepository;   
+    private final AsignacionTurnoRepository asignacionTurnoRepository;
 
     public AsignacionTurnoResource(AsignacionTurnoRepository asignacionTurnoRepository) {
-        this.asignacionTurnoRepository = asignacionTurnoRepository;               
+        this.asignacionTurnoRepository = asignacionTurnoRepository;
     }
 
     /**
      * {@code POST  /asignacion-turnos} : Create a new asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
-     * with body the new asignacionTurno, or with status
-     * {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new asignacionTurno, or with status
+     *         {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/asignacion-turnos")
@@ -71,7 +76,7 @@ public class AsignacionTurnoResource {
         AsignacionTurno result = asignacionTurnoRepository.save(asignacionTurno);
         return ResponseEntity
                 .created(new URI("/api/asignacion-turnos/" + result.getId())).headers(HeaderUtil
-                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -79,11 +84,11 @@ public class AsignacionTurnoResource {
      * {@code PUT  /asignacion-turnos} : Updates an existing asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the updated asignacionTurno, or with status
-     * {@code 400 (Bad Request)} if the asignacionTurno is not valid, or with
-     * status {@code 500 (Internal Server Error)} if the asignacionTurno
-     * couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated asignacionTurno, or with status {@code 400 (Bad Request)}
+     *         if the asignacionTurno is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the asignacionTurno couldn't
+     *         be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/asignacion-turnos")
@@ -102,34 +107,49 @@ public class AsignacionTurnoResource {
      * {@code GET  /asignacion-turnos} : get all the asignacionTurnos.
      *
      * @param eagerload flag to eager load entities from relationships (This is
-     * applicable for many-to-many).
-     * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
-     * list of asignacionTurnos in body.
+     *                  applicable for many-to-many).
+     * @param filter    the filter of the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of asignacionTurnos in body.
      */
     @GetMapping("/asignacion-turnos")
-    public List<AsignacionTurno> getAllAsignacionTurnos(@RequestParam(required = false) String filter,
+    public ResponseEntity<List<AsignacionTurno>> getAllAsignacionTurnos(Pageable pageable,
+            @RequestParam(required = false) String filter,
             @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        if ("asistenciaplaneacion-is-null".equals(filter)) {
-            log.debug("REST request to get all AsignacionTurnos where asistenciaPlaneacion is null");
-            return StreamSupport.stream(asignacionTurnoRepository.findAll().spliterator(), false)
-                    /*
-                    .filter(asignacionTurno -> asignacionTurno.getAsistenciaPlaneacion() == null)
-                    */
-                    .filter(asignacionTurno -> asignacionTurno.getFechaFin() == null)
-                    .collect(Collectors.toList());
-        }        
         log.debug("REST request to get all AsignacionTurnos");
-        //return asignacionTurnoRepository.findAllWithEagerRelationships();
-        return asignacionTurnoRepository.findAllAsignacionesActuales();
+        /*
+         * if ("fechaFin-is-null".equals(filter)) { log.
+         * debug("REST request to get all AsignacionTurnos where asistenciaPlaneacion is null"
+         * ); return
+         * StreamSupport.stream(asignacionTurnoRepository.findAllWithEagerRelationships(
+         * ).spliterator(), false) /* .filter(asignacionTurno ->
+         * asignacionTurno.getAsistenciaPlaneacion() == null)
+         */
+        // .filter(asignacionTurno -> asignacionTurno.getFechaFin() == null)
+        // .collect(Collectors.toList());
+        // }
+        if ("fechaFin-is-null-all".equals(filter)) {
+            return ResponseEntity.ok().body(this.asignacionTurnoRepository.findAllAsignacionesActuales());
+        }
+        if ("fechaFin-is-null".equals(filter)) {
+            Page<AsignacionTurno> page = asignacionTurnoRepository.findAllAsignacionesActuales2(pageable);
+            HttpHeaders headers = PaginationUtil
+                    .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        }
+        // return asignacionTurnoRepository.findAllWithEagerRelationships();
+        Page<AsignacionTurno> page = asignacionTurnoRepository.findAllWithEagerRelationships(pageable);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
      * {@code GET  /asignacion-turnos/:id} : get the "id" asignacionTurno.
      *
      * @param id the id of the asignacionTurno to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the asignacionTurno, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the asignacionTurno, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/asignacion-turnos/{id}")
     public ResponseEntity<AsignacionTurno> getAsignacionTurno(@PathVariable Long id) {
@@ -153,7 +173,7 @@ public class AsignacionTurnoResource {
                 .build();
     }
 
-    /* Nuevos metodos */    
+    /* Nuevos metodos */
 
     @GetMapping("/asignacion-turnos/colaborador/{id}")
     public List<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
@@ -169,48 +189,42 @@ public class AsignacionTurnoResource {
         this.leerArchivo();
 
         /*
-        Turno turnoPivote = new Turno();
-        turnoPivote.setNombre("Pivote");
-        ArrayList<Turno> listaTurnos = new ArrayList<Turno>();
-        List<AsignacionTurno> varLista = this.asignacionTurnoRepository.findAllWithEagerRelationships();
-        for (AsignacionTurno asignacionTurno : varLista) {
-            if (!enLista(listaTurnos, asignacionTurno.getTurno())) {
-                listaTurnos.add(asignacionTurno.getTurno());
-            }
-        }
-        ArrayList<Turno> nuevaListaTurnos = this.desfazarListaTurnos(listaTurnos);
-        for (int iterador = 0; iterador < listaTurnos.size(); iterador++) {
-
-            for (AsignacionTurno asignacionTurno : varLista) {
-                if (asignacionTurno.getTurno().getId() == listaTurnos.get(iterador).getId()) {
-                    AsignacionTurno varAsignacionActualizar = asignacionTurno;
-                    varAsignacionActualizar.setTurno(nuevaListaTurnos.get(iterador));
-                    asignacionTurnoRepository.save(varAsignacionActualizar);
-                }
-            }
-
-        }
+         * Turno turnoPivote = new Turno(); turnoPivote.setNombre("Pivote");
+         * ArrayList<Turno> listaTurnos = new ArrayList<Turno>(); List<AsignacionTurno>
+         * varLista = this.asignacionTurnoRepository.findAllWithEagerRelationships();
+         * for (AsignacionTurno asignacionTurno : varLista) { if (!enLista(listaTurnos,
+         * asignacionTurno.getTurno())) { listaTurnos.add(asignacionTurno.getTurno()); }
+         * } ArrayList<Turno> nuevaListaTurnos = this.desfazarListaTurnos(listaTurnos);
+         * for (int iterador = 0; iterador < listaTurnos.size(); iterador++) {
+         * 
+         * for (AsignacionTurno asignacionTurno : varLista) { if
+         * (asignacionTurno.getTurno().getId() == listaTurnos.get(iterador).getId()) {
+         * AsignacionTurno varAsignacionActualizar = asignacionTurno;
+         * varAsignacionActualizar.setTurno(nuevaListaTurnos.get(iterador));
+         * asignacionTurnoRepository.save(varAsignacionActualizar); } }
+         * 
+         * }
          */
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
 
     }
-    
+
     @PutMapping("/asignacion-turnos/cargar-asistencias")
-    public ResponseEntity<AsignacionTurno> cargarAsignacion(){
+    public ResponseEntity<AsignacionTurno> cargarAsignacion() {
         System.out.print("Carga de datos iniciada");
         boolean resultado = false;
         ArrayList<String> lineasArchivo = this.leerArchivo();
         ArrayList<String[]> matrizDatos = new ArrayList<>();
-        for (int iterador = 0; iterador < lineasArchivo.size(); iterador ++ ){
+        for (int iterador = 0; iterador < lineasArchivo.size(); iterador++) {
             String[] datosLinea = lineasArchivo.get(iterador).split(";");
             matrizDatos.add(datosLinea);
         }
-        
-        for(int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++){
-            String varNumDocumento = matrizDatos.get(iterador2)[0];                                    
+
+        for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
+            String varNumDocumento = matrizDatos.get(iterador2)[0];
         }
-                
+
         System.out.print("Carga de datos finalizada");
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
@@ -246,11 +260,13 @@ public class AsignacionTurnoResource {
         }
         return result;
     }
-/**
- * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las lineas
- * leidas en un vector de Strings
- * @return ArrayList<String> lineasLeídas
- */
+
+    /**
+     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las
+     * lineas leidas en un vector de Strings
+     * 
+     * @return ArrayList<String> lineasLeídas
+     */
     private ArrayList<String> leerArchivo() {
         File archivo = null;
         FileReader fr = null;
@@ -287,31 +303,33 @@ public class AsignacionTurnoResource {
         }
         return listaLineas;
     }
+
     /**
-     * Verifica si el turno que se pretende asignar al colaborador, ya ha sido 
+     * Verifica si el turno que se pretende asignar al colaborador, ya ha sido
+     * 
      * @param parAsignacionTurno
-     * @throws URISyntaxException 
+     * @throws URISyntaxException
      */
-    private void verificarAsignacionTurno (AsignacionTurno parAsignacionTurno) throws URISyntaxException {
+    private void verificarAsignacionTurno(AsignacionTurno parAsignacionTurno) throws URISyntaxException {
         // Se obtiene el primer elemento (y unico)
         Set<Colaborador> cols = parAsignacionTurno.getColaboradors();
         Iterator it = cols.iterator();
         Colaborador colaborador = (Colaborador) it.next();
-        List<AsignacionTurno> asignaciones = 
-                this.asignacionTurnoRepository.findAsignacionesActualesColaborador(colaborador.getId());
+        List<AsignacionTurno> asignaciones = this.asignacionTurnoRepository
+                .findAsignacionesActualesColaborador(colaborador.getId());
         // Se verigica si el colaborador tiene asignaciones actualmente
-        if(asignaciones.size() != 0) {
+        if (asignaciones.size() != 0) {
             // Si las tiene, se verifica cual es el turno que se quiere reasignar
             Turno turnoAsignacion = parAsignacionTurno.getTurno();
-            for (int i = 0; i < asignaciones.size(); i++){
-                
-                    Instant momentoActual = Instant.now();
-                    AsignacionTurno asignacionActulizar = asignaciones.get(i);
-                    asignacionActulizar.setFechaFin(momentoActual);
-                    this.updateAsignacionTurno(asignacionActulizar);
-                    break;                
+            for (int i = 0; i < asignaciones.size(); i++) {
+
+                Instant momentoActual = Instant.now();
+                AsignacionTurno asignacionActulizar = asignaciones.get(i);
+                asignacionActulizar.setFechaFin(momentoActual);
+                this.updateAsignacionTurno(asignacionActulizar);
+                break;
             }
         }
-        
+
     }
 }

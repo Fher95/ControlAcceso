@@ -21,16 +21,28 @@
             <div class="table-responsive" *ngIf="asignacionTurnos?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
-                        <tr>
-                            <th><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.fecha">Fecha</span></th>
-                            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.turno">Turno</span></th>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
+                            [callback]="transition.bind(this)">
+                            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="fecha"><span
+                                    jhiTranslate="controlAccesoApp.asignacionTurno.fecha">Fecha</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="turno"><span
+                                    jhiTranslate="controlAccesoApp.asignacionTurno.turno">Turno</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                             <!--th><span jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno">Intercambio Turno</span></th>
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.planeacionSemanal">Planeacion Semanal</span></th>
             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.asistenciaPlaneacion">Asistencia Planeacion</span></th-->
                             <th><span jhiTranslate="controlAccesoApp.asignacionTurno.colaborador">Colaborador</span>
                             </th>
-                            <th><span jhiTranslate="controlAccesoApp.asignacionTurno.cargo">Cargo</span></th>
+                            <th jhiSortBy="cargo"><span
+                                    jhiTranslate="controlAccesoApp.asignacionTurno.cargo">Cargo</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -91,6 +103,16 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div [hidden]="asignacionTurnos?.length === 0">
+                <div class="row justify-content-center">
+                    <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="row justify-content-center">
+                    <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage"
+                        [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                    </ngb-pagination>
+                </div>
             </div>
         </tab>
 

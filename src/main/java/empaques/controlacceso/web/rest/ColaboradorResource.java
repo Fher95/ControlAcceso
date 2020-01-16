@@ -162,12 +162,12 @@ public class ColaboradorResource {
      * @return 
      */
     @PutMapping("/colaboradors/porNombres")
-    public ResponseEntity<List<Colaborador>> getByNombre1(Pageable pageable, @Valid @RequestBody String[] vecNombres) {
+    public ResponseEntity<List<Colaborador>> getByNombres(Pageable pageable, @Valid @RequestBody String[] vecNombres) {
         log.debug("REST request to get Colaborador Por Nombre: {}", Arrays.toString(vecNombres));
         String nom1 = vecNombres[0].toLowerCase(), nom2 = vecNombres[1].toLowerCase(),
                 ape1 = vecNombres[2].toLowerCase(), ape2 = vecNombres[3].toLowerCase();
         Page<Colaborador> page;
-        page = colaboradorRepository.findByNombre1(pageable, nom1, nom2, ape1, ape2);
+        page = colaboradorRepository.findByNombres(pageable, nom1, nom2, ape1, ape2);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         System.out.println("Se obtuvieron: " + page.getTotalElements() + " elementos");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
