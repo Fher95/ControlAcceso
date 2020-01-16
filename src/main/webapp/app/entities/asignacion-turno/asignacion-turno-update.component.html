@@ -174,6 +174,7 @@
                             <label for="field_centroCosto">Centro de Costos</label>
                             <select class="form-control" id="field_centroCosto" name="centroCosto"
                                 formControlName="centroDeCosto" (change)="cargarCargos()">
+                                <option  value="cualquiera">Todos</option>
                                 <option *ngFor="let centroCostoOption of centrocostos" [ngValue]="centroCostoOption.id">
                                     {{centroCostoOption.nombre}}</option>
                             </select>
@@ -200,10 +201,10 @@
                         <div class="form-group">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
                                 for="field_turno">Turno</label>
-                            <select class="form-control" id="field_turno" name="turno" formControlName="turno"
+                            <select class="form-control"  id="field_turno" name="turno" formControlName="turno"
                                 (change)="this.comprobarSeleccionTurno()">
                                 <option [ngValue]="null"></option>
-                                <option
+                                <option class={{turnoOption.color?.toLowerCase()}}
                                     [ngValue]="turnoOption.id === editForm.get('turno').value?.id ? editForm.get('turno').value : turnoOption"
                                     *ngFor="let turnoOption of turnos; trackBy: trackTurnoById">{{turnoOption.nombre}}
                                 </option>

@@ -89,72 +89,10 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     });
     this.loadColaboradores();
     this.loadAllCentroCosto();
-    this.turnoService
-      .query({ filter: 'asignacionturno-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<ITurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ITurno[]>) => response.body)
-      )
-      .subscribe(
-        (res: ITurno[]) => {
-          if (!this.editForm.get('turno').value || !this.editForm.get('turno').value.id) {
-            this.turnos = res;
-          } else {
-            this.turnoService
-              .find(this.editForm.get('turno').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<ITurno>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<ITurno>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: ITurno) => (this.turnos = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-
-    this.asistenciaPlaneacionService
-      .query({ filter: 'asignacionturno-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsistenciaPlaneacion[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsistenciaPlaneacion[]>) => response.body)
-      )
-      .subscribe(
-        (res: IAsistenciaPlaneacion[]) => {
-          if (!this.editForm.get('asistenciaPlaneacion').value || !this.editForm.get('asistenciaPlaneacion').value.id) {
-            this.asistenciaplaneacions = res;
-          } else {
-            this.asistenciaPlaneacionService
-              .find(this.editForm.get('asistenciaPlaneacion').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IAsistenciaPlaneacion>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAsistenciaPlaneacion>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IAsistenciaPlaneacion) => (this.asistenciaplaneacions = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-
-    this.planeacionSemanalService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IPlaneacionSemanal[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IPlaneacionSemanal[]>) => response.body)
-      )
-      .subscribe((res: IPlaneacionSemanal[]) => (this.planeacionsemanals = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.cargoService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ICargo[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ICargo[]>) => response.body)
-      )
-      .subscribe((res: ICargo[]) => (this.cargos = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.loadTurnos();
+    // this.loadAsistenciaPlaneaciones();
+    // this.loadPlaneacionesSemanales();
+    this.loadCargos();
   }
 
   updateForm(asignacionTurno: IAsignacionTurno) {
@@ -248,6 +186,88 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       }
     }
     return option;
+  }
+
+  loadTurnos() {
+    this.turnoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITurno[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITurno[]>) => response.body)
+      )
+      .subscribe(
+        (res: ITurno[]) => {
+          if (!this.editForm.get('turno').value || !this.editForm.get('turno').value.id) {
+            this.turnos = res;
+            this.turnos.sort((t1, t2) => (t1.id > t2.id ? 1 : -1));
+          } else {
+            this.turnoService
+              .find(this.editForm.get('turno').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<ITurno>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<ITurno>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: ITurno) => (this.turnos = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  loadAsistenciaPlaneaciones() {
+    this.asistenciaPlaneacionService
+      .query({ filter: 'asignacionturno-is-null' })
+      .pipe(
+        filter((mayBeOk: HttpResponse<IAsistenciaPlaneacion[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IAsistenciaPlaneacion[]>) => response.body)
+      )
+      .subscribe(
+        (res: IAsistenciaPlaneacion[]) => {
+          if (!this.editForm.get('asistenciaPlaneacion').value || !this.editForm.get('asistenciaPlaneacion').value.id) {
+            this.asistenciaplaneacions = res;
+          } else {
+            this.asistenciaPlaneacionService
+              .find(this.editForm.get('asistenciaPlaneacion').value.id)
+              .pipe(
+                filter((subResMayBeOk: HttpResponse<IAsistenciaPlaneacion>) => subResMayBeOk.ok),
+                map((subResponse: HttpResponse<IAsistenciaPlaneacion>) => subResponse.body)
+              )
+              .subscribe(
+                (subRes: IAsistenciaPlaneacion) => (this.asistenciaplaneacions = [subRes].concat(res)),
+                (subRes: HttpErrorResponse) => this.onError(subRes.message)
+              );
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  loadPlaneacionesSemanales() {
+    this.planeacionSemanalService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IPlaneacionSemanal[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IPlaneacionSemanal[]>) => response.body)
+      )
+      .subscribe((res: IPlaneacionSemanal[]) => (this.planeacionsemanals = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  loadCargos() {
+    this.cargoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICargo[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICargo[]>) => response.body)
+      )
+      .subscribe(
+        (res: ICargo[]) => {
+          this.cargos = res.filter((cargo: ICargo) => cargo.centroCosto !== null);
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   loadColaboradores() {
@@ -377,7 +397,11 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
   }
 
   cargarCargos() {
-    this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+    if (this.editForm.get(['centroDeCosto']).value === 'cualquiera') {
+      this.loadCargos();
+    } else {
+      this.loadCargosCentroCostoId(this.editForm.get(['centroDeCosto']).value);
+    }
   }
 
   loadAllCentroCosto() {
