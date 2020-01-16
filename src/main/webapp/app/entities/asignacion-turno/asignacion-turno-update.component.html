@@ -55,9 +55,9 @@
                                 *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
                                 <div class="row">
                                     <div class="col-2">{{colaboradorOption.numeroDocumento + " : " }} </div>
-                                    <div class="col-5">{{ colaboradorOption.nombre1 + " "+ colaboradorOption.nombre2}}
+                                    <div class="col-5">{{ colaboradorOption.nombre1 + " "+ (colaboradorOption.nombre2 ? colaboradorOption.nombre2 : '') }}
                                     </div>
-                                    <div class="col-5">{{colaboradorOption.apellido1+" "+colaboradorOption.apellido2}}
+                                    <div class="col-5">{{colaboradorOption.apellido1+" "+ (colaboradorOption.apellido2 ? colaboradorOption.apellido2 : '') }}
                                     </div>
                                 </div>
                             </option>
@@ -78,13 +78,13 @@
                         <div class="col-3">
                             <dt><span>Nombres</span></dt>
                             <dd>
-                                <span>{{colaboradorEncontrado.nombre1 +" "+ colaboradorEncontrado.nombre2}}</span>
+                                <span>{{colaboradorEncontrado.nombre1 +" "+ (colaboradorEncontrado.nombre2 ? colaboradorEncontrado.nombre2 : '')}}</span>
                             </dd>
                         </div>
                         <div class="col-3">
                             <dt><span>Apellidos</span></dt>
                             <dd>
-                                <span>{{colaboradorEncontrado.apellido1 + " " + colaboradorEncontrado.apellido2}}</span>
+                                <span>{{colaboradorEncontrado.apellido1 + " " + (colaboradorEncontrado.apellido2 ? colaboradorEncontrado.apellido2 : '')}}</span>
                             </dd>
                         </div>
                         <div class="col-3">
@@ -97,6 +97,7 @@
                     </div>
 
                 </div>
+
                 <div *ngIf="colaboradorEncontrado !== undefined && this.asignacionesColSeleccionado.length > 0"
                     class="border rounded shadow p-4 my-3">
                     <h4>Asignacion Actual </h4>
@@ -110,7 +111,7 @@
                     </div>
                     <div *ngFor="let item of this.asignacionesColSeleccionado" class="row my-2">
                         <div class="col-3">
-                            <div class={{item.turno.color?.toLowerCase()}}>
+                            <div class={{item.turno?.color?.toLowerCase()}}>
                                 {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
                             </div>
                         </div>
@@ -123,6 +124,7 @@
                         </button>
                     </div>
                 </div>
+                
                 <jhi-alert></jhi-alert>
                 <!--div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.intercambioTurno"
@@ -205,7 +207,7 @@
                                 (change)="this.comprobarSeleccionTurno()">
                                 <option [ngValue]="null"></option>
                                 <option class={{turnoOption.color?.toLowerCase()}}
-                                    [ngValue]="turnoOption.id === editForm.get('turno').value?.id ? editForm.get('turno').value : turnoOption"
+                                    [ngValue]="turnoOption.id === editForm.get('turno').value ? editForm.get('turno').value : turnoOption"
                                     *ngFor="let turnoOption of turnos; trackBy: trackTurnoById">{{turnoOption.nombre}}
                                 </option>
                             </select>

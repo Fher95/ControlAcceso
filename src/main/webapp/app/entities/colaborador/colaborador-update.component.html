@@ -260,7 +260,7 @@
                             </select>
                         </div>
 
-                        <div hidden="true" class="form-group col-4">
+                        <div class="form-group col-4">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja"
                                 for="field_fechaBaja">Fecha Baja</label>
                             <div class="d-flex">
@@ -271,7 +271,7 @@
                     </div>
                     <div class="form-row">
 
-                        <div class="form-group col-4">
+                        <div *ngIf="this.editForm.get(['id']).value === undefined" class="form-group col-4">
                             <label for="field_centroCosto">Centro de Costos</label>
                             <select class="form-control" id="field_centroCosto" name="centroCosto"
                                 formControlName="centroDeCosto" (change)="cargarCargos()">
@@ -294,7 +294,7 @@
                     </div>
                 </div>
                 <!-------------------------------------Antecedentes--------------------------------------------->
-                <div class="border rounded px-4 py-3 my-3 shadow">
+                <div *ngIf="this.editForm.get(['id']).value === undefined" class="border rounded px-4 py-3 my-3 shadow">
                     <h3>Antecedentes</h3>
                     <div class="form-row">
 

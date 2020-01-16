@@ -130,12 +130,18 @@
                             </dd>
                         </div>
                         <div class="col-4">
+                            <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaIngreso">Fecha Ingreso</span></dt>
+                            <dd>
+                                <span>{{this.convertirMoment(colaborador.fechaIngreso)}}</span>
+                            </dd>
+                        </div>
+                        <!--<div [hidden]="true" class="col-4">
                             <dt><span jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar">Cargo
                                     Desempeniar</span></dt>
                             <dd>
                                 <span>{{colaborador.cargoDesempeniar}}</span>
                             </dd>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="form-row">
                         <div class="col-4">
@@ -152,14 +158,33 @@
                                     jhiTranslate="{{'controlAccesoApp.NivelEducativo.' + colaborador.nivelEducativo}}">{{colaborador.nivelEducativo}}</span>
                             </dd>
                         </div>
-                        <div class="col-4">
-                            <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaIngreso">Fecha Ingreso</span></dt>
-                            <dd>
-                                <span>{{this.convertirMoment(colaborador.fechaIngreso)}}</span>
-                            </dd>
-                        </div>
+                        
                     </div>
                     
+                </div>
+
+                <div *ngIf="this.asignacionesColSeleccionado.length > 0"
+                    class="border rounded shadow p-4 my-3">
+                    <h3>Asignacion Actual </h3><hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <dt>Turno</dt>
+                        </div>
+                        <div class="col-3">
+                            <dt>Cargo</dt>
+                        </div>
+                    </div>
+                    <div *ngFor="let item of this.asignacionesColSeleccionado" class="row my-2">
+                        <div class="col-3">
+                            <div class={{item.turno.color?.toLowerCase()}}>
+                                {{item.turno ? item.turno.nombre : '(Terminar asignación)'}}
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            {{item.cargo.nombre}}
+                        </div>
+                        
+                    </div>
                 </div>
                 <!------------------------------Fin Perfil Laboral------------------------------------->
                 <!--

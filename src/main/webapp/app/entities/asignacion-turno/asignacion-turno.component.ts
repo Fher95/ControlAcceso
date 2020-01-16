@@ -77,6 +77,9 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
       );
   }
 
+  /**
+   * Se obtienen todas las asignaciones actualis SIN paginar
+   */
   loadAllActuales() {
     this.asignacionTurnoService
       .query({
@@ -90,7 +93,9 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: HttpResponse<IAsignacionTurno[]>) => {
           this.asignacionesActualesTodo = res.body;
-
+          this.asignacionesActualesTodo = this.asignacionesActualesTodo.filter((asig: IAsignacionTurno) =>
+            asig.turno ? (asig.cargo ? (asig.colaboradors ? true : false) : false) : false
+          );
           this.setTurnosTotales();
         },
         (res: HttpErrorResponse) => this.onError(res.message)
