@@ -5,7 +5,7 @@
         "title": "Asistencia Planeacions",
         "createLabel": "Crear nuevo Asistencia Planeacion",
         "createOrEditLabel": "Crear o editar Asistencia Planeacion",
-        "notFound": "No Asistencia Planeacions found"
+        "notFound": "No se encontraron asistencias en la planeación"
       },
       "created": "Un nuevo Asistencia Planeacion ha sido creado con el identificador {{ param }}",
       "updated": "Un Asistencia Planeacion ha sido actualizado con el identificador {{ param }}",

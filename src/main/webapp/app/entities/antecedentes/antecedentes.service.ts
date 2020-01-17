@@ -35,4 +35,8 @@ export class AntecedentesService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  findAntecedentesColaborador(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IAntecedentes[]>(`${this.resourceUrl}/col/${id}`, { observe: 'response' });
+  }
 }

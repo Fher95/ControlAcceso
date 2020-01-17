@@ -52,7 +52,8 @@ export class AsignacionTurnoService {
 
   protected convertDateFromClient(asignacionTurno: IAsignacionTurno): IAsignacionTurno {
     const copy: IAsignacionTurno = Object.assign({}, asignacionTurno, {
-      fecha: asignacionTurno.fecha != null && asignacionTurno.fecha.isValid() ? asignacionTurno.fecha.toJSON() : null
+      // fecha: asignacionTurno.fecha != null && asignacionTurno.fecha.isValid() ? asignacionTurno.fecha.toJSON() : null
+      fecha: asignacionTurno.fecha != null ? asignacionTurno.fecha.toJSON() : null
     });
     return copy;
   }

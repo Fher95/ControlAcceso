@@ -125,4 +125,10 @@ public class AntecedentesResource {
         antecedentesRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/antecedentes/col/{id}")
+    public List<Antecedentes> getAntecedentesColaboradorID(@PathVariable Long id) {
+        log.debug("REST request to get a page of Antecedentes de un COLABORADOR");
+        return this.antecedentesRepository.findAllWithIdColaborador(id);
+    }
 }

@@ -229,7 +229,9 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(update: boolean) {
-    this.guardarAsignacionCargo(update);
+    if (this.editForm.get(['id']).value === undefined) {
+      this.guardarAsignacionCargo(update);
+    }
     this.guardarTelefono(update);
     this.guardarAntecedentes(false);
     this.isSaving = false;
@@ -335,7 +337,6 @@ export class ColaboradorUpdateComponent implements OnInit {
   guardarAsignacionCargo(update: boolean) {
     const idColaborador = this.getUltimoColaborador();
     const objCargo = this.editForm.get(['cargo']).value;
-
     if (update) {
       if (this.varAsignacion === null || this.varAsignacion === undefined) {
         const objAsignacion = {

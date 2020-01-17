@@ -186,6 +186,25 @@
                         
                     </div>
                 </div>
+
+                <div *ngIf="this.antecedentesCol.length > 0" class="border rounded shadow p-4 my-3">
+                    <h3>Antecedentes: </h3><hr>
+                    <div class ="row">
+                        <div class ="col-4">
+                            <dt>Disciplinarios: </dt>
+                            <label>{{this.antDiscip ? ' Si' : ' No'}}</label>
+                        </div>
+                        <div class ="col-4">
+                            <dt>Fiscales: </dt>
+                            <label>{{this.antFisc ? ' Si' : ' No'}}</label>
+                        </div>
+                        <div class ="col-4">
+                            <dt>Penales: </dt>
+                            <label>{{this.antPenal ? ' Si' : ' No'}}</label>
+                        </div>
+                    </div>
+
+                </div>
                 <!------------------------------Fin Perfil Laboral------------------------------------->
                 <!--
                 <dt><span jhiTranslate="controlAccesoApp.colaborador.fechaBaja">Fecha Baja</span></dt>
