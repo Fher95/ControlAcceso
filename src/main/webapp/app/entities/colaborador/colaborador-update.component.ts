@@ -51,10 +51,10 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    nombre1: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-    nombre2: [null, [Validators.pattern('[a-zA-Z ]*')]],
-    apellido1: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-    apellido2: [null, [Validators.pattern('[a-zA-Z ]*')]],
+    nombre1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
+    nombre2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
+    apellido1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
+    apellido2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
     tipoDocumento: [],
     numeroDocumento: [null, [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(6)]],
     lugarExpedicion: [],
@@ -169,6 +169,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     if (colaborador.id !== undefined) {
       this.loadAsignacionTurno(colaborador.id);
       this.loadTelefonosColaborador(colaborador.id);
+    } else {
+      this.editForm.patchValue({ estado: 'Activo' });
     }
   }
 

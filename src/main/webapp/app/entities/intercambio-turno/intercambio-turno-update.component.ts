@@ -17,6 +17,7 @@ import { IColaborador } from 'app/shared/model/colaborador.model';
 import { ColaboradorService } from 'app/entities/colaborador/colaborador.service';
 import { ITurno } from 'app/shared/model/turno.model';
 import { UtilidadesString } from 'app/shared/util/utilidades-generales';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-intercambio-turno-update',
@@ -24,6 +25,8 @@ import { UtilidadesString } from 'app/shared/util/utilidades-generales';
 })
 export class IntercambioTurnoUpdateComponent implements OnInit {
   isSaving: boolean;
+
+  currentAccount: any;
 
   asignacionturnos1: IAsignacionTurno[];
 
@@ -67,6 +70,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     protected colaboradorService: ColaboradorService,
     protected activatedRoute: ActivatedRoute,
     protected utilStr: UtilidadesString,
+    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
@@ -74,6 +78,11 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ intercambioTurno }) => {
       this.updateForm(intercambioTurno);
+    });
+    this.accountService.identity().then(account => {
+      this.currentAccount = account;
+      const autorizadoPor2 = this.currentAccount.firstName + ' ' + this.currentAccount.lastName;
+      this.editForm.patchValue({ autorizadoPor: autorizadoPor2 });
     });
 
     /*

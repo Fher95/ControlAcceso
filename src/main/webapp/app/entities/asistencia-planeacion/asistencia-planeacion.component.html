@@ -3,13 +3,13 @@
         <tab heading="Registro Asistencia" id="tab1">
             <div>
                 <h2 id="page-heading" class="mt-4">
-                    <span >Asistencia Planeaciones</span>
+                    <span >Asistencias Planeación</span>
                     <button id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-asistencia-planeacion"
                         [routerLink]="['/asistencia-planeacion/new']">
                         <fa-icon [icon]="'plus'"></fa-icon>
                         <span >
-                            Ingresar Asistencia Planeacion
+                            Ingresar Asistencia Planeación
                         </span>
                     </button>
                     <button 
@@ -52,13 +52,17 @@
                                 <td>
                                     <div *ngIf="asistenciaPlaneacion.asignacionTurno">
                                         <a
-                                            [routerLink]="['/asignacion-turno', asistenciaPlaneacion.asignacionTurno?.id, 'view' ]">{{asistenciaPlaneacion.asignacionTurno?.id +', '+asistenciaPlaneacion.asignacionTurno?.turno.nombre}}</a>
+                                            [routerLink]="['/asignacion-turno', asistenciaPlaneacion.asignacionTurno?.id, 'view' ]">
+                                            {{asistenciaPlaneacion.asignacionTurno?.turno.nombre}}</a>
                                     </div>
                                 </td>
                                 <td>
                                     <div *ngIf="asistenciaPlaneacion.asistencia">
-                                        <a
-                                            [routerLink]="['/asistencia', asistenciaPlaneacion.asistencia?.id, 'view' ]">{{asistenciaPlaneacion.asistencia?.id}}</a>
+                                        <a class="text-dark"
+                                            [routerLink]="['/asistencia', asistenciaPlaneacion.asistencia?.id, 'view' ]">
+                                            <strong>Ingreso: </strong> <a>{{asistenciaPlaneacion.asistencia?.entrada | date: 'yyyy-MM-dd h:mm a'}}</a><br>
+                                            <strong>Salida: </strong> <a>{{asistenciaPlaneacion.asistencia?.salida | date: 'yyyy-MM-dd h:mm a'}}</a>
+                                            </a>
                                     </div>
                                 </td>
                                 <td>
