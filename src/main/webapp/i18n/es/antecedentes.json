@@ -5,13 +5,13 @@
         "title": "Antecedentes",
         "createLabel": "Crear nuevo Antecedentes",
         "createOrEditLabel": "Crear o editar Antecedentes",
-        "notFound": "No Antecedentes found"
+        "notFound": "No se encontraron antecedentes"
       },
-      "created": "Un nuevo Antecedentes ha sido creado con el identificador {{ param }}",
+      "created": "Antecedente registrado",
       "updated": "Un Antecedentes ha sido actualizado con el identificador {{ param }}",
       "deleted": "Un Antecedentes ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Antecedentes {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el antecedentes {{ id }}?"
       },
       "detail": {
         "title": "Antecedentes"

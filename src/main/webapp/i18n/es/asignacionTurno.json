@@ -2,16 +2,16 @@
   "controlAccesoApp": {
     "asignacionTurno": {
       "home": {
-        "title": "Asignacion Turnos",
+        "title": "Asignacion de turnos",
         "createLabel": "Crear nuevo Asignacion Turno",
         "createOrEditLabel": "Crear o editar Asignacion Turno",
         "notFound": "No se encontraro asignaciones"
       },
-      "created": "Un nuevo Asignacion Turno ha sido creado con el identificador {{ param }}",
-      "updated": "Un Asignacion Turno ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Asignacion Turno ha sido eliminado con el identificador {{ param }}",
+      "created": "Un ha generado una nueva asignacion",
+      "updated": "Se ha actualizado una asignación",
+      "deleted": "Una asignacion ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Asignacion Turno {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la asignacion {{ id }}?"
       },
       "detail": {
         "title": "Asignacion Turno"

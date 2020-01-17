@@ -5,13 +5,13 @@
         "title": "Peticions",
         "createLabel": "Crear nuevo Peticion",
         "createOrEditLabel": "Crear o editar Peticion",
-        "notFound": "No Peticions found"
+        "notFound": "No se encontraron peticiones"
       },
-      "created": "Un nuevo Peticion ha sido creado con el identificador {{ param }}",
-      "updated": "Un Peticion ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Peticion ha sido eliminado con el identificador {{ param }}",
+      "created": "Un ha registrado una nueva petición",
+      "updated": "Se actualizó una petición.",
+      "deleted": "Una peticion ha sido eliminada",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Peticion {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la peticion {{ id }}?"
       },
       "detail": {
         "title": "Peticion"

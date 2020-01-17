@@ -5,13 +5,13 @@
         "title": "Telefonos",
         "createLabel": "Crear nuevo Telefono",
         "createOrEditLabel": "Crear o editar Telefono",
-        "notFound": "No Telefonos found"
+        "notFound": "No se encontraron telefonos"
       },
-      "created": "Un nuevo Telefono ha sido creado con el identificador {{ param }}",
-      "updated": "Un Telefono ha sido actualizado con el identificador {{ param }}",
+      "created": "Un guardó un telefono",
+      "updated": "Un telefono ha sido actualizado",
       "deleted": "Un Telefono ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Telefono {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el telefono {{ id }}?"
       },
       "detail": {
         "title": "Telefono"

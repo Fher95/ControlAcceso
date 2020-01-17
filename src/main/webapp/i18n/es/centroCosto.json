@@ -2,19 +2,19 @@
   "controlAccesoApp": {
     "centroCosto": {
       "home": {
-        "title": "Centro Costos",
+        "title": "Centros de costo",
         "createLabel": "Crear nuevo Centro Costo",
         "createOrEditLabel": "Crear o editar Centro Costo",
-        "notFound": "No Centro Costos found"
+        "notFound": "No se encontraron centros de costo"
       },
-      "created": "Un nuevo Centro Costo ha sido creado con el identificador {{ param }}",
-      "updated": "Un Centro Costo ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Centro Costo ha sido eliminado con el identificador {{ param }}",
+      "created": "Se ha registrado un centro de costo",
+      "updated": "Se ha actualizado un centro de costo",
+      "deleted": "Un centro de costo ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Centro Costo {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el centro de costo {{ id }}?"
       },
       "detail": {
-        "title": "Centro Costo"
+        "title": "Centro de costo"
       },
       "nombre": "Nombre",
       "descripcion": "Descripcion",

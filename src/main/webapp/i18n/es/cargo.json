@@ -5,13 +5,13 @@
         "title": "Cargos",
         "createLabel": "Crear nuevo Cargo",
         "createOrEditLabel": "Crear o editar Cargo",
-        "notFound": "No Cargos found"
+        "notFound": "No se encontraron cargos"
       },
-      "created": "Un nuevo Cargo ha sido creado con el identificador {{ param }}",
-      "updated": "Un Cargo ha sido actualizado con el identificador {{ param }}",
+      "created": "Un nuevo Cargo ha sido",
+      "updated": "Un Cargo ha sido actualizado ",
       "deleted": "Un Cargo ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Cargo {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el cargo {{ nombre }}?"
       },
       "detail": {
         "title": "Cargo"
