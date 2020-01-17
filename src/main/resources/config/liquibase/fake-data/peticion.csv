@@ -1,11 +1,3 @@
 id;tipo;tipo_permiso;fecha_peticion;motivo;constancia;fecha_inicio;fecha_fin;estado;autorizado_por
 1;Permiso;Otro;2020-01-09T06:16:12;black;yellow;2020-01-09T18:56:39;2020-01-10T03:33:39;NoAutorizada;robust withdrawal generate
-2;Permiso;Otro;2020-01-09T19:38:18;Accountability Handmade Cotton Bacon;intermediate Table quantify;2020-01-09T08:38:04;2020-01-09T14:10:34;Autorizada;user-centric Infrastructure
-3;Vacaciones;NoRemunerado;2020-01-09T06:20:14;Berkshire navigating;superstructure;2020-01-10T01:35:55;2020-01-09T18:39:27;Autorizada;bypassing granular Usability
-4;Permiso;Remunerado;2020-01-09T14:42:34;ivory Data neural;Unbranded;2020-01-09T16:07:56;2020-01-09T04:36:59;Autorizada;mindshare
-5;Vacaciones;Licencia;2020-01-10T01:58:47;Algerian Dinar Fantastic Fresh Salad;Steel Avon Visionary;2020-01-09T14:02:49;2020-01-09T19:00:57;Autorizada;Pennsylvania dynamic bandwidth
-6;Permiso;Licencia;2020-01-09T17:34:17;Advanced grow;Handmade Wooden Cheese Fresh;2020-01-09T12:25:02;2020-01-09T10:08:14;NoAutorizada;asymmetric EXE
-7;Vacaciones;Compensatorio;2020-01-09T15:20:01;Agent Gorgeous Rubber Chicken Associate;Tuna magenta;2020-01-09T20:55:50;2020-01-09T17:05:22;NoAutorizada;Product
-8;Permiso;Licencia;2020-01-09T12:28:26;facilitate Persevering;Fantastic;2020-01-09T04:36:47;2020-01-09T21:45:34;Autorizada;multi-byte Pound Sterling
-9;Permiso;Remunerado;2020-01-09T05:12:12;hard drive Personal Loan Account;Unbranded SCSI;2020-01-09T14:45:37;2020-01-10T02:54:47;Autorizada;transmit Ways
-10;Vacaciones;Compensatorio;2020-01-10T00:47:09;Movies;SMS;2020-01-09T08:29:20;2020-01-09T15:10:27;NoAutorizada;Accounts navigating Ergonomic
+
