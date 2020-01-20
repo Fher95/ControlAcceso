@@ -167,6 +167,7 @@ public class AsistenciaPlaneacionResource {
         List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
         int contadorInserciones = 0;
         int numAsigDobles = 0;
+        int contadorRechazadas = 0;
         // Se recorre la matriz
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
             // Se obtiene el numero de documento del registro de asistencia
@@ -179,7 +180,9 @@ public class AsistenciaPlaneacionResource {
                 Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
                 Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
 
-                Instant varInstantEntrada = varFechaHoraEntrada.toInstant();
+                if ( varFechaHoraEntrada.before(varFechaHoraSalida)) {
+
+                    Instant varInstantEntrada = varFechaHoraEntrada.toInstant();
                 Instant varInstantSalida = varFechaHoraSalida.toInstant();
                 // Optional<Asistencia> varAsistencias =
                 // this.asistenciaRepository.findAllByEntradaSalida(varNumDocumento,
@@ -219,12 +222,16 @@ public class AsistenciaPlaneacionResource {
                     }
                 }
 
+                } else {                    
+                    contadorRechazadas++;
+                }
             }
         }
         System.out.println("Se insertaron: " + contadorInserciones);
         System.out.println("Colaboradores con doble Asignación: " + numAsigDobles);
+        System.out.println("Registros rechazados: " + contadorRechazadas);
         System.out.println("Carga de datos finalizada");
-        Respuesta objRes = new Respuesta(contadorInserciones);    
+        Respuesta objRes = new Respuesta(contadorInserciones,contadorRechazadas);    
         return ResponseEntity.ok().body(objRes);
     }
 

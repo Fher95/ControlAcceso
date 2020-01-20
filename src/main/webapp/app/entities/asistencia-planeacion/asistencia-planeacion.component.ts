@@ -187,7 +187,11 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       .subscribe((res: Respuesta) => {
         this.jhiAlertService.i18nEnabled = false;
         this.jhiAlertService.info(
-          'Se registraron ' + res.numAsignaciones + (res.numAsignaciones !== 0 ? ' nuevas asistencias.' : ' asistenicas.')
+          'Se registraron ' +
+            res.numAsignaciones +
+            (res.numAsignaciones !== 0 ? ' nuevas asistencias.' : ' asistenicas.') +
+            ' ' +
+            (res.numRechazados !== 0 ? res.numRechazados + ' registros fueron inválidos.' : ' no se rechazó ningún registro.')
         );
         this.jhiAlertService.i18nEnabled = true;
         this.loadAll();

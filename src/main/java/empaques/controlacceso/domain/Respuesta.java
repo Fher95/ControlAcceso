@@ -12,8 +12,10 @@ package empaques.controlacceso.domain;
 public class Respuesta {
 
     public int numAsignaciones;
+    public int numRechazados;
 
-    public Respuesta(int numAsignaciones) {
+    public Respuesta(int numAsignaciones, int numRechazados) {
         this.numAsignaciones = numAsignaciones;
+        this.numRechazados = numRechazados;
     }
 }
