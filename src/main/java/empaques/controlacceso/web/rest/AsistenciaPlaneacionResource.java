@@ -199,7 +199,7 @@ public class AsistenciaPlaneacionResource {
                         varAsignacionTurno = vecAsignaciones.get(0);
                     } else {
                         numAsigDobles ++ ;
-                        varAsignacionTurno = this.determinarAsignacion(vecAsignaciones, varInstantEntrada, 1);
+                        varAsignacionTurno = this.determinarAsignacion(vecAsignaciones, varInstantEntrada, 2);
                     }
                     if (varAsignacionTurno != null) {
                         // Si no existe, se crea, se configura y se guarda en la base de datos
