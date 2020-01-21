@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            {{item.cargo.nombre}}
+                            {{item.cargo ? item.cargo.nombre : '(Sin asignar)'}}
                         </div>
                         <button type="button" class="btn btn-danger btn-sm" (click)="this.desasignarTurno(item)">
                             <fa-icon [icon]="'times'"></fa-icon>
@@ -199,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="this.editForm.get(['cargo']).value !== undefined">
+                    <div *ngIf="this.editForm.get(['cargo']).value !== undefined || this.editForm.get(['cargo']).value !== null ">
                         <div class="form-group">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
                                 for="field_turno">Turno</label>
@@ -227,6 +227,7 @@
                 </div>
 
             </div>
+            <p>Variable editForm.invalid: {{this.editForm.invalid}}</p>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>

@@ -63,13 +63,12 @@
 
                             <td>
                                 <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
+                                    
                                     <a class="form-control-static"
                                         [routerLink]="['/colaborador', colaborador?.id, 'view' ]">
-                                        {{colaborador.nombre1+" "+colaborador.apellido1}}</a>{{last ? '' : ', '}}
+                                        {{this.colUtil.getStrColaborador(colaborador)}}</a>{{last ? '' : ', '}}
                                 </span>
                             </td>
-
-
 
                             <td>
                                 <div *ngIf="asignacionTurno.cargo">

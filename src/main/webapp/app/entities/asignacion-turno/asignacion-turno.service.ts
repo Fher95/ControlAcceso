@@ -73,12 +73,14 @@ export class AsignacionTurnoService {
     }
     return res;
   }
+
   /* Nuevos metodos */
   findAsignacionesColaborador(idColaborador: number): Observable<HttpResponse<IAsignacionTurno[]>> {
     return this.http.get<IAsignacionTurno[]>(`${this.resourceUrl}/colaborador/${idColaborador}`, { observe: 'response' });
   }
 
   rotar(): Observable<EntityResponseType> {
+    // sin terminar
     return this.http
       .put<IAsignacionTurno>(`${this.resourceUrl}/rotar-turnos`, null, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
@@ -93,9 +95,13 @@ export class AsignacionTurnoService {
   }
 
   update2(asignacionTurno: IAsignacionTurno): Observable<EntityResponseType> {
-    //const copy = this.convertDateFromClient(asignacionTurno);
+    // const copy = this.convertDateFromClient(asignacionTurno);
     return this.http
       .put<IAsignacionTurno>(this.resourceUrl, asignacionTurno, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  numAsignacionesByTurno(idTurno: number): Observable<HttpResponse<number>> {
+    return this.http.get<number>(`${this.resourceUrl}/turnos/${idTurno}`, { observe: 'response' });
   }
 }

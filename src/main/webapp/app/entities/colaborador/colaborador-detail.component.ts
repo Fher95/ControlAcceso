@@ -56,9 +56,11 @@ export class ColaboradorDetailComponent implements OnInit {
   }
 
   convertirMoment(parMoment: Moment): string {
-    let fecha = '';
-    parMoment.locale('es');
-    fecha = parMoment.format('DD MMMM YYYY');
+    let fecha = '(Sin registrar)';
+    if (parMoment !== null) {
+      parMoment.locale('es');
+      fecha = parMoment.format('DD MMMM YYYY');
+    }
     return fecha;
   }
 

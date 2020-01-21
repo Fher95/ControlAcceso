@@ -29,6 +29,7 @@ export class CentroCostoUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ centroCosto }) => {
       this.updateForm(centroCosto);
     });
+    this.editForm.patchValue({ estado: 'Activo' });
   }
 
   updateForm(centroCosto: ICentroCosto) {

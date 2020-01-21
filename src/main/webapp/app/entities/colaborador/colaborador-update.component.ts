@@ -51,10 +51,10 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    nombre1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
-    nombre2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
-    apellido1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
-    apellido2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ]*')]],
+    nombre1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ ]*')]],
+    nombre2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ ]*')]],
+    apellido1: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ ]*')]],
+    apellido2: [null, [Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ ]*')]],
     tipoDocumento: [],
     numeroDocumento: [null, [Validators.required, Validators.pattern('[0-9 ]*'), Validators.minLength(6)]],
     lugarExpedicion: [],
@@ -63,9 +63,9 @@ export class ColaboradorUpdateComponent implements OnInit {
     direccionResidencia: [],
     barrio: [],
     fechaIngreso: [],
-    tiempoRequerido: ['', [Validators.pattern('[0-9 ]*')]],
+    tiempoRequerido: [null, [Validators.pattern('[0-9 ]*')]],
     cargoDesempeniar: [],
-    salario: ['', [Validators.pattern('[0-9 ]*')]],
+    salario: [null, [Validators.pattern('[0-9]*')]],
     eps: [],
     estado: [],
     fechaBaja: [],
@@ -276,12 +276,16 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((res: HttpResponse<IAsignacionTurno[]>) => res.body)
       )
       .subscribe((res: IAsignacionTurno[]) => {
-        this.varAsignacion = res[0];
-        this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
-        this.editForm.patchValue({
-          centroDeCosto: this.varAsignacion.cargo.centroCosto.id,
-          cargo: this.varAsignacion.cargo
-        });
+        if (res.length !== 0) {
+          this.varAsignacion = res[0];
+          if (this.varAsignacion.cargo !== null) {
+            this.loadCargosCentroCostoId(this.varAsignacion.cargo.centroCosto.id);
+            this.editForm.patchValue({
+              centroDeCosto: this.varAsignacion.cargo.centroCosto.id,
+              cargo: this.varAsignacion.cargo
+            });
+          }
+        }
       });
   }
 
@@ -397,10 +401,16 @@ export class ColaboradorUpdateComponent implements OnInit {
     const varTelefono = this.editForm.get(['telefono']).value;
     const tipoTelefono = this.editForm.get(['tipoTelefono']).value;
     if (this.editForm.get(['telefono']).value != null) {
-      if (update && this.atrTelefono != null) {
-        this.atrTelefono.numero = varTelefono;
-        this.atrTelefono.tipo = tipoTelefono;
-        this.telefonoService.update(this.atrTelefono).subscribe();
+      if (update) {
+        if (this.atrTelefono !== undefined || this.atrTelefono !== null) {
+          this.atrTelefono.numero = varTelefono;
+          this.atrTelefono.tipo = tipoTelefono;
+          this.telefonoService.update(this.atrTelefono).subscribe();
+        } else {
+          const idColaborador = this.getUltimoColaborador();
+          const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador }, tipo: tipoTelefono };
+          this.telefonoService.create(objTelefono).subscribe();
+        }
       } else {
         const idColaborador = this.getUltimoColaborador();
         const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador }, tipo: tipoTelefono };

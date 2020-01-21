@@ -25,7 +25,7 @@ export class CargoUpdateComponent implements OnInit {
     id: [],
     nombre: [null, [Validators.required]],
     estado: [],
-    centroCosto: []
+    centroCosto: [null, [Validators.required]]
   });
 
   constructor(
@@ -48,6 +48,8 @@ export class CargoUpdateComponent implements OnInit {
         map((response: HttpResponse<ICentroCosto[]>) => response.body)
       )
       .subscribe((res: ICentroCosto[]) => (this.centrocostos = res), (res: HttpErrorResponse) => this.onError(res.message));
+
+    this.editForm.patchValue({ estado: 'Activo' });
   }
 
   updateForm(cargo: ICargo) {

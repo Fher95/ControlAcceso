@@ -9,6 +9,8 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ITurno, Turno } from 'app/shared/model/turno.model';
 import { TurnoService } from './turno.service';
+import { AsignacionTurnoService } from '../asignacion-turno/asignacion-turno.service';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-turno-update',
@@ -21,10 +23,12 @@ export class TurnoUpdateComponent implements OnInit {
   dtHoraUmbral: Date = new Date();
   esLaboral = false;
 
+  numeroVecesAsignado = 0;
+
   editForm = this.fb.group({
     id: [],
     tipo: [],
-    nombre: [null, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+    nombre: [null, [Validators.required, Validators.pattern('[a-zñA-ZÑáéíóúÁÉÍÓÚ ]*')]],
     descripcion: [],
     horaInicio: [],
     umbralInicio: [],
@@ -33,13 +37,19 @@ export class TurnoUpdateComponent implements OnInit {
     estado: []
   });
 
-  constructor(protected turnoService: TurnoService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected turnoService: TurnoService,
+    protected asignacionTurnoService: AsignacionTurnoService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ turno }) => {
       this.updateForm(turno);
     });
+    this.editForm.patchValue({ estado: 'Activo' });
   }
 
   updateForm(turno: ITurno) {
@@ -56,6 +66,15 @@ export class TurnoUpdateComponent implements OnInit {
     });
     this.dtHoraInicio.setHours(turno.horaInicio.hour(), turno.horaInicio.minute());
     this.dtHoraUmbral.setHours(turno.umbralInicio.hour(), turno.umbralInicio.minute());
+    if (turno.id !== null) {
+      this.asignacionTurnoService
+        .numAsignacionesByTurno(turno.id)
+        .pipe(
+          filter((res: HttpResponse<number>) => res.ok),
+          map((res: HttpResponse<number>) => res.body)
+        )
+        .subscribe(res => (this.numeroVecesAsignado = res));
+    }
   }
 
   previousState() {

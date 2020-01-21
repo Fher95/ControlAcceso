@@ -57,4 +57,7 @@ public interface AsignacionTurnoRepository extends JpaRepository<AsignacionTurno
                         + " where colaborador_id =:id and fecha_fin = null")
         List<AsignacionTurno> findAsignacionesActualesColaborador(@Param("id") Long id);
 
+        @Query("select count(*) from AsignacionTurno asignacionTurno where turno_id =:id and fecha_fin = null")
+        int asignacionesPorTurno(@Param("id") Long id);
+
 }

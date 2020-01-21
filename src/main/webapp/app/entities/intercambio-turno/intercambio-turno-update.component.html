@@ -39,7 +39,7 @@
                             </div>
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.intercambioTurno.colaborador1"
-                                for="field_colaborador1">Colaborador 1</label>
+                                for="field_colaborador1">Colaborador 1</label><strong class = "text-danger"> *</strong>
                             <select class="form-control" id="field_colaborador1" name="colaborador1"
                                 formControlName="colaborador1" (change)="this.setColaboradorSeleccionado(1)">
                                 <option [ngValue]="null"></option>
@@ -118,7 +118,7 @@
                             </div>
                             <label class="form-control-label"
                                 jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2"
-                                for="field_colaborador2">Colaborador 2</label>
+                                for="field_colaborador2">Colaborador 2</label><strong class = "text-danger"> *</strong>
                             <select class="form-control" id="field_colaborador2" name="colaborador2"
                                 formControlName="colaborador2" (change)="this.setColaboradorSeleccionado(2)">
                                 <option [ngValue]="null"></option>
@@ -260,6 +260,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_fecha">Fecha
                                 {{this.editForm.get(['radioButton']).value === 'dias' ? 'inicio' : ''}}</label>
+                                <strong class = "text-danger"> *</strong>
                             <div class="d-flex">
                                 <input id="field_fecha" type="date" class="form-control" name="fecha"
                                     (change)="this.validarFechas()" formControlName="fecha" />
@@ -273,6 +274,7 @@
                         </div>
                         <div *ngIf="this.editForm.get(['radioButton']).value === 'dias'" class="form-group col-6">
                             <label class="form-control-label" for="field_fecha_fin">Fecha fin</label>
+                            <strong class = "text-danger"> *</strong>
                             <div class="d-flex">
                                 <input id="field_fecha_fin" type="date" class="form-control" name="fechaFin"
                                     (change)="this.validarFechas();" formControlName="fechaFin" />

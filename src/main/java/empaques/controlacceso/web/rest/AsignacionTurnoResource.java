@@ -332,4 +332,13 @@ public class AsignacionTurnoResource {
         }
 
     }
+
+    @GetMapping("/asignacion-turnos/turnos/{turno_id}")
+    public int getNumAsignacionesTurno(@PathVariable Long turno_id) {
+        log.debug("REST request to get numero asignaciones turno : {}", turno_id);
+        int cantidad = 0;
+        cantidad = asignacionTurnoRepository.asignacionesPorTurno(turno_id);
+        System.out.println("NUMERO DE TURNOS CONTADOS: "+cantidad);
+        return cantidad;
+    }
 }

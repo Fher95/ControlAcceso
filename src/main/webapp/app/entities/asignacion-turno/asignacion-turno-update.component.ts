@@ -501,23 +501,25 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
    */
   turnosCruzados(turno1: ITurno, turno2: ITurno): boolean {
     let resultado = false;
-    const fechaHora1 = new Date(turno1.horaInicio.toString());
-    const fechaHora2 = new Date(turno2.horaInicio.toString());
-    const horaInicio1 = fechaHora1.getHours();
-    const horaFin1 = fechaHora1.getHours() + turno1.duracion;
-    const horaInicio2 = fechaHora2.getHours();
-    const horaFin2 = fechaHora2.getHours() + turno2.duracion;
-    // Compara si la hora de inicio del turno2 está dentro del horario de turno1
-    if (horaInicio2 > horaInicio1 && horaInicio2 < horaFin1) {
-      resultado = true;
-    }
-    // Compara si la hora de inicio del turno1 está dentro del intervalo horario de turno2
-    if (horaInicio1 > horaInicio2 && horaInicio1 < horaFin2) {
-      resultado = true;
-    }
-    // Compara si ambos turnos inician al mismo tiempo
-    if (horaInicio1 === horaInicio2) {
-      resultado = true;
+    if (turno1 !== null && turno2 !== null) {
+      const fechaHora1 = new Date(turno1.horaInicio.toString());
+      const fechaHora2 = new Date(turno2.horaInicio.toString());
+      const horaInicio1 = fechaHora1.getHours();
+      const horaFin1 = fechaHora1.getHours() + turno1.duracion;
+      const horaInicio2 = fechaHora2.getHours();
+      const horaFin2 = fechaHora2.getHours() + turno2.duracion;
+      // Compara si la hora de inicio del turno2 está dentro del horario de turno1
+      if (horaInicio2 > horaInicio1 && horaInicio2 < horaFin1) {
+        resultado = true;
+      }
+      // Compara si la hora de inicio del turno1 está dentro del intervalo horario de turno2
+      if (horaInicio1 > horaInicio2 && horaInicio1 < horaFin2) {
+        resultado = true;
+      }
+      // Compara si ambos turnos inician al mismo tiempo
+      if (horaInicio1 === horaInicio2) {
+        resultado = true;
+      }
     }
     return resultado;
   }

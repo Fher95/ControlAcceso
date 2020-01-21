@@ -12,7 +12,7 @@
                 <div class="border rounded px-4 py-3 my-4 shadow">
                     <div class="form-group">
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.cargo.nombre"
-                            for="field_nombre">Nombre</label>
+                            for="field_nombre">Nombre</label><strong class = "text-danger"> *</strong>
                         <input type="text" class="form-control" name="nombre" id="field_nombre"
                             formControlName="nombre" />
                         <div
@@ -34,7 +34,7 @@
 
                     <div class="form-group">
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.cargo.centroCosto"
-                            for="field_centroCosto">Centro Costo</label>
+                            for="field_centroCosto">Centro Costo</label><strong class = "text-danger"> *</strong>
                         <select class="form-control" id="field_centroCosto" name="centroCosto"
                             formControlName="centroCosto">
                             <option [ngValue]="null"></option>
@@ -43,6 +43,13 @@
                                 *ngFor="let centroCostoOption of centrocostos; trackBy: trackCentroCostoById">
                                 {{centroCostoOption.nombre}}</option>
                         </select>
+                        <div
+                            *ngIf="editForm.get('centroCosto').invalid && (editForm.get('centroCosto').dirty || editForm.get('centroCosto').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('centroCosto').errors.required"
+                                jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
