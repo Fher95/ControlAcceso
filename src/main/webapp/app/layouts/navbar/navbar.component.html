@@ -97,7 +97,7 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="colaboradores-menu">
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','JEFE_GESTION_HUMANA','ASISTENTE_GESTION_HUMANA','JEFE_PRODUCCION','ASISTENTE_PRODUCCION','GERENTE']">
                         <a class="dropdown-item" routerLink="colaborador" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="address-card" fixedWidth="true"></fa-icon>

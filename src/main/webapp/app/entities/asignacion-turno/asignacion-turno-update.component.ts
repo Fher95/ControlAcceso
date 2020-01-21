@@ -297,39 +297,8 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       }
       this.setColaboradorSeleccionado();
     }
-    // this.colaboradorEncontrado = undefined;
-    /*
-    if (parDocumento === '') {
-      this.colaboradorService
-        .query()
-        .pipe(
-          filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
-          map((response: HttpResponse<IColaborador[]>) => response.body)
-        )
-        .subscribe(
-          (res: IColaborador[]) => {
-            this.colaboradors = res;
-            this.editForm.patchValue({ colaboradors: [] });
-          },
-          (res: HttpErrorResponse) => this.onError(res.message)
-        );
-    } else {
-      this.colaboradorService
-        .findConPeticiones(parDocumento)
-        .pipe(
-          filter((res: HttpResponse<IColaborador>) => res.ok),
-          map((res: HttpResponse<IColaborador>) => res.body)
-        )
-        .subscribe((res: IColaborador) => {
-          this.colaboradors = [res];
-          this.colaboradorEncontrado = res;
-          this.colaboradoresSeleccionados = [res];
-          //this.editForm.patchValue({ colaboradors: [this.colaboradorEncontrado] });
-          this.loadAsignacionTurno(this.colaboradorEncontrado.id);
-        });
-    }
-    */
   }
+
   clear(): void {
     this.currentSearch = '';
     this.seEncontraronColaboradores = true;
@@ -360,6 +329,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
         }
       });
   }
+
   setAsignacionTurno(id: number) {
     this.asignacionTurnoService
       .find(id)
@@ -452,7 +422,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
           this.strAsginaciones = result;
         }
       });
-
     return result;
   }
 

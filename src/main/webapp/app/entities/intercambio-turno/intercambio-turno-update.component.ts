@@ -84,67 +84,6 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
       const autorizadoPor2 = this.currentAccount.firstName + ' ' + this.currentAccount.lastName;
       this.editForm.patchValue({ autorizadoPor: autorizadoPor2 });
     });
-
-    /*
-    this.asignacionTurnoService
-      .query({ filter: 'intercambioturno-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
-      )
-      .subscribe(
-        (res: IAsignacionTurno[]) => {
-          if (!this.editForm.get('asignacionTurno1').value || !this.editForm.get('asignacionTurno1').value.id) {
-            this.asignacionturnos1 = res;
-          } else {
-            this.asignacionTurnoService
-              .find(this.editForm.get('asignacionTurno1').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IAsignacionTurno>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IAsignacionTurno) => (this.asignacionturnos1 = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-    this.asignacionTurnoService
-      .query({ filter: 'intercambioturno-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
-      )
-      .subscribe(
-        (res: IAsignacionTurno[]) => {
-          if (!this.editForm.get('asignacionTurno2').value || !this.editForm.get('asignacionTurno2').value.id) {
-            this.asignacionturnos2 = res;
-          } else {
-            this.asignacionTurnoService
-              .find(this.editForm.get('asignacionTurno2').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IAsignacionTurno>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IAsignacionTurno>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IAsignacionTurno) => (this.asignacionturnos2 = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-
-      this.colaboradorService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IColaborador[]>) => response.body)
-      )
-      .subscribe((res: IColaborador[]) => (this.colaboradores1 = res, this.colaboradores2 = res), (res: HttpErrorResponse) => this.onError(res.message));
-        */
     this.loadColaboradores(3);
   }
 

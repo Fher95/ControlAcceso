@@ -110,26 +110,6 @@ export class ColaboradorUpdateComponent implements OnInit {
         map((response: HttpResponse<IPeticion[]>) => response.body)
       )
       .subscribe((res: IPeticion[]) => (this.peticions = res), (res: HttpErrorResponse) => this.onError(res.message));
-    /*
-      this.asignacionHorasExtrasService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsignacionHorasExtras[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsignacionHorasExtras[]>) => response.body)
-      )
-      .subscribe(
-        (res: IAsignacionHorasExtras[]) => (this.asignacionhorasextras = res),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-
-    this.asignacionTurnoService
-      .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAsignacionTurno[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAsignacionTurno[]>) => response.body)
-      )
-      .subscribe((res: IAsignacionTurno[]) => (this.asignacionturnos = res), (res: HttpErrorResponse) => this.onError(res.message));
-*/
 
     this.centroCostoService
       .query()

@@ -37,7 +37,7 @@ export const colaboradorRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'GERENTE'],
       defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.colaborador.home.title'
     },
@@ -50,7 +50,7 @@ export const colaboradorRoute: Routes = [
       colaborador: ColaboradorResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'GERENTE'],
       pageTitle: 'controlAccesoApp.colaborador.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const colaboradorRoute: Routes = [
       colaborador: ColaboradorResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA'],
       pageTitle: 'controlAccesoApp.colaborador.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const colaboradorRoute: Routes = [
       colaborador: ColaboradorResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA'],
       pageTitle: 'controlAccesoApp.colaborador.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const colaboradorPopupRoute: Routes = [
       colaborador: ColaboradorResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.colaborador.home.title'
     },
     canActivate: [UserRouteAccessService],
