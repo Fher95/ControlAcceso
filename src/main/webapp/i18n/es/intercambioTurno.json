@@ -3,7 +3,7 @@
     "intercambioTurno": {
       "home": {
         "title": "Intercambio Turnos",
-        "createLabel": "Crear nuevo Intercambio Turno",
+        "createLabel": "Nuevo Intercambio de Turno",
         "createOrEditLabel": "Crear o editar Intercambio Turno",
         "notFound": "No se encontraron intercambios de turno"
       },

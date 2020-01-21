@@ -33,7 +33,14 @@ export const asignacionTurnoRoute: Routes = [
     path: '',
     component: AsignacionTurnoComponent,
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.asignacionTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -45,7 +52,14 @@ export const asignacionTurnoRoute: Routes = [
       asignacionTurno: AsignacionTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.asignacionTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -57,7 +71,7 @@ export const asignacionTurnoRoute: Routes = [
       asignacionTurno: AsignacionTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION'],
       pageTitle: 'controlAccesoApp.asignacionTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -69,7 +83,14 @@ export const asignacionTurnoRoute: Routes = [
       asignacionTurno: AsignacionTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.asignacionTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -84,7 +105,14 @@ export const asignacionTurnoPopupRoute: Routes = [
       asignacionTurno: AsignacionTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.asignacionTurno.home.title'
     },
     canActivate: [UserRouteAccessService],

@@ -2,7 +2,7 @@
   "controlAccesoApp": {
     "asistenciaPlaneacion": {
       "home": {
-        "title": "Asistencia Planeacions",
+        "title": "Asistencias Planeacion",
         "createLabel": "Crear nuevo Asistencia Planeacion",
         "createOrEditLabel": "Crear o editar Asistencia Planeacion",
         "notFound": "No se encontraron asistencias en la planeación"

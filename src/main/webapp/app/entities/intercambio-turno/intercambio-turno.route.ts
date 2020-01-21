@@ -37,7 +37,14 @@ export const intercambioTurnoRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
@@ -50,7 +57,14 @@ export const intercambioTurnoRoute: Routes = [
       intercambioTurno: IntercambioTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +76,7 @@ export const intercambioTurnoRoute: Routes = [
       intercambioTurno: IntercambioTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR'],
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +88,7 @@ export const intercambioTurnoRoute: Routes = [
       intercambioTurno: IntercambioTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +103,7 @@ export const intercambioTurnoPopupRoute: Routes = [
       intercambioTurno: IntercambioTurnoResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.intercambioTurno.home.title'
     },
     canActivate: [UserRouteAccessService],

@@ -4,7 +4,8 @@
 
             <h2 id="page-heading" class="mt-3">
                 <span jhiTranslate="controlAccesoApp.asignacionTurno.home.title">Asignacion Turnos</span>
-                <button id="jh-create-entity"
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']"
+                id="jh-create-entity"
                     class="btn btn-primary float-right jh-create-entity create-asignacion-turno"
                     [routerLink]="['/asignacion-turno/new']">
                     <fa-icon [icon]="'plus'"></fa-icon>
@@ -76,7 +77,8 @@
                                         [routerLink]="['/cargo', asignacionTurno.cargo?.id, 'view' ]">{{asignacionTurno.cargo?.nombre}}</a>
                                 </div>
                             </td>
-                            <td class="text-right">
+                            <td *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']"
+                            class="text-right">
                                 <div class="btn-group">
                                     <button type="submit"
                                         [routerLink]="['/asignacion-turno', asignacionTurno.id, 'view' ]"

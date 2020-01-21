@@ -21,7 +21,7 @@
                 </a>
             </li>
 
-            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
+            <li *ngSwitchCase="true"  ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="colaborador-menu">
                     <span>
@@ -32,14 +32,14 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="centros-costo-menu">
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']">
                         <a class="dropdown-item" routerLink="cargo" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="truck" fixedWidth="true"></fa-icon>
                             <span>Cargos</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']">
                         <a class="dropdown-item" routerLink="centro-costo" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="hand-holding-usd" fixedWidth="true"></fa-icon>
@@ -49,7 +49,7 @@
                 </ul>
             </li>
 
-            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
+            <li *ngSwitchCase="true"  ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="colaborador-menu">
                     <span>
@@ -60,21 +60,21 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="planeacion-menu">
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN','JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']">
                         <a class="dropdown-item" routerLink="turno" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="clock" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.turno">Turno</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="asignacion-turno" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="calendar-alt" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.asignacionTurno">Asignacion Turno</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'GERENTE' ,'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="asistencia-planeacion" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="user-clock" fixedWidth="true"></fa-icon>
@@ -86,7 +86,7 @@
             </li>
 
 
-            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
+            <li *ngSwitchCase="true"  ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="colaborador-menu">
                     <span>
@@ -104,14 +104,14 @@
                             <span>Colaboradores</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="peticion" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="file-alt" fixedWidth="true"></fa-icon>
                             <span>Peticiones</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="intercambio-turno" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="exchange-alt" fixedWidth="true"></fa-icon>
@@ -122,7 +122,7 @@
             </li>
 
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+            <li hidden="true" *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
@@ -189,7 +189,7 @@
                             <span jhiTranslate="global.menu.entities.peticion">Peticion</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="intercambio-turno" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>

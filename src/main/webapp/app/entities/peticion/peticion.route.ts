@@ -37,7 +37,14 @@ export const peticionRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
@@ -50,7 +57,7 @@ export const peticionRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +69,7 @@ export const peticionRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION'],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +81,7 @@ export const peticionRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +96,7 @@ export const peticionPopupRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService],

@@ -1,7 +1,8 @@
 <div>
     <h2 id="page-heading">
         <span>Peticiones</span>        
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-peticion"
+        <button *jhiHasAnyAuthority= "['ROLE_ADMIN','JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']"
+        id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-peticion"
             [routerLink]="['/peticion/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span>
@@ -61,7 +62,7 @@
                     </th>
                     <th *ngIf="this.mostrando === 'Pendientes' || this.mostrando === 'Todo'"><span>Acciones</span></th>
                     <th  *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'" jhiSortBy="autorizadoPor"><span>Autorizado por</span> <fa-icon [icon]="'sort'"></fa-icon></th>                                        
-                    <!--th > </th-->
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'"> </th>
                 </tr>
             </thead>
             <tbody>
@@ -90,7 +91,8 @@
                         </div>
                     </td>
                     <td *ngIf="this.mostrando === 'Historial' || this.mostrando === 'Todo'">{{peticion.autorizadoPor}}</td>
-                    <!--td class="text-right">
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                    class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/peticion', peticion.id, 'view' ]"
                                 class="btn btn-info btn-sm">
@@ -109,7 +111,7 @@
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                             </button>
                         </div>
-                    </td -->
+                    </td >
                 </tr>
             </tbody>
         </table>

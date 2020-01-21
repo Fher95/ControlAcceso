@@ -2,7 +2,7 @@
   "controlAccesoApp": {
     "peticion": {
       "home": {
-        "title": "Peticions",
+        "title": "Peticiones",
         "createLabel": "Crear nuevo Peticion",
         "createOrEditLabel": "Crear o editar Peticion",
         "notFound": "No se encontraron peticiones"

@@ -3,20 +3,20 @@
         <tab heading="Registro Asistencia" id="tab1">
             <div>
                 <h2 id="page-heading" class="mt-4">
-                    <span >Asistencias Planeación</span>
-                    <button id="jh-create-entity"
+                    <span>Asistencias Planeación</span>
+                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                    id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-asistencia-planeacion"
                         [routerLink]="['/asistencia-planeacion/new']">
                         <fa-icon [icon]="'plus'"></fa-icon>
-                        <span >
+                        <span>
                             Ingresar Asistencia Planeación
                         </span>
                     </button>
-                    <button 
-                        class="btn btn-primary float-right jh-create-entity mx-2 "
+                    <button class="btn btn-primary float-right jh-create-entity mx-2 "
                         (click)="this.cargarAsistencias()">
                         <fa-icon [icon]="'history'"></fa-icon>
-                        <span >
+                        <span>
                             Cargar Asistencias
                         </span>
                     </button>
@@ -60,9 +60,11 @@
                                     <div *ngIf="asistenciaPlaneacion.asistencia">
                                         <a class="text-dark"
                                             [routerLink]="['/asistencia', asistenciaPlaneacion.asistencia?.id, 'view' ]">
-                                            <strong>Ingreso: </strong> <a>{{asistenciaPlaneacion.asistencia?.entrada | date: 'yyyy-MM-dd h:mm a'}}</a><br>
-                                            <strong>Salida: </strong> <a>{{asistenciaPlaneacion.asistencia?.salida | date: 'yyyy-MM-dd h:mm a'}}</a>
-                                            </a>
+                                            <strong>Ingreso: </strong>
+                                            <a>{{asistenciaPlaneacion.asistencia?.entrada | date: 'yyyy-MM-dd h:mm a'}}</a><br>
+                                            <strong>Salida: </strong>
+                                            <a>{{asistenciaPlaneacion.asistencia?.salida | date: 'yyyy-MM-dd h:mm a'}}</a>
+                                        </a>
                                     </div>
                                 </td>
                                 <td>
@@ -87,7 +89,7 @@
                                             <span class="d-none d-md-inline"
                                                 jhiTranslate="entity.action.edit">Edit</span>
                                         </button>
-                                        <button type="submit"
+                                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                             [routerLink]="['/asistencia-planeacion', { outlets: { popup: asistenciaPlaneacion.id + '/delete'} }]"
                                             replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
                                             <fa-icon [icon]="'times'"></fa-icon>
@@ -112,7 +114,7 @@
                     <thead>
                         <tr>
                             <th><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span >Turno / Hora Inicio</span></th>
+                            <th><span>Turno / Hora Inicio</span></th>
                             <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
                             </th>
                             <th><span
@@ -133,7 +135,7 @@
                             </td>
                             <td>
                                 <div *ngIf="asistenciaPlaneacion.asistencia">
-                                        {{(asistenciaPlaneacion.asistencia?.entrada | date: 'mediumDate')
+                                    {{(asistenciaPlaneacion.asistencia?.entrada | date: 'mediumDate')
                                         + ' ' + ( asistenciaPlaneacion.asistencia?.entrada | date: 'h:mm a')}}
                                 </div>
                             </td>
@@ -159,7 +161,7 @@
                     <thead>
                         <tr>
                             <th><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span >Turno / Hora Inicio</span></th>
+                            <th><span>Turno / Hora Inicio</span></th>
                             <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
                             </th>
                             <th><span
@@ -201,7 +203,7 @@
             <h2 class="my-4">Salidas Tarde</h2>
             <div class="alert alert-warning" *ngIf="salidasTardias?.length === 0">
                 <span>No se encontraron salidas tarde</span>
-            </div>            
+            </div>
             <div class="table-responsive" *ngIf="salidasTardias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
@@ -255,7 +257,7 @@
                     <thead>
                         <tr>
                             <th><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span >Turno / Hora Fin</span></th>
+                            <th><span>Turno / Hora Fin</span></th>
                             <th><span>Salida Asistencia</span>
                             </th>
                             <th><span
@@ -276,7 +278,7 @@
                             </td>
                             <td>
                                 <div *ngIf="asistenciaPlaneacion.asistencia">
-                                        {{(asistenciaPlaneacion.asistencia?.salida | date: 'mediumDate')
+                                    {{(asistenciaPlaneacion.asistencia?.salida | date: 'mediumDate')
                                         +' '+(asistenciaPlaneacion.asistencia?.salida | date: 'h:mm a')}}
                                 </div>
                             </td>

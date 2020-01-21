@@ -27,7 +27,7 @@
                     <th class="col-3"><span>Turno programado</span></th>
                     <th class="col-3"><span>Turno reprogramado</span></th>
                     <!--th><span jhiTranslate="controlAccesoApp.intercambioTurno.colaborador2">Colaborador 2</span></th-->
-                    <th></th>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'"></th>
                 </tr>
             </thead>
             <tbody>
@@ -147,7 +147,7 @@
                         <a [routerLink]="['/colaborador', intercambioTurno.colaborador2?.id, 'view' ]" >{{intercambioTurno.colaborador2?.id}}</a>
                     </div>
                 </td>-->
-                    <td class="text-right">
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" class="text-right">
                         <div class="btn-group">
                             <button type="submit" [routerLink]="['/intercambio-turno', intercambioTurno.id, 'view' ]"
                                 class="btn btn-info btn-sm">
