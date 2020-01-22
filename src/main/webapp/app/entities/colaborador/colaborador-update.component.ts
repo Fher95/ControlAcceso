@@ -205,15 +205,25 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IColaborador>>, update: boolean) {
-    result.subscribe(() => this.onSaveSuccess(update), () => this.onSaveError());
+    result
+      .pipe(
+        filter((mayBeOk: HttpResponse<IColaborador>) => mayBeOk.ok),
+        map((response: HttpResponse<IColaborador>) => response.body)
+      )
+      .subscribe(
+        (res: IColaborador) => {
+          this.onSaveSuccess(update, res.id);
+        },
+        () => this.onSaveError()
+      );
   }
 
-  protected onSaveSuccess(update: boolean) {
+  protected onSaveSuccess(update: boolean, parIdCol: number) {
     if (this.editForm.get(['id']).value === undefined) {
-      this.guardarAsignacionCargo(update);
+      this.guardarAsignacionCargo(update, parIdCol);
     }
-    this.guardarTelefono(update);
-    this.guardarAntecedentes(false);
+    this.guardarTelefono(update, parIdCol);
+    this.guardarAntecedentes(false, parIdCol);
     this.isSaving = false;
     this.previousState();
   }
@@ -318,8 +328,8 @@ export class ColaboradorUpdateComponent implements OnInit {
     return this.colaboradorService.idUltimoColaborador;
   }
 
-  guardarAsignacionCargo(update: boolean) {
-    const idColaborador = this.getUltimoColaborador();
+  guardarAsignacionCargo(update: boolean, parIdCol: number) {
+    const idColaborador = parIdCol; //  this.getUltimoColaborador();
     const objCargo = this.editForm.get(['cargo']).value;
     if (update) {
       if (this.varAsignacion === null || this.varAsignacion === undefined) {
@@ -349,7 +359,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     }
   }
 
-  guardarAntecedentes(update: boolean) {
+  guardarAntecedentes(update: boolean, parIdCol: number) {
     const ant1: String = this.editForm.get(['antecedente1']).value;
     const ant2: String = this.editForm.get(['antecedente2']).value;
     const ant3: String = this.editForm.get(['antecedente3']).value;
@@ -361,7 +371,7 @@ export class ColaboradorUpdateComponent implements OnInit {
       };
       this.antecedenteService.create(objAntecedente1).subscribe();
     } else {
-      const idColaborador = this.getUltimoColaborador();
+      const idColaborador = parIdCol; // this.getUltimoColaborador();
       if (ant1 === 'Si') {
         const objAntecedente2 = { tipo: TipoAntecedente.Disciplinario, colaborador: { id: idColaborador } };
         this.antecedenteService.create(objAntecedente2).subscribe();
@@ -377,7 +387,7 @@ export class ColaboradorUpdateComponent implements OnInit {
     }
   }
 
-  guardarTelefono(update: boolean) {
+  guardarTelefono(update: boolean, parIdCol: number) {
     const varTelefono = this.editForm.get(['telefono']).value;
     const tipoTelefono = this.editForm.get(['tipoTelefono']).value;
     if (this.editForm.get(['telefono']).value != null) {
@@ -387,12 +397,12 @@ export class ColaboradorUpdateComponent implements OnInit {
           this.atrTelefono.tipo = tipoTelefono;
           this.telefonoService.update(this.atrTelefono).subscribe();
         } else {
-          const idColaborador = this.getUltimoColaborador();
+          const idColaborador = parIdCol; // this.getUltimoColaborador();
           const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador }, tipo: tipoTelefono };
           this.telefonoService.create(objTelefono).subscribe();
         }
       } else {
-        const idColaborador = this.getUltimoColaborador();
+        const idColaborador = parIdCol; // this.getUltimoColaborador();
         const objTelefono = { numero: varTelefono, colaborador: { id: idColaborador }, tipo: tipoTelefono };
         this.telefonoService.create(objTelefono).subscribe();
       }
