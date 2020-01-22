@@ -220,7 +220,9 @@ export class ColaboradorUpdateComponent implements OnInit {
 
   protected onSaveSuccess(update: boolean, parIdCol: number) {
     if (this.editForm.get(['id']).value === undefined) {
-      this.guardarAsignacionCargo(update, parIdCol);
+      if (this.editForm.get(['cargo']).value) {
+        this.guardarAsignacionCargo(update, parIdCol);
+      }
     }
     this.guardarTelefono(update, parIdCol);
     this.guardarAntecedentes(false, parIdCol);
@@ -229,8 +231,28 @@ export class ColaboradorUpdateComponent implements OnInit {
   }
 
   protected onSaveError() {
+    let varCols: IColaborador[] = [];
+    const numDoc: string = this.editForm.get('numeroDocumento').value;
+    this.colaboradorService
+      .findByNumDocumento(numDoc)
+      .pipe(
+        filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IColaborador[]>) => response.body)
+      )
+      .subscribe(
+        (res: IColaborador[]) => {
+          varCols = res;
+        },
+        () => (varCols = [])
+      );
+    if (varCols !== undefined) {
+      this.jhiAlertService.i18nEnabled = false;
+      this.jhiAlertService.info('El número de documento ingresado ya está asignado');
+      this.jhiAlertService.i18nEnabled = true;
+    }
     this.isSaving = false;
   }
+
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }

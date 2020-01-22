@@ -4,7 +4,7 @@
             <h2 id="jhi-colaborador-heading" jhiTranslate="controlAccesoApp.colaborador.home.createOrEditLabel">Create
                 or edit a Colaborador</h2>
             <div>
-                <jhi-alert-error></jhi-alert-error>
+                <jhi-alert-error></jhi-alert-error>                
                 <div class="form-group" [hidden]="!editForm.get('id').value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
@@ -260,7 +260,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-4">
+                        <div *ngIf="this.editForm.get(['id']) !== undefined" class="form-group col-4">
                             <label class="form-control-label" jhiTranslate="controlAccesoApp.colaborador.fechaBaja"
                                 for="field_fechaBaja">Fecha Baja</label>
                             <div class="d-flex">
@@ -328,28 +328,8 @@
                     </div>
                 </div>
                 <!------------------------------------------------------------------------------------->
-
-                <!--div class="form-group">
-                    <label jhiTranslate="controlAccesoApp.colaborador.peticion" for="field_peticions">Peticion</label>
-                    <select class="form-control" id="field_peticions" multiple name="peticions"
-                        formControlName="peticions">
-                        <option [ngValue]="getSelected(editForm.get('peticions').value, peticionOption)"
-                            *ngFor="let peticionOption of peticions; trackBy: trackPeticionById">{{peticionOption.id}}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label jhiTranslate="controlAccesoApp.colaborador.asignacionHorasExtras"
-                        for="field_asignacionHorasExtras">Asignacion Horas Extras</label>
-                    <select class="form-control" id="field_asignacionHorasExtras" multiple name="asignacionHorasExtras"
-                        formControlName="asignacionHorasExtras">
-                        <option
-                            [ngValue]="getSelected(editForm.get('asignacionHorasExtras').value, asignacionHorasExtrasOption)"
-                            *ngFor="let asignacionHorasExtrasOption of asignacionhorasextras; trackBy: trackAsignacionHorasExtrasById">
-                            {{asignacionHorasExtrasOption.id}}</option>
-                    </select>
-                </div-->
             </div>
+            <jhi-alert></jhi-alert>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
