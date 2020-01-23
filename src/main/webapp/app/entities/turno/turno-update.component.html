@@ -96,7 +96,9 @@
                             <input type="number" class="form-control" name="duracion" id="field_duracion"
                                 formControlName="duracion" />
                         </div>
-
+                        <small *ngIf="this.numeroVecesAsignado > 0" class ="text-warning">
+                            No se pueden modificar las horas debido a que este turno ya está en uso.
+                        </small>
                     </div>
                 </div>
                 

@@ -57,7 +57,14 @@ export const peticionRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -81,7 +88,7 @@ export const peticionRoute: Routes = [
       peticion: PeticionResolve
     },
     data: {
-      authorities: ['ROLE_ADMIN'],
+      authorities: ['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION'],
       pageTitle: 'controlAccesoApp.peticion.home.title'
     },
     canActivate: [UserRouteAccessService]

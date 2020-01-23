@@ -11,7 +11,7 @@
       "updated": "Colaborador actualizado",
       "deleted": "Un Colaborador ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Colaborador {{ apellido1 }}?"
+        "question": "¿Seguro que quiere eliminar al colaborador?"
       },
       "detail": {
         "title": "Colaborador"

@@ -15,7 +15,7 @@
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.fechaPeticion">Fecha Peticion</span></dt>
                 <dd>
-                    <span>{{peticion.fechaPeticion}}</span>
+                    <span>{{peticion.fechaPeticion | date: 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.motivo">Motivo</span></dt>
                 <dd>
@@ -27,15 +27,15 @@
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.fechaInicio">Fecha Inicio</span></dt>
                 <dd>
-                    <span>{{peticion.fechaInicio}}</span>
+                    <span>{{peticion.fechaInicio | date: 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.fechaFin">Fecha Fin</span></dt>
                 <dd>
-                    <span>{{peticion.fechaFin}}</span>
+                    <span>{{peticion.fechaFin | date: 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.estado">Estado</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado}}</span>
+                    <span jhiTranslate="{{'controlAccesoApp.EstadoPeticion.' + peticion.estado}}">{{peticion.estado ? peticion.estado : 'Sin definir' }}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.peticion.autorizadoPor">Autorizado Por</span></dt>
                 <dd>
@@ -44,7 +44,8 @@
                 <dt><span jhiTranslate="controlAccesoApp.peticion.colaborador">Colaborador</span></dt>
                 <dd>
                     <div *ngIf="peticion.colaborador">
-                        <a [routerLink]="['/colaborador', peticion.colaborador?.id, 'view']">{{peticion.colaborador?.id}}</a>
+                        <a [routerLink]="['/colaborador', peticion.colaborador?.id, 'view']">
+                            {{peticion.colaborador ? peticion.colaborador.nombre1 +' '+peticion.colaborador.apellido1 : ''}}</a>
                     </div>
                 </dd>
             </dl>

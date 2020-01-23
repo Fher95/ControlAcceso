@@ -31,7 +31,7 @@
                     <table class="table table-striped" aria-describedby="page-heading">
                         <thead>
                             <tr>
-                                <th><span jhiTranslate="global.field.id">ID</span></th>
+                                <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
                                 <th><span
                                         jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asignacionTurno">Asignacion
                                         Turno</span></th>
@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let asistenciaPlaneacion of asistenciaPlaneacions ;trackBy: trackId">
-                                <td><a
+                                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a
                                         [routerLink]="['/asistencia-planeacion', asistenciaPlaneacion.id, 'view' ]">{{asistenciaPlaneacion.id}}</a>
                                 </td>
                                 <td>
@@ -113,7 +113,7 @@
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" ><span jhiTranslate="global.field.id">ID</span></th>
                             <th><span>Turno / Hora Inicio</span></th>
                             <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
                             </th>
@@ -124,12 +124,12 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asistenciaPlaneacion of asistenciasTardias">
-                            <td>
+                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                 {{asistenciaPlaneacion.id}}
                             </td>
                             <td>
                                 <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno?.id +', '+asistenciaPlaneacion.asignacionTurno?.turno.nombre
+                                    {{asistenciaPlaneacion.asignacionTurno?.turno.nombre
                                         +': '+(asistenciaPlaneacion.asignacionTurno.turno.horaInicio | date: "h:mm a")}}
                                 </div>
                             </td>
@@ -160,7 +160,7 @@
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
                             <th><span>Turno / Hora Inicio</span></th>
                             <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
                             </th>
@@ -171,12 +171,12 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asistenciaPlaneacion of asistenciasTempranas">
-                            <td>
+                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'" >
                                 {{asistenciaPlaneacion.id}}
                             </td>
                             <td>
                                 <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno?.id +', '+asistenciaPlaneacion.asignacionTurno?.turno.nombre
+                                    {{asistenciaPlaneacion.asignacionTurno?.turno.nombre
                                         +': '+(asistenciaPlaneacion.asignacionTurno.turno.horaInicio | date: "h:mm a")}}
                                 </div>
                             </td>
@@ -208,7 +208,7 @@
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
                             <th><span>Turno / Hora Fin</span></th>
                             <th><span>Salida Asistencia</span>
                             </th>
@@ -219,7 +219,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asistenciaPlaneacion of salidasTardias">
-                            <td>
+                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                 {{asistenciaPlaneacion.id}}
                             </td>
                             <td>
@@ -256,7 +256,7 @@
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th><span jhiTranslate="global.field.id">ID</span></th>
+                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
                             <th><span>Turno / Hora Fin</span></th>
                             <th><span>Salida Asistencia</span>
                             </th>
@@ -267,7 +267,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asistenciaPlaneacion of salidasTempranas">
-                            <td>
+                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                 {{asistenciaPlaneacion.id}}
                             </td>
                             <td>

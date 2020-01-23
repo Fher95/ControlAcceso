@@ -32,7 +32,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="fechaPeticion"><span jhiTranslate="controlAccesoApp.peticion.fechaPeticion">Fecha
@@ -67,8 +67,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let peticion of peticions ;trackBy: trackId">
-                    <td><a [routerLink]="['/peticion', peticion.id, 'view' ]">{{peticion.id}}</a></td>
-                    <td>{{peticion.fechaPeticion | date:'mediumDate'}}</td>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/peticion', peticion.id, 'view' ]">{{peticion.id}}</a></td>
+                    <td><a [routerLink]="['/peticion', peticion.id, 'view' ]">{{peticion.fechaPeticion | date:'mediumDate'}}</a></td>
                     <td>
                         <div *ngIf="peticion.colaborador">
                             <a

@@ -35,7 +35,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
                     <th jhiSortBy="nombre1"><span jhiTranslate="controlAccesoApp.colaborador.nombre1">Nombre 1</span>
@@ -56,7 +56,7 @@
                             jhiTranslate="controlAccesoApp.colaborador.numeroDocumento">Numero Documento</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-
+                    <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.colaborador.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                     <!--th jhiSortBy="tipoDocumento"><span jhiTranslate="controlAccesoApp.colaborador.tipoDocumento">Tipo Documento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="lugarExpedicion"><span jhiTranslate="controlAccesoApp.colaborador.lugarExpedicion">Lugar Expedicion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fechaExpedicion"><span jhiTranslate="controlAccesoApp.colaborador.fechaExpedicion">Fecha Expedicion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -68,7 +68,7 @@
             <th jhiSortBy="cargoDesempeniar"><span jhiTranslate="controlAccesoApp.colaborador.cargoDesempeniar">Cargo Desempeniar</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="salario"><span jhiTranslate="controlAccesoApp.colaborador.salario">Salario</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="eps"><span jhiTranslate="controlAccesoApp.colaborador.eps">Eps</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.colaborador.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            
             <th jhiSortBy="fechaBaja"><span jhiTranslate="controlAccesoApp.colaborador.fechaBaja">Fecha Baja</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="nivelEducativo"><span jhiTranslate="controlAccesoApp.colaborador.nivelEducativo">Nivel Educativo</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
                     <th></th>
@@ -76,12 +76,13 @@
             </thead>
             <tbody>
                 <tr *ngFor="let colaborador of colaboradors ;trackBy: trackId">
-                    <td><a [routerLink]="['/colaborador', colaborador.id, 'view' ]">{{colaborador.id}}</a></td>
+                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/colaborador', colaborador.id, 'view' ]">{{colaborador.id}}</a></td>
                     <td>{{colaborador.nombre1}}</td>
                     <td>{{colaborador.nombre2}}</td>
                     <td>{{colaborador.apellido1}}</td>
                     <td>{{colaborador.apellido2}}</td>
                     <td>{{colaborador.numeroDocumento}}</td>
+                    <td jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</td>
                     <!--td>{{colaborador.tipoDocumento}}</td>
                 <td>{{colaborador.lugarExpedicion}}</td>
                 <td>{{colaborador.fechaExpedicion | date:'mediumDate'}}</td>
@@ -93,7 +94,7 @@
                 <td>{{colaborador.cargoDesempeniar}}</td>
                 <td>{{colaborador.salario}}</td>
                 <td>{{colaborador.eps}}</td>
-                <td jhiTranslate="{{'controlAccesoApp.Estado.' + colaborador.estado}}">{{colaborador.estado}}</td>
+                
                 <td>{{colaborador.fechaBaja | date:'mediumDate'}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.NivelEducativo.' + colaborador.nivelEducativo}}">{{colaborador.nivelEducativo}}</td-->
                     <td class="text-right">

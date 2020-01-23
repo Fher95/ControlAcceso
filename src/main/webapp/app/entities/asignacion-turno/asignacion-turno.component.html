@@ -5,8 +5,7 @@
             <h2 id="page-heading" class="mt-3">
                 <span jhiTranslate="controlAccesoApp.asignacionTurno.home.title">Asignacion Turnos</span>
                 <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION']"
-                id="jh-create-entity"
-                    class="btn btn-primary float-right jh-create-entity create-asignacion-turno"
+                    id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-asignacion-turno"
                     [routerLink]="['/asignacion-turno/new']">
                     <fa-icon [icon]="'plus'"></fa-icon>
                     <span>
@@ -24,7 +23,7 @@
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
                             [callback]="transition.bind(this)">
-                            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                                 <fa-icon [icon]="'sort'"></fa-icon>
                             </th>
                             <th jhiSortBy="fecha"><span
@@ -49,7 +48,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asignacionTurno of asignacionTurnos ;trackBy: trackId">
-                            <td><a
+                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a
                                     [routerLink]="['/asignacion-turno', asignacionTurno.id, 'view' ]">{{asignacionTurno.id}}</a>
                             </td>
                             <td>{{asignacionTurno.fecha | date:'mediumDate'}}</td>
@@ -64,7 +63,7 @@
 
                             <td>
                                 <span *ngFor="let colaborador of asignacionTurno.colaboradors; let last = last">
-                                    
+
                                     <a class="form-control-static"
                                         [routerLink]="['/colaborador', colaborador?.id, 'view' ]">
                                         {{this.colUtil.getStrColaborador(colaborador)}}</a>{{last ? '' : ', '}}
@@ -78,7 +77,7 @@
                                 </div>
                             </td>
                             <td *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'SUPERVISOR']"
-                            class="text-right">
+                                class="text-right">
                                 <div class="btn-group">
                                     <button type="submit"
                                         [routerLink]="['/asignacion-turno', asignacionTurno.id, 'view' ]"
@@ -92,7 +91,7 @@
                                         <fa-icon [icon]="'pencil-alt'"></fa-icon>
                                         <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                                     </button>
-                                    
+
                                     <button type="submit" *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                         [routerLink]="['/asignacion-turno', { outlets: { popup: asignacionTurno.id + '/delete'} }]"
                                         replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
@@ -100,7 +99,7 @@
                                         <span class="d-none d-md-inline"
                                             jhiTranslate="entity.action.delete">Delete</span>
                                     </button>
-                                    
+
                                 </div>
                             </td>
                         </tr>
