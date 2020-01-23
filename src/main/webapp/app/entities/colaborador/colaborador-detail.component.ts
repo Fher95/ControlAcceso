@@ -117,4 +117,9 @@ export class ColaboradorDetailComponent implements OnInit {
       }
     });
   }
+
+  getSalario(parSalario: number): string {
+    const strNumero = '$ ' + parSalario.toLocaleString();
+    return strNumero;
+  }
 }

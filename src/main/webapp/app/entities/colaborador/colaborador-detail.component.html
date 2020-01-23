@@ -150,7 +150,7 @@
                         <div class="col-4">
                             <dt><span jhiTranslate="controlAccesoApp.colaborador.salario">Salario</span></dt>
                             <dd>
-                                <span>{{colaborador.salario ? colaborador.salario : '(Sin registrar)'}}</span>
+                                <span>{{colaborador.salario ? this.getSalario(colaborador.salario)  : '(Sin registrar)'}}</span>
                             </dd>
                         </div>
                         <div class="col-4">

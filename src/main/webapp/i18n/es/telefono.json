@@ -7,7 +7,7 @@
         "createOrEditLabel": "Crear o editar Telefono",
         "notFound": "No se encontraron telefonos"
       },
-      "created": "Un guardó un telefono",
+      "created": "Se guardó un telefono",
       "updated": "Un telefono ha sido actualizado",
       "deleted": "Un Telefono ha sido eliminado con el identificador {{ param }}",
       "delete": {
