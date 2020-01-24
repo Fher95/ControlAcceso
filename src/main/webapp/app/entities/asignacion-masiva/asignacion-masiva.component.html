@@ -1,7 +1,63 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form">
-            <p>Empaques hijos de puta</p>
-        </form>
+
+        <h2 id="page-heading" class="mt-3">
+            <span>Asignacion Masiva</span>
+        </h2>
+        <hr>
+        <div class="row form-inline ml-3">
+            <div class="form-inline mb-2">
+                <dt>Filtrar por turno:</dt>
+                <select class="form-control ml-2" name="turno" id="field_turno" [(ngModel)]="this.idTurnoSeleccionado"
+                    (change)="this.filtrarAsignaciones()">
+                    <option [ngValue]="-1">Todos</option>
+                    <option *ngFor="let turno of turnos" [ngValue]="turno.id">{{turno.nombre}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-inline ml-4 mb-2">
+                <dt>Filtrar por cargo:</dt>
+                <select class="form-control ml-2" name="cargo" id="field_cargo" [(ngModel)]="this.idCargoSeleccionado"
+                    (change)="this.filtrarAsignaciones()">
+                    <option [ngValue]="-1">Todos</option>
+                    <option *ngFor="let cargo of cargos" [ngValue]="cargo.id">{{cargo.nombre}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <p>Elementos en tupla: {{this.arrayAsignacionesMostradas[1].checked}}</p>
+        <div style="overflow-y: scroll; height:250px; width: auto;" class=" shadow rounded">
+            <table class="table table-striped">
+                <thead>
+                    <th>
+                        <div class="row px-4">
+                            <div class="col-4 "> Nombre </div>
+                            <div class="col-4 "> Turno </div>
+                            <div class="col-4 "> Cargo </div>
+                        </div>
+
+                    </th>
+                </thead>
+                <tbody>
+                    
+                    <tr *ngFor="let item of arrayAsignacionesMostradas; let i=index" class="custom-control custom-checkbox">
+                        <div class="p-2 " >
+                            <input type="checkbox" class="custom-control-input" 
+                            [(ngModel)]="this.arrayAsignacionesMostradas[i].checked"
+                            id="{{item.asignacionTurno.id}}">
+                            <label class="custom-control-label" style="width: 100%; height: 100%;" for="{{item.asignacionTurno.id}}">
+                                <div class="row">                                    
+                                    <div class="col-4">{{this.utilCol.getStrColaborador(item.asignacionTurno.colaboradors[0])}}</div>
+                                    <div class="col-4">{{item.asignacionTurno.turno?.nombre}}</div>
+                                    <div class="col-4">{{item.asignacionTurno.cargo?.nombre}}</div>
+                                </div>
+
+                            </label>
+                        </div>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
     </div>
 </div>
