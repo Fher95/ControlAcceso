@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { AsignacionTurnoService } from '../asignacion-turno/asignacion-turno.service';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 import { ITurno } from 'app/shared/model/turno.model';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { ICargo } from 'app/shared/model/cargo.model';
-import { type } from 'os';
+import { CargoService } from 'app/entities/cargo/cargo.service';
+import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
+import { TurnoService } from 'app/entities/turno/turno.service';
+import { JhiAlertService } from 'ng-jhipster';
 
 export interface ITuplaAsignaciones {
   checked?: boolean;
@@ -25,27 +28,41 @@ export class TuplaAsignaciones implements ITuplaAsignaciones {
 })
 export class AsignacionMasivaComponent implements OnInit {
   editForm = this.fb.group({
-    turnoSeleccionado: []
+    turnoSeleccionado: [],
+    centroDeCosto: [],
+    cargo: [],
+    turno: []
   });
   vecAsignacionesActuales: IAsignacionTurno[] = [];
   turnos: ITurno[] = [];
+  turnosTodos: ITurno[] = [];
   idTurnoSeleccionado: number;
   idCargoSeleccionado: number;
   cargos: ICargo[] = [];
+  cargosTodos: ICargo[] = [];
   varChecked: boolean;
   tuplaAsignaciones: [boolean, IAsignacionTurno];
   arrayAsignacionesMostradas: Array<TuplaAsignaciones> = [];
+  todosSeleccionados = false;
+  centrosCosto: ICentroCosto[] = [];
 
   constructor(
+    protected jhiAlertService: JhiAlertService,
     private fb: FormBuilder,
     protected asignacionTurnoService: AsignacionTurnoService,
-    protected utilCol: UtilidadesColaborador
+    protected utilCol: UtilidadesColaborador,
+    protected cargoService: CargoService,
+    protected centroCostoService: CentroCostoService,
+    protected turnoService: TurnoService
   ) {}
 
   ngOnInit() {
     this.idTurnoSeleccionado = -1;
     this.idCargoSeleccionado = -1;
     this.loadAllActuales();
+    this.loadAllCentroCosto();
+    this.loadCargos();
+    this.loadTurnos();
   }
 
   loadAllActuales() {
@@ -63,6 +80,14 @@ export class AsignacionMasivaComponent implements OnInit {
         },
         (res: HttpErrorResponse) => {}
       );
+  }
+
+  trackCargoById(index: number, item: ICargo) {
+    return item.id;
+  }
+
+  trackTurnoById(index: number, item: ITurno) {
+    return item.id;
   }
   llenarTupla(parVecAsignaciones: IAsignacionTurno[]) {
     this.arrayAsignacionesMostradas = [];
@@ -142,5 +167,72 @@ export class AsignacionMasivaComponent implements OnInit {
       });
     }
     return respuesta;
+  }
+
+  cambiarSeleccionTodos() {
+    this.arrayAsignacionesMostradas.forEach(asig => {
+      asig.checked = this.todosSeleccionados;
+    });
+  }
+
+  cargarCargos() {
+    const idCentroCosto: number = this.editForm.get('centroDeCosto').value;
+    this.loadCargosCentroCostoId(idCentroCosto);
+  }
+
+  loadAllCentroCosto() {
+    this.centroCostoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICentroCosto[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICentroCosto[]>) => response.body)
+      )
+      .subscribe((res: ICentroCosto[]) => (this.centrosCosto = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  loadCargos() {
+    this.cargoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICargo[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICargo[]>) => response.body)
+      )
+      .subscribe(
+        (res: ICargo[]) => {
+          this.cargosTodos = res.filter((cargo: ICargo) => cargo.centroCosto !== null);
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  loadCargosCentroCostoId(parId: number) {
+    this.cargoService
+      .findCargosCentroCosto(parId)
+      .pipe(
+        filter((res: HttpResponse<ICargo[]>) => res.ok),
+        map((res: HttpResponse<ICargo[]>) => res.body)
+      )
+      .subscribe((res: ICargo[]) => {
+        this.cargosTodos = res;
+      });
+  }
+
+  loadTurnos() {
+    this.turnoService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ITurno[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ITurno[]>) => response.body)
+      )
+      .subscribe(
+        (res: ITurno[]) => {
+          this.turnosTodos = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
   }
 }
