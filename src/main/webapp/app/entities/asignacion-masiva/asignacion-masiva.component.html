@@ -31,16 +31,13 @@
                     (change)="this.cambiarSeleccionTodos()"><label for="todos"
                     class="custom-control-label">Todos</label>
             </div>
-            <div style="overflow-y: scroll; height:250px; width: auto;" class=" shadow rounded">
-
+            <div style="overflow-y: scroll; height:300px; width: auto;" class=" shadow rounded">
                 <table class="table table-striped">
                     <thead>
                         <th>
                             <div class="px-2">
-
-
                                 <label style="width: 95%;">
-                                    <div class="row">
+                                    <div class="row px-3">
                                         <div class="col-4 "> Nombre </div>
                                         <div class="col-4 "> Turno </div>
                                         <div class="col-4 "> Cargo </div>
@@ -53,12 +50,12 @@
                         <tr *ngFor="let item of arrayAsignacionesMostradas; let i=index"
                             class="custom-control custom-checkbox">
                             <div class="p-2 ">
-                                <input type="checkbox" class="custom-control-input"
+                                <input type="checkbox" class="custom-control-input "
                                     [(ngModel)]="this.arrayAsignacionesMostradas[i].checked" [ngModelOptions]="{standalone: true}"
                                     id="{{item.asignacionTurno.id}}">
-                                <label class="custom-control-label" style="width: 90%; height: 100%;"
+                                <label class="custom-control-label " style="width: 90%; height: 100%;"
                                     for="{{item.asignacionTurno.id}}">
-                                    <div class="row">
+                                    <div class="row px-3">
                                         <div class="col-4">
                                             {{this.utilCol.getStrColaborador(item.asignacionTurno.colaboradors[0])}}
                                         </div>
@@ -70,23 +67,20 @@
                             </div>
                         </tr>
                     </tbody>
-
                 </table>
             </div>
-
             <div class="border rounded shadow p-4 my-3">
                 <div class="form-row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="field_centroCosto">Centro de Costos</label>
                         <select class="form-control" id="field_centroCosto" name="centroCosto"
                             formControlName="centroDeCosto" (change)="cargarCargos()">
-                            <option value="cualquiera">Todos</option>
+                            <option value="todos">Todos</option>
                             <option *ngFor="let centroCostoOption of centrosCosto" [ngValue]="centroCostoOption.id">
                                 {{centroCostoOption.nombre}}</option>
                         </select>
                     </div>
-
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo"
                             for="field_cargo">Cargo</label>
                         <select class="form-control" id="field_cargo" name="cargo" formControlName="cargo">
@@ -94,16 +88,13 @@
                                 *ngFor="let cargoOption of cargosTodos; trackBy: trackCargoById">{{cargoOption.nombre}}
                             </option>
                         </select>
-
                         <div>
                             <small class="form-text text-danger">
                                 Debe seleccionar un cargo para poder continuar
                             </small>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div class="form-group">
+                    <div class="form-group col-4">
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
                             for="field_turno">Turno</label>
                         <select class="form-control" id="field_turno" name="turno" formControlName="turno">
@@ -118,7 +109,7 @@
                             </small>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>
         </form>
     </div>

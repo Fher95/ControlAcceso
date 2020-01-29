@@ -89,6 +89,7 @@ export class AsignacionMasivaComponent implements OnInit {
   trackTurnoById(index: number, item: ITurno) {
     return item.id;
   }
+
   llenarTupla(parVecAsignaciones: IAsignacionTurno[]) {
     this.arrayAsignacionesMostradas = [];
     parVecAsignaciones.forEach(asig => {
@@ -96,6 +97,7 @@ export class AsignacionMasivaComponent implements OnInit {
       this.arrayAsignacionesMostradas.push(tupla);
     });
   }
+
   setTurnosTotales() {
     this.turnos = [];
     this.vecAsignacionesActuales.forEach(asignacion => {
@@ -105,6 +107,7 @@ export class AsignacionMasivaComponent implements OnInit {
     });
     this.ordenarTurnos();
   }
+
   enListaTurnos(parTurnoId: number): boolean {
     let respuesta: boolean;
     if (this.turnos.length === 0) {
@@ -118,6 +121,7 @@ export class AsignacionMasivaComponent implements OnInit {
     }
     return respuesta;
   }
+
   ordenarTurnos() {
     this.turnos.sort((t1, t2) => {
       if (t1.horaInicio > t2.horaInicio) {
@@ -127,6 +131,7 @@ export class AsignacionMasivaComponent implements OnInit {
       }
     });
   }
+
   filtrarAsignaciones() {
     let vecAsignacionesFiltradas = [];
     if (this.idTurnoSeleccionado === -1 && this.idCargoSeleccionado === -1) {
@@ -155,6 +160,7 @@ export class AsignacionMasivaComponent implements OnInit {
       }
     });
   }
+
   enListaCargos(parCargoId: number): boolean {
     let respuesta: boolean;
     if (this.turnos.length === 0) {
@@ -176,8 +182,12 @@ export class AsignacionMasivaComponent implements OnInit {
   }
 
   cargarCargos() {
-    const idCentroCosto: number = this.editForm.get('centroDeCosto').value;
-    this.loadCargosCentroCostoId(idCentroCosto);
+    if (this.editForm.get('centroDeCosto').value === 'todos') {
+      this.loadCargos();
+    } else {
+      const idCentroCosto: number = this.editForm.get('centroDeCosto').value;
+      this.loadCargosCentroCostoId(idCentroCosto);
+    }
   }
 
   loadAllCentroCosto() {
