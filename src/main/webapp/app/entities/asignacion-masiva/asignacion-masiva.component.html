@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-9">
-        <form name="editForm" role="form" novalidate  [formGroup]="editForm">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="page-heading" class="mt-3">
                 <span>Asignacion Masiva</span>
             </h2>
@@ -110,6 +110,16 @@
                         </div>
                     </div>
                 </div>                
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
             </div>
         </form>
     </div>

@@ -12,6 +12,8 @@ import { CargoService } from 'app/entities/cargo/cargo.service';
 import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
 import { TurnoService } from 'app/entities/turno/turno.service';
 import { JhiAlertService } from 'ng-jhipster';
+import { IAsignacionMasiva, AsignacionMasiva } from 'app/shared/model/asignacion-masiva.model';
+import { Respuesta } from 'app/shared/model/respuesta';
 
 export interface ITuplaAsignaciones {
   checked?: boolean;
@@ -45,6 +47,7 @@ export class AsignacionMasivaComponent implements OnInit {
   arrayAsignacionesMostradas: Array<TuplaAsignaciones> = [];
   todosSeleccionados = false;
   centrosCosto: ICentroCosto[] = [];
+  isSaving = false;
 
   constructor(
     protected jhiAlertService: JhiAlertService,
@@ -244,5 +247,40 @@ export class AsignacionMasivaComponent implements OnInit {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  crearAsignacionMasiva(): IAsignacionMasiva {
+    const objAsigMasiva: IAsignacionMasiva = new AsignacionMasiva();
+    objAsigMasiva.asignacionesTurno = this.getAsignasionesSeleccionadas();
+    objAsigMasiva.cargo = this.editForm.get('cargo').value;
+    objAsigMasiva.turno = this.editForm.get('turno').value;
+    return objAsigMasiva;
+  }
+
+  getAsignasionesSeleccionadas(): IAsignacionTurno[] {
+    const vecAsignaciones: IAsignacionTurno[] = [];
+    this.arrayAsignacionesMostradas.forEach(tupla => {
+      if (tupla.checked) {
+        vecAsignaciones.push(tupla.asignacionTurno);
+      }
+    });
+    return vecAsignaciones;
+  }
+
+  previousState() {
+    window.history.back();
+  }
+
+  save() {
+    const asignacionMasiva = this.crearAsignacionMasiva();
+    this.asignacionTurnoService
+      .asignacionMasiva(asignacionMasiva)
+      .pipe(
+        filter((res: HttpResponse<Respuesta>) => res.ok),
+        map((res: HttpResponse<Respuesta>) => res.body)
+      )
+      .subscribe(() => {
+        this.previousState();
+      });
   }
 }

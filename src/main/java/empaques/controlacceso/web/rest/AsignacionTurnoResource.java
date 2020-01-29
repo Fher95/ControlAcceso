@@ -1,7 +1,9 @@
 package empaques.controlacceso.web.rest;
 
+import empaques.controlacceso.domain.AsignacionMasiva;
 import empaques.controlacceso.domain.AsignacionTurno;
 import empaques.controlacceso.domain.Colaborador;
+import empaques.controlacceso.domain.Respuesta;
 import empaques.controlacceso.domain.Turno;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -26,6 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -208,6 +211,27 @@ public class AsignacionTurnoResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, null))
                 .body(null);
 
+    }
+
+    @PutMapping("/asignacion-turnos/asignacionMasiva")
+    public ResponseEntity<Respuesta> asignacionMasiva(
+            @RequestBody AsignacionMasiva asignacionMasiva) throws URISyntaxException {
+        int contadorAsignaciones = asignacionMasiva.asignacionesTurno.length;
+        for (AsignacionTurno asignacion : asignacionMasiva.asignacionesTurno) {
+            Date fechaActual = new Date();
+            asignacion.setFechaFin(fechaActual.toInstant());
+            this.asignacionTurnoRepository.save(asignacion);
+            AsignacionTurno nuevaAsignacion = new AsignacionTurno();
+            nuevaAsignacion.setColaboradors(asignacion.getColaboradors());
+            nuevaAsignacion.setCargo(asignacionMasiva.cargo);
+            nuevaAsignacion.setTurno(asignacionMasiva.turno);
+            nuevaAsignacion.setFecha(fechaActual.toInstant());
+            this.asignacionTurnoRepository.save(nuevaAsignacion);
+        }
+        Respuesta respuesta = new Respuesta(-3,-2);
+        System.out.println("LA CANTIDAD DE ASIGNACIONES MASIVAS ES: "+contadorAsignaciones);
+        
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName,"hoa","")).body(respuesta);
     }
 
     @PutMapping("/asignacion-turnos/cargar-asistencias")

@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
+import { IAsignacionMasiva } from 'app/shared/model/asignacion-masiva.model';
+import { Respuesta } from 'app/shared/model/respuesta';
 
 type EntityResponseType = HttpResponse<IAsignacionTurno>;
 type EntityArrayResponseType = HttpResponse<IAsignacionTurno[]>;
@@ -103,5 +105,9 @@ export class AsignacionTurnoService {
 
   numAsignacionesByTurno(idTurno: number): Observable<HttpResponse<number>> {
     return this.http.get<number>(`${this.resourceUrl}/turnos/${idTurno}`, { observe: 'response' });
+  }
+
+  asignacionMasiva(asistenciaPlaneacion: IAsignacionMasiva): Observable<HttpResponse<Respuesta>> {
+    return this.http.put<Respuesta>(`${this.resourceUrl}/asignacionMasiva`, asistenciaPlaneacion, { observe: 'response' });
   }
 }
