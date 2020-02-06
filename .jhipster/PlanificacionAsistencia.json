@@ -1,0 +1,63 @@
+{
+    "name": "PlanificacionAsistencia",
+    "fields": [
+        {
+            "fieldName": "fechaInicioPlanificacion",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaFinPlanificacion",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "fechaAsistenciaTurno",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaInicioTurno",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "horaFinTurno",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "nombreCargo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tiposAsistencia",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "minutosDiferencia",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nombreTurno",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "inasistenciaJustificada",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "colaborador",
+            "otherEntityRelationshipName": "planificacionAsistencia",
+            "relationshipName": "colaborador",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200206023654",
+    "entityTableName": "planificacion_asistencia",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

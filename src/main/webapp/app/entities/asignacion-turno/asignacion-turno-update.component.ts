@@ -101,7 +101,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       fecha: asignacionTurno.fecha != null ? asignacionTurno.fecha.format(DATE_FORMAT) : null,
       turno: asignacionTurno.turno,
       colaboradors: asignacionTurno.colaboradors,
-      planeacionSemanal: asignacionTurno.planeacionSemanal,
       cargo: asignacionTurno.cargo
     });
     if (asignacionTurno.id === undefined) {
@@ -132,7 +131,6 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
       fecha: this.editForm.get(['fecha']).value != null ? moment(this.editForm.get(['fecha']).value, DATE_TIME_FORMAT) : undefined,
       turno: this.editForm.get(['turno']).value,
       colaboradors: this.editForm.get(['colaboradors']).value,
-      planeacionSemanal: this.editForm.get(['planeacionSemanal']).value,
       cargo: this.editForm.get(['cargo']).value
     };
   }

@@ -28,13 +28,6 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "planeacionSemanal",
-            "otherEntityRelationshipName": "asignacionTurno",
-            "relationshipName": "planeacionSemanal",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipName": "cargo",
             "otherEntityName": "cargo",
             "relationshipType": "many-to-one",

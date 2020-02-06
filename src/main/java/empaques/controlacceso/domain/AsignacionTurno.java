@@ -1,5 +1,4 @@
 package empaques.controlacceso.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -42,14 +41,6 @@ public class AsignacionTurno implements Serializable {
                joinColumns = @JoinColumn(name = "asignacion_turno_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "colaborador_id", referencedColumnName = "id"))
     private Set<Colaborador> colaboradors = new HashSet<>();
-    /*
-    @OneToOne(mappedBy = "asignacionTurno")
-    @JsonIgnore
-    private AsistenciaPlaneacion asistenciaPlaneacion;
-    */
-    @ManyToOne
-    @JsonIgnoreProperties("asignacionTurnos")
-    private PlaneacionSemanal planeacionSemanal;
 
     @ManyToOne
     @JsonIgnoreProperties("asignacionTurnos")
@@ -126,32 +117,6 @@ public class AsignacionTurno implements Serializable {
 
     public void setColaboradors(Set<Colaborador> colaboradors) {
         this.colaboradors = colaboradors;
-    }
-    /*
-    public AsistenciaPlaneacion getAsistenciaPlaneacion() {
-        return asistenciaPlaneacion;
-    }
-
-    public AsignacionTurno asistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
-        this.asistenciaPlaneacion = asistenciaPlaneacion;
-        return this;
-    }
-
-    public void setAsistenciaPlaneacion(AsistenciaPlaneacion asistenciaPlaneacion) {
-        this.asistenciaPlaneacion = asistenciaPlaneacion;
-    }
-    */
-    public PlaneacionSemanal getPlaneacionSemanal() {
-        return planeacionSemanal;
-    }
-
-    public AsignacionTurno planeacionSemanal(PlaneacionSemanal planeacionSemanal) {
-        this.planeacionSemanal = planeacionSemanal;
-        return this;
-    }
-
-    public void setPlaneacionSemanal(PlaneacionSemanal planeacionSemanal) {
-        this.planeacionSemanal = planeacionSemanal;
     }
 
     public Cargo getCargo() {

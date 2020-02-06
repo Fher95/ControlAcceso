@@ -111,11 +111,6 @@ entity IntercambioTurno {
     autorizadoPor String,
     observaciones String
 }
-entity PlaneacionSemanal {
-    fechaInicio Instant,
-    fechaFin Instant,
-    estado EstadoPlaneacion
-}
 
 entity AsignacionHorasExtras{
     justificacion String,
@@ -188,8 +183,7 @@ relationship OneToMany {
     Colaborador to Telefono
     Colaborador to Antecedentes
     Colaborador to AsistenciaPlaneacion
-    Colaborador to Peticion{colaborador}
-    PlaneacionSemanal to AsignacionTurno
+    Colaborador to Peticion{colaborador}    
 }
 
 
@@ -211,5 +205,4 @@ paginate Antecedentes with pagination
 paginate Peticion with pagination
 paginate Asistencia with pagination
 paginate ReporteAsistencia with pagination
-paginate PlaneacionSemanal with pagination
 paginate IntercambioTurno with pagination

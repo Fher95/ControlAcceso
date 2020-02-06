@@ -1,7 +1,6 @@
 import { Moment } from 'moment';
 import { ITurno } from 'app/shared/model/turno.model';
 import { IColaborador } from 'app/shared/model/colaborador.model';
-import { IPlaneacionSemanal } from 'app/shared/model/planeacion-semanal.model';
 import { ICargo } from 'app/shared/model/cargo.model';
 
 export interface IAsignacionTurno {
@@ -10,7 +9,6 @@ export interface IAsignacionTurno {
   fechaFin?: Moment;
   turno?: ITurno;
   colaboradors?: IColaborador[];
-  planeacionSemanal?: IPlaneacionSemanal;
   cargo?: ICargo;
 }
 
@@ -21,7 +19,6 @@ export class AsignacionTurno implements IAsignacionTurno {
     public fechaFin?: Moment,
     public turno?: ITurno,
     public colaboradors?: IColaborador[],
-    public planeacionSemanal?: IPlaneacionSemanal,
     public cargo?: ICargo
   ) {}
 }

@@ -23,10 +23,7 @@
             </column>
             <column name="turno_id" type="bigint">
                 <constraints nullable="true" />
-            </column>
-            <column name="planeacion_semanal_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+            </column>            
             <column name="cargo_id" type="bigint">
                 <constraints nullable="true" />
             </column>

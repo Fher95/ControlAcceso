@@ -25,12 +25,6 @@
                                  constraintName="fk_asignacion_turno_colaborador_colaborador_id"
                                  referencedColumnNames="id"
                                  referencedTableName="colaborador"/>
-        
-        <addForeignKeyConstraint baseColumnNames="planeacion_semanal_id"
-                                 baseTableName="asignacion_turno"
-                                 constraintName="fk_asignacion_turno_planeacion_semanal_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="planeacion_semanal"/>
 
         <addForeignKeyConstraint baseColumnNames="cargo_id"
                                  baseTableName="asignacion_turno"
