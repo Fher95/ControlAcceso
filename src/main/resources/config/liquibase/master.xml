@@ -32,6 +32,7 @@
     <include file="config/liquibase/changelog/20191029212443_added_entity_Novedades.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212444_added_entity_AsistenciaHorasExtras.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212445_added_entity_ReporteAsistenciaHorasExtras.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200206023654_added_entity_PlanificacionAsistencia.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191029212429_added_entity_constraints_AsignacionTurno.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212430_added_entity_constraints_Cargo.xml" relativeToChangelogFile="false"/>
@@ -43,5 +44,6 @@
     <include file="config/liquibase/changelog/20191029212439_added_entity_constraints_Asistencia.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212440_added_entity_constraints_AsistenciaPlaneacion.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029212435_added_entity_constraints_Peticion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200206023654_added_entity_constraints_PlanificacionAsistencia.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

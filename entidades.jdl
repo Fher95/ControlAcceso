@@ -160,6 +160,20 @@ entity ReporteAsistenciaHorasExtras{
     fechaFin Instant
 }
 
+// PlaneacionSemana cambiada a PlanificacionAsistencia
+entity PlanificacionAsistencia {
+    fechaInicioPlanificacion Instant,
+    fechaFinPlanificacion Instant,
+    fechaAsistenciaTurno Instant,
+    horaInicioTurno Instant,
+    horaFinTurno Instant,
+    nombreCargo String,
+    tiposAsistencia String,
+    minutosDiferencia String,
+    nombreTurno String,
+    inasistenciaJustificada Boolean    
+}
+
 /**
  * One to one relationship.
  */
@@ -184,6 +198,7 @@ relationship OneToMany {
     Colaborador to Antecedentes
     Colaborador to AsistenciaPlaneacion
     Colaborador to Peticion{colaborador}    
+    Colaborador to PlanificacionAsistencia{colaborador}
 }
 
 
@@ -206,3 +221,4 @@ paginate Peticion with pagination
 paginate Asistencia with pagination
 paginate ReporteAsistencia with pagination
 paginate IntercambioTurno with pagination
+paginate PlanificacionAsistencia with pagination

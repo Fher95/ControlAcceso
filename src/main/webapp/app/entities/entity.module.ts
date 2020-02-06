@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AsignacionMasivaComponent } from './asignacion-masiva/asignacion-masiva.component';
 
 @NgModule({
   imports: [
@@ -83,11 +82,16 @@ import { AsignacionMasivaComponent } from './asignacion-masiva/asignacion-masiva
             m => m.ControlAccesoReporteAsistenciaHorasExtrasModule
           )
       },
-      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
       {
         path: 'asignacion-masiva',
         loadChildren: () => import('./asignacion-masiva/asignacion-masiva.module').then(m => m.ControlAccesoAsignacionMasivaModule)
+      },
+      {
+        path: 'planificacion-asistencia',
+        loadChildren: () =>
+          import('./planificacion-asistencia/planificacion-asistencia.module').then(m => m.ControlAccesoPlanificacionAsistenciaModule)
       }
+      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
   ]
   // ,  declarations: [AsignacionMasivaComponent]

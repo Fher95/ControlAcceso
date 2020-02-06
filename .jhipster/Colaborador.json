@@ -124,6 +124,12 @@
             "relationshipName": "peticion"
         },
         {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "planificacionAsistencia",
+            "otherEntityRelationshipName": "colaborador",
+            "relationshipName": "planificacionAsistencia"
+        },
+        {
             "relationshipType": "many-to-many",
             "otherEntityName": "asignacionHorasExtras",
             "otherEntityRelationshipName": "colaborador",

@@ -115,6 +115,10 @@ public class Colaborador implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Peticion> peticions = new HashSet<>();
 
+    @OneToMany(mappedBy = "colaborador")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<PlanificacionAsistencia> planificacionAsistencias = new HashSet<>();
+
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "colaborador_asignacion_horas_extras",
@@ -531,6 +535,31 @@ public class Colaborador implements Serializable {
 
     public void setPeticions(Set<Peticion> peticions) {
         this.peticions = peticions;
+    }
+
+    public Set<PlanificacionAsistencia> getPlanificacionAsistencias() {
+        return planificacionAsistencias;
+    }
+
+    public Colaborador planificacionAsistencias(Set<PlanificacionAsistencia> planificacionAsistencias) {
+        this.planificacionAsistencias = planificacionAsistencias;
+        return this;
+    }
+
+    public Colaborador addPlanificacionAsistencia(PlanificacionAsistencia planificacionAsistencia) {
+        this.planificacionAsistencias.add(planificacionAsistencia);
+        planificacionAsistencia.setColaborador(this);
+        return this;
+    }
+
+    public Colaborador removePlanificacionAsistencia(PlanificacionAsistencia planificacionAsistencia) {
+        this.planificacionAsistencias.remove(planificacionAsistencia);
+        planificacionAsistencia.setColaborador(null);
+        return this;
+    }
+
+    public void setPlanificacionAsistencias(Set<PlanificacionAsistencia> planificacionAsistencias) {
+        this.planificacionAsistencias = planificacionAsistencias;
     }
 
     public Set<AsignacionHorasExtras> getAsignacionHorasExtras() {

@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="planificacionAsistencia">
+            <h2><span jhiTranslate="controlAccesoApp.planificacionAsistencia.detail.title">Planificacion Asistencia</span> {{planificacionAsistencia.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion">Fecha Inicio Planificacion</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.fechaInicioPlanificacion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion">Fecha Fin Planificacion</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.fechaFinPlanificacion}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno">Fecha Asistencia Turno</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.fechaAsistenciaTurno}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno">Hora Inicio Turno</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.horaInicioTurno}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno">Hora Fin Turno</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.horaFinTurno}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo">Nombre Cargo</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.nombreCargo}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia">Tipos Asistencia</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.tiposAsistencia}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos Diferencia</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.minutosDiferencia}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno">Nombre Turno</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.nombreTurno}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada">Inasistencia Justificada</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.inasistenciaJustificada}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador">Colaborador</span></dt>
+                <dd>
+                    <div *ngIf="planificacionAsistencia.colaborador">
+                        <a [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view']">{{planificacionAsistencia.colaborador?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

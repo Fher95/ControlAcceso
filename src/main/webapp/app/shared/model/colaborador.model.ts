@@ -4,6 +4,7 @@ import { ITelefono } from 'app/shared/model/telefono.model';
 import { IAntecedentes } from 'app/shared/model/antecedentes.model';
 import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
 import { IPeticion } from 'app/shared/model/peticion.model';
+import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
 import { IAsignacionHorasExtras } from 'app/shared/model/asignacion-horas-extras.model';
 import { IAsignacionTurno } from 'app/shared/model/asignacion-turno.model';
 import { Estado } from 'app/shared/model/enumerations/estado.model';
@@ -36,6 +37,7 @@ export interface IColaborador {
   antecedentes?: IAntecedentes[];
   asistenciaPlaneacions?: IAsistenciaPlaneacion[];
   peticions?: IPeticion[];
+  planificacionAsistencias?: IPlanificacionAsistencia[];
   asignacionHorasExtras?: IAsignacionHorasExtras[];
   asignacionTurnos?: IAsignacionTurno[];
 }
@@ -68,6 +70,7 @@ export class Colaborador implements IColaborador {
     public antecedentes?: IAntecedentes[],
     public asistenciaPlaneacions?: IAsistenciaPlaneacion[],
     public peticions?: IPeticion[],
+    public planificacionAsistencias?: IPlanificacionAsistencia[],
     public asignacionHorasExtras?: IAsignacionHorasExtras[],
     public asignacionTurnos?: IAsignacionTurno[]
   ) {}

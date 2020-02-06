@@ -1,0 +1,32 @@
+{
+  "controlAccesoApp": {
+    "planificacionAsistencia": {
+      "home": {
+        "title": "Planificacion Asistencias",
+        "createLabel": "Create a new Planificacion Asistencia",
+        "createOrEditLabel": "Create or edit a Planificacion Asistencia",
+        "notFound": "No Planificacion Asistencias found"
+      },
+      "created": "A new Planificacion Asistencia is created with identifier {{ param }}",
+      "updated": "A Planificacion Asistencia is updated with identifier {{ param }}",
+      "deleted": "A Planificacion Asistencia is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Planificacion Asistencia {{ id }}?"
+      },
+      "detail": {
+        "title": "Planificacion Asistencia"
+      },
+      "fechaInicioPlanificacion": "Fecha Inicio Planificacion",
+      "fechaFinPlanificacion": "Fecha Fin Planificacion",
+      "fechaAsistenciaTurno": "Fecha Asistencia Turno",
+      "horaInicioTurno": "Hora Inicio Turno",
+      "horaFinTurno": "Hora Fin Turno",
+      "nombreCargo": "Nombre Cargo",
+      "tiposAsistencia": "Tipos Asistencia",
+      "minutosDiferencia": "Minutos Diferencia",
+      "nombreTurno": "Nombre Turno",
+      "inasistenciaJustificada": "Inasistencia Justificada",
+      "colaborador": "Colaborador"
+    }
+  }
+}

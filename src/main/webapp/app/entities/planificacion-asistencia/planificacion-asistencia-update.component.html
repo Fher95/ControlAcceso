@@ -1,0 +1,86 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-planificacion-asistencia-heading" jhiTranslate="controlAccesoApp.planificacionAsistencia.home.createOrEditLabel">Create or edit a Planificacion Asistencia</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion" for="field_fechaInicioPlanificacion">Fecha Inicio Planificacion</label>
+                    <div class="d-flex">
+                        <input id="field_fechaInicioPlanificacion" type="datetime-local" class="form-control" name="fechaInicioPlanificacion" formControlName="fechaInicioPlanificacion" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion" for="field_fechaFinPlanificacion">Fecha Fin Planificacion</label>
+                    <div class="d-flex">
+                        <input id="field_fechaFinPlanificacion" type="datetime-local" class="form-control" name="fechaFinPlanificacion" formControlName="fechaFinPlanificacion" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno" for="field_fechaAsistenciaTurno">Fecha Asistencia Turno</label>
+                    <div class="d-flex">
+                        <input id="field_fechaAsistenciaTurno" type="datetime-local" class="form-control" name="fechaAsistenciaTurno" formControlName="fechaAsistenciaTurno" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno" for="field_horaInicioTurno">Hora Inicio Turno</label>
+                    <div class="d-flex">
+                        <input id="field_horaInicioTurno" type="datetime-local" class="form-control" name="horaInicioTurno" formControlName="horaInicioTurno" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno" for="field_horaFinTurno">Hora Fin Turno</label>
+                    <div class="d-flex">
+                        <input id="field_horaFinTurno" type="datetime-local" class="form-control" name="horaFinTurno" formControlName="horaFinTurno" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo" for="field_nombreCargo">Nombre Cargo</label>
+                    <input type="text" class="form-control" name="nombreCargo" id="field_nombreCargo"
+                           formControlName="nombreCargo"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia" for="field_tiposAsistencia">Tipos Asistencia</label>
+                    <input type="text" class="form-control" name="tiposAsistencia" id="field_tiposAsistencia"
+                           formControlName="tiposAsistencia"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia" for="field_minutosDiferencia">Minutos Diferencia</label>
+                    <input type="text" class="form-control" name="minutosDiferencia" id="field_minutosDiferencia"
+                           formControlName="minutosDiferencia"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno" for="field_nombreTurno">Nombre Turno</label>
+                    <input type="text" class="form-control" name="nombreTurno" id="field_nombreTurno"
+                           formControlName="nombreTurno"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada" for="field_inasistenciaJustificada">Inasistencia Justificada</label>
+                    <input type="checkbox" class="form-control" name="inasistenciaJustificada" id="field_inasistenciaJustificada"
+                           formControlName="inasistenciaJustificada"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador" for="field_colaborador">Colaborador</label>
+                    <select class="form-control" id="field_colaborador" name="colaborador" formControlName="colaborador">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="colaboradorOption.id === editForm.get('colaborador').value?.id ? editForm.get('colaborador').value : colaboradorOption" *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">{{colaboradorOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

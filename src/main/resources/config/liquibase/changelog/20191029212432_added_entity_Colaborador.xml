@@ -31,7 +31,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="numero_documento" type="varchar(255)">
-                <constraints nullable="true" unique="true"/>
+                <constraints nullable="true" />
             </column>
             <column name="lugar_expedicion" type="varchar(255)">
                 <constraints nullable="true" />
