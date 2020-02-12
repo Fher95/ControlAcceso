@@ -37,7 +37,7 @@ export const planificacionAsistenciaRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
       defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },

@@ -65,8 +65,8 @@ public class CacheConfiguration {
             createCache(cm, empaques.controlacceso.domain.Peticion.class.getName());
             createCache(cm, empaques.controlacceso.domain.Peticion.class.getName() + ".colaboradors");
             createCache(cm, empaques.controlacceso.domain.IntercambioTurno.class.getName());
-            createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName());
-            createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName() + ".asignacionTurnos");
+            // createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName());
+            // createCache(cm, empaques.controlacceso.domain.PlaneacionSemanal.class.getName() + ".asignacionTurnos");
             createCache(cm, empaques.controlacceso.domain.AsignacionHorasExtras.class.getName());
             createCache(cm, empaques.controlacceso.domain.AsignacionHorasExtras.class.getName() + ".colaboradors");
             createCache(cm, empaques.controlacceso.domain.Asistencia.class.getName());
