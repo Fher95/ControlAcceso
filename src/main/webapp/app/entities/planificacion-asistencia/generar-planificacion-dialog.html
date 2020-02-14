@@ -1,19 +1,61 @@
-<form name="deleteForm" (ngSubmit)="confirmDelete(planificacionAsistencia.id)">
+<form name="deleteForm">
     <div class="modal-header">
-        <h4 >Generar nueva planificacion</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+        <h4>Generar nueva planificacion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <p >Seleccione las fechas:</p>
+        <div class="row">
+            <div class="col-md-7">
+                <h4>Seleccione las fechas de la planeación</h4>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" jhiTranslate="audits.filter.from">from</span>
+                    </div>
+                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                        (ngModelChange)="validar()" required />
+
+                    <div class="input-group-append">
+                        <span class="input-group-text" jhiTranslate="audits.filter.to">To</span>
+                    </div>
+                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate" (ngModelChange)="validar()"
+                        required />
+                    <small *ngIf="this.seleccionInvalida" class="text-danger">La fecha de inicio no puede ser superior a
+                        la fecha fin.</small>
+                    <small *ngIf="this.fechaInicioInvalida" class="text-danger">La fecha de inicio no puede ser inferior
+                        a la fecha actual.</small>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div *ngIf="confirmado" class="form-group">
+            <div>
+                <h3>Confirme los datos ingresados</h3>
+                <hr>
+                <p>Verifique los siguientes datos y seleccione Guardar para aceptar.</p>
+                <dt>Desde: </dt>
+                <p *ngIf="this.dateInicio">{{this.dateInicio | date : 'longDate'}}</p>
+                <dt>Hasta: </dt>
+                <p *ngIf="this.dateFin">{{this.dateFin | date : 'longDate'}}</p>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
             <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button id="jhi-confirm-delete-planificacionAsistencia" type="submit" class="btn btn-danger">
-            <fa-icon [icon]="'times'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+        <button *ngIf="confirmado" id="jhi-confirm-delete-planificacionAsistencia" type="button"
+        (click)="this.generarAsistenciaPlanificacion()" class="btn btn-primary"
+        [disabled]="!this.todoCorrecto">
+            <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+
+        <button *ngIf="!confirmado" type="button" class="btn btn-primary" (click)="this.confirmar()"
+        [disabled]="!this.todoCorrecto">            
+            &nbsp;<span >Aceptar</span>
         </button>
     </div>
 </form>

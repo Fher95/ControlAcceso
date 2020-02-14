@@ -3,6 +3,7 @@ package empaques.controlacceso.web.rest;
 import empaques.controlacceso.config.DateTimeFormatConfiguration;
 import empaques.controlacceso.domain.AsignacionTurno;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
+import empaques.controlacceso.domain.Respuesta;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -156,13 +157,15 @@ public class PlanificacionAsistenciaResource {
     /**
      * -------------------------------Nuevas
      * Funciones-------------------------------
+     * @return 
      */
 
     @PutMapping("/planificacion-asistencias/generar-planificacion")
-    public ResponseEntity<String> generarPlanificacion(@RequestBody Instant fechaInicio,
-            @RequestBody Instant fechaFin) {
+    public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
         String respuesta = "";
-        if (fechaInicio.isBefore(fechaFin)) {
+        Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
+        Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();        
+        if (fechaInicio.compareTo(fechaFin) < 0) {
             // Se obtiene la lista de asignaciones actuales
             List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
             // Se empieza a recorrer cada asignacion para sacar sus datos
@@ -170,14 +173,15 @@ public class PlanificacionAsistenciaResource {
                 AsignacionTurno asignacion = asignacionesActuales.get(i);
                 // Se crea el nuevo registro que será creado en bd
                 PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
-                // Se extrae el primer y unico colaborador de la lista de cols (en teoría solo debería haber uno)
+                // Se extrae el primer y unico colaborador de la lista de cols (en teoría solo
+                // debería haber uno)
                 if (asignacion.getColaboradors().iterator().hasNext()) {
                     // Se obtienen los días comprendidos entre las dos fechas dadas.
-                    Date dateInicio = new Date(fechaInicio.toString());                    
-                    Date dateFin = new Date(fechaFin.toString());
+                    Date dateInicio = Date.from(fechaInicio);
+                    Date dateFin = Date.from(fechaFin);
                     // Obtengo el numero de días entre las dos fechas
-                    int dias=(int) ((dateFin.getTime()-dateInicio.getTime())/86400000);                    
-                    for (int i2 = 0; i2 < dias ; i2 ++) {  
+                    int dias = (int) ((dateFin.getTime() - dateInicio.getTime()) / 86400000);
+                    for (int i2 = 0; i2 < dias; i2++) {
 
                         Date fechaAsistencia = dateInicio;
                         fechaAsistencia.setDate(dateInicio.getDate() + i2);
@@ -186,18 +190,28 @@ public class PlanificacionAsistenciaResource {
                         nuevoRegistroAsistencia.setFechaFinPlanificacion(fechaFin);
                         nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
                         nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
-                        nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());                        
+                        nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
                         this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);
 
-                }
+                    }
 
                 }
             }
-            respuesta = "Planeacion generada";
-            return ResponseEntity.ok(respuesta);
+            Respuesta varRespuesta = new Respuesta(); varRespuesta.mensaje = "Exito";
+            return ResponseEntity.ok().body(varRespuesta);
         } else {
-            respuesta = "La fecha de inicio es superior a la fecha fin.";
-            return ResponseEntity.badRequest().body(respuesta);
+            Respuesta varRespuesta = new Respuesta(); varRespuesta.mensaje = "Error";
+            return ResponseEntity.ok().body(varRespuesta);
         }
+    }
+
+    public int getDiasEntreFechas( Date fecha1, Date fecha2) {
+        int contador = 0;
+        while (fecha1.compareTo(fecha2) <= 0) {
+            fecha1.setDate(fecha1.getDate() + 1);
+            contador ++;
+        }
+
+        return contador;
     }
 }

@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
+import { Respuesta } from 'app/shared/model/respuesta';
 
 type EntityResponseType = HttpResponse<IPlanificacionAsistencia>;
 type EntityArrayResponseType = HttpResponse<IPlanificacionAsistencia[]>;
@@ -50,9 +51,9 @@ export class PlanificacionAsistenciaService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  generarPlaneacion(planificacionAsistencia: IPlanificacionAsistencia): Observable<HttpResponse<string>> {
+  generarPlaneacion(planificacionAsistencia: IPlanificacionAsistencia): Observable<HttpResponse<Respuesta>> {
     const copy: IPlanificacionAsistencia = this.convertDateFromClient(planificacionAsistencia);
-    return this.http.put<string>(`${this.resourceUrl}/generar-planificacion`, copy, { observe: 'response' });
+    return this.http.put<Respuesta>(`${this.resourceUrl}/generar-planificacion`, copy, { observe: 'response' });
   }
 
   protected convertDateFromClient(planificacionAsistencia: IPlanificacionAsistencia): IPlanificacionAsistencia {

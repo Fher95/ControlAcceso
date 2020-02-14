@@ -13,6 +13,9 @@ public class Respuesta {
 
     public int numAsignaciones;
     public int numRechazados;
+    public String mensaje;
+    
+    public Respuesta(){}
 
     public Respuesta(int numAsignaciones, int numRechazados) {
         this.numAsignaciones = numAsignaciones;

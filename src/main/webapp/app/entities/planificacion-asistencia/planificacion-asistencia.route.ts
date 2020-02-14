@@ -100,7 +100,7 @@ export const planificacionAsistenciaPopupRoute: Routes = [
 
 export const generarPlanificacionPopupRoute: Routes = [
   {
-    path: 'generar-planificacion',
+    path: '/generar-planificacion',
     component: GenerarPlanificacionPopupComponent,
     data: {
       authorities: ['ROLE_USER'],
