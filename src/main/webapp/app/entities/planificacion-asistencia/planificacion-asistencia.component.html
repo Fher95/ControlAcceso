@@ -1,6 +1,13 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.title">Planificacion Asistencias</span>
+
+        <button type = "button" class="btn btn-primary float-right jh-create-entity" [routerLink]="['/planificacion-asistencia/generar-planificacion']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  >
+            Generar Nueva Planificacion
+            </span>
+        </button>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-planificacion-asistencia" [routerLink]="['/planificacion-asistencia/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="controlAccesoApp.planificacionAsistencia.home.createLabel">

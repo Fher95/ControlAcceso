@@ -9,9 +9,14 @@ import {
   PlanificacionAsistenciaDeletePopupComponent,
   PlanificacionAsistenciaDeleteDialogComponent
 } from './planificacion-asistencia-delete-dialog.component';
-import { planificacionAsistenciaRoute, planificacionAsistenciaPopupRoute } from './planificacion-asistencia.route';
+import {
+  planificacionAsistenciaRoute,
+  planificacionAsistenciaPopupRoute,
+  generarPlanificacionPopupRoute
+} from './planificacion-asistencia.route';
+import { GenerarPlanificacionDialogComponent, GenerarPlanificacionPopupComponent } from './generar-planificacion-dialog';
 
-const ENTITY_STATES = [...planificacionAsistenciaRoute, ...planificacionAsistenciaPopupRoute];
+const ENTITY_STATES = [...planificacionAsistenciaRoute, ...planificacionAsistenciaPopupRoute, ...generarPlanificacionPopupRoute];
 
 @NgModule({
   imports: [ControlAccesoSharedModule, RouterModule.forChild(ENTITY_STATES)],
@@ -20,8 +25,10 @@ const ENTITY_STATES = [...planificacionAsistenciaRoute, ...planificacionAsistenc
     PlanificacionAsistenciaDetailComponent,
     PlanificacionAsistenciaUpdateComponent,
     PlanificacionAsistenciaDeleteDialogComponent,
-    PlanificacionAsistenciaDeletePopupComponent
+    PlanificacionAsistenciaDeletePopupComponent,
+    GenerarPlanificacionPopupComponent,
+    GenerarPlanificacionDialogComponent
   ],
-  entryComponents: [PlanificacionAsistenciaDeleteDialogComponent]
+  entryComponents: [PlanificacionAsistenciaDeleteDialogComponent, GenerarPlanificacionDialogComponent]
 })
 export class ControlAccesoPlanificacionAsistenciaModule {}

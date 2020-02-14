@@ -2,6 +2,7 @@ package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.ControlAccesoApp;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
+import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.ExceptionTranslator;
 
@@ -74,6 +75,9 @@ public class PlanificacionAsistenciaResourceIT {
     private PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
 
     @Autowired
+    private AsignacionTurnoRepository asignacionTurnoRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -95,7 +99,8 @@ public class PlanificacionAsistenciaResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PlanificacionAsistenciaResource planificacionAsistenciaResource = new PlanificacionAsistenciaResource(planificacionAsistenciaRepository);
+        final PlanificacionAsistenciaResource planificacionAsistenciaResource = new PlanificacionAsistenciaResource(planificacionAsistenciaRepository,
+        asignacionTurnoRepository);
         this.restPlanificacionAsistenciaMockMvc = MockMvcBuilders.standaloneSetup(planificacionAsistenciaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

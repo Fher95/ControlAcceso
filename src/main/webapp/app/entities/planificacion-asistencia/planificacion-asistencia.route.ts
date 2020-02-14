@@ -12,6 +12,7 @@ import { PlanificacionAsistenciaDetailComponent } from './planificacion-asistenc
 import { PlanificacionAsistenciaUpdateComponent } from './planificacion-asistencia-update.component';
 import { PlanificacionAsistenciaDeletePopupComponent } from './planificacion-asistencia-delete-dialog.component';
 import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
+import { GenerarPlanificacionPopupComponent } from './generar-planificacion-dialog';
 
 @Injectable({ providedIn: 'root' })
 export class PlanificacionAsistenciaResolve implements Resolve<IPlanificacionAsistencia> {
@@ -88,6 +89,19 @@ export const planificacionAsistenciaPopupRoute: Routes = [
     resolve: {
       planificacionAsistencia: PlanificacionAsistenciaResolve
     },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
+  }
+];
+
+export const generarPlanificacionPopupRoute: Routes = [
+  {
+    path: 'generar-planificacion',
+    component: GenerarPlanificacionPopupComponent,
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'

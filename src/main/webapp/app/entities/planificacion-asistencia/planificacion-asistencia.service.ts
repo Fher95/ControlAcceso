@@ -50,6 +50,11 @@ export class PlanificacionAsistenciaService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  generarPlaneacion(planificacionAsistencia: IPlanificacionAsistencia): Observable<HttpResponse<string>> {
+    const copy: IPlanificacionAsistencia = this.convertDateFromClient(planificacionAsistencia);
+    return this.http.put<string>(`${this.resourceUrl}/generar-planificacion`, copy, { observe: 'response' });
+  }
+
   protected convertDateFromClient(planificacionAsistencia: IPlanificacionAsistencia): IPlanificacionAsistencia {
     const copy: IPlanificacionAsistencia = Object.assign({}, planificacionAsistencia, {
       fechaInicioPlanificacion:
