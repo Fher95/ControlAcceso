@@ -65,8 +65,6 @@ export class GenerarPlanificacionDialogComponent {
 
   generarAsistenciaPlanificacion() {
     const planificacionAsisAGenerar: IPlanificacionAsistencia = new PlanificacionAsistencia();
-    const dateInicio: Date = new Date(this.fromDate);
-
     planificacionAsisAGenerar.fechaInicioPlanificacion = moment(this.fromDate, DATE_FORMAT);
     planificacionAsisAGenerar.fechaFinPlanificacion = moment(this.toDate, DATE_FORMAT);
     this.planificacionAsistenciaService
@@ -77,6 +75,11 @@ export class GenerarPlanificacionDialogComponent {
       )
       .subscribe((res: Respuesta) => {
         this.mostrarMensaje(res.mensaje);
+        this.eventManager.broadcast({
+          name: 'planificacionAsistenciaListModification',
+          content: 'Generar una planificacionAsistencia'
+        });
+        this.activeModal.dismiss(true);
       });
   }
 

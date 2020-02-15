@@ -170,9 +170,8 @@ public class PlanificacionAsistenciaResource {
             List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
             // Se empieza a recorrer cada asignacion para sacar sus datos
             for (int i = 0; i < asignacionesActuales.size(); i++) {
-                AsignacionTurno asignacion = asignacionesActuales.get(i);
-                // Se crea el nuevo registro que será creado en bd
-                PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
+                AsignacionTurno asignacion = asignacionesActuales.get(i);                
+                Date dateTurno = Date.from( asignacion.getTurno().getHoraInicio());
                 // Se extrae el primer y unico colaborador de la lista de cols (en teoría solo
                 // debería haber uno)
                 if (asignacion.getColaboradors().iterator().hasNext()) {
@@ -181,9 +180,11 @@ public class PlanificacionAsistenciaResource {
                     Date dateFin = Date.from(fechaFin);
                     // Obtengo el numero de días entre las dos fechas
                     int dias = (int) ((dateFin.getTime() - dateInicio.getTime()) / 86400000);
-                    for (int i2 = 0; i2 < dias; i2++) {
-
-                        Date fechaAsistencia = dateInicio;
+                    for (int i2 = 0; i2 <= dias; i2++) {
+                        // Se crea el nuevo registro que será creado en bd
+                        PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
+                        Date fechaAsistencia = new Date(dateInicio.getYear(),dateInicio.getMonth(), dateInicio.getDate()
+                        ,dateTurno.getHours(), dateTurno.getMinutes());
                         fechaAsistencia.setDate(dateInicio.getDate() + i2);
                         nuevoRegistroAsistencia.setColaborador(asignacion.getColaboradors().iterator().next());
                         nuevoRegistroAsistencia.setFechaInicioPlanificacion(fechaInicio);
