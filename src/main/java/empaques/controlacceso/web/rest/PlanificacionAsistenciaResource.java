@@ -193,7 +193,6 @@ public class PlanificacionAsistenciaResource {
                         nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
                         nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
                         this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);
-
                     }
 
                 }
