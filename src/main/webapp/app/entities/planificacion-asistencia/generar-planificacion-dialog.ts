@@ -74,7 +74,7 @@ export class GenerarPlanificacionDialogComponent {
         map((res: HttpResponse<Respuesta>) => res.body)
       )
       .subscribe((res: Respuesta) => {
-        this.mostrarMensaje(res.mensaje);
+        this.mostrarMensaje(res.tipoMensaje, res.mensaje);
         this.eventManager.broadcast({
           name: 'planificacionAsistenciaListModification',
           content: 'Generar una planificacionAsistencia'
@@ -83,9 +83,13 @@ export class GenerarPlanificacionDialogComponent {
       });
   }
 
-  mostrarMensaje(parMensaje: string) {
+  mostrarMensaje(parMensaje: string, tipoMensaje: string) {
     this.jhiAlertService.i18nEnabled = false;
-    this.jhiAlertService.info(parMensaje);
+    if (tipoMensaje === 'Exito') {
+      this.jhiAlertService.info(parMensaje);
+    } else if (tipoMensaje === 'Error') {
+      this.jhiAlertService.error(parMensaje);
+    }
     this.jhiAlertService.i18nEnabled = true;
   }
 
@@ -98,10 +102,35 @@ export class GenerarPlanificacionDialogComponent {
   confirmDelete(id: number) {}
 
   confirmar() {
+    const planificacionAsisAGenerar: IPlanificacionAsistencia = new PlanificacionAsistencia();
+    planificacionAsisAGenerar.fechaInicioPlanificacion = moment(this.fromDate, DATE_FORMAT);
+    planificacionAsisAGenerar.fechaFinPlanificacion = moment(this.toDate, DATE_FORMAT);
+    this.planificacionAsistenciaService
+      .verificarNuevaPlanificacion(planificacionAsisAGenerar)
+      .pipe(
+        filter((res: HttpResponse<Respuesta>) => res.ok),
+        map((res: HttpResponse<Respuesta>) => res.body)
+      )
+      .subscribe((res: Respuesta) => {
+        this.procesarRespuesta(res);
+      });
+
     if (this.confirmado) {
       this.confirmado = false;
     } else {
       this.confirmado = true;
+    }
+  }
+
+  procesarRespuesta(res: Respuesta) {
+    if (res.tipoMensaje === 'Exito') {
+      if (this.confirmado) {
+        this.confirmado = false;
+      } else {
+        this.confirmado = true;
+      }
+    } else if (res.tipoMensaje === 'Error') {
+      this.mostrarMensaje(res.tipoMensaje, res.mensaje);
     }
   }
 

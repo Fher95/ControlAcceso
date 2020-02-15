@@ -37,17 +37,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class PlanificacionAsistenciaResource {
-
+    
     private final Logger log = LoggerFactory.getLogger(PlanificacionAsistenciaResource.class);
-
+    
     private static final String ENTITY_NAME = "planificacionAsistencia";
-
+    
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
+    
     private final PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
     private final AsignacionTurnoRepository asignacionTurnoReposity;
-
+    
     public PlanificacionAsistenciaResource(PlanificacionAsistenciaRepository planificacionAsistenciaRepository,
             AsignacionTurnoRepository asignacionTurnoRepository) {
         this.planificacionAsistenciaRepository = planificacionAsistenciaRepository;
@@ -59,10 +59,10 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new planificacionAsistencia, or with status
-     *         {@code 400 (Bad Request)} if the planificacionAsistencia has already
-     *         an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new planificacionAsistencia, or with status
+     * {@code 400 (Bad Request)} if the planificacionAsistencia has already an
+     * ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/planificacion-asistencias")
@@ -76,7 +76,7 @@ public class PlanificacionAsistenciaResource {
         PlanificacionAsistencia result = planificacionAsistenciaRepository.save(planificacionAsistencia);
         return ResponseEntity
                 .created(new URI("/api/planificacion-asistencias/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -85,11 +85,11 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated planificacionAsistencia, or with status
-     *         {@code 400 (Bad Request)} if the planificacionAsistencia is not
-     *         valid, or with status {@code 500 (Internal Server Error)} if the
-     *         planificacionAsistencia couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the updated planificacionAsistencia, or with status
+     * {@code 400 (Bad Request)} if the planificacionAsistencia is not valid, or
+     * with status {@code 500 (Internal Server Error)} if the
+     * planificacionAsistencia couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/planificacion-asistencias")
@@ -108,11 +108,11 @@ public class PlanificacionAsistenciaResource {
      * {@code GET  /planificacion-asistencias} : get all the
      * planificacionAsistencias.
      *
-     * 
+     *
      * @param pageable the pagination information.
-     * 
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of planificacionAsistencias in body.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
+     * list of planificacionAsistencias in body.
      */
     @GetMapping("/planificacion-asistencias")
     public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(Pageable pageable) {
@@ -128,8 +128,8 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param id the id of the planificacionAsistencia to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the planificacionAsistencia, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the planificacionAsistencia, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/planificacion-asistencias/{id}")
     public ResponseEntity<PlanificacionAsistencia> getPlanificacionAsistencia(@PathVariable Long id) {
@@ -157,11 +157,14 @@ public class PlanificacionAsistenciaResource {
     /**
      * -------------------------------Nuevas
      * Funciones-------------------------------
-     * @return 
+     *
+     * @return
      */
-
     @PutMapping("/planificacion-asistencias/generar-planificacion")
     public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
+        List<PlanificacionAsistencia> listaPlanFechas = this.planificacionAsistenciaRepository
+                .findAllBetweenDates(planificacionAsistencia.getFechaInicioPlanificacion(), planificacionAsistencia.getFechaFinPlanificacion());
+        
         String respuesta = "";
         Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
         Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();        
@@ -171,7 +174,7 @@ public class PlanificacionAsistenciaResource {
             // Se empieza a recorrer cada asignacion para sacar sus datos
             for (int i = 0; i < asignacionesActuales.size(); i++) {
                 AsignacionTurno asignacion = asignacionesActuales.get(i);                
-                Date dateTurno = Date.from( asignacion.getTurno().getHoraInicio());
+                Date dateTurno = Date.from(asignacion.getTurno().getHoraInicio());
                 // Se extrae el primer y unico colaborador de la lista de cols (en teoría solo
                 // debería haber uno)
                 if (asignacion.getColaboradors().iterator().hasNext()) {
@@ -183,8 +186,8 @@ public class PlanificacionAsistenciaResource {
                     for (int i2 = 0; i2 <= dias; i2++) {
                         // Se crea el nuevo registro que será creado en bd
                         PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
-                        Date fechaAsistencia = new Date(dateInicio.getYear(),dateInicio.getMonth(), dateInicio.getDate()
-                        ,dateTurno.getHours(), dateTurno.getMinutes());
+                        Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate(),
+                                 dateTurno.getHours(), dateTurno.getMinutes());
                         fechaAsistencia.setDate(dateInicio.getDate() + i2);
                         nuevoRegistroAsistencia.setColaborador(asignacion.getColaboradors().iterator().next());
                         nuevoRegistroAsistencia.setFechaInicioPlanificacion(fechaInicio);
@@ -192,26 +195,44 @@ public class PlanificacionAsistenciaResource {
                         nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
                         nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
                         nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
-                        this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);
+                        this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);                        
                     }
-
+                    
                 }
             }
-            Respuesta varRespuesta = new Respuesta(); varRespuesta.mensaje = "Exito";
+            Respuesta varRespuesta = new Respuesta();
+            varRespuesta.mensaje = "Exito";
             return ResponseEntity.ok().body(varRespuesta);
         } else {
-            Respuesta varRespuesta = new Respuesta(); varRespuesta.mensaje = "Error";
+            Respuesta varRespuesta = new Respuesta();
+            varRespuesta.mensaje = "Error";
             return ResponseEntity.ok().body(varRespuesta);
         }
     }
-
-    public int getDiasEntreFechas( Date fecha1, Date fecha2) {
+    
+    @GetMapping("/planificacion-asistencias/verificar-fechas")    
+    ResponseEntity<Respuesta> verificarFechasPlaneacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
+        int contadorPlanificaciones = this.planificacionAsistenciaRepository
+                .countdAllBetweenDates(planificacionAsistencia.getFechaInicioPlanificacion(), planificacionAsistencia.getFechaFinPlanificacion());
+        
+        Respuesta nuevaRespuesta = new Respuesta();
+        if (contadorPlanificaciones == 0) {
+            nuevaRespuesta.tipoMensaje = "Exito";
+        } else {
+            nuevaRespuesta.tipoMensaje = "Error";
+            nuevaRespuesta.mensaje = "Ya existen registros de planeación entre esas dos fechas.";
+        }
+        
+        return ResponseEntity.ok().body(nuevaRespuesta);
+    }
+    
+    public int getDiasEntreFechas(Date fecha1, Date fecha2) {
         int contador = 0;
         while (fecha1.compareTo(fecha2) <= 0) {
             fecha1.setDate(fecha1.getDate() + 1);
-            contador ++;
+            contador++;
         }
-
+        
         return contador;
     }
 }

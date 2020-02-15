@@ -13,6 +13,7 @@ public class Respuesta {
 
     public int numAsignaciones;
     public int numRechazados;
+    public String tipoMensaje;
     public String mensaje;
     
     public Respuesta(){}
