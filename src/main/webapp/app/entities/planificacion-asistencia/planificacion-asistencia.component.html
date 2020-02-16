@@ -1,88 +1,153 @@
 <div>
     <h2 id="page-heading">
+
         <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.title">Planificacion Asistencias</span>
 
-        <button type = "submit" class="btn btn-primary float-right jh-create-entity"
-        [routerLink]="['/planificacion-asistencia', { outlets: { popup:'/generar-planificacion'} }]">
+        <button type="submit" class="btn btn-primary float-right jh-create-entity"
+            [routerLink]="['/planificacion-asistencia', { outlets: { popup:'/generar-planificacion'} }]">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  >
-            Generar Nueva Planificacion
+            <span>
+                Generar Nueva Planificacion
             </span>
         </button>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-planificacion-asistencia" [routerLink]="['/planificacion-asistencia/new']">
+        <button id="jh-create-entity"
+            class="btn btn-primary float-right jh-create-entity create-planificacion-asistencia"
+            [routerLink]="['/planificacion-asistencia/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="controlAccesoApp.planificacionAsistencia.home.createLabel">
-            Create a new Planificacion Asistencia
+            <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.createLabel">
+                Create a new Planificacion Asistencia
             </span>
-        </button>
+        </button>        
     </h2>
+    <div class="row">
+        <div class="col-md-5">
+            <h4 jhiTranslate="audits.filter.title">Filter by date</h4>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">del</span>
+                </div>
+                <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                    (ngModelChange)="transition()" required />
+
+                <div class="input-group-append">
+                    <span class="input-group-text" >al</span>
+                </div>
+                <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                    (ngModelChange)="transition()" required />
+            </div>
+        </div>
+    </div>
     <jhi-alert></jhi-alert>
-    <br/>
+    <br />
     <div class="alert alert-warning" *ngIf="planificacionAsistencias?.length === 0">
-        <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.notFound">No planificacionAsistencias found</span>
+        <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.notFound">No planificacionAsistencias
+            found</span>
     </div>
     <div class="table-responsive" *ngIf="planificacionAsistencias?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fechaInicioPlanificacion"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion">Fecha Inicio Planificacion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fechaFinPlanificacion"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion">Fecha Fin Planificacion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="fechaAsistenciaTurno"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno">Fecha Asistencia Turno</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="horaInicioTurno"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno">Hora Inicio Turno</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="horaFinTurno"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno">Hora Fin Turno</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="nombreCargo"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo">Nombre Cargo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="tiposAsistencia"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia">Tipos Asistencia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="minutosDiferencia"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos Diferencia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="nombreTurno"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno">Nombre Turno</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="inasistenciaJustificada"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada">Inasistencia Justificada</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="colaborador.id"><span jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador">Colaborador</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="fechaInicioPlanificacion"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion">Fecha
+                            Inicio Planificacion</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="fechaFinPlanificacion"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion">Fecha Fin
+                            Planificacion</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="fechaAsistenciaTurno"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno">Fecha
+                            Asistencia Turno</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="horaInicioTurno"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno">Hora Inicio
+                            Turno</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="horaFinTurno"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno">Hora Fin Turno</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="nombreCargo"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo">Nombre Cargo</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="tiposAsistencia"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia">Tipos
+                            Asistencia</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="minutosDiferencia"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos
+                            Diferencia</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="nombreTurno"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno">Nombre Turno</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="inasistenciaJustificada"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada">Inasistencia
+                            Justificada</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th jhiSortBy="colaborador.id"><span
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador">Colaborador</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let planificacionAsistencia of planificacionAsistencias ;trackBy: trackId">
-                <td><a [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'view' ]">{{planificacionAsistencia.id}}</a></td>
-                <td>{{planificacionAsistencia.fechaInicioPlanificacion | date:'medium'}}</td>
-                <td>{{planificacionAsistencia.fechaFinPlanificacion | date:'medium'}}</td>
-                <td>{{planificacionAsistencia.fechaAsistenciaTurno | date:'medium'}}</td>
-                <td>{{planificacionAsistencia.horaInicioTurno | date:'medium'}}</td>
-                <td>{{planificacionAsistencia.horaFinTurno | date:'medium'}}</td>
-                <td>{{planificacionAsistencia.nombreCargo}}</td>
-                <td>{{planificacionAsistencia.tiposAsistencia}}</td>
-                <td>{{planificacionAsistencia.minutosDiferencia}}</td>
-                <td>{{planificacionAsistencia.nombreTurno}}</td>
-                <td>{{planificacionAsistencia.inasistenciaJustificada}}</td>
-                <td>
-                    <div *ngIf="planificacionAsistencia.colaborador">
-                        <a [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]" >{{planificacionAsistencia.colaborador?.id}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
+                <tr *ngFor="let planificacionAsistencia of planificacionAsistencias ;trackBy: trackId">
+                    <td><a
+                            [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'view' ]">{{planificacionAsistencia.id}}</a>
+                    </td>
+                    <td>{{planificacionAsistencia.fechaInicioPlanificacion | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.fechaFinPlanificacion | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.fechaAsistenciaTurno | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.horaInicioTurno | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.horaFinTurno | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.nombreCargo}}</td>
+                    <td>{{planificacionAsistencia.tiposAsistencia}}</td>
+                    <td>{{planificacionAsistencia.minutosDiferencia}}</td>
+                    <td>{{planificacionAsistencia.nombreTurno}}</td>
+                    <td>{{planificacionAsistencia.inasistenciaJustificada}}</td>
+                    <td>
+                        <div *ngIf="planificacionAsistencia.colaborador">
+                            <a
+                                [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]">{{planificacionAsistencia.colaborador?.id}}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
                                 [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'view' ]"
                                 class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
+                                <fa-icon [icon]="'eye'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+                            <button type="submit"
                                 [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'edit']"
                                 class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
+                                <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit"
                                 [routerLink]="['/planificacion-asistencia', { outlets: { popup: planificacionAsistencia.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                                replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -91,7 +156,8 @@
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </div>
 </div>

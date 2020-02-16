@@ -19,13 +19,19 @@ import { filter, map } from 'rxjs/operators';
 export class GenerarPlanificacionDialogComponent {
   fromDate: string;
   toDate: string;
-  seleccionInvalida = false;
+  atrMensaje: string;
+
   fechaInicioInvalida: boolean;
+
   dateInicio: Date;
   dateActual: Date;
   dateFin: Date;
+
+  seleccionInvalida = false;
   confirmado = false;
   todoCorrecto = false;
+  planeacionNoValida = false;
+
   constructor(
     protected planificacionAsistenciaService: PlanificacionAsistenciaService,
     public activeModal: NgbActiveModal,
@@ -36,7 +42,9 @@ export class GenerarPlanificacionDialogComponent {
   clear() {
     this.activeModal.dismiss('cancel');
   }
+
   validar() {
+    this.reiniciarBanderas();
     const dateActual = new Date();
     dateActual.setHours(0, 0, 0, 0);
     const dateInicio = this.getDate(this.fromDate);
@@ -74,7 +82,7 @@ export class GenerarPlanificacionDialogComponent {
         map((res: HttpResponse<Respuesta>) => res.body)
       )
       .subscribe((res: Respuesta) => {
-        this.mostrarMensaje(res.tipoMensaje, res.mensaje);
+        this.mostrarMensaje(res.mensaje, res.tipoMensaje);
         this.eventManager.broadcast({
           name: 'planificacionAsistenciaListModification',
           content: 'Generar una planificacionAsistencia'
@@ -114,23 +122,16 @@ export class GenerarPlanificacionDialogComponent {
       .subscribe((res: Respuesta) => {
         this.procesarRespuesta(res);
       });
-
-    if (this.confirmado) {
-      this.confirmado = false;
-    } else {
-      this.confirmado = true;
-    }
   }
 
   procesarRespuesta(res: Respuesta) {
     if (res.tipoMensaje === 'Exito') {
-      if (this.confirmado) {
-        this.confirmado = false;
-      } else {
-        this.confirmado = true;
-      }
+      this.confirmado = true;
+      this.planeacionNoValida = false;
     } else if (res.tipoMensaje === 'Error') {
-      this.mostrarMensaje(res.tipoMensaje, res.mensaje);
+      this.confirmado = false;
+      this.planeacionNoValida = true;
+      // this.mostrarMensaje( res.mensaje,res.tipoMensaje);
     }
   }
 
@@ -140,6 +141,13 @@ export class GenerarPlanificacionDialogComponent {
     } else {
       this.todoCorrecto = false;
     }
+  }
+
+  reiniciarBanderas() {
+    this.seleccionInvalida = false;
+    this.confirmado = false;
+    this.todoCorrecto = false;
+    this.planeacionNoValida = false;
   }
 }
 

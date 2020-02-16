@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -37,17 +39,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class PlanificacionAsistenciaResource {
-    
+
     private final Logger log = LoggerFactory.getLogger(PlanificacionAsistenciaResource.class);
-    
+
     private static final String ENTITY_NAME = "planificacionAsistencia";
-    
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-    
+
     private final PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
     private final AsignacionTurnoRepository asignacionTurnoReposity;
-    
+
     public PlanificacionAsistenciaResource(PlanificacionAsistenciaRepository planificacionAsistenciaRepository,
             AsignacionTurnoRepository asignacionTurnoRepository) {
         this.planificacionAsistenciaRepository = planificacionAsistenciaRepository;
@@ -114,10 +116,15 @@ public class PlanificacionAsistenciaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
      * list of planificacionAsistencias in body.
      */
-    @GetMapping("/planificacion-asistencias")
-    public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(Pageable pageable) {
+    @GetMapping(path = "/planificacion-asistencias", params = {"fromDate", "toDate"})
+    public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(
+            @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate, Pageable pageable) {
+        Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant();
         log.debug("REST request to get a page of PlanificacionAsistencias");
-        Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAll(pageable);
+        // Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAll(pageable);
+        Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAllByDates(from, to, pageable);
         HttpHeaders headers = PaginationUtil
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -158,23 +165,22 @@ public class PlanificacionAsistenciaResource {
      * -------------------------------Nuevas
      * Funciones-------------------------------
      *
+     * @param planificacionAsistencia
      * @return
      */
     @PutMapping("/planificacion-asistencias/generar-planificacion")
     public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
-        List<PlanificacionAsistencia> listaPlanFechas = this.planificacionAsistenciaRepository
-                .findAllBetweenDates(planificacionAsistencia.getFechaInicioPlanificacion(), planificacionAsistencia.getFechaFinPlanificacion());
-        
-        String respuesta = "";
+
+        int numAsignaciones = 0, numRegistros = 0;
         Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
-        Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();        
-        if (fechaInicio.compareTo(fechaFin) < 0) {
+        Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();
+        if (fechaInicio.compareTo(fechaFin) <= 0) {
             // Se obtiene la lista de asignaciones actuales
             List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
+            numAsignaciones = asignacionesActuales.size();
             // Se empieza a recorrer cada asignacion para sacar sus datos
             for (int i = 0; i < asignacionesActuales.size(); i++) {
-                AsignacionTurno asignacion = asignacionesActuales.get(i);                
-                Date dateTurno = Date.from(asignacion.getTurno().getHoraInicio());
+                AsignacionTurno asignacion = asignacionesActuales.get(i);
                 // Se extrae el primer y unico colaborador de la lista de cols (en teoría solo
                 // debería haber uno)
                 if (asignacion.getColaboradors().iterator().hasNext()) {
@@ -185,36 +191,30 @@ public class PlanificacionAsistenciaResource {
                     int dias = (int) ((dateFin.getTime() - dateInicio.getTime()) / 86400000);
                     for (int i2 = 0; i2 <= dias; i2++) {
                         // Se crea el nuevo registro que será creado en bd
-                        PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
-                        Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate(),
-                                 dateTurno.getHours(), dateTurno.getMinutes());
-                        fechaAsistencia.setDate(dateInicio.getDate() + i2);
-                        nuevoRegistroAsistencia.setColaborador(asignacion.getColaboradors().iterator().next());
-                        nuevoRegistroAsistencia.setFechaInicioPlanificacion(fechaInicio);
-                        nuevoRegistroAsistencia.setFechaFinPlanificacion(fechaFin);
-                        nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
-                        nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
-                        nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
-                        this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);                        
+                        PlanificacionAsistencia nuevoRegistroAsistencia = this.generarRegistro(dateInicio, dateFin, asignacion, i2);
+                        this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);
+                        numRegistros++;
                     }
-                    
                 }
             }
             Respuesta varRespuesta = new Respuesta();
-            varRespuesta.mensaje = "Exito";
+            varRespuesta.tipoMensaje = "Exito";
+            varRespuesta.mensaje = "Se generó una nueva planilla de asistencia. "
+                    + "\n" + numAsignaciones + " turnos asignados actualmente. \n" + numRegistros + " registros de asistencia generados";
             return ResponseEntity.ok().body(varRespuesta);
         } else {
             Respuesta varRespuesta = new Respuesta();
-            varRespuesta.mensaje = "Error";
+            varRespuesta.tipoMensaje = "Error";
+            varRespuesta.mensaje = "La fecha de inicio no puede ser superior a la fecha fin.";
             return ResponseEntity.ok().body(varRespuesta);
         }
     }
-    
-    @GetMapping("/planificacion-asistencias/verificar-fechas")    
+
+    @PutMapping("/planificacion-asistencias/verificar-fechas")
     ResponseEntity<Respuesta> verificarFechasPlaneacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
         int contadorPlanificaciones = this.planificacionAsistenciaRepository
                 .countdAllBetweenDates(planificacionAsistencia.getFechaInicioPlanificacion(), planificacionAsistencia.getFechaFinPlanificacion());
-        
+
         Respuesta nuevaRespuesta = new Respuesta();
         if (contadorPlanificaciones == 0) {
             nuevaRespuesta.tipoMensaje = "Exito";
@@ -222,17 +222,37 @@ public class PlanificacionAsistenciaResource {
             nuevaRespuesta.tipoMensaje = "Error";
             nuevaRespuesta.mensaje = "Ya existen registros de planeación entre esas dos fechas.";
         }
-        
+
         return ResponseEntity.ok().body(nuevaRespuesta);
     }
-    
+
     public int getDiasEntreFechas(Date fecha1, Date fecha2) {
         int contador = 0;
         while (fecha1.compareTo(fecha2) <= 0) {
             fecha1.setDate(fecha1.getDate() + 1);
             contador++;
         }
-        
+
         return contador;
+    }
+
+    public PlanificacionAsistencia generarRegistro(Date dateInicio, Date dateFin, AsignacionTurno asignacion, int numDia) {
+        PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
+        Date dateTurno = Date.from(asignacion.getTurno().getHoraInicio());
+        Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate(),
+                dateTurno.getHours(), dateTurno.getMinutes());
+        fechaAsistencia.setDate(dateInicio.getDate() + numDia);
+        nuevoRegistroAsistencia.setColaborador(asignacion.getColaboradors().iterator().next());
+        nuevoRegistroAsistencia.setFechaInicioPlanificacion(dateInicio.toInstant());
+        nuevoRegistroAsistencia.setFechaFinPlanificacion(dateFin.toInstant());
+        nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
+        nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
+        nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
+        nuevoRegistroAsistencia.setHoraInicioTurno(fechaAsistencia.toInstant());
+        Date dateHoraFinTurno = new Date();
+        dateHoraFinTurno = fechaAsistencia;
+        dateHoraFinTurno.setHours(fechaAsistencia.getHours() + asignacion.getTurno().getDuracion());
+        nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
+        return nuevoRegistroAsistencia;
     }
 }

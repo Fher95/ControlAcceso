@@ -11,6 +11,7 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PlanificacionAsistenciaService } from './planificacion-asistencia.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-planificacion-asistencia',
@@ -30,6 +31,8 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
   predicate: any;
   previousPage: any;
   reverse: any;
+  fromDate: string;
+  toDate: string;
 
   constructor(
     protected planificacionAsistenciaService: PlanificacionAsistenciaService,
@@ -38,6 +41,7 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
+    private datePipe: DatePipe,
     protected eventManager: JhiEventManager
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -54,7 +58,9 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
-        sort: this.sort()
+        sort: this.sort(),
+        fromDate: this.fromDate,
+        toDate: this.toDate
       })
       .subscribe(
         (res: HttpResponse<IPlanificacionAsistencia[]>) => this.paginatePlanificacionAsistencias(res.body, res.headers),
@@ -93,6 +99,8 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.today();
+    this.previousMonth();
     this.loadAll();
     this.accountService.identity().then(account => {
       this.currentAccount = account;
@@ -128,5 +136,27 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  today() {
+    const dateFormat = 'yyyy-MM-dd';
+    // Today + 1 day - needed if the current day must be included
+    const today: Date = new Date();
+    today.setDate(today.getDate());
+    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    this.toDate = this.datePipe.transform(date, dateFormat);
+  }
+
+  previousMonth() {
+    const dateFormat = 'yyyy-MM-dd';
+    let fromDate: Date = new Date();
+
+    if (fromDate.getMonth() === 0) {
+      fromDate = new Date(fromDate.getFullYear() - 1, 11, fromDate.getDate());
+    } else {
+      fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
+    }
+
+    this.fromDate = this.datePipe.transform(fromDate, dateFormat);
   }
 }
