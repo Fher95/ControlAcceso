@@ -2,9 +2,11 @@ package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.config.DateTimeFormatConfiguration;
 import empaques.controlacceso.domain.AsignacionTurno;
+import empaques.controlacceso.domain.Asistencia;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
 import empaques.controlacceso.domain.Respuesta;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
+import empaques.controlacceso.repository.AsistenciaRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 
@@ -31,6 +33,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import empaques.controlacceso.service.util.GestionArchivos;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 /**
  * REST controller for managing
@@ -49,11 +57,13 @@ public class PlanificacionAsistenciaResource {
 
     private final PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
     private final AsignacionTurnoRepository asignacionTurnoReposity;
+    private final AsistenciaRepository asistenciaReposity;
 
     public PlanificacionAsistenciaResource(PlanificacionAsistenciaRepository planificacionAsistenciaRepository,
-            AsignacionTurnoRepository asignacionTurnoRepository) {
+            AsignacionTurnoRepository asignacionTurnoRepository, AsistenciaRepository asistenciaRep) {
         this.planificacionAsistenciaRepository = planificacionAsistenciaRepository;
         this.asignacionTurnoReposity = asignacionTurnoRepository;
+        this.asistenciaReposity = asistenciaRep;
     }
 
     /**
@@ -254,5 +264,71 @@ public class PlanificacionAsistenciaResource {
         dateHoraFinTurno.setHours(fechaAsistencia.getHours() + asignacion.getTurno().getDuracion());
         nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
         return nuevoRegistroAsistencia;
+    }
+
+    /**
+     * Metodos para la carga de la asistencia
+     */
+    @GetMapping("/planificacion-asistencias/cargar-asistencias")
+    public ResponseEntity<Respuesta> cargarAsistencias() {
+        GestionArchivos gestorArchivos = new GestionArchivos();
+        // Creación del arreglo de lectura del archivo
+        ArrayList<String> lineasArchivo = gestorArchivos.leerLineasArchivo();
+        // Se crea una matriz de datos para facilitar la manipulación de los datos de
+        // cada linea del archivo
+        ArrayList<String[]> matrizDatos = this.generarMatrizDeDatos(lineasArchivo);
+
+        // Se recorre la matriz
+        for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
+            // Se obtienen los datos a buscar de cada linea
+            String varNumDocumento = matrizDatos.get(iterador2)[0];
+            Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
+            Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
+            if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {
+                // CONTINUAR PROGRAMANDO AQUÍ
+            }
+        }
+
+        return null;
+    }
+    
+    private boolean existeRegistroAsistencia(String docColaborador, Instant entrada, Instant salida) {        
+        Asistencia objAsistencia = new Asistencia();
+        objAsistencia.setDocumentoColaborador(docColaborador);
+        objAsistencia.setEntrada(entrada);
+        objAsistencia.setSalida(salida);
+        Example<Asistencia> registroAsistencia = Example.of(objAsistencia);             
+        boolean respuesta = this.asistenciaReposity.exists(registroAsistencia);        
+        return respuesta;
+    }
+
+    /**
+     * Recibe un lista con cadenas o strings para proceder a separar cada una de
+     * esas cadenas en vectores de strings por medio de algun caracter separador
+     * como ";"
+     *
+     * @param parLista Lista de strings
+     * @return Un arreglo de arreglos
+     */
+    private ArrayList<String[]> generarMatrizDeDatos(ArrayList<String> parLista) {
+        System.out.println("Comienza generacion de matriz de datos.");
+        ArrayList<String[]> matrizResult = new ArrayList<>();
+        for (int iterador = 0; iterador < parLista.size(); iterador++) {
+            String[] datosLinea = parLista.get(iterador).split(";");
+            matrizResult.add(datosLinea);
+        }
+        System.out.println("Finaliza generacio de matriz de datos.");
+        return matrizResult;
+    }
+
+    private Date convertirStringADate(String parString) {
+        Date fechaResult = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            fechaResult = sdf.parse(parString);
+        } catch (ParseException ex) {
+            fechaResult = null;
+        }
+        return fechaResult;
     }
 }
