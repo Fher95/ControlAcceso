@@ -1,5 +1,6 @@
 package empaques.controlacceso.web.rest;
 
+import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.domain.Peticion;
 import empaques.controlacceso.repository.PeticionRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -20,11 +21,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import org.springframework.data.domain.Example;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.Peticion}.
@@ -151,5 +155,27 @@ public class PeticionResource {
         return ResponseEntity.noContent()
                 .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
                 .build();
+    }
+
+    public boolean existePeticionAprobada(String parDocCol, Date parFecha, String tipoPeticion) {        
+        boolean respuesta = false;        
+        
+        if ("Permiso".equals(tipoPeticion)) {
+            Peticion objPeticion = new Peticion();        
+            Colaborador objCol = new Colaborador(); objCol.setNumeroDocumento(parDocCol);            
+            objPeticion.setColaborador(objCol);
+            objPeticion.setFechaPeticion(parFecha.toInstant());  
+            Example<Peticion> examplePeticion = Example.of(objPeticion);
+            respuesta = this.peticionRepository.exists(examplePeticion);
+        }
+        if ("Vacaciones".equals(tipoPeticion)) {
+            int cont = this.peticionRepository.findVacacionesAutorizadas(parDocCol,parFecha.toInstant());
+            if (cont > 0) {
+                respuesta = true;
+            } else {
+                respuesta = false;
+            }
+        }                
+        return respuesta;
     }
 }

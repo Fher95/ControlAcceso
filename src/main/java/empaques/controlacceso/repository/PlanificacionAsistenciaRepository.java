@@ -26,4 +26,8 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate")
     Page<PlanificacionAsistencia> findAllByDates(@Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate,Pageable pageable);
 
+
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tipoAsistencia = null and inasistenciaJustificada = null")
+    List<PlanificacionAsistencia> findPlanificacionesActuales();    
+
 }

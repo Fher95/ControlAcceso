@@ -1,5 +1,6 @@
 package empaques.controlacceso.web.rest;
 
+import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.domain.IntercambioTurno;
 import empaques.controlacceso.repository.IntercambioTurnoRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -19,9 +20,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Example;
 
 /**
  * REST controller for managing {@link empaques.controlacceso.domain.IntercambioTurno}.
@@ -122,5 +126,21 @@ public class IntercambioTurnoResource {
         log.debug("REST request to delete IntercambioTurno : {}", id);
         intercambioTurnoRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+    
+    public IntercambioTurno getIntercambioTurno(String parNumDoc, Date parFecha) {
+        IntercambioTurno objResultado;                
+        Optional<IntercambioTurno> result = this.intercambioTurnoRepository.findIntercambioConFecha(parNumDoc, parFecha.toInstant());
+        // Primero pregunta si hay un intermcabio para la fecha acordada con el colaborador 1
+        if (result.isPresent()){
+            objResultado = result.get();
+        } else {
+            // Sino existe un registro solo con fecha, se busca uno que comprenda la fecha entre fecha y fechaFin
+            result = this.intercambioTurnoRepository.findIntercambioEntreFechas(parNumDoc,parFecha.toInstant());
+            if (result.isPresent()) {
+                return result.get();
+            }
+        }        
+        return null;
     }
 }

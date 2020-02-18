@@ -3,10 +3,12 @@ package empaques.controlacceso.web.rest;
 import empaques.controlacceso.config.DateTimeFormatConfiguration;
 import empaques.controlacceso.domain.AsignacionTurno;
 import empaques.controlacceso.domain.Asistencia;
+import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
 import empaques.controlacceso.domain.Respuesta;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.AsistenciaRepository;
+import empaques.controlacceso.repository.PeticionRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 
@@ -58,12 +60,16 @@ public class PlanificacionAsistenciaResource {
     private final PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
     private final AsignacionTurnoRepository asignacionTurnoReposity;
     private final AsistenciaRepository asistenciaReposity;
+    private final PeticionRepository peticionRepository;
+    PeticionResource objPeticionResource;
 
     public PlanificacionAsistenciaResource(PlanificacionAsistenciaRepository planificacionAsistenciaRepository,
-            AsignacionTurnoRepository asignacionTurnoRepository, AsistenciaRepository asistenciaRep) {
+            AsignacionTurnoRepository asignacionTurnoRepository, AsistenciaRepository asistenciaRep,
+            PeticionRepository peticionRepository) {
         this.planificacionAsistenciaRepository = planificacionAsistenciaRepository;
         this.asignacionTurnoReposity = asignacionTurnoRepository;
         this.asistenciaReposity = asistenciaRep;
+        this.peticionRepository = peticionRepository;
     }
 
     /**
@@ -180,7 +186,7 @@ public class PlanificacionAsistenciaResource {
      */
     @PutMapping("/planificacion-asistencias/generar-planificacion")
     public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
-
+        this.objPeticionResource = new PeticionResource(peticionRepository);
         int numAsignaciones = 0, numRegistros = 0;
         Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
         Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();
@@ -242,7 +248,6 @@ public class PlanificacionAsistenciaResource {
             fecha1.setDate(fecha1.getDate() + 1);
             contador++;
         }
-
         return contador;
     }
 
@@ -252,7 +257,8 @@ public class PlanificacionAsistenciaResource {
         Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate(),
                 dateTurno.getHours(), dateTurno.getMinutes());
         fechaAsistencia.setDate(dateInicio.getDate() + numDia);
-        nuevoRegistroAsistencia.setColaborador(asignacion.getColaboradors().iterator().next());
+        Colaborador objCol = asignacion.getColaboradors().iterator().next();
+        nuevoRegistroAsistencia.setColaborador(objCol);
         nuevoRegistroAsistencia.setFechaInicioPlanificacion(dateInicio.toInstant());
         nuevoRegistroAsistencia.setFechaFinPlanificacion(dateFin.toInstant());
         nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
@@ -263,6 +269,15 @@ public class PlanificacionAsistenciaResource {
         dateHoraFinTurno = fechaAsistencia;
         dateHoraFinTurno.setHours(fechaAsistencia.getHours() + asignacion.getTurno().getDuracion());
         nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
+        
+        Date fechaPeticion = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
+        boolean tienePermiso = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Permiso");
+        boolean tieneVacaciones = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Vacaciones");
+        if (tienePermiso || tieneVacaciones) {
+            nuevoRegistroAsistencia.setInasistenciaJustificada(true);
+        } else {
+            nuevoRegistroAsistencia.setInasistenciaJustificada(false);
+        }
         return nuevoRegistroAsistencia;
     }
 
@@ -285,20 +300,73 @@ public class PlanificacionAsistenciaResource {
             Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
             Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
             if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {
-                // CONTINUAR PROGRAMANDO AQUÍ
+                List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();
+                for (PlanificacionAsistencia planificacionAsistencia : planificacionesActuales) {
+
+                }
             }
         }
-
         return null;
     }
-    
-    private boolean existeRegistroAsistencia(String docColaborador, Instant entrada, Instant salida) {        
+
+    /**
+     * Recibe el numero de documento del colaborador, las fechas de entrada y de
+     * salida de su asistencia y con eso Buscar el registro correspondiente en
+     * la planilla de asistencia y determina si llegó tarde o si llegó temprano
+     * y por cuánto tiempo de diferencia
+     *
+     * @param parLista
+     * @param parDocCol
+     * @param parEntradaAsist
+     * @param parSalidaAsist
+     * @return
+     */
+    private List<PlanificacionAsistencia> procesarAsistencia(
+            List<PlanificacionAsistencia> parLista, String parDocCol, Date parEntradaAsist, Date parSalidaAsist) {
+        PeticionResource objPeticionResourse;
+        for (PlanificacionAsistencia planAsist : parLista) {
+            if (parDocCol.equals(planAsist.getColaborador().getNumeroDocumento())) {
+                String tipoEntrada;
+                String tipoSalida;
+                Date fechaHoraEntrada = Date.from(planAsist.getHoraInicioTurno());
+                if (this.mismaFecha(parEntradaAsist, fechaHoraEntrada)) {
+                    long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
+                    int numMinutos = (int) ((difMilisegundos / 1000) / 60);
+                    if (numMinutos <= 0) {
+                        tipoEntrada = "EntradaTemprano";
+                    } else {
+                        tipoEntrada = "EntradaTarde";
+                    }
+                }
+                Date fechaHoraSaldia = Date.from(planAsist.getHoraInicioTurno());
+                if (this.mismaFecha(parSalidaAsist, fechaHoraSaldia)) {
+                    long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
+                    int numMinutos = (int) ((difMilisegundos / 1000) / 60);
+                    if (numMinutos <= 0) {
+                        tipoEntrada = "SalidaTemprano";
+                    } else {
+                        tipoEntrada = "SalidaTarde";
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean mismaFecha(Date parFecha1, Date parFecha2) {
+        int anio1 = parFecha1.getYear(), mes1 = parFecha1.getMonth(), dia1 = parFecha1.getDate();
+        int anio2 = parFecha2.getYear(), mes2 = parFecha2.getMonth(), dia2 = parFecha2.getDate();
+
+        return anio1 == anio2 && mes1 == mes2 && dia1 == dia2;
+    }
+
+    private boolean existeRegistroAsistencia(String docColaborador, Instant entrada, Instant salida) {
         Asistencia objAsistencia = new Asistencia();
         objAsistencia.setDocumentoColaborador(docColaborador);
         objAsistencia.setEntrada(entrada);
         objAsistencia.setSalida(salida);
-        Example<Asistencia> registroAsistencia = Example.of(objAsistencia);             
-        boolean respuesta = this.asistenciaReposity.exists(registroAsistencia);        
+        Example<Asistencia> registroAsistencia = Example.of(objAsistencia);
+        boolean respuesta = this.asistenciaReposity.exists(registroAsistencia);
         return respuesta;
     }
 
