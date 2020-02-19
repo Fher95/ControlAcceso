@@ -61,6 +61,10 @@ export class PlanificacionAsistenciaService {
     return this.http.put<Respuesta>(`${this.resourceUrl}/verificar-fechas`, copy, { observe: 'response' });
   }
 
+  cargarAsistencias(): Observable<HttpResponse<Respuesta>> {
+    return this.http.get<Respuesta>(`${this.resourceUrl}/cargar-asistencias`, { observe: 'response' });
+  }
+
   protected convertDateFromClient(planificacionAsistencia: IPlanificacionAsistencia): IPlanificacionAsistencia {
     const copy: IPlanificacionAsistencia = Object.assign({}, planificacionAsistencia, {
       fechaInicioPlanificacion:

@@ -269,7 +269,7 @@ public class PlanificacionAsistenciaResource {
         dateHoraFinTurno = fechaAsistencia;
         dateHoraFinTurno.setHours(fechaAsistencia.getHours() + asignacion.getTurno().getDuracion());
         nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
-        
+
         Date fechaPeticion = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
         boolean tienePermiso = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Permiso");
         boolean tieneVacaciones = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Vacaciones");
@@ -281,9 +281,7 @@ public class PlanificacionAsistenciaResource {
         return nuevoRegistroAsistencia;
     }
 
-    /**
-     * Metodos para la carga de la asistencia
-     */
+    /*  Metodos para la carga de la asistencia  */
     @GetMapping("/planificacion-asistencias/cargar-asistencias")
     public ResponseEntity<Respuesta> cargarAsistencias() {
         GestionArchivos gestorArchivos = new GestionArchivos();
@@ -292,21 +290,31 @@ public class PlanificacionAsistenciaResource {
         // Se crea una matriz de datos para facilitar la manipulación de los datos de
         // cada linea del archivo
         ArrayList<String[]> matrizDatos = this.generarMatrizDeDatos(lineasArchivo);
-
+        int contRegistroActualizados = 0;
+        // Se obtiene la lista planificaciones (planilla de asistencia) para empezar a comparar los registros de asistencia
+        List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();        
         // Se recorre la matriz
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
             // Se obtienen los datos a buscar de cada linea
             String varNumDocumento = matrizDatos.get(iterador2)[0];
             Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
             Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
-            if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {
-                List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();
-                for (PlanificacionAsistencia planificacionAsistencia : planificacionesActuales) {
-
+            if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {                
+                if (this.procesarAsistencia(planificacionesActuales, varNumDocumento, varFechaHoraEntrada, varFechaHoraSalida)) {
+                    contRegistroActualizados++;
+                    Asistencia nuevoRegAsis = new Asistencia();
+                    nuevoRegAsis.setDocumentoColaborador(varNumDocumento);
+                    nuevoRegAsis.setEntrada(varFechaHoraEntrada.toInstant());
+                    nuevoRegAsis.setSalida(varFechaHoraSalida.toInstant());
+                    this.asistenciaReposity.save(nuevoRegAsis);
                 }
             }
         }
-        return null;
+        Respuesta varRes = new Respuesta();
+        varRes.tipoMensaje = "Exito";
+        varRes.mensaje = "Se ha realizado la carga de asistencias. \n "
+                + contRegistroActualizados + " registros fueron actualzados";
+        return ResponseEntity.ok().body(varRes);
     }
 
     /**
@@ -321,36 +329,58 @@ public class PlanificacionAsistenciaResource {
      * @param parSalidaAsist
      * @return
      */
-    private List<PlanificacionAsistencia> procesarAsistencia(
+    private boolean procesarAsistencia(
             List<PlanificacionAsistencia> parLista, String parDocCol, Date parEntradaAsist, Date parSalidaAsist) {
-        PeticionResource objPeticionResourse;
+        boolean asistenciaRegistrada = false;
         for (PlanificacionAsistencia planAsist : parLista) {
             if (parDocCol.equals(planAsist.getColaborador().getNumeroDocumento())) {
-                String tipoEntrada;
-                String tipoSalida;
                 Date fechaHoraEntrada = Date.from(planAsist.getHoraInicioTurno());
                 if (this.mismaFecha(parEntradaAsist, fechaHoraEntrada)) {
-                    long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
-                    int numMinutos = (int) ((difMilisegundos / 1000) / 60);
-                    if (numMinutos <= 0) {
-                        tipoEntrada = "EntradaTemprano";
-                    } else {
-                        tipoEntrada = "EntradaTarde";
+                    String tipoEntrada = null;
+                    String tipoSalida = null;
+                    boolean regEntrada = false, regSalida = false;
+                    if (this.horaDentroDeUmbral(parEntradaAsist, fechaHoraEntrada, 1)) {
+                        long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
+                        int numMinutos = (int) ((difMilisegundos / 1000) / 60);
+                        if (numMinutos <= 0) {
+                            tipoEntrada = "EntradaTemprano";
+                        } else {
+                            tipoEntrada = "EntradaTarde";
+                        }
+                        planAsist.setMinutosDiferencia(Integer.toString(numMinutos));
+                        planAsist.setTiposAsistencia(tipoEntrada);
+                        regEntrada = true;
                     }
-                }
-                Date fechaHoraSaldia = Date.from(planAsist.getHoraInicioTurno());
-                if (this.mismaFecha(parSalidaAsist, fechaHoraSaldia)) {
-                    long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
-                    int numMinutos = (int) ((difMilisegundos / 1000) / 60);
-                    if (numMinutos <= 0) {
-                        tipoEntrada = "SalidaTemprano";
-                    } else {
-                        tipoEntrada = "SalidaTarde";
+                    Date fechaHoraSalida = Date.from(planAsist.getHoraFinTurno());
+                    if (this.mismaFecha(parSalidaAsist, fechaHoraSalida) && this.horaDentroDeUmbral(parSalidaAsist, fechaHoraSalida, 1)) {
+                        long difMilisegundos = (parSalidaAsist.getTime() - fechaHoraSalida.getTime());
+                        int numMinutos = (int) ((difMilisegundos / 1000) / 60);
+                        if (numMinutos <= 0) {
+                            tipoSalida = "SalidaTemprano";
+                        } else {
+                            tipoSalida = "SalidaTarde";
+                        }
+                        planAsist.setMinutosDiferencia(planAsist.getMinutosDiferencia() + "-" + numMinutos);
+                        planAsist.setTiposAsistencia(planAsist.getTiposAsistencia() + "-" + tipoSalida);
+                        regSalida = true;
+                    }
+                    if (regEntrada || regSalida) {
+                        this.planificacionAsistenciaRepository.save(planAsist);
+                        return true;
                     }
                 }
             }
         }
-        return null;
+        return asistenciaRegistrada;
+    }
+
+    private boolean horaDentroDeUmbral(Date parFecha1, Date parFecha2, int horasUmbral) {
+        long difMilisegundos = parFecha1.getTime() - parFecha2.getTime();
+        int numMinutos = (int) ((difMilisegundos / 1000) / 60);
+        if (numMinutos < 0) {
+            numMinutos = (-1) * numMinutos;
+        }
+        return numMinutos <= (60 * horasUmbral);
     }
 
     private boolean mismaFecha(Date parFecha1, Date parFecha2) {

@@ -12,6 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PlanificacionAsistenciaService } from './planificacion-asistencia.service';
 import { DatePipe } from '@angular/common';
+import { Respuesta } from 'app/shared/model/respuesta';
 
 @Component({
   selector: 'jhi-planificacion-asistencia',
@@ -158,5 +159,27 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     }
 
     this.fromDate = this.datePipe.transform(fromDate, dateFormat);
+  }
+
+  cargarAsistencias() {
+    this.planificacionAsistenciaService
+      .cargarAsistencias()
+      .pipe(
+        filter((res: HttpResponse<Respuesta>) => res.ok),
+        map((res: HttpResponse<Respuesta>) => res.body)
+      )
+      .subscribe((res: Respuesta) => {
+        this.mostrarMensaje(res.mensaje, res.tipoMensaje);
+      });
+  }
+
+  mostrarMensaje(parMensaje: string, tipoMensaje: string) {
+    this.jhiAlertService.i18nEnabled = false;
+    if (tipoMensaje === 'Exito') {
+      this.jhiAlertService.info(parMensaje);
+    } else if (tipoMensaje === 'Error') {
+      this.jhiAlertService.error(parMensaje);
+    }
+    this.jhiAlertService.i18nEnabled = true;
   }
 }

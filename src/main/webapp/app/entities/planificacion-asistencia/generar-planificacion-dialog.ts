@@ -83,6 +83,7 @@ export class GenerarPlanificacionDialogComponent {
       )
       .subscribe((res: Respuesta) => {
         this.mostrarMensaje(res.mensaje, res.tipoMensaje);
+        // El siguiente metodo se llama para recargar la lista después de cada cambio
         this.eventManager.broadcast({
           name: 'planificacionAsistenciaListModification',
           content: 'Generar una planificacionAsistencia'
