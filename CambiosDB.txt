@@ -6,4 +6,8 @@ Tabla: Asistencia Planeacion:
 
 Tabla: Intercambio Turno: 
 	- eliminar Unicidad en campos AsignacionTurno 1 y 2
+
+Nuevas tablas: 
+	- Se eliminó tabla Planeación Semanal y se reemplazó
+	por PlanificaciónAsistencia
 	

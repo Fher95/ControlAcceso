@@ -126,7 +126,9 @@ public class PlanificacionAsistenciaResource {
      * {@code GET  /planificacion-asistencias} : get all the
      * planificacionAsistencias.
      *
-     *
+     *     
+     * @param toDate
+     * @param fromDate
      * @param pageable the pagination information.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
@@ -291,29 +293,39 @@ public class PlanificacionAsistenciaResource {
         // cada linea del archivo
         ArrayList<String[]> matrizDatos = this.generarMatrizDeDatos(lineasArchivo);
         int contRegistroActualizados = 0;
+        int fechasIncongruentes = 0;
+        int registrosRepetidosEnBD = 0;
         // Se obtiene la lista planificaciones (planilla de asistencia) para empezar a comparar los registros de asistencia
-        List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();        
+        List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();
         // Se recorre la matriz
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
             // Se obtienen los datos a buscar de cada linea
             String varNumDocumento = matrizDatos.get(iterador2)[0];
             Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
             Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
-            if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {                
-                if (this.procesarAsistencia(planificacionesActuales, varNumDocumento, varFechaHoraEntrada, varFechaHoraSalida)) {
-                    contRegistroActualizados++;
-                    Asistencia nuevoRegAsis = new Asistencia();
-                    nuevoRegAsis.setDocumentoColaborador(varNumDocumento);
-                    nuevoRegAsis.setEntrada(varFechaHoraEntrada.toInstant());
-                    nuevoRegAsis.setSalida(varFechaHoraSalida.toInstant());
-                    this.asistenciaReposity.save(nuevoRegAsis);
+            if (varFechaHoraEntrada.before(varFechaHoraSalida)) {
+                if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {
+                    if (this.procesarAsistencia(planificacionesActuales, varNumDocumento, varFechaHoraEntrada, varFechaHoraSalida)) {
+                        contRegistroActualizados++;
+                        Asistencia nuevoRegAsis = new Asistencia();
+                        nuevoRegAsis.setDocumentoColaborador(varNumDocumento);
+                        nuevoRegAsis.setEntrada(varFechaHoraEntrada.toInstant());
+                        nuevoRegAsis.setSalida(varFechaHoraSalida.toInstant());
+                        this.asistenciaReposity.save(nuevoRegAsis);
+                    }
+                } else {
+                    registrosRepetidosEnBD++;
                 }
+            } else {
+                fechasIncongruentes++;
             }
         }
         Respuesta varRes = new Respuesta();
         varRes.tipoMensaje = "Exito";
-        varRes.mensaje = "Se ha realizado la carga de asistencias. \n "
-                + contRegistroActualizados + " registros fueron actualzados";
+        varRes.mensaje = "Se ha realizado la carga de asistencias. \n"
+                + contRegistroActualizados + " registros fueron actualizados. \n"
+                + fechasIncongruentes + " registros tenían inconsistencias en las fechas. \n"
+                + registrosRepetidosEnBD + " registros ya estaban registrados en la base de datos.";
         return ResponseEntity.ok().body(varRes);
     }
 
