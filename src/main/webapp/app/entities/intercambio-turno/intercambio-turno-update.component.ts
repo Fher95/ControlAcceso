@@ -123,7 +123,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     if (intercambioTurno.id !== undefined) {
       this.subscribeToSaveResponse(this.intercambioTurnoService.update(intercambioTurno));
     } else {
-      this.cambiarTurnosAsignados(this.asignacionSeleccionada1, this.asignacionSeleccionada2);
+      // this.cambiarTurnosAsignados(this.asignacionSeleccionada1, this.asignacionSeleccionada2);
       this.subscribeToSaveResponse(this.intercambioTurnoService.create(intercambioTurno));
     }
   }
@@ -181,6 +181,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
    * @param parAsignacion1 Primera asignación, objeto tipo IAsignacionTurno
    * @param parAsignacion2 Segunda asignación, objeto tipo IAsignacionTurno
    */
+  /*
   cambiarTurnosAsignados(parAsignacion1: IAsignacionTurno, parAsignacion2: IAsignacionTurno): boolean {
     let result = false,
       guardado1 = false,
@@ -196,6 +197,7 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     }
     return result;
   }
+  */
 
   /**
    * Se encarga de obtener el colaborador seleccionado de la lista y buscar sus asignaciones actuales corresponientes
@@ -346,53 +348,6 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
     }
   }
 
-  buscarColsPorNombres(parCadena: string, numCol: number) {
-    const listaDatos: string[] = this.utilStr.getArrayPalabras(parCadena);
-    this.colaboradorService
-      .findByNombres(listaDatos)
-      .pipe(
-        filter((res: HttpResponse<IColaborador[]>) => res.ok),
-        map((res: HttpResponse<IColaborador[]>) => res.body)
-      )
-      .subscribe(
-        (res: IColaborador[]) => {
-          if (res.length >= 1) {
-            if (numCol === 1) {
-              this.seEncontraronColaboradores1 = true;
-              this.colaboradores1 = res;
-              this.editForm.patchValue({
-                colaborador1: res[0]
-              });
-              this.setColaboradorSeleccionado(1);
-            } else if (numCol === 2) {
-              this.seEncontraronColaboradores2 = true;
-              this.colaboradores2 = res;
-              this.editForm.patchValue({
-                colaborador2: res[0]
-              });
-              this.setColaboradorSeleccionado(2);
-            }
-          } else {
-            if (numCol === 1) {
-              this.seEncontraronColaboradores1 = false;
-              this.loadColaboradores(1);
-              this.editForm.patchValue({
-                colaborador1: undefined
-              });
-            } else if (numCol === 2) {
-              this.seEncontraronColaboradores2 = false;
-              this.loadColaboradores(2);
-              this.editForm.patchValue({
-                colaborador2: undefined
-              });
-            }
-            this.colaboradorEncontrado = undefined;
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-  }
-
   /**
    * Este metodo carga todos los colaboradores
    * Si numCol es 1 se carga la lista colaboradores1
@@ -471,6 +426,54 @@ export class IntercambioTurnoUpdateComponent implements OnInit {
         }
       });
   }
+
+  buscarColsPorNombres(parCadena: string, numCol: number) {
+    const listaDatos: string[] = this.utilStr.getArrayPalabras(parCadena);
+    this.colaboradorService
+      .findByNombres(listaDatos)
+      .pipe(
+        filter((res: HttpResponse<IColaborador[]>) => res.ok),
+        map((res: HttpResponse<IColaborador[]>) => res.body)
+      )
+      .subscribe(
+        (res: IColaborador[]) => {
+          if (res.length >= 1) {
+            if (numCol === 1) {
+              this.seEncontraronColaboradores1 = true;
+              this.colaboradores1 = res;
+              this.editForm.patchValue({
+                colaborador1: res[0]
+              });
+              this.setColaboradorSeleccionado(1);
+            } else if (numCol === 2) {
+              this.seEncontraronColaboradores2 = true;
+              this.colaboradores2 = res;
+              this.editForm.patchValue({
+                colaborador2: res[0]
+              });
+              this.setColaboradorSeleccionado(2);
+            }
+          } else {
+            if (numCol === 1) {
+              this.seEncontraronColaboradores1 = false;
+              this.loadColaboradores(1);
+              this.editForm.patchValue({
+                colaborador1: undefined
+              });
+            } else if (numCol === 2) {
+              this.seEncontraronColaboradores2 = false;
+              this.loadColaboradores(2);
+              this.editForm.patchValue({
+                colaborador2: undefined
+              });
+            }
+            this.colaboradorEncontrado = undefined;
+          }
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
   clear(numCol: number): void {
     if (numCol === 1) {
       this.loadColaboradores(1);

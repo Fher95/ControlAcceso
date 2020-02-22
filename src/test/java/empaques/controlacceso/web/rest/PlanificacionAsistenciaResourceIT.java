@@ -4,6 +4,7 @@ import empaques.controlacceso.ControlAccesoApp;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.AsistenciaRepository;
+import empaques.controlacceso.repository.IntercambioTurnoRepository;
 import empaques.controlacceso.repository.PeticionRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.ExceptionTranslator;
@@ -86,6 +87,9 @@ public class PlanificacionAsistenciaResourceIT {
     private PeticionRepository peticionRepository;
 
     @Autowired
+    private IntercambioTurnoRepository intercambioTurnoRepository;
+    
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -108,7 +112,7 @@ public class PlanificacionAsistenciaResourceIT {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         final PlanificacionAsistenciaResource planificacionAsistenciaResource = new PlanificacionAsistenciaResource(planificacionAsistenciaRepository,
-        asignacionTurnoRepository, asistenciaRepository, peticionRepository);
+        asignacionTurnoRepository, asistenciaRepository, peticionRepository, intercambioTurnoRepository);
         this.restPlanificacionAsistenciaMockMvc = MockMvcBuilders.standaloneSetup(planificacionAsistenciaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

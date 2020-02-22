@@ -4,10 +4,13 @@ import empaques.controlacceso.config.DateTimeFormatConfiguration;
 import empaques.controlacceso.domain.AsignacionTurno;
 import empaques.controlacceso.domain.Asistencia;
 import empaques.controlacceso.domain.Colaborador;
+import empaques.controlacceso.domain.IntercambioTurno;
 import empaques.controlacceso.domain.PlanificacionAsistencia;
 import empaques.controlacceso.domain.Respuesta;
+import empaques.controlacceso.domain.Turno;
 import empaques.controlacceso.repository.AsignacionTurnoRepository;
 import empaques.controlacceso.repository.AsistenciaRepository;
+import empaques.controlacceso.repository.IntercambioTurnoRepository;
 import empaques.controlacceso.repository.PeticionRepository;
 import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
@@ -61,15 +64,17 @@ public class PlanificacionAsistenciaResource {
     private final AsignacionTurnoRepository asignacionTurnoReposity;
     private final AsistenciaRepository asistenciaReposity;
     private final PeticionRepository peticionRepository;
+    private final IntercambioTurnoRepository intercambioTurnoRepository;
     PeticionResource objPeticionResource;
 
     public PlanificacionAsistenciaResource(PlanificacionAsistenciaRepository planificacionAsistenciaRepository,
             AsignacionTurnoRepository asignacionTurnoRepository, AsistenciaRepository asistenciaRep,
-            PeticionRepository peticionRepository) {
+            PeticionRepository peticionRepository, IntercambioTurnoRepository intercambioTurnoRepository) {
         this.planificacionAsistenciaRepository = planificacionAsistenciaRepository;
         this.asignacionTurnoReposity = asignacionTurnoRepository;
         this.asistenciaReposity = asistenciaRep;
         this.peticionRepository = peticionRepository;
+        this.intercambioTurnoRepository = intercambioTurnoRepository;
     }
 
     /**
@@ -126,7 +131,7 @@ public class PlanificacionAsistenciaResource {
      * {@code GET  /planificacion-asistencias} : get all the
      * planificacionAsistencias.
      *
-     *     
+     *
      * @param toDate
      * @param fromDate
      * @param pageable the pagination information.
@@ -255,21 +260,36 @@ public class PlanificacionAsistenciaResource {
 
     public PlanificacionAsistencia generarRegistro(Date dateInicio, Date dateFin, AsignacionTurno asignacion, int numDia) {
         PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
-        Date dateTurno = Date.from(asignacion.getTurno().getHoraInicio());
-        Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate(),
-                dateTurno.getHours(), dateTurno.getMinutes());
-        fechaAsistencia.setDate(dateInicio.getDate() + numDia);
         Colaborador objCol = asignacion.getColaboradors().iterator().next();
+        Turno objTurno = asignacion.getTurno();
+        Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
+        IntercambioTurno objIntercambio = findIntermcabioTurno(objCol, fechaAsistencia.toInstant());
+        // Veirifica si hay algun intercambio turno para ese colaborador en una fecha dada                
+        if (objIntercambio != null) {
+            // Si el numero del documento es el del colaborador1, el turno a programar será el del 2,        
+            if (objIntercambio.getColaborador1().getNumeroDocumento().equals(objCol.getNumeroDocumento())) {
+                objTurno = objIntercambio.getAsignacionTurno2().getTurno();
+            } // De lo contrario, si el colaborador en cuestión es el dos, el turno reprogramado sera el del 1
+            else {
+                objTurno = objIntercambio.getAsignacionTurno1().getTurno();
+            }
+        }
+
+        Date dateTurno = Date.from(objTurno.getHoraInicio());
+        Date dateInicioTurnoAsis = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate()+ numDia,
+                dateTurno.getHours(), dateTurno.getMinutes());
+        // dateInicioTurnoAsis.setDate(dateInicio.getDate() + numDia);
+
         nuevoRegistroAsistencia.setColaborador(objCol);
         nuevoRegistroAsistencia.setFechaInicioPlanificacion(dateInicio.toInstant());
         nuevoRegistroAsistencia.setFechaFinPlanificacion(dateFin.toInstant());
-        nuevoRegistroAsistencia.setNombreTurno(asignacion.getTurno().getNombre());
+        nuevoRegistroAsistencia.setNombreTurno(objTurno.getNombre());
         nuevoRegistroAsistencia.setNombreCargo(asignacion.getCargo().getNombre());
         nuevoRegistroAsistencia.setFechaAsistenciaTurno(fechaAsistencia.toInstant());
-        nuevoRegistroAsistencia.setHoraInicioTurno(fechaAsistencia.toInstant());
+        nuevoRegistroAsistencia.setHoraInicioTurno(dateInicioTurnoAsis.toInstant());
         Date dateHoraFinTurno = new Date();
-        dateHoraFinTurno = fechaAsistencia;
-        dateHoraFinTurno.setHours(fechaAsistencia.getHours() + asignacion.getTurno().getDuracion());
+        dateHoraFinTurno = dateInicioTurnoAsis;
+        dateHoraFinTurno.setHours(dateInicioTurnoAsis.getHours() + objTurno.getDuracion());
         nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
 
         Date fechaPeticion = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
@@ -281,6 +301,22 @@ public class PlanificacionAsistenciaResource {
             nuevoRegistroAsistencia.setInasistenciaJustificada(false);
         }
         return nuevoRegistroAsistencia;
+    }
+
+    private IntercambioTurno findIntermcabioTurno(Colaborador parCol, Instant parFecha) {
+        Optional<IntercambioTurno> opIntercambio
+                = this.intercambioTurnoRepository.findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
+        if (!opIntercambio.isPresent()) {
+            opIntercambio
+                    = this.intercambioTurnoRepository.findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
+            if (opIntercambio.isPresent()) {
+                return opIntercambio.get();
+            } else {
+                return null;
+            }
+        } else {
+            return opIntercambio.get();
+        }
     }
 
     /*  Metodos para la carga de la asistencia  */

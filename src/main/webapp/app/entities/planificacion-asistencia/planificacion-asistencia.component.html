@@ -125,7 +125,9 @@
                     <td>
                         <div *ngIf="planificacionAsistencia.colaborador">
                             <a
-                                [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]">{{planificacionAsistencia.colaborador?.id}}</a>
+                                [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]">
+                                {{planificacionAsistencia.colaborador ? this.colUtil.getStrColaborador(planificacionAsistencia.colaborador) : ''}}
+                            </a>
                         </div>
                     </td>
                     <td class="text-right">

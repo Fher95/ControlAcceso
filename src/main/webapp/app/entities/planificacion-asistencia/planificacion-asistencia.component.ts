@@ -13,6 +13,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PlanificacionAsistenciaService } from './planificacion-asistencia.service';
 import { DatePipe } from '@angular/common';
 import { Respuesta } from 'app/shared/model/respuesta';
+import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-planificacion-asistencia',
@@ -43,7 +44,8 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     private datePipe: DatePipe,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    protected colUtil: UtilidadesColaborador
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {
