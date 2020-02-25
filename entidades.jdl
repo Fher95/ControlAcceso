@@ -169,7 +169,8 @@ entity PlanificacionAsistencia {
     horaFinTurno Instant,
     nombreCargo String,
     tiposAsistencia String,
-    minutosDiferencia String,
+    minutosDiferenciaEntrada String,
+    minutosDiferenciaSalida String,
     nombreTurno String,
     inasistenciaJustificada Boolean    
 }
