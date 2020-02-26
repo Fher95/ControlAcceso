@@ -3,6 +3,7 @@ package empaques.controlacceso.web.rest;
 import empaques.controlacceso.ControlAccesoApp;
 import empaques.controlacceso.domain.IntercambioTurno;
 import empaques.controlacceso.repository.IntercambioTurnoRepository;
+import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 import empaques.controlacceso.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +52,9 @@ public class IntercambioTurnoResourceIT {
 
     @Autowired
     private IntercambioTurnoRepository intercambioTurnoRepository;
+    
+    @Autowired
+    private PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -74,7 +78,8 @@ public class IntercambioTurnoResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final IntercambioTurnoResource intercambioTurnoResource = new IntercambioTurnoResource(intercambioTurnoRepository);
+        final IntercambioTurnoResource intercambioTurnoResource = new IntercambioTurnoResource(intercambioTurnoRepository, 
+                planificacionAsistenciaRepository);
         this.restIntercambioTurnoMockMvc = MockMvcBuilders.standaloneSetup(intercambioTurnoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

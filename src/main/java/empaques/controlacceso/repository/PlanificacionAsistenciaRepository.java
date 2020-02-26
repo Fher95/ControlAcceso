@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -26,8 +27,16 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate")
     Page<PlanificacionAsistencia> findAllByDates(@Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate,Pageable pageable);
 
-
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null and minutosDiferencia = null")
     List<PlanificacionAsistencia> findPlanificacionesActuales();    
+    
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col where "
+    +" col.numeroDocumento =:numDoc and pAsistencia.fechaAsistenciaTurno =:parFecha and tiposAsistencia = null and minutosDiferencia = null "
+    +" and nombreTurno =:nomTurno")
+    Optional<PlanificacionAsistencia> encontrarPlanActualColFecha(@Param("numDoc") String numDoc, @Param("nomTurno") String nomTurno, @Param("parFecha") Instant parFecha);
 
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col where "
+    +"col.numeroDocumento =:numDoc and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate and tiposAsistencia = null and minutosDiferencia = null "
+    +" and nombreTurno =:nomTurno")
+    List<PlanificacionAsistencia> encontrarPlanActualColEntreFechas(@Param("numDoc") String numDoc, @Param("nomTurno") String nomTurno, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate);  
 }
