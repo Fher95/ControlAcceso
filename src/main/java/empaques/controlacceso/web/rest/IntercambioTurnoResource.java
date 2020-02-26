@@ -69,9 +69,10 @@ public class IntercambioTurnoResource {
         if (intercambioTurno.getId() != null) {
             throw new BadRequestAlertException("A new intercambioTurno cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        IntercambioTurno result = intercambioTurnoRepository.save(intercambioTurno);
         // Se modifican los registros de planificacion para las fechas en que se programó el intercambio
         this.procesarPlanificacion(intercambioTurno);
+        IntercambioTurno result = intercambioTurnoRepository.save(intercambioTurno);
+        
         return ResponseEntity.created(new URI("/api/intercambio-turnos/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -179,9 +180,8 @@ public class IntercambioTurnoResource {
             Date fechaInicio = Date.from(intercambioTurno.getFecha());
             Date fechaFin = Date.from(intercambioTurno.getFechaFin());
             int dias = this.getDiasEntreFechas(fechaInicio, fechaFin);
-            for (int i = 0; i < dias; i++) {
-                IntercambioTurno intercambioBusqueda = new IntercambioTurno();
-                intercambioBusqueda = intercambioTurno;
+            for (int i = 0; i < dias; i++) {                
+                IntercambioTurno intercambioBusqueda = this.getCopiaIntercambio(intercambioTurno);                                
                 Date fechaBusqueda = new Date(fechaInicio.getYear(), fechaInicio.getMonth(), fechaInicio.getDate() + i);
                 intercambioBusqueda.setFecha(fechaBusqueda.toInstant());
                 PlanificacionAsistencia objPlanificacionEncontrada = this.buscarPlanificacion(intercambioBusqueda, 1);
@@ -225,6 +225,7 @@ public class IntercambioTurnoResource {
                 // Modificar horas
                 Date dateTurnoReprogramado = Date.from(intercambioTurno.getAsignacionTurno1().getTurno().getHoraInicio());
                 Date fechaHoraEntrada = Date.from(objPlanificacionEncontrada.getHoraInicioTurno());
+                fechaHoraEntrada.setHours(dateTurnoReprogramado.getHours()); fechaHoraEntrada.setMinutes(dateTurnoReprogramado.getMinutes());
                 int duracion = intercambioTurno.getAsignacionTurno1().getTurno().getDuracion();
                 Date fechaHoraSalida = new Date(fechaHoraEntrada.getYear(), fechaHoraEntrada.getMonth(), fechaHoraEntrada.getDate(),
                         dateTurnoReprogramado.getHours() + duracion, dateTurnoReprogramado.getMinutes());
@@ -242,12 +243,10 @@ public class IntercambioTurnoResource {
 
     private int getDiasEntreFechas(Date fecha1, Date fecha2) {
         int contador = 0;
-        fecha1.setHours(0);
-        fecha1.setMinutes(0);
-        fecha2.setHours(0);
-        fecha2.setMinutes(0);
-        while (fecha1.compareTo(fecha2) <= 0) {
-            fecha1.setDate(fecha1.getDate() + 1);
+        Date fechaAux1 = new Date(fecha1.getYear(), fecha1.getMonth(),fecha1.getDate(),0,0);
+        Date fechaAux2 = new Date(fecha2.getYear(), fecha2.getMonth(),fecha2.getDate(),0,0);        
+        while (fechaAux1.compareTo(fechaAux2) <= 0) {
+            fechaAux1.setDate(fechaAux1.getDate() + 1);
             contador++;
         }
         return contador;
@@ -276,6 +275,20 @@ public class IntercambioTurnoResource {
         } else {
             return null;
         }
+    }
+    
+    private IntercambioTurno getCopiaIntercambio(IntercambioTurno objIntercambio) {        
+        IntercambioTurno objRes = new IntercambioTurno();        
+        objRes.setColaborador1(objIntercambio.getColaborador1());
+        objRes.setColaborador2(objIntercambio.getColaborador2());
+        objRes.setAsignacionTurno1(objIntercambio.getAsignacionTurno1());
+        objRes.setAsignacionTurno2(objIntercambio.getAsignacionTurno2());
+        objRes.setFecha(objIntercambio.getFecha());
+        objRes.setFechaFin(objIntercambio.getFechaFin());
+        objRes.setAutorizadoPor(objIntercambio.getAutorizadoPor());
+        objRes.setObservaciones(objIntercambio.getObservaciones());
+        objRes.setId(objIntercambio.getId());
+        return objRes;    
     }
 
 }

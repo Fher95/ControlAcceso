@@ -191,4 +191,5 @@ public class IntercambioTurno implements Serializable {
             ", observaciones='" + getObservaciones() + "'" +
             "}";
     }
+        
 }

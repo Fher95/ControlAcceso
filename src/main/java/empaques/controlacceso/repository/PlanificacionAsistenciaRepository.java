@@ -31,12 +31,12 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     List<PlanificacionAsistencia> findPlanificacionesActuales();    
     
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col where "
-    +" col.numeroDocumento =:numDoc and pAsistencia.fechaAsistenciaTurno =:parFecha and tiposAsistencia = null and minutosDiferencia = null "
-    +" and nombreTurno =:nomTurno")
+    +" col.numeroDocumento =:numDoc and pAsistencia.fechaAsistenciaTurno =:parFecha and pAsistencia.tiposAsistencia = null and pAsistencia.minutosDiferencia = null "
+    +" and pAsistencia.nombreTurno =:nomTurno")
     Optional<PlanificacionAsistencia> encontrarPlanActualColFecha(@Param("numDoc") String numDoc, @Param("nomTurno") String nomTurno, @Param("parFecha") Instant parFecha);
 
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col where "
-    +"col.numeroDocumento =:numDoc and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate and tiposAsistencia = null and minutosDiferencia = null "
-    +" and nombreTurno =:nomTurno")
+    +"col.numeroDocumento =:numDoc and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate and pAsistencia.tiposAsistencia = null and pAsistencia.minutosDiferencia = null "
+    +" and pAsistencia.nombreTurno =:nomTurno")
     List<PlanificacionAsistencia> encontrarPlanActualColEntreFechas(@Param("numDoc") String numDoc, @Param("nomTurno") String nomTurno, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate);  
 }
