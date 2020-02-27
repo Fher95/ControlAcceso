@@ -144,7 +144,8 @@ public class PlanificacionAsistenciaResource {
             @RequestParam(value = "fromDate") LocalDate fromDate,
             @RequestParam(value = "toDate") LocalDate toDate, Pageable pageable) {
         Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant();
+        // Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant();
+        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         log.debug("REST request to get a page of PlanificacionAsistencias");
         // Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAll(pageable);
         Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAllByDates(from, to, pageable);
@@ -308,7 +309,7 @@ public class PlanificacionAsistenciaResource {
                 = this.intercambioTurnoRepository.findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
         if (!opIntercambio.isPresent()) {
             opIntercambio
-                    = this.intercambioTurnoRepository.findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
+                    = this.intercambioTurnoRepository.findIntercambioEntreFechas(parCol.getNumeroDocumento(), parFecha);
             if (opIntercambio.isPresent()) {
                 return opIntercambio.get();
             } else {

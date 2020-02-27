@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface IntercambioTurnoRepository extends JpaRepository<IntercambioTurno, Long> {
     
     @Query("select distinct intercambioTurno from IntercambioTurno intercambioTurno join intercambioTurno.colaborador1 col1 join intercambioTurno.colaborador2 col2"
-    +" where (col1.numeroDocumento =:numDoc or col2.numeroDocumento =:numDoc) and intercambioTurno.fecha >=:parFecha and intercambioTurno.fechaFin <=: parFecha")
+    +" where (col1.numeroDocumento =:numDoc or col2.numeroDocumento =:numDoc) and intercambioTurno.fecha <=:parFecha and intercambioTurno.fechaFin >=: parFecha")
     public Optional<IntercambioTurno> findIntercambioEntreFechas(@Param("numDoc") String numDoc, @Param("parFecha") Instant parFecha);
     
     @Query("select distinct intercambioTurno from IntercambioTurno intercambioTurno join intercambioTurno.colaborador1 col1 join intercambioTurno.colaborador2 col2"
