@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import empaques.controlacceso.domain.enumeration.TipoPeticion;
 import empaques.controlacceso.domain.enumeration.TipoPermiso;
 import empaques.controlacceso.domain.enumeration.EstadoPeticion;
+import empaques.controlacceso.repository.PlanificacionAsistenciaRepository;
 /**
  * Integration tests for the {@link PeticionResource} REST controller.
  */
@@ -70,6 +71,9 @@ public class PeticionResourceIT {
 
     @Autowired
     private PeticionRepository peticionRepository;
+    
+    @Autowired
+    private PlanificacionAsistenciaRepository planificacionAsistenciaRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -93,7 +97,7 @@ public class PeticionResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PeticionResource peticionResource = new PeticionResource(peticionRepository);
+        final PeticionResource peticionResource = new PeticionResource(peticionRepository, planificacionAsistenciaRepository);
         this.restPeticionMockMvc = MockMvcBuilders.standaloneSetup(peticionResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

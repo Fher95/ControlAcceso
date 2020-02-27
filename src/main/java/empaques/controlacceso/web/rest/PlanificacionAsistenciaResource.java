@@ -194,7 +194,7 @@ public class PlanificacionAsistenciaResource {
      */
     @PutMapping("/planificacion-asistencias/generar-planificacion")
     public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
-        this.objPeticionResource = new PeticionResource(peticionRepository);
+        this.objPeticionResource = new PeticionResource(peticionRepository, planificacionAsistenciaRepository);
         int numAsignaciones = 0, numRegistros = 0;
         Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
         Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();
@@ -298,6 +298,8 @@ public class PlanificacionAsistenciaResource {
         boolean tieneVacaciones = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Vacaciones");
         if (tienePermiso || tieneVacaciones) {
             nuevoRegistroAsistencia.setInasistenciaJustificada(true);
+            nuevoRegistroAsistencia.setMinutosDiferencia("0");
+            nuevoRegistroAsistencia.setTiposAsistencia("NoAplica");
         } else {
             nuevoRegistroAsistencia.setInasistenciaJustificada(false);
         }
@@ -381,10 +383,17 @@ public class PlanificacionAsistenciaResource {
     private boolean procesarAsistencia(
             List<PlanificacionAsistencia> parLista, String parDocCol, Date parEntradaAsist, Date parSalidaAsist) {
         boolean asistenciaRegistrada = false;
-        for (PlanificacionAsistencia planAsist : parLista) {
+        for (PlanificacionAsistencia planAsist : parLista) {            
             if (parDocCol.equals(planAsist.getColaborador().getNumeroDocumento())) {
                 Date fechaHoraEntrada = Date.from(planAsist.getHoraInicioTurno());
                 if (this.mismaFecha(parEntradaAsist, fechaHoraEntrada)) {
+                    // Si de entrada encuentra que la asistencia está justificada, se modifica el tio de asistencia, se guarda y se devuelve true
+                    if (planAsist.isInasistenciaJustificada()){
+                        planAsist.setMinutosDiferencia("0");
+                        planAsist.setTiposAsistencia("NoAplica");
+                        this.planificacionAsistenciaRepository.save(planAsist);
+                        return true;
+                    }
                     String tipoEntrada = null;
                     String tipoSalida = null;
                     boolean regEntrada = false, regSalida = false;
@@ -417,12 +426,21 @@ public class PlanificacionAsistenciaResource {
                         this.planificacionAsistenciaRepository.save(planAsist);
                         return true;
                     }
+                    
+                    
                 }
             }
         }
         return asistenciaRegistrada;
     }
 
+    /**
+     * Recibe dos fechas, y verifica que no estén a mas de un determinado número de horas de diferencia (horasUmbral)
+     * @param parFecha1
+     * @param parFecha2
+     * @param horasUmbral
+     * @return 
+     */
     private boolean horaDentroDeUmbral(Date parFecha1, Date parFecha2, int horasUmbral) {
         long difMilisegundos = parFecha1.getTime() - parFecha2.getTime();
         int numMinutos = (int) ((difMilisegundos / 1000) / 60);
@@ -432,6 +450,12 @@ public class PlanificacionAsistenciaResource {
         return numMinutos <= (60 * horasUmbral);
     }
 
+    /**
+     * Recibe dos fechas y comprueba que tanto su año, como su mes, y su día sean iguales
+     * @param parFecha1
+     * @param parFecha2
+     * @return true si las fechas tienen el mismo años, mes y día, false en caso contrario
+     */
     private boolean mismaFecha(Date parFecha1, Date parFecha2) {
         int anio1 = parFecha1.getYear(), mes1 = parFecha1.getMonth(), dia1 = parFecha1.getDate();
         int anio2 = parFecha2.getYear(), mes2 = parFecha2.getMonth(), dia2 = parFecha2.getDate();

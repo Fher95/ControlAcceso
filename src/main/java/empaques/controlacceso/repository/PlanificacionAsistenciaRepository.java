@@ -39,4 +39,8 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     +"col.numeroDocumento =:numDoc and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate and pAsistencia.tiposAsistencia = null and pAsistencia.minutosDiferencia = null "
     +" and pAsistencia.nombreTurno =:nomTurno")
     List<PlanificacionAsistencia> encontrarPlanActualColEntreFechas(@Param("numDoc") String numDoc, @Param("nomTurno") String nomTurno, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate);  
+    
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col where "
+    +" col.numeroDocumento =:numDoc and pAsistencia.fechaAsistenciaTurno =:parFecha and pAsistencia.tiposAsistencia = null and pAsistencia.minutosDiferencia = null ")
+    List<PlanificacionAsistencia> encontrarPlanActualColFecha(@Param("numDoc") String numDoc, @Param("parFecha") Instant parFecha);
 }
