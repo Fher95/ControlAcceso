@@ -2,6 +2,7 @@ package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.domain.Colaborador;
 import empaques.controlacceso.domain.Peticion;
+import empaques.controlacceso.domain.enumeration.EstadoPeticion;
 import empaques.controlacceso.repository.PeticionRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 
@@ -164,7 +165,8 @@ public class PeticionResource {
             Peticion objPeticion = new Peticion();        
             Colaborador objCol = new Colaborador(); objCol.setNumeroDocumento(parDocCol);            
             objPeticion.setColaborador(objCol);
-            objPeticion.setFechaPeticion(parFecha.toInstant());  
+            objPeticion.setFechaPeticion(parFecha.toInstant());
+            objPeticion.setEstado(EstadoPeticion.Autorizada);
             Example<Peticion> examplePeticion = Example.of(objPeticion);
             respuesta = this.peticionRepository.exists(examplePeticion);
         }
