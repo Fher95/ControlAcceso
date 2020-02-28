@@ -153,6 +153,29 @@ public class PlanificacionAsistenciaResource {
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+    
+    @GetMapping("/planificacion-asistencias/tipoAsistencia")
+    public ResponseEntity<List<PlanificacionAsistencia>> getAsistenciasTipo(@RequestParam(required = false) String filter) {
+        String tipoAsistencia;
+        if ("entradas-temprano".equals(filter)) {
+            tipoAsistencia = "EntradaTemprano";
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+        }
+        if ("entradas-tarde".equals(filter)) {
+            tipoAsistencia = "EntradaTarde";
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+        }
+        if ("salidas-temprano".equals(filter)) {
+            tipoAsistencia = "SalidaTemprano";
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+        }
+        if ("salidas-tarde".equals(filter)) {
+            tipoAsistencia = "SalidaTarde";
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+        }
+        
+        return (ResponseEntity<List<PlanificacionAsistencia>>) ResponseEntity.notFound();
+    }
 
     /**
      * {@code GET  /planificacion-asistencias/:id} : get the "id"
@@ -418,7 +441,7 @@ public class PlanificacionAsistenciaResource {
                         } else {
                             tipoSalida = "SalidaTarde";
                         }
-                        planAsist.setMinutosDiferencia(planAsist.getMinutosDiferencia() + "-" + numMinutos);
+                        planAsist.setMinutosDiferencia(planAsist.getMinutosDiferencia() + " : " + numMinutos);
                         planAsist.setTiposAsistencia(planAsist.getTiposAsistencia() + "-" + tipoSalida);
                         regSalida = true;
                     }

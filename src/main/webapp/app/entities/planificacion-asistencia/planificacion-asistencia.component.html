@@ -112,11 +112,11 @@
                     <td><a
                             [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'view' ]">{{planificacionAsistencia.id}}</a>
                     </td>
-                    <td>{{planificacionAsistencia.fechaInicioPlanificacion | date:'medium'}}</td>
-                    <td>{{planificacionAsistencia.fechaFinPlanificacion | date:'medium'}}</td>
-                    <td>{{planificacionAsistencia.fechaAsistenciaTurno | date:'medium'}}</td>
-                    <td>{{planificacionAsistencia.horaInicioTurno | date:'medium'}}</td>
-                    <td>{{planificacionAsistencia.horaFinTurno | date:'medium'}}</td>
+                    <td>{{planificacionAsistencia.fechaInicioPlanificacion | date:'mediumDate'}}</td>
+                    <td>{{planificacionAsistencia.fechaFinPlanificacion | date:'mediumDate'}}</td>
+                    <td>{{planificacionAsistencia.fechaAsistenciaTurno | date:'mediumDate'}}</td>
+                    <td>{{planificacionAsistencia.horaInicioTurno | date:'h:mm a'}}</td>
+                    <td>{{planificacionAsistencia.horaFinTurno | date:'h:mm a'}}</td>
                     <td>{{planificacionAsistencia.nombreCargo}}</td>
                     <td>{{planificacionAsistencia.tiposAsistencia}}</td>
                     <td>{{planificacionAsistencia.minutosDiferencia}}</td>

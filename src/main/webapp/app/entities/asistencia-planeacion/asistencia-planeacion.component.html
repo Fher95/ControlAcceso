@@ -4,8 +4,7 @@
             <div>
                 <h2 id="page-heading" class="mt-4">
                     <span>Asistencias Planeación</span>
-                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
-                    id="jh-create-entity"
+                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-asistencia-planeacion"
                         [routerLink]="['/asistencia-planeacion/new']">
                         <fa-icon [icon]="'plus'"></fa-icon>
@@ -31,7 +30,8 @@
                     <table class="table table-striped" aria-describedby="page-heading">
                         <thead>
                             <tr>
-                                <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
+                                <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span>
+                                </th>
                                 <th><span
                                         jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asignacionTurno">Asignacion
                                         Turno</span></th>
@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let asistenciaPlaneacion of asistenciaPlaneacions ;trackBy: trackId">
-                                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a
+                                <td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a
                                         [routerLink]="['/asistencia-planeacion', asistenciaPlaneacion.id, 'view' ]">{{asistenciaPlaneacion.id}}</a>
                                 </td>
                                 <td>
@@ -104,191 +104,231 @@
                 </div>
             </div>
         </tab>
-        <tab heading="Llegada tarde">
-            <h2 class="my-4">Llegadas Tarde</h2>
-            <div class="alert alert-warning" *ngIf="asistenciasTardias?.length === 0">
+        <tab heading="Llegada tarde" (selectTab)="this.cargarAsistenciasPlanificacion('entradas-tarde')">
+            <h2 class="my-4" (click)="this.cargarAsistenciasPlanificacion('entradas-tarde')">Llegadas Tarde</h2>
+            <div class="alert alert-warning" *ngIf="listaAsistencias?.length === 0">
                 <span>No se encontraron llegadas tarde</span>
             </div>
-            <div class="table-responsive" *ngIf="asistenciasTardias?.length > 0">
+            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" ><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span>Turno / Hora Inicio</span></th>
-                            <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
-                            </th>
-                            <th><span
-                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
-                            </th>
+                            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
+                            <th><span>Fecha asistencia</span></th>
+                            <th><span>Cargo / Turno</span></th>
+                            <th><span>Horario</span></th>
+                            <th><span>Minutos de diferencia</span></th>
+                            <th><span>Colaborador</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asistenciaPlaneacion of asistenciasTardias">
-                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-                                {{asistenciaPlaneacion.id}}
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno?.turno.nombre
-                                        +': '+(asistenciaPlaneacion.asignacionTurno.turno.horaInicio | date: "h:mm a")}}
+                        <tr *ngFor="let objAsistencia of listaAsistencias">
+                            <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                                {{objAsistencia.id}}
+                            </td-->
+                            <td id="fecha-asistencia">
+                                <div>
+                                    {{objAsistencia.fechaAsistenciaTurno | date: 'mediumDate'}}
                                 </div>
                             </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asistencia">
-                                    {{(asistenciaPlaneacion.asistencia?.entrada | date: 'mediumDate')
-                                        + ' ' + ( asistenciaPlaneacion.asistencia?.entrada | date: 'h:mm a')}}
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.colaborador">
-                                    <a
-                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
+                            <td id="cargo-turno">
+                                <div>
+                                    {{objAsistencia.nombreCargo
+                                        +' / '+objAsistencia.nombreTurno}}
                                 </div>
                             </td>
 
+
+                            <td id="horario">
+                                <div>
+                                    {{(objAsistencia.horaInicioTurno | date: 'h:mm a')
+                                        + ' - ' + ( objAsistencia.horaFinTurno | date: 'h:mm a')}}
+                                </div>
+                            </td>
+                            <td id="minutos-diferencia">
+                                <div>
+                                    {{objAsistencia.minutosDiferencia}}
+                                </div>
+                            </td>
+                            <td id="colaborador">
+                                <div *ngIf="objAsistencia.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', objAsistencia.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(objAsistencia.colaborador)}}</a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </tab>
-        <tab heading="Llegada temprano">
+        <tab heading="Llegada temprano" (selectTab)="this.cargarAsistenciasPlanificacion('entradas-temprano')">
             <h2 class="my-4">Llegadas Temprano</h2>
-            <div class="alert alert-warning" *ngIf="asistenciasTempranas?.length === 0">
+            <div class="alert alert-warning" *ngIf="listaAsistencias?.length === 0">
                 <span>No se encontraron llegadas temprano</span>
             </div>
-            <div class="table-responsive" *ngIf="asistenciasTempranas?.length > 0">
+            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span>Turno / Hora Inicio</span></th>
-                            <th><span jhiTranslate="controlAccesoApp.asistenciaPlaneacion.asistencia">Asistencia</span>
-                            </th>
-                            <th><span
-                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
-                            </th>
+                            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
+                            <th><span>Fecha asistencia</span></th>
+                            <th><span>Cargo / Turno</span></th>
+                            <th><span>Horario</span></th>
+                            <th><span>Minutos de diferencia</span></th>
+                            <th><span>Colaborador</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asistenciaPlaneacion of asistenciasTempranas">
-                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'" >
-                                {{asistenciaPlaneacion.id}}
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno?.turno.nombre
-                                        +': '+(asistenciaPlaneacion.asignacionTurno.turno.horaInicio | date: "h:mm a")}}
+                        <tr *ngFor="let objAsistencia of listaAsistencias">
+                            <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                                {{objAsistencia.id}}
+                            </td-->
+                            <td id="fecha-asistencia">
+                                <div>
+                                    {{objAsistencia.fechaAsistenciaTurno | date: 'mediumDate'}}
                                 </div>
                             </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asistencia">
-                                    {{(asistenciaPlaneacion.asistencia?.entrada | date: 'mediumDate')
-                                    + ' ' + ( asistenciaPlaneacion.asistencia?.entrada | date: 'h:mm a')}}
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.colaborador">
-                                    <a
-                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
+                            <td id="cargo-turno">
+                                <div>
+                                    {{objAsistencia.nombreCargo
+                                        +' / '+objAsistencia.nombreTurno}}
                                 </div>
                             </td>
 
+
+                            <td id="horario">
+                                <div>
+                                    {{(objAsistencia.horaInicioTurno | date: 'h:mm a')
+                                        + ' - ' + ( objAsistencia.horaFinTurno | date: 'h:mm a')}}
+                                </div>
+                            </td>
+                            <td id="minutos-diferencia">
+                                <div>
+                                    {{objAsistencia.minutosDiferencia}}
+                                </div>
+                            </td>
+                            <td id="colaborador">
+                                <div *ngIf="objAsistencia.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', objAsistencia.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(objAsistencia.colaborador)}}</a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </tab>
 
-        <tab heading="Salida tarde">
+        <tab heading="Salida tarde" (selectTab)="this.cargarAsistenciasPlanificacion('salidas-tarde')">
             <h2 class="my-4">Salidas Tarde</h2>
-            <div class="alert alert-warning" *ngIf="salidasTardias?.length === 0">
+            <div class="alert alert-warning" *ngIf="listaAsistencias?.length === 0">
                 <span>No se encontraron salidas tarde</span>
             </div>
-            <div class="table-responsive" *ngIf="salidasTardias?.length > 0">
+            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span>Turno / Hora Fin</span></th>
-                            <th><span>Salida Asistencia</span>
-                            </th>
-                            <th><span
-                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
-                            </th>
+                            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
+                            <th><span>Fecha asistencia</span></th>
+                            <th><span>Cargo / Turno</span></th>
+                            <th><span>Horario</span></th>
+                            <th><span>Minutos de diferencia</span></th>
+                            <th><span>Colaborador</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asistenciaPlaneacion of salidasTardias">
-                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-                                {{asistenciaPlaneacion.id}}
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno.turno.nombre + ': '}}
-                                    {{getSalidaTurno(asistenciaPlaneacion.asignacionTurno.turno) | date: 'h:mm a'}}
+                        <tr *ngFor="let objAsistencia of listaAsistencias">
+                            <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                                {{objAsistencia.id}}
+                            </td-->
+                            <td id="fecha-asistencia">
+                                <div>
+                                    {{objAsistencia.fechaAsistenciaTurno | date: 'mediumDate'}}
                                 </div>
                             </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asistencia">
-                                    {{(asistenciaPlaneacion.asistencia?.salida | date: 'mediumDate')
-                                +' '+(asistenciaPlaneacion.asistencia?.salida | date: 'h:mm a')}}
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.colaborador">
-                                    <a
-                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
+                            <td id="cargo-turno">
+                                <div>
+                                    {{objAsistencia.nombreCargo
+                                        +' / '+objAsistencia.nombreTurno}}
                                 </div>
                             </td>
 
+
+                            <td id="horario">
+                                <div>
+                                    {{(objAsistencia.horaInicioTurno | date: 'h:mm a')
+                                        + ' - ' + ( objAsistencia.horaFinTurno | date: 'h:mm a')}}
+                                </div>
+                            </td>
+                            <td id="minutos-diferencia">
+                                <div>
+                                    {{objAsistencia.minutosDiferencia}}
+                                </div>
+                            </td>
+                            <td id="colaborador">
+                                <div *ngIf="objAsistencia.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', objAsistencia.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(objAsistencia.colaborador)}}</a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </tab>
 
-        <tab heading="Salida temprano">
+        <tab heading="Salida temprano" (selectTab)="this.cargarAsistenciasPlanificacion('salidas-temprano')">
             <h2 class="my-4">Salidas Temprano</h2>
-            <div class="alert alert-warning" *ngIf="salidasTempranas?.length === 0">
+            <div class="alert alert-warning" *ngIf="listaAsistencias?.length === 0">
                 <span>No se encontraron salidas temprano</span>
             </div>
-            <div class="table-responsive" *ngIf="salidasTempranas?.length > 0">
+            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
                         <tr>
-                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th>
-                            <th><span>Turno / Hora Fin</span></th>
-                            <th><span>Salida Asistencia</span>
-                            </th>
-                            <th><span
-                                    jhiTranslate="controlAccesoApp.asistenciaPlaneacion.colaborador">Colaborador</span>
-                            </th>
+                            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
+                            <th><span>Fecha asistencia</span></th>
+                            <th><span>Cargo / Turno</span></th>
+                            <th><span>Horario</span></th>
+                            <th><span>Minutos de diferencia</span></th>
+                            <th><span>Colaborador</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asistenciaPlaneacion of salidasTempranas">
-                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-                                {{asistenciaPlaneacion.id}}
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asignacionTurno">
-                                    {{asistenciaPlaneacion.asignacionTurno.turno?.nombre + ': '}}
-                                    {{getSalidaTurno(asistenciaPlaneacion.asignacionTurno.turno) | date: 'h:mm a'}}
+                        <tr *ngFor="let objAsistencia of listaAsistencias">
+                            <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                                {{objAsistencia.id}}
+                            </td-->
+                            <td id="fecha-asistencia">
+                                <div>
+                                    {{objAsistencia.fechaAsistenciaTurno | date: 'mediumDate'}}
                                 </div>
                             </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.asistencia">
-                                    {{(asistenciaPlaneacion.asistencia?.salida | date: 'mediumDate')
-                                        +' '+(asistenciaPlaneacion.asistencia?.salida | date: 'h:mm a')}}
-                                </div>
-                            </td>
-                            <td>
-                                <div *ngIf="asistenciaPlaneacion.colaborador">
-                                    <a
-                                        [routerLink]="['/colaborador', asistenciaPlaneacion.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(asistenciaPlaneacion.colaborador)}}</a>
+                            <td id="cargo-turno">
+                                <div>
+                                    {{objAsistencia.nombreCargo
+                                        +' / '+objAsistencia.nombreTurno}}
                                 </div>
                             </td>
 
+
+                            <td id="horario">
+                                <div>
+                                    {{(objAsistencia.horaInicioTurno | date: 'h:mm a')
+                                        + ' - ' + ( objAsistencia.horaFinTurno | date: 'h:mm a')}}
+                                </div>
+                            </td>
+                            <td id="minutos-diferencia">
+                                <div>
+                                    {{objAsistencia.minutosDiferencia}}
+                                </div>
+                            </td>
+                            <td id="colaborador">
+                                <div *ngIf="objAsistencia.colaborador">
+                                    <a
+                                        [routerLink]="['/colaborador', objAsistencia.colaborador?.id, 'view' ]">{{utilCol.getStrColaborador(objAsistencia.colaborador)}}</a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

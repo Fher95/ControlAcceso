@@ -13,6 +13,7 @@ import { ITurno } from 'app/shared/model/turno.model';
 import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 import { Respuesta } from 'app/shared/model/respuesta';
 import { Moment } from 'moment';
+import { IPlanificacionAsistencia, PlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -26,6 +27,8 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
   asistenciasTempranas: IAsistenciaPlaneacion[];
   salidasTempranas: IAsistenciaPlaneacion[];
   salidasTardias: IAsistenciaPlaneacion[];
+
+  listaAsistencias: IPlanificacionAsistencia[];
 
   constructor(
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
@@ -45,8 +48,8 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: IAsistenciaPlaneacion[]) => {
           this.asistenciaPlaneacions = res;
-          this.setAsistenciasTardiasTempranas(this.asistenciaPlaneacions);
-          this.setSaldidasTardiasTempranas(this.asistenciaPlaneacions);
+          // this.setAsistenciasTardiasTempranas(this.asistenciaPlaneacions);
+          // this.setSaldidasTardiasTempranas(this.asistenciaPlaneacions);
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
@@ -54,6 +57,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
+    // this.cargarAsistenciasPlanificacion('entradas-tarde');
     this.accountService.identity().then(account => {
       this.currentAccount = account;
     });
@@ -175,6 +179,20 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
     */
     return fechaHora.toISOString();
+  }
+
+  cargarAsistenciasPlanificacion(tipoEntrada: string) {
+    this.listaAsistencias = [];
+    this.asistenciaPlaneacionService
+      .getAsistenciasPlanificacion({
+        filter: tipoEntrada
+      })
+      .subscribe(
+        (res: HttpResponse<PlanificacionAsistencia[]>) => {
+          this.listaAsistencias = res.body;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   cargarAsistencias() {

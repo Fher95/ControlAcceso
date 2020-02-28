@@ -6,6 +6,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAsistenciaPlaneacion } from 'app/shared/model/asistencia-planeacion.model';
 import { Respuesta } from 'app/shared/model/respuesta';
+import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
 
 type EntityResponseType = HttpResponse<IAsistenciaPlaneacion>;
 type EntityArrayResponseType = HttpResponse<IAsistenciaPlaneacion[]>;
@@ -39,5 +40,11 @@ export class AsistenciaPlaneacionService {
 
   cargarAsistencia(): Observable<HttpResponse<Respuesta>> {
     return this.http.get<Respuesta>(`${this.resourceUrl}/cargar-asistencias`, { observe: 'response' });
+  }
+
+  getAsistenciasPlanificacion(req?: any): Observable<HttpResponse<IPlanificacionAsistencia[]>> {
+    const options = createRequestOption(req);
+    const urlNueva = SERVER_API_URL + 'api/planificacion-asistencias/tipoAsistencia';
+    return this.http.get<IPlanificacionAsistencia[]>(urlNueva, { params: options, observe: 'response' });
   }
 }
