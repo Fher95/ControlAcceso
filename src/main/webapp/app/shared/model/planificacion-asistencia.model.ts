@@ -10,7 +10,8 @@ export interface IPlanificacionAsistencia {
   horaFinTurno?: Moment;
   nombreCargo?: string;
   tiposAsistencia?: string;
-  minutosDiferencia?: string;
+  minDiferenciaEntrada?: number;
+  minDiferenciaSalida?: number;
   nombreTurno?: string;
   inasistenciaJustificada?: boolean;
   colaborador?: IColaborador;
@@ -26,7 +27,8 @@ export class PlanificacionAsistencia implements IPlanificacionAsistencia {
     public horaFinTurno?: Moment,
     public nombreCargo?: string,
     public tiposAsistencia?: string,
-    public minutosDiferencia?: string,
+    public minDiferenciaEntrada?: number,
+    public minDiferenciaSalida?: number,
     public nombreTurno?: string,
     public inasistenciaJustificada?: boolean,
     public colaborador?: IColaborador

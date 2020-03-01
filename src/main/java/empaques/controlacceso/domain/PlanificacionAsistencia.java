@@ -44,8 +44,11 @@ public class PlanificacionAsistencia implements Serializable {
     @Column(name = "tipos_asistencia")
     private String tiposAsistencia;
 
-    @Column(name = "minutos_diferencia")
-    private String minutosDiferencia;
+    @Column(name = "min_diferencia_entrada")
+    private int minDiferenciaEntrada;
+
+    @Column(name = "min_diferencia_salida")
+    private int minDiferenciaSalida;
 
     @Column(name = "nombre_turno")
     private String nombreTurno;
@@ -157,17 +160,26 @@ public class PlanificacionAsistencia implements Serializable {
         this.tiposAsistencia = tiposAsistencia;
     }
 
-    public String getMinutosDiferencia() {
-        return minutosDiferencia;
+    public int getMinDiferenciaEntrada() {
+        return minDiferenciaEntrada;
     }
 
-    public PlanificacionAsistencia minutosDiferencia(String minutosDiferencia) {
-        this.minutosDiferencia = minutosDiferencia;
+    public int getMinDiferenciaSalida() {
+        return minDiferenciaSalida;
+    }
+
+    public PlanificacionAsistencia minutosDiferencia(int minDiferenciaEntrada, int minDiferenciaSalida) {
+        this.minDiferenciaEntrada = minDiferenciaEntrada;
+        this.minDiferenciaEntrada = minDiferenciaEntrada;
         return this;
     }
 
-    public void setMinutosDiferencia(String minutosDiferencia) {
-        this.minutosDiferencia = minutosDiferencia;
+    public void setMinDiferenciaEntrada(int minutosDiferencia) {
+        this.minDiferenciaEntrada = minutosDiferencia;
+    }
+
+    public void setMinDiferenciaSalida(int minutosDiferencia) {
+        this.minDiferenciaSalida = minutosDiferencia;
     }
 
     public String getNombreTurno() {
@@ -237,7 +249,8 @@ public class PlanificacionAsistencia implements Serializable {
             ", horaFinTurno='" + getHoraFinTurno() + "'" +
             ", nombreCargo='" + getNombreCargo() + "'" +
             ", tiposAsistencia='" + getTiposAsistencia() + "'" +
-            ", minutosDiferencia='" + getMinutosDiferencia() + "'" +
+            ", minDiferenciaEntrada='" + getMinDiferenciaEntrada() + "'" +
+            ", minDiferenciaEntrada='" + getMinDiferenciaSalida() + "'" +
             ", nombreTurno='" + getNombreTurno() + "'" +
             ", inasistenciaJustificada='" + isInasistenciaJustificada() + "'" +
             "}";

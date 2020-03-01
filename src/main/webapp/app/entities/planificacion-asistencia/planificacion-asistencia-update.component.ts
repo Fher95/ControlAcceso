@@ -32,7 +32,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
     horaFinTurno: [],
     nombreCargo: [],
     tiposAsistencia: [],
-    minutosDiferencia: [],
+    minDiferenciaEntrada: [],
+    minDiferenciaSalida: [],
     nombreTurno: [],
     inasistenciaJustificada: [],
     colaborador: []
@@ -78,7 +79,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
       horaFinTurno: planificacionAsistencia.horaFinTurno != null ? planificacionAsistencia.horaFinTurno.format(DATE_TIME_FORMAT) : null,
       nombreCargo: planificacionAsistencia.nombreCargo,
       tiposAsistencia: planificacionAsistencia.tiposAsistencia,
-      minutosDiferencia: planificacionAsistencia.minutosDiferencia,
+      minDiferenciaEntrada: planificacionAsistencia.minDiferenciaEntrada,
+      minDiferenciaSalida: planificacionAsistencia.minDiferenciaSalida,
       nombreTurno: planificacionAsistencia.nombreTurno,
       inasistenciaJustificada: planificacionAsistencia.inasistenciaJustificada,
       colaborador: planificacionAsistencia.colaborador
@@ -123,7 +125,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
         this.editForm.get(['horaFinTurno']).value != null ? moment(this.editForm.get(['horaFinTurno']).value, DATE_TIME_FORMAT) : undefined,
       nombreCargo: this.editForm.get(['nombreCargo']).value,
       tiposAsistencia: this.editForm.get(['tiposAsistencia']).value,
-      minutosDiferencia: this.editForm.get(['minutosDiferencia']).value,
+      minDiferenciaEntrada: this.editForm.get(['minDiferenciaEntrada']).value,
+      minDiferenciaSalida: this.editForm.get(['minDiferenciaSalida']).value,
       nombreTurno: this.editForm.get(['nombreTurno']).value,
       inasistenciaJustificada: this.editForm.get(['inasistenciaJustificada']).value,
       colaborador: this.editForm.get(['colaborador']).value

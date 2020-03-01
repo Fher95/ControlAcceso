@@ -14,6 +14,8 @@ import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 import { Respuesta } from 'app/shared/model/respuesta';
 import { Moment } from 'moment';
 import { IPlanificacionAsistencia, PlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
+import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -30,11 +32,22 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   listaAsistencias: IPlanificacionAsistencia[];
 
+  fromDate: string;
+  toDate: string;
+  cargando: boolean;
+
+  predicate: any;
+  reverse: any;
+
+  tipoAsistencia = 'sin-registro';
+
   constructor(
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService,
+    private datePipe: DatePipe,
+    protected router: Router,
     protected utilCol: UtilidadesColaborador
   ) {}
 
@@ -56,7 +69,12 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadAll();
+    // this.loadAll();
+    this.predicate = 'id';
+    this.reverse = true;
+    this.today();
+    this.previousMonth();
+    this.cargarAsistenciasPlanificacion('sin-registro');
     // this.cargarAsistenciasPlanificacion('entradas-tarde');
     this.accountService.identity().then(account => {
       this.currentAccount = account;
@@ -183,13 +201,18 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   cargarAsistenciasPlanificacion(tipoEntrada: string) {
     this.listaAsistencias = [];
+    this.cargando = true;
     this.asistenciaPlaneacionService
       .getAsistenciasPlanificacion({
-        filter: tipoEntrada
+        filter: tipoEntrada,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        orden: this.sort()
       })
       .subscribe(
         (res: HttpResponse<PlanificacionAsistencia[]>) => {
           this.listaAsistencias = res.body;
+          this.cargando = false;
         },
         (res: HttpErrorResponse) => this.onError(res.message)
       );
@@ -214,5 +237,84 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
         this.jhiAlertService.i18nEnabled = true;
         this.loadAll();
       });
+  }
+
+  getStringMinutosRegistro(objAsistencia: IPlanificacionAsistencia, tipoAsistencia: string): string {
+    let unidadTiempo = 'minutos';
+    let tipoAsis = 'temprano';
+    if (tipoAsistencia === 'entrada') {
+      let minutosTotales = objAsistencia.minDiferenciaEntrada;
+      if (objAsistencia.minDiferenciaEntrada === 1 || objAsistencia.minDiferenciaEntrada === -1) {
+        unidadTiempo = 'minuto';
+      }
+      if (objAsistencia.minDiferenciaEntrada <= 0) {
+        minutosTotales = objAsistencia.minDiferenciaEntrada * -1;
+        if (objAsistencia.minDiferenciaSalida === 0) {
+          tipoAsis = '';
+        }
+      } else {
+        tipoAsis = 'tarde';
+      }
+      return minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
+    }
+    if (tipoAsistencia === 'salida') {
+      let minutosTotales = objAsistencia.minDiferenciaSalida;
+      if (objAsistencia.minDiferenciaSalida === 1 || objAsistencia.minDiferenciaSalida === -1) {
+        unidadTiempo = 'minuto';
+      }
+      if (objAsistencia.minDiferenciaSalida <= 0) {
+        minutosTotales = objAsistencia.minDiferenciaSalida * -1;
+        if (objAsistencia.minDiferenciaSalida === 0) {
+          tipoAsis = '';
+        }
+      } else {
+        tipoAsis = 'tarde';
+      }
+      return minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
+    }
+    if (tipoAsistencia === 'sin-registro') {
+      return 'Sin registro';
+    }
+  }
+
+  today() {
+    const dateFormat = 'yyyy-MM-dd';
+    // Today + 1 day - needed if the current day must be included
+    const today: Date = new Date();
+    today.setDate(today.getDate());
+    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    this.toDate = this.datePipe.transform(date, dateFormat);
+  }
+  previousMonth() {
+    const dateFormat = 'yyyy-MM-dd';
+    let fromDate: Date = new Date();
+
+    if (fromDate.getMonth() === 0) {
+      fromDate = new Date(fromDate.getFullYear() - 1, 11, fromDate.getDate());
+    } else {
+      fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
+    }
+
+    this.fromDate = this.datePipe.transform(fromDate, dateFormat);
+  }
+  sort() {
+    // this.predicate = 'fechaAsistenciaTurno';
+    /*
+    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    if (this.predicate !== 'id') {
+      result.push('id');
+    }
+    */
+    const result = this.predicate + ' ' + (this.reverse ? 'asc' : 'desc');
+    return result;
+  }
+
+  transition() {
+    this.router.navigate(['/asistencia-planeacion'], {
+      queryParams: {
+        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+      }
+    });
+    this.cargarAsistenciasPlanificacion(this.tipoAsistencia);
   }
 }

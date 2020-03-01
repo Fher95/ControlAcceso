@@ -36,7 +36,10 @@
             <column name="tipos_asistencia" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="minutos_diferencia" type="varchar(255)">
+            <column name="min_diferencia_entrada" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="min_diferencia_salida" type="integer">
                 <constraints nullable="true" />
             </column>
             <column name="nombre_turno" type="varchar(255)">
@@ -83,7 +86,8 @@
             <column name="hora_fin_turno" type="datetime"/>
             <column name="nombre_cargo" type="string"/>
             <column name="tipos_asistencia" type="string"/>
-            <column name="minutos_diferencia" type="string"/>
+            <column name="min_diferencia_entrada" type="integer"/>
+            <column name="min_diferencia_salida" type="integer"/>
             <column name="nombre_turno" type="string"/>
             <column name="inasistencia_justificada" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

@@ -198,7 +198,8 @@ public class PeticionResource {
                             parPeticion.getFechaPeticion());
             for (PlanificacionAsistencia objPlaneacion : listaPlanCol) {
                 objPlaneacion.setInasistenciaJustificada(true);
-                objPlaneacion.setMinutosDiferencia("0");
+                objPlaneacion.setMinDiferenciaEntrada(0);
+                objPlaneacion.setMinDiferenciaSalida(0);
                 objPlaneacion.setTiposAsistencia("NoAplica");
                 this.planificacionAsistenciaRepository.save(objPlaneacion);
             }
@@ -213,7 +214,8 @@ public class PeticionResource {
                                 fechaBusqueda.toInstant());
                 for (PlanificacionAsistencia objPlaneacion : listaPlanCol) {
                     objPlaneacion.setInasistenciaJustificada(true);
-                    objPlaneacion.setMinutosDiferencia("0");
+                    objPlaneacion.setMinDiferenciaEntrada(0);
+                    objPlaneacion.setMinDiferenciaSalida(0);
                     objPlaneacion.setTiposAsistencia("NoAplica");
                     this.planificacionAsistenciaRepository.save(objPlaneacion);
                 }

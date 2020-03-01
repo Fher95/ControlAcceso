@@ -65,8 +65,10 @@ public class PlanificacionAsistenciaResourceIT {
     private static final String DEFAULT_TIPOS_ASISTENCIA = "AAAAAAAAAA";
     private static final String UPDATED_TIPOS_ASISTENCIA = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MINUTOS_DIFERENCIA = "AAAAAAAAAA";
-    private static final String UPDATED_MINUTOS_DIFERENCIA = "BBBBBBBBBB";
+    private static final int DEFAULT_MIN_DIFERENCIA_ENTRADA = 1234;
+    private static final int DEFAULT_MIN_DIFERENCIA_SALIDA = 1234;
+    private static final int UPDATED_MIN_DIFERENCIA_ENTRADA = 4567;
+    private static final int UPDATED_MIN_DIFERENCIA_SALIDA = 4567;
 
     private static final String DEFAULT_NOMBRE_TURNO = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE_TURNO = "BBBBBBBBBB";
@@ -136,7 +138,7 @@ public class PlanificacionAsistenciaResourceIT {
             .horaFinTurno(DEFAULT_HORA_FIN_TURNO)
             .nombreCargo(DEFAULT_NOMBRE_CARGO)
             .tiposAsistencia(DEFAULT_TIPOS_ASISTENCIA)
-            .minutosDiferencia(DEFAULT_MINUTOS_DIFERENCIA)
+            .minutosDiferencia(DEFAULT_MIN_DIFERENCIA_ENTRADA, DEFAULT_MIN_DIFERENCIA_SALIDA)
             .nombreTurno(DEFAULT_NOMBRE_TURNO)
             .inasistenciaJustificada(DEFAULT_INASISTENCIA_JUSTIFICADA);
         return planificacionAsistencia;
@@ -156,7 +158,7 @@ public class PlanificacionAsistenciaResourceIT {
             .horaFinTurno(UPDATED_HORA_FIN_TURNO)
             .nombreCargo(UPDATED_NOMBRE_CARGO)
             .tiposAsistencia(UPDATED_TIPOS_ASISTENCIA)
-            .minutosDiferencia(UPDATED_MINUTOS_DIFERENCIA)
+            .minutosDiferencia(DEFAULT_MIN_DIFERENCIA_ENTRADA, DEFAULT_MIN_DIFERENCIA_SALIDA)
             .nombreTurno(UPDATED_NOMBRE_TURNO)
             .inasistenciaJustificada(UPDATED_INASISTENCIA_JUSTIFICADA);
         return planificacionAsistencia;
@@ -189,7 +191,8 @@ public class PlanificacionAsistenciaResourceIT {
         assertThat(testPlanificacionAsistencia.getHoraFinTurno()).isEqualTo(DEFAULT_HORA_FIN_TURNO);
         assertThat(testPlanificacionAsistencia.getNombreCargo()).isEqualTo(DEFAULT_NOMBRE_CARGO);
         assertThat(testPlanificacionAsistencia.getTiposAsistencia()).isEqualTo(DEFAULT_TIPOS_ASISTENCIA);
-        assertThat(testPlanificacionAsistencia.getMinutosDiferencia()).isEqualTo(DEFAULT_MINUTOS_DIFERENCIA);
+        assertThat(testPlanificacionAsistencia.getMinDiferenciaEntrada()).isEqualTo(DEFAULT_MIN_DIFERENCIA_ENTRADA);
+        assertThat(testPlanificacionAsistencia.getMinDiferenciaSalida()).isEqualTo(DEFAULT_MIN_DIFERENCIA_SALIDA);
         assertThat(testPlanificacionAsistencia.getNombreTurno()).isEqualTo(DEFAULT_NOMBRE_TURNO);
         assertThat(testPlanificacionAsistencia.isInasistenciaJustificada()).isEqualTo(DEFAULT_INASISTENCIA_JUSTIFICADA);
     }
@@ -232,7 +235,8 @@ public class PlanificacionAsistenciaResourceIT {
             .andExpect(jsonPath("$.[*].horaFinTurno").value(hasItem(DEFAULT_HORA_FIN_TURNO.toString())))
             .andExpect(jsonPath("$.[*].nombreCargo").value(hasItem(DEFAULT_NOMBRE_CARGO.toString())))
             .andExpect(jsonPath("$.[*].tiposAsistencia").value(hasItem(DEFAULT_TIPOS_ASISTENCIA.toString())))
-            .andExpect(jsonPath("$.[*].minutosDiferencia").value(hasItem(DEFAULT_MINUTOS_DIFERENCIA.toString())))
+            .andExpect(jsonPath("$.[*].minDiferenciaEntrada").value(hasItem(Integer.toString(DEFAULT_MIN_DIFERENCIA_ENTRADA))))
+            .andExpect(jsonPath("$.[*].minDiferenciaSalida").value(hasItem(Integer.toString(DEFAULT_MIN_DIFERENCIA_SALIDA))))
             .andExpect(jsonPath("$.[*].nombreTurno").value(hasItem(DEFAULT_NOMBRE_TURNO.toString())))
             .andExpect(jsonPath("$.[*].inasistenciaJustificada").value(hasItem(DEFAULT_INASISTENCIA_JUSTIFICADA.booleanValue())));
     }
@@ -255,7 +259,8 @@ public class PlanificacionAsistenciaResourceIT {
             .andExpect(jsonPath("$.horaFinTurno").value(DEFAULT_HORA_FIN_TURNO.toString()))
             .andExpect(jsonPath("$.nombreCargo").value(DEFAULT_NOMBRE_CARGO.toString()))
             .andExpect(jsonPath("$.tiposAsistencia").value(DEFAULT_TIPOS_ASISTENCIA.toString()))
-            .andExpect(jsonPath("$.minutosDiferencia").value(DEFAULT_MINUTOS_DIFERENCIA.toString()))
+            .andExpect(jsonPath("$.minDiferenciaEntrada").value(Integer.toString(DEFAULT_MIN_DIFERENCIA_ENTRADA)))
+            .andExpect(jsonPath("$.minDiferenciaSalida").value(Integer.toString(DEFAULT_MIN_DIFERENCIA_SALIDA)))
             .andExpect(jsonPath("$.nombreTurno").value(DEFAULT_NOMBRE_TURNO.toString()))
             .andExpect(jsonPath("$.inasistenciaJustificada").value(DEFAULT_INASISTENCIA_JUSTIFICADA.booleanValue()));
     }
@@ -288,7 +293,7 @@ public class PlanificacionAsistenciaResourceIT {
             .horaFinTurno(UPDATED_HORA_FIN_TURNO)
             .nombreCargo(UPDATED_NOMBRE_CARGO)
             .tiposAsistencia(UPDATED_TIPOS_ASISTENCIA)
-            .minutosDiferencia(UPDATED_MINUTOS_DIFERENCIA)
+            .minutosDiferencia(UPDATED_MIN_DIFERENCIA_ENTRADA,UPDATED_MIN_DIFERENCIA_SALIDA)
             .nombreTurno(UPDATED_NOMBRE_TURNO)
             .inasistenciaJustificada(UPDATED_INASISTENCIA_JUSTIFICADA);
 
@@ -308,7 +313,8 @@ public class PlanificacionAsistenciaResourceIT {
         assertThat(testPlanificacionAsistencia.getHoraFinTurno()).isEqualTo(UPDATED_HORA_FIN_TURNO);
         assertThat(testPlanificacionAsistencia.getNombreCargo()).isEqualTo(UPDATED_NOMBRE_CARGO);
         assertThat(testPlanificacionAsistencia.getTiposAsistencia()).isEqualTo(UPDATED_TIPOS_ASISTENCIA);
-        assertThat(testPlanificacionAsistencia.getMinutosDiferencia()).isEqualTo(UPDATED_MINUTOS_DIFERENCIA);
+        assertThat(testPlanificacionAsistencia.getMinDiferenciaEntrada()).isEqualTo(UPDATED_MIN_DIFERENCIA_ENTRADA);
+        assertThat(testPlanificacionAsistencia.getMinDiferenciaSalida()).isEqualTo(UPDATED_MIN_DIFERENCIA_SALIDA);
         assertThat(testPlanificacionAsistencia.getNombreTurno()).isEqualTo(UPDATED_NOMBRE_TURNO);
         assertThat(testPlanificacionAsistencia.isInasistenciaJustificada()).isEqualTo(UPDATED_INASISTENCIA_JUSTIFICADA);
     }

@@ -184,4 +184,46 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     }
     this.jhiAlertService.i18nEnabled = true;
   }
+
+  getStrMinutosAsistencias(objAsistencia: IPlanificacionAsistencia) {
+    if (objAsistencia.tiposAsistencia === undefined || objAsistencia.tiposAsistencia === null) {
+      return '';
+    }
+
+    let strRes = '';
+    let unidadTiempo = 'minutos';
+    let tipoAsis = 'temprano';
+    // Tipo entrada
+    let minutosTotales = objAsistencia.minDiferenciaEntrada;
+    if (objAsistencia.minDiferenciaEntrada === 1 || objAsistencia.minDiferenciaEntrada === -1) {
+      unidadTiempo = 'minuto';
+    }
+    if (objAsistencia.minDiferenciaEntrada <= 0) {
+      minutosTotales = objAsistencia.minDiferenciaEntrada * -1;
+      if (objAsistencia.minDiferenciaSalida === 0) {
+        tipoAsis = '';
+      }
+    } else {
+      tipoAsis = 'tarde';
+    }
+    strRes = 'Entrada: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis + '\n';
+    // tipo salida
+    unidadTiempo = 'minutos';
+    tipoAsis = 'temprano';
+    minutosTotales = objAsistencia.minDiferenciaSalida;
+    if (objAsistencia.minDiferenciaSalida === 1 || objAsistencia.minDiferenciaSalida === -1) {
+      unidadTiempo = 'minuto';
+    }
+    if (objAsistencia.minDiferenciaSalida <= 0) {
+      minutosTotales = objAsistencia.minDiferenciaSalida * -1;
+      if (objAsistencia.minDiferenciaSalida === 0) {
+        tipoAsis = '';
+      }
+    } else {
+      tipoAsis = 'tarde';
+    }
+    strRes += 'Salida: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
+
+    return strRes;
+  }
 }

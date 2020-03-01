@@ -82,10 +82,10 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
-     * with body the new planificacionAsistencia, or with status
-     * {@code 400 (Bad Request)} if the planificacionAsistencia has already an
-     * ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new planificacionAsistencia, or with status
+     *         {@code 400 (Bad Request)} if the planificacionAsistencia has already
+     *         an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/planificacion-asistencias")
@@ -99,7 +99,7 @@ public class PlanificacionAsistenciaResource {
         PlanificacionAsistencia result = planificacionAsistenciaRepository.save(planificacionAsistencia);
         return ResponseEntity
                 .created(new URI("/api/planificacion-asistencias/" + result.getId())).headers(HeaderUtil
-                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -108,11 +108,11 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the updated planificacionAsistencia, or with status
-     * {@code 400 (Bad Request)} if the planificacionAsistencia is not valid, or
-     * with status {@code 500 (Internal Server Error)} if the
-     * planificacionAsistencia couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated planificacionAsistencia, or with status
+     *         {@code 400 (Bad Request)} if the planificacionAsistencia is not
+     *         valid, or with status {@code 500 (Internal Server Error)} if the
+     *         planificacionAsistencia couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/planificacion-asistencias")
@@ -136,44 +136,83 @@ public class PlanificacionAsistenciaResource {
      * @param fromDate
      * @param pageable the pagination information.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
-     * list of planificacionAsistencias in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of planificacionAsistencias in body.
      */
-    @GetMapping(path = "/planificacion-asistencias", params = {"fromDate", "toDate"})
+    @GetMapping(path = "/planificacion-asistencias", params = { "fromDate", "toDate" })
     public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(
-            @RequestParam(value = "fromDate") LocalDate fromDate,
-            @RequestParam(value = "toDate") LocalDate toDate, Pageable pageable) {
+            @RequestParam(value = "fromDate") LocalDate fromDate, @RequestParam(value = "toDate") LocalDate toDate,
+            Pageable pageable) {
         Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        // Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant();
+        // Instant to =
+        // toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant();
         Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         log.debug("REST request to get a page of PlanificacionAsistencias");
-        // Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAll(pageable);
+        // Page<PlanificacionAsistencia> page =
+        // planificacionAsistenciaRepository.findAll(pageable);
         Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAllByDates(from, to, pageable);
         HttpHeaders headers = PaginationUtil
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    
-    @GetMapping("/planificacion-asistencias/tipoAsistencia")
-    public ResponseEntity<List<PlanificacionAsistencia>> getAsistenciasTipo(@RequestParam(required = false) String filter) {
+
+    @GetMapping(path = "/planificacion-asistencias/tipoAsistencia", params = { "fromDate", "toDate", "orden" })
+    public ResponseEntity<List<PlanificacionAsistencia>> getAsistenciasTipo(
+            @RequestParam(required = false) String filter, @RequestParam(value = "fromDate") LocalDate fromDate,
+            @RequestParam(value = "toDate") LocalDate toDate, @RequestParam(value = "orden") String orden) {
         String tipoAsistencia;
+        String[] vecOrden = orden.split(" ");
+        Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         if ("entradas-temprano".equals(filter)) {
             tipoAsistencia = "EntradaTemprano";
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+            if (vecOrden[1].equals("desc")) {
+                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                        .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
+            } else {
+                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                        .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
+            }
         }
         if ("entradas-tarde".equals(filter)) {
             tipoAsistencia = "EntradaTarde";
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+            if (vecOrden[1].equals("desc")) {
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
+            } else {
+                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
+            }
         }
         if ("salidas-temprano".equals(filter)) {
             tipoAsistencia = "SalidaTemprano";
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+            if (vecOrden[1].equals("desc")) {
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
+            } else {
+                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                    .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
+            }
         }
-        if ("salidas-tarde".equals(filter)) {
+        if ("salidas-tarde".equals(filter)) {            
             tipoAsistencia = "SalidaTarde";
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository.encontrarAsistenciasConTipo(tipoAsistencia));
+            if (vecOrden[1].equals("desc")) {
+            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                    .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
+            } else {
+                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
+            }
         }
-        
+        if ("sin-registro".equals(filter)) {
+            if (vecOrden[1].equals("desc")) {
+            return ResponseEntity.ok().body(
+                    this.planificacionAsistenciaRepository.encontrarAsistenciasSinRegistroConFechasDesc(from, to,vecOrden[0]));
+            } else {
+                return ResponseEntity.ok().body(
+                    this.planificacionAsistenciaRepository.encontrarAsistenciasSinRegistroConFechasAsc(from, to,vecOrden[0]));
+            }
+        }
         return (ResponseEntity<List<PlanificacionAsistencia>>) ResponseEntity.notFound();
     }
 
@@ -182,8 +221,8 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param id the id of the planificacionAsistencia to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-     * body the planificacionAsistencia, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the planificacionAsistencia, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/planificacion-asistencias/{id}")
     public ResponseEntity<PlanificacionAsistencia> getPlanificacionAsistencia(@PathVariable Long id) {
@@ -216,7 +255,8 @@ public class PlanificacionAsistenciaResource {
      * @return
      */
     @PutMapping("/planificacion-asistencias/generar-planificacion")
-    public ResponseEntity<Respuesta> generarPlanificacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
+    public ResponseEntity<Respuesta> generarPlanificacion(
+            @RequestBody PlanificacionAsistencia planificacionAsistencia) {
         this.objPeticionResource = new PeticionResource(peticionRepository, planificacionAsistenciaRepository);
         int numAsignaciones = 0, numRegistros = 0;
         Instant fechaInicio = planificacionAsistencia.getFechaInicioPlanificacion();
@@ -238,7 +278,8 @@ public class PlanificacionAsistenciaResource {
                     int dias = (int) ((dateFin.getTime() - dateInicio.getTime()) / 86400000);
                     for (int i2 = 0; i2 <= dias; i2++) {
                         // Se crea el nuevo registro que será creado en bd
-                        PlanificacionAsistencia nuevoRegistroAsistencia = this.generarRegistro(dateInicio, dateFin, asignacion, i2);
+                        PlanificacionAsistencia nuevoRegistroAsistencia = this.generarRegistro(dateInicio, dateFin,
+                                asignacion, i2);
                         this.planificacionAsistenciaRepository.save(nuevoRegistroAsistencia);
                         numRegistros++;
                     }
@@ -246,8 +287,8 @@ public class PlanificacionAsistenciaResource {
             }
             Respuesta varRespuesta = new Respuesta();
             varRespuesta.tipoMensaje = "Exito";
-            varRespuesta.mensaje = "Se generó una nueva planilla de asistencia. "
-                    + "\n" + numAsignaciones + " turnos asignados actualmente. \n" + numRegistros + " registros de asistencia generados";
+            varRespuesta.mensaje = "Se generó una nueva planilla de asistencia. " + "\n" + numAsignaciones
+                    + " turnos asignados actualmente. \n" + numRegistros + " registros de asistencia generados";
             return ResponseEntity.ok().body(varRespuesta);
         } else {
             Respuesta varRespuesta = new Respuesta();
@@ -259,8 +300,9 @@ public class PlanificacionAsistenciaResource {
 
     @PutMapping("/planificacion-asistencias/verificar-fechas")
     ResponseEntity<Respuesta> verificarFechasPlaneacion(@RequestBody PlanificacionAsistencia planificacionAsistencia) {
-        int contadorPlanificaciones = this.planificacionAsistenciaRepository
-                .countdAllBetweenDates(planificacionAsistencia.getFechaInicioPlanificacion(), planificacionAsistencia.getFechaFinPlanificacion());
+        int contadorPlanificaciones = this.planificacionAsistenciaRepository.countdAllBetweenDates(
+                planificacionAsistencia.getFechaInicioPlanificacion(),
+                planificacionAsistencia.getFechaFinPlanificacion());
 
         Respuesta nuevaRespuesta = new Respuesta();
         if (contadorPlanificaciones == 0) {
@@ -282,25 +324,29 @@ public class PlanificacionAsistenciaResource {
         return contador;
     }
 
-    public PlanificacionAsistencia generarRegistro(Date dateInicio, Date dateFin, AsignacionTurno asignacion, int numDia) {
+    public PlanificacionAsistencia generarRegistro(Date dateInicio, Date dateFin, AsignacionTurno asignacion,
+            int numDia) {
         PlanificacionAsistencia nuevoRegistroAsistencia = new PlanificacionAsistencia();
         Colaborador objCol = asignacion.getColaboradors().iterator().next();
         Turno objTurno = asignacion.getTurno();
         Date fechaAsistencia = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
         IntercambioTurno objIntercambio = findIntermcabioTurno(objCol, fechaAsistencia.toInstant());
-        // Veirifica si hay algun intercambio turno para ese colaborador en una fecha dada                
+        // Veirifica si hay algun intercambio turno para ese colaborador en una fecha
+        // dada
         if (objIntercambio != null) {
-            // Si el numero del documento es el del colaborador1, el turno a programar será el del 2,        
+            // Si el numero del documento es el del colaborador1, el turno a programar será
+            // el del 2,
             if (objIntercambio.getColaborador1().getNumeroDocumento().equals(objCol.getNumeroDocumento())) {
                 objTurno = objIntercambio.getAsignacionTurno2().getTurno();
-            } // De lo contrario, si el colaborador en cuestión es el dos, el turno reprogramado sera el del 1
+            } // De lo contrario, si el colaborador en cuestión es el dos, el turno
+              // reprogramado sera el del 1
             else {
                 objTurno = objIntercambio.getAsignacionTurno1().getTurno();
             }
         }
 
         Date dateTurno = Date.from(objTurno.getHoraInicio());
-        Date dateInicioTurnoAsis = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate()+ numDia,
+        Date dateInicioTurnoAsis = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia,
                 dateTurno.getHours(), dateTurno.getMinutes());
         // dateInicioTurnoAsis.setDate(dateInicio.getDate() + numDia);
 
@@ -317,11 +363,14 @@ public class PlanificacionAsistenciaResource {
         nuevoRegistroAsistencia.setHoraFinTurno(dateHoraFinTurno.toInstant());
 
         Date fechaPeticion = new Date(dateInicio.getYear(), dateInicio.getMonth(), dateInicio.getDate() + numDia);
-        boolean tienePermiso = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Permiso");
-        boolean tieneVacaciones = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(), fechaPeticion, "Vacaciones");
+        boolean tienePermiso = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(),
+                fechaPeticion, "Permiso");
+        boolean tieneVacaciones = this.objPeticionResource.existePeticionAprobada(objCol.getNumeroDocumento(),
+                fechaPeticion, "Vacaciones");
         if (tienePermiso || tieneVacaciones) {
             nuevoRegistroAsistencia.setInasistenciaJustificada(true);
-            nuevoRegistroAsistencia.setMinutosDiferencia("0");
+            // nuevoRegistroAsistencia.setMinDiferenciaEntrada(0);
+            // nuevoRegistroAsistencia.setMinDiferenciaSalida(0);
             nuevoRegistroAsistencia.setTiposAsistencia("NoAplica");
         } else {
             nuevoRegistroAsistencia.setInasistenciaJustificada(false);
@@ -330,11 +379,11 @@ public class PlanificacionAsistenciaResource {
     }
 
     private IntercambioTurno findIntermcabioTurno(Colaborador parCol, Instant parFecha) {
-        Optional<IntercambioTurno> opIntercambio
-                = this.intercambioTurnoRepository.findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
+        Optional<IntercambioTurno> opIntercambio = this.intercambioTurnoRepository
+                .findIntercambioConFecha(parCol.getNumeroDocumento(), parFecha);
         if (!opIntercambio.isPresent()) {
-            opIntercambio
-                    = this.intercambioTurnoRepository.findIntercambioEntreFechas(parCol.getNumeroDocumento(), parFecha);
+            opIntercambio = this.intercambioTurnoRepository.findIntercambioEntreFechas(parCol.getNumeroDocumento(),
+                    parFecha);
             if (opIntercambio.isPresent()) {
                 return opIntercambio.get();
             } else {
@@ -345,7 +394,7 @@ public class PlanificacionAsistenciaResource {
         }
     }
 
-    /*  Metodos para la carga de la asistencia  */
+    /* Metodos para la carga de la asistencia */
     @GetMapping("/planificacion-asistencias/cargar-asistencias")
     public ResponseEntity<Respuesta> cargarAsistencias() {
         GestionArchivos gestorArchivos = new GestionArchivos();
@@ -357,8 +406,10 @@ public class PlanificacionAsistenciaResource {
         int contRegistroActualizados = 0;
         int fechasIncongruentes = 0;
         int registrosRepetidosEnBD = 0;
-        // Se obtiene la lista planificaciones (planilla de asistencia) para empezar a comparar los registros de asistencia
-        List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository.findPlanificacionesActuales();
+        // Se obtiene la lista planificaciones (planilla de asistencia) para empezar a
+        // comparar los registros de asistencia
+        List<PlanificacionAsistencia> planificacionesActuales = this.planificacionAsistenciaRepository
+                .findPlanificacionesActuales();
         // Se recorre la matriz
         for (int iterador2 = 0; iterador2 < matrizDatos.size(); iterador2++) {
             // Se obtienen los datos a buscar de cada linea
@@ -366,8 +417,10 @@ public class PlanificacionAsistenciaResource {
             Date varFechaHoraEntrada = this.convertirStringADate(matrizDatos.get(iterador2)[1]);
             Date varFechaHoraSalida = this.convertirStringADate(matrizDatos.get(iterador2)[2]);
             if (varFechaHoraEntrada.before(varFechaHoraSalida)) {
-                if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(), varFechaHoraSalida.toInstant())) {
-                    if (this.procesarAsistencia(planificacionesActuales, varNumDocumento, varFechaHoraEntrada, varFechaHoraSalida)) {
+                if (!this.existeRegistroAsistencia(varNumDocumento, varFechaHoraEntrada.toInstant(),
+                        varFechaHoraSalida.toInstant())) {
+                    if (this.procesarAsistencia(planificacionesActuales, varNumDocumento, varFechaHoraEntrada,
+                            varFechaHoraSalida)) {
                         contRegistroActualizados++;
                         Asistencia nuevoRegAsis = new Asistencia();
                         nuevoRegAsis.setDocumentoColaborador(varNumDocumento);
@@ -384,18 +437,18 @@ public class PlanificacionAsistenciaResource {
         }
         Respuesta varRes = new Respuesta();
         varRes.tipoMensaje = "Exito";
-        varRes.mensaje = "Se ha realizado la carga de asistencias. \n"
-                + contRegistroActualizados + " registros fueron actualizados. \n"
-                + fechasIncongruentes + " registros tenían inconsistencias en las fechas. \n"
-                + registrosRepetidosEnBD + " registros ya estaban registrados en la base de datos.";
+        varRes.mensaje = "Se ha realizado la carga de asistencias. \n" + contRegistroActualizados
+                + " registros fueron actualizados. \n" + fechasIncongruentes
+                + " registros tenían inconsistencias en las fechas. \n" + registrosRepetidosEnBD
+                + " registros ya estaban registrados en la base de datos.";
         return ResponseEntity.ok().body(varRes);
     }
 
     /**
      * Recibe el numero de documento del colaborador, las fechas de entrada y de
-     * salida de su asistencia y con eso Buscar el registro correspondiente en
-     * la planilla de asistencia y determina si llegó tarde o si llegó temprano
-     * y por cuánto tiempo de diferencia
+     * salida de su asistencia y con eso Buscar el registro correspondiente en la
+     * planilla de asistencia y determina si llegó tarde o si llegó temprano y por
+     * cuánto tiempo de diferencia
      *
      * @param parLista
      * @param parDocCol
@@ -403,16 +456,18 @@ public class PlanificacionAsistenciaResource {
      * @param parSalidaAsist
      * @return
      */
-    private boolean procesarAsistencia(
-            List<PlanificacionAsistencia> parLista, String parDocCol, Date parEntradaAsist, Date parSalidaAsist) {
+    private boolean procesarAsistencia(List<PlanificacionAsistencia> parLista, String parDocCol, Date parEntradaAsist,
+            Date parSalidaAsist) {
         boolean asistenciaRegistrada = false;
-        for (PlanificacionAsistencia planAsist : parLista) {            
+        for (PlanificacionAsistencia planAsist : parLista) {
             if (parDocCol.equals(planAsist.getColaborador().getNumeroDocumento())) {
                 Date fechaHoraEntrada = Date.from(planAsist.getHoraInicioTurno());
                 if (this.mismaFecha(parEntradaAsist, fechaHoraEntrada)) {
-                    // Si de entrada encuentra que la asistencia está justificada, se modifica el tio de asistencia, se guarda y se devuelve true
-                    if (planAsist.isInasistenciaJustificada()){
-                        planAsist.setMinutosDiferencia("0");
+                    // Si de entrada encuentra que la asistencia está justificada, se modifica el
+                    // tio de asistencia, se guarda y se devuelve true
+                    if (planAsist.isInasistenciaJustificada()) {
+                        planAsist.setMinDiferenciaEntrada(0);
+                        planAsist.setMinDiferenciaSalida(0);
                         planAsist.setTiposAsistencia("NoAplica");
                         this.planificacionAsistenciaRepository.save(planAsist);
                         return true;
@@ -422,26 +477,27 @@ public class PlanificacionAsistenciaResource {
                     boolean regEntrada = false, regSalida = false;
                     if (this.horaDentroDeUmbral(parEntradaAsist, fechaHoraEntrada, 1)) {
                         long difMilisegundos = (parEntradaAsist.getTime() - fechaHoraEntrada.getTime());
-                        int numMinutos = (int) ((difMilisegundos / 1000) / 60);
-                        if (numMinutos <= 0) {
+                        int numMinutosEntrada = (int) ((difMilisegundos / 1000) / 60);
+                        if (numMinutosEntrada <= 0) {
                             tipoEntrada = "EntradaTemprano";
                         } else {
                             tipoEntrada = "EntradaTarde";
                         }
-                        planAsist.setMinutosDiferencia(Integer.toString(numMinutos));
+                        planAsist.setMinDiferenciaEntrada(numMinutosEntrada);
                         planAsist.setTiposAsistencia(tipoEntrada);
                         regEntrada = true;
                     }
                     Date fechaHoraSalida = Date.from(planAsist.getHoraFinTurno());
-                    if (this.mismaFecha(parSalidaAsist, fechaHoraSalida) && this.horaDentroDeUmbral(parSalidaAsist, fechaHoraSalida, 1)) {
+                    if (this.mismaFecha(parSalidaAsist, fechaHoraSalida)
+                            && this.horaDentroDeUmbral(parSalidaAsist, fechaHoraSalida, 1)) {
                         long difMilisegundos = (parSalidaAsist.getTime() - fechaHoraSalida.getTime());
-                        int numMinutos = (int) ((difMilisegundos / 1000) / 60);
-                        if (numMinutos <= 0) {
+                        int numMinutosSalida = (int) ((difMilisegundos / 1000) / 60);
+                        if (numMinutosSalida <= 0) {
                             tipoSalida = "SalidaTemprano";
                         } else {
                             tipoSalida = "SalidaTarde";
                         }
-                        planAsist.setMinutosDiferencia(planAsist.getMinutosDiferencia() + " : " + numMinutos);
+                        planAsist.setMinDiferenciaSalida(numMinutosSalida);
                         planAsist.setTiposAsistencia(planAsist.getTiposAsistencia() + "-" + tipoSalida);
                         regSalida = true;
                     }
@@ -449,8 +505,7 @@ public class PlanificacionAsistenciaResource {
                         this.planificacionAsistenciaRepository.save(planAsist);
                         return true;
                     }
-                    
-                    
+
                 }
             }
         }
@@ -458,11 +513,13 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
-     * Recibe dos fechas, y verifica que no estén a mas de un determinado número de horas de diferencia (horasUmbral)
+     * Recibe dos fechas, y verifica que no estén a mas de un determinado número de
+     * horas de diferencia (horasUmbral)
+     * 
      * @param parFecha1
      * @param parFecha2
      * @param horasUmbral
-     * @return 
+     * @return
      */
     private boolean horaDentroDeUmbral(Date parFecha1, Date parFecha2, int horasUmbral) {
         long difMilisegundos = parFecha1.getTime() - parFecha2.getTime();
@@ -474,10 +531,13 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
-     * Recibe dos fechas y comprueba que tanto su año, como su mes, y su día sean iguales
+     * Recibe dos fechas y comprueba que tanto su año, como su mes, y su día sean
+     * iguales
+     * 
      * @param parFecha1
      * @param parFecha2
-     * @return true si las fechas tienen el mismo años, mes y día, false en caso contrario
+     * @return true si las fechas tienen el mismo años, mes y día, false en caso
+     *         contrario
      */
     private boolean mismaFecha(Date parFecha1, Date parFecha2) {
         int anio1 = parFecha1.getYear(), mes1 = parFecha1.getMonth(), dia1 = parFecha1.getDate();

@@ -119,7 +119,7 @@
                     <td>{{planificacionAsistencia.horaFinTurno | date:'h:mm a'}}</td>
                     <td>{{planificacionAsistencia.nombreCargo}}</td>
                     <td>{{planificacionAsistencia.tiposAsistencia}}</td>
-                    <td>{{planificacionAsistencia.minutosDiferencia}}</td>
+                    <td>{{this.getStrMinutosAsistencias(planificacionAsistencia)}}</td>
                     <td>{{planificacionAsistencia.nombreTurno}}</td>
                     <td>{{planificacionAsistencia.inasistenciaJustificada}}</td>
                     <td>
