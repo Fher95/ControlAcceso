@@ -70,7 +70,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.loadAll();
-    this.predicate = 'id';
+    this.predicate = 'fechaAsistenciaTurno';
     this.reverse = true;
     this.today();
     this.previousMonth();
@@ -200,6 +200,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
   }
 
   cargarAsistenciasPlanificacion(tipoEntrada: string) {
+    this.tipoAsistencia = tipoEntrada;
     this.listaAsistencias = [];
     this.cargando = true;
     this.asistenciaPlaneacionService
@@ -298,13 +299,15 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
     this.fromDate = this.datePipe.transform(fromDate, dateFormat);
   }
   sort() {
-    // this.predicate = 'fechaAsistenciaTurno';
-    /*
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-    if (this.predicate !== 'id') {
-      result.push('id');
+    if (this.predicate.includes('minDiferencia')) {
+      let minutosDiferencia: string;
+      if (this.tipoAsistencia.includes('entrada')) {
+        minutosDiferencia = 'minDiferenciaEntrada';
+      } else {
+        minutosDiferencia = 'minDiferenciaSalida';
+      }
+      return minutosDiferencia + ' ' + (this.reverse ? 'asc' : 'desc');
     }
-    */
     const result = this.predicate + ' ' + (this.reverse ? 'asc' : 'desc');
     return result;
   }

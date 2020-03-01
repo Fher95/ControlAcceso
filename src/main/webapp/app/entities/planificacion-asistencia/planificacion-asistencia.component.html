@@ -50,9 +50,9 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th-->
                     <th jhiSortBy="fechaInicioPlanificacion"><span
                             jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion">Fecha
                             Inicio Planificacion</span>
@@ -86,7 +86,7 @@
                             Asistencia</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
-                    <th jhiSortBy="minutosDiferencia"><span
+                    <th jhiSortBy="minDiferenciaEntrada"><span
                             jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos
                             Diferencia</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
@@ -109,9 +109,9 @@
             </thead>
             <tbody>
                 <tr *ngFor="let planificacionAsistencia of planificacionAsistencias ;trackBy: trackId">
-                    <td><a
+                    <!--td><a
                             [routerLink]="['/planificacion-asistencia', planificacionAsistencia.id, 'view' ]">{{planificacionAsistencia.id}}</a>
-                    </td>
+                    </td-->
                     <td>{{planificacionAsistencia.fechaInicioPlanificacion | date:'mediumDate'}}</td>
                     <td>{{planificacionAsistencia.fechaFinPlanificacion | date:'mediumDate'}}</td>
                     <td>{{planificacionAsistencia.fechaAsistenciaTurno | date:'mediumDate'}}</td>
@@ -121,7 +121,7 @@
                     <td>{{planificacionAsistencia.tiposAsistencia}}</td>
                     <td>{{this.getStrMinutosAsistencias(planificacionAsistencia)}}</td>
                     <td>{{planificacionAsistencia.nombreTurno}}</td>
-                    <td>{{planificacionAsistencia.inasistenciaJustificada}}</td>
+                    <td>{{planificacionAsistencia.inasistenciaJustificada ? 'Si' : 'No'}}</td>
                     <td>
                         <div *ngIf="planificacionAsistencia.colaborador">
                             <a

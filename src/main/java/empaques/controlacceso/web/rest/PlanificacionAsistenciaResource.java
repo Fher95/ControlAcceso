@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 
 /**
  * REST controller for managing
@@ -82,10 +83,10 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new planificacionAsistencia, or with status
-     *         {@code 400 (Bad Request)} if the planificacionAsistencia has already
-     *         an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new planificacionAsistencia, or with status
+     * {@code 400 (Bad Request)} if the planificacionAsistencia has already an
+     * ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/planificacion-asistencias")
@@ -99,7 +100,7 @@ public class PlanificacionAsistenciaResource {
         PlanificacionAsistencia result = planificacionAsistenciaRepository.save(planificacionAsistencia);
         return ResponseEntity
                 .created(new URI("/api/planificacion-asistencias/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -108,11 +109,11 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param planificacionAsistencia the planificacionAsistencia to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated planificacionAsistencia, or with status
-     *         {@code 400 (Bad Request)} if the planificacionAsistencia is not
-     *         valid, or with status {@code 500 (Internal Server Error)} if the
-     *         planificacionAsistencia couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the updated planificacionAsistencia, or with status
+     * {@code 400 (Bad Request)} if the planificacionAsistencia is not valid, or
+     * with status {@code 500 (Internal Server Error)} if the
+     * planificacionAsistencia couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/planificacion-asistencias")
@@ -136,10 +137,10 @@ public class PlanificacionAsistenciaResource {
      * @param fromDate
      * @param pageable the pagination information.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of planificacionAsistencias in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
+     * list of planificacionAsistencias in body.
      */
-    @GetMapping(path = "/planificacion-asistencias", params = { "fromDate", "toDate" })
+    @GetMapping(path = "/planificacion-asistencias", params = {"fromDate", "toDate"})
     public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(
             @RequestParam(value = "fromDate") LocalDate fromDate, @RequestParam(value = "toDate") LocalDate toDate,
             Pageable pageable) {
@@ -156,64 +157,38 @@ public class PlanificacionAsistenciaResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @GetMapping(path = "/planificacion-asistencias/tipoAsistencia", params = { "fromDate", "toDate", "orden" })
+    @GetMapping(path = "/planificacion-asistencias/tipoAsistencia", params = {"fromDate", "toDate", "orden"})
     public ResponseEntity<List<PlanificacionAsistencia>> getAsistenciasTipo(
             @RequestParam(required = false) String filter, @RequestParam(value = "fromDate") LocalDate fromDate,
             @RequestParam(value = "toDate") LocalDate toDate, @RequestParam(value = "orden") String orden) {
-        String tipoAsistencia;
+        String tipoAsistencia = "EntradaTarde";
         String[] vecOrden = orden.split(" ");
+        Sort objSort;
+        if (vecOrden[1].equals("desc")) {
+            objSort = Sort.by(Sort.Direction.DESC, vecOrden[0]);
+        } else {
+            objSort = Sort.by(Sort.Direction.ASC, vecOrden[0]);
+        }
         Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();        
         if ("entradas-temprano".equals(filter)) {
             tipoAsistencia = "EntradaTemprano";
-            if (vecOrden[1].equals("desc")) {
-                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                        .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
-            } else {
-                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                        .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
-            }
         }
         if ("entradas-tarde".equals(filter)) {
             tipoAsistencia = "EntradaTarde";
-            if (vecOrden[1].equals("desc")) {
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
-            } else {
-                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
-            }
         }
         if ("salidas-temprano".equals(filter)) {
             tipoAsistencia = "SalidaTemprano";
-            if (vecOrden[1].equals("desc")) {
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
-            } else {
-                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                    .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
-            }
         }
-        if ("salidas-tarde".equals(filter)) {            
+        if ("salidas-tarde".equals(filter)) {
             tipoAsistencia = "SalidaTarde";
-            if (vecOrden[1].equals("desc")) {
-            return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                    .encontrarAsistenciasConTipoYFechasAsc(tipoAsistencia, from, to, vecOrden[0]));
-            } else {
-                return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
-                    .encontrarAsistenciasConTipoYFechasDesc(tipoAsistencia, from, to, vecOrden[0]));
-            }
         }
         if ("sin-registro".equals(filter)) {
-            if (vecOrden[1].equals("desc")) {
             return ResponseEntity.ok().body(
-                    this.planificacionAsistenciaRepository.encontrarAsistenciasSinRegistroConFechasDesc(from, to,vecOrden[0]));
-            } else {
-                return ResponseEntity.ok().body(
-                    this.planificacionAsistenciaRepository.encontrarAsistenciasSinRegistroConFechasAsc(from, to,vecOrden[0]));
-            }
+                    this.planificacionAsistenciaRepository.encontrarAsistenciasSinRegistroConFechas(from, to, objSort));
         }
-        return (ResponseEntity<List<PlanificacionAsistencia>>) ResponseEntity.notFound();
+        return ResponseEntity.ok().body(this.planificacionAsistenciaRepository
+                .encontrarAsistenciasConTipoYFechas(tipoAsistencia, from, to, objSort));
     }
 
     /**
@@ -221,8 +196,8 @@ public class PlanificacionAsistenciaResource {
      * planificacionAsistencia.
      *
      * @param id the id of the planificacionAsistencia to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the planificacionAsistencia, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the planificacionAsistencia, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/planificacion-asistencias/{id}")
     public ResponseEntity<PlanificacionAsistencia> getPlanificacionAsistencia(@PathVariable Long id) {
@@ -339,7 +314,7 @@ public class PlanificacionAsistenciaResource {
             if (objIntercambio.getColaborador1().getNumeroDocumento().equals(objCol.getNumeroDocumento())) {
                 objTurno = objIntercambio.getAsignacionTurno2().getTurno();
             } // De lo contrario, si el colaborador en cuestión es el dos, el turno
-              // reprogramado sera el del 1
+            // reprogramado sera el del 1
             else {
                 objTurno = objIntercambio.getAsignacionTurno1().getTurno();
             }
@@ -446,9 +421,9 @@ public class PlanificacionAsistenciaResource {
 
     /**
      * Recibe el numero de documento del colaborador, las fechas de entrada y de
-     * salida de su asistencia y con eso Buscar el registro correspondiente en la
-     * planilla de asistencia y determina si llegó tarde o si llegó temprano y por
-     * cuánto tiempo de diferencia
+     * salida de su asistencia y con eso Buscar el registro correspondiente en
+     * la planilla de asistencia y determina si llegó tarde o si llegó temprano
+     * y por cuánto tiempo de diferencia
      *
      * @param parLista
      * @param parDocCol
@@ -513,9 +488,9 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
-     * Recibe dos fechas, y verifica que no estén a mas de un determinado número de
-     * horas de diferencia (horasUmbral)
-     * 
+     * Recibe dos fechas, y verifica que no estén a mas de un determinado número
+     * de horas de diferencia (horasUmbral)
+     *
      * @param parFecha1
      * @param parFecha2
      * @param horasUmbral
@@ -531,13 +506,13 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
-     * Recibe dos fechas y comprueba que tanto su año, como su mes, y su día sean
-     * iguales
-     * 
+     * Recibe dos fechas y comprueba que tanto su año, como su mes, y su día
+     * sean iguales
+     *
      * @param parFecha1
      * @param parFecha2
      * @return true si las fechas tienen el mismo años, mes y día, false en caso
-     *         contrario
+     * contrario
      */
     private boolean mismaFecha(Date parFecha1, Date parFecha2) {
         int anio1 = parFecha1.getYear(), mes1 = parFecha1.getMonth(), dia1 = parFecha1.getDate();

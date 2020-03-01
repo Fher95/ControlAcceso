@@ -57,7 +57,10 @@
                                 <th jhiSortBy="nombreTurno"><span>Horario</span>
                                     <fa-icon [icon]="'sort'"></fa-icon>
                                 </th>
-                                <th ><span>Minutos de diferencia</span></th>
+                                <th jhiSortBy="minDiferencia">
+                                    <span>Minutos de diferencia</span>
+                                    <fa-icon [icon]="'sort'"></fa-icon>
+                                </th>
                                 <th jhiSortBy="colaborador.id"><span>Colaborador</span>
                                     <fa-icon [icon]="'sort'"></fa-icon>
                                 </th>
@@ -131,13 +134,24 @@
             <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
-                        <tr>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
-                            <th><span>Fecha asistencia</span></th>
-                            <th><span>Cargo / Turno</span></th>
-                            <th><span>Horario</span></th>
-                            <th><span>Minutos de diferencia</span></th>
-                            <th><span>Colaborador</span></th>
+                            <th jhiSortBy="fechaAsistenciaTurno"><span>Fecha asistencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Cargo / Turno</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Horario</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="minDiferencia">
+                                <span>Minutos de diferencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="colaborador.id"><span>Colaborador</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -207,13 +221,24 @@
             <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
-                        <tr>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
-                            <th><span>Fecha asistencia</span></th>
-                            <th><span>Cargo / Turno</span></th>
-                            <th><span>Horario</span></th>
-                            <th><span>Minutos de diferencia</span></th>
-                            <th><span>Colaborador</span></th>
+                            <th jhiSortBy="fechaAsistenciaTurno"><span>Fecha asistencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Cargo / Turno</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Horario</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="minDiferencia">
+                                <span>Minutos de diferencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="colaborador.id"><span>Colaborador</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -288,13 +313,24 @@
             <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
-                        <tr>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
-                            <th><span>Fecha asistencia</span></th>
-                            <th><span>Cargo / Turno</span></th>
-                            <th><span>Horario</span></th>
-                            <th><span>Minutos de diferencia</span></th>
-                            <th><span>Colaborador</span></th>
+                            <th jhiSortBy="fechaAsistenciaTurno"><span>Fecha asistencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Cargo / Turno</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Horario</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="minDiferencia">
+                                <span>Minutos de diferencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="colaborador.id"><span>Colaborador</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -362,16 +398,27 @@
             <div class="alert alert-warning" *ngIf="listaAsistencias?.length === 0 && !this.cargando">
                 <span>No se encontraron salidas temprano</span>
             </div>
-            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0">
+            <div class="table-responsive" *ngIf="listaAsistencias?.length > 0 ">
                 <table class="table table-striped" aria-describedby="page-heading">
                     <thead>
-                        <tr>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'"><span jhiTranslate="global.field.id">ID</span></th-->
-                            <th><span>Fecha asistencia</span></th>
-                            <th><span>Cargo / Turno</span></th>
-                            <th><span>Horario</span></th>
-                            <th><span>Minutos de diferencia</span></th>
-                            <th><span>Colaborador</span></th>
+                            <th jhiSortBy="fechaAsistenciaTurno"><span>Fecha asistencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Cargo / Turno</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="nombreTurno"><span>Horario</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="minDiferencia">
+                                <span>Minutos de diferencia</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
+                            <th jhiSortBy="colaborador.id"><span>Colaborador</span>
+                                <fa-icon [icon]="'sort'"></fa-icon>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

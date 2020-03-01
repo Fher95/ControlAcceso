@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Sort;
 
 /**
  * Spring Data repository for the PlanificacionAsistencia entity.
@@ -47,22 +48,13 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia like %:tipoAsistencia%")
     List<PlanificacionAsistencia> encontrarAsistenciasConTipo(@Param("tipoAsistencia") String tipoAsistencia);
 
-    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia like %:tipoAsistencia% and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate "
-    + " order by :campo desc")
-    List<PlanificacionAsistencia> encontrarAsistenciasConTipoYFechasDesc(@Param("tipoAsistencia") String tipoAsistencia, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, 
-    @Param("campo") String campo);
-    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia like %:tipoAsistencia% and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate "
-    + " order by :campo asc")
-    List<PlanificacionAsistencia> encontrarAsistenciasConTipoYFechasAsc(@Param("tipoAsistencia") String tipoAsistencia, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, 
-    @Param("campo") String campo);
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia like %:tipoAsistencia% and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate")
+    List<PlanificacionAsistencia> encontrarAsistenciasConTipoYFechas(@Param("tipoAsistencia") String tipoAsistencia, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, 
+    Sort objSort);    
 
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null")
     List<PlanificacionAsistencia> encontrarAsistenciasSinRegistro();
-
-    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate "
-    + " order by :campo desc")    
-    List<PlanificacionAsistencia> encontrarAsistenciasSinRegistroConFechasDesc( @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, @Param("campo") String campo);
-    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate "
-    + " order by :campo asc")    
-    List<PlanificacionAsistencia> encontrarAsistenciasSinRegistroConFechasAsc( @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, @Param("campo") String campo);
+    
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate")
+    List<PlanificacionAsistencia> encontrarAsistenciasSinRegistroConFechas( @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, Sort objSort);
 }
