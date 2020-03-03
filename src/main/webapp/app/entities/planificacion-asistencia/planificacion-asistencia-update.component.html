@@ -24,7 +24,16 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno" for="field_fechaAsistenciaTurno">Fecha Asistencia Turno</label>
                     <div class="d-flex">
-                        <input id="field_fechaAsistenciaTurno" type="datetime-local" class="form-control" name="fechaAsistenciaTurno" formControlName="fechaAsistenciaTurno" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_fechaAsistenciaTurno" type="date" class="form-control" name="fechaAsistenciaTurno" formControlName="fechaAsistenciaTurno" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div >
+                        <label class="text-warning">Fecha seleccionada: {{this.editForm.get(['fechaAsistenciaTurno']).value}}</label>
+                    </div>
+                    <button type="button" (click)="this.comprobarPlanificacion()">
+                        Comprobar
+                    </button>
+                    <div *ngIf="this.planEncontrada">
+                        <label class="text-warning">Es valida y funciona!</label>
                     </div>
                 </div>
                 <div class="form-group">

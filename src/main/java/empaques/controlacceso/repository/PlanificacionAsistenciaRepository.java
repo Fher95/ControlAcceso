@@ -57,4 +57,6 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
     
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where tiposAsistencia = null and fechaAsistenciaTurno >= :fromDate and fechaAsistenciaTurno <= :toDate")
     List<PlanificacionAsistencia> encontrarAsistenciasSinRegistroConFechas( @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, Sort objSort);
+
+    
 }

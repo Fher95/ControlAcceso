@@ -207,6 +207,25 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
+     * 
+     */
+    @GetMapping("/planificacion-asistencias/comprobarFecha/{fecha}")
+    public ResponseEntity<PlanificacionAsistencia> getRegistroPlanActual(@PathVariable String fecha) {
+        String fechaCompleta = fecha + " 00:00";
+        Date objFecha = this.convertirStringADate(fechaCompleta);
+        PlanificacionAsistencia objEjemploPlan = new PlanificacionAsistencia();
+        objEjemploPlan.setFechaAsistenciaTurno(objFecha.toInstant());      
+        Example<PlanificacionAsistencia> planEjemplo = Example.of(objEjemploPlan);
+        log.debug("REST request to get PlanificacionAsistencia : {}", objFecha.toInstant().toString());
+        List<PlanificacionAsistencia> planificacionAsistencias = planificacionAsistenciaRepository
+        .findAll(planEjemplo);
+        if (planificacionAsistencias.size() > 0) {
+            return ResponseEntity.ok().body(planificacionAsistencias.get(0));
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
      * {@code DELETE  /planificacion-asistencias/:id} : delete the "id"
      * planificacionAsistencia.
      *

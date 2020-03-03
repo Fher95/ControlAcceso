@@ -40,6 +40,12 @@ export class PlanificacionAsistenciaService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  findRegistroActual(fecha: moment.Moment): Observable<EntityResponseType> {
+    return this.http
+      .get<IPlanificacionAsistencia>(`${this.resourceUrl}/comprobarFecha/${fecha}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

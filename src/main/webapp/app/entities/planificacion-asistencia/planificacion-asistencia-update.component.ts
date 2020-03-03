@@ -23,6 +23,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
 
   colaboradors: IColaborador[];
 
+  planEncontrada = false;
+
   editForm = this.fb.group({
     id: [],
     fechaInicioPlanificacion: [],
@@ -151,5 +153,21 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
 
   trackColaboradorById(index: number, item: IColaborador) {
     return item.id;
+  }
+
+  comprobarPlanificacion() {
+    const fecha = this.editForm.get(['fechaAsistenciaTurno']).value;
+    this.planificacionAsistenciaService
+      .findRegistroActual(fecha)
+      .subscribe(
+        (res: HttpResponse<IPlanificacionAsistencia>) => this.cambiarEstadoEncontrado(res.body),
+        (res: HttpErrorResponse) => this.cambiarEstadoEncontrado(undefined)
+      );
+  }
+
+  cambiarEstadoEncontrado(planificacion: IPlanificacionAsistencia) {
+    if (planificacion !== undefined) {
+      this.planEncontrada = true;
+    } else this.planEncontrada = false;
   }
 }
