@@ -10,125 +10,143 @@
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
-
-
-
-                <div class="row">
-                    <div class="form-group col-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno"
-                            for="field_fechaAsistenciaTurno">Fecha Asistencia Turno</label>
-                        <div class="d-flex">
-                            <input id="field_fechaAsistenciaTurno" type="date" class="form-control"
-                                name="fechaAsistenciaTurno" formControlName="fechaAsistenciaTurno"
-                                placeholder="YYYY-MM-DD HH:mm" (change)="this.comprobarPlanificacion()" />
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno"
+                                for="field_fechaAsistenciaTurno">Fecha Asistencia Turno</label><strong class = "text-danger">{{'  *'}}</strong>
+                            <div class="d-flex">
+                                <input id="field_fechaAsistenciaTurno" type="date" class="form-control"
+                                    name="fechaAsistenciaTurno" formControlName="fechaAsistenciaTurno"
+                                    placeholder="YYYY-MM-DD HH:mm" (change)="this.comprobarPlanificacion()" />
+                            </div>
+                            <div
+                                *ngIf="editForm.get('fechaAsistenciaTurno').invalid && (editForm.get('fechaAsistenciaTurno').dirty || editForm.get('fechaAsistenciaTurno').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('fechaAsistenciaTurno').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                            <div *ngIf="!this.planificacionObtenida && !this.fechaSinModificar">
+                                <small class="text-danger">
+                                    No existe una planificación para la fecha seleccionada
+                                </small>
+                            </div>
                         </div>
-                        <div *ngIf="!this.planificacionObtenida">
-                            <small class="text-danger">
-                                No existe una planificación para la fecha seleccionada
-                            </small>
-                        </div>
-                    </div>
-                    <div *ngIf="this.planEncontrada" class="form-group col-md-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion"
-                            for="field_fechaInicioPlanificacion">Fecha Inicio Planificacion</label>
-                        <div class="d-flex">
-                            <dt>
-                                {{this.editForm.get(['fechaInicioPlanificacion']).value | date: 'mediumDate'}}
-                            </dt>
-                            <!--input id="field_fechaInicioPlanificacion" type="datetime-local" class="form-control"
+                        <div *ngIf="this.planEncontrada" class="form-group col-md-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion"
+                                for="field_fechaInicioPlanificacion">Fecha Inicio Planificacion</label>
+                            <div class="d-flex">
+                                <dt>
+                                    {{this.editForm.get(['fechaInicioPlanificacion']).value | date: 'mediumDate'}}
+                                </dt>
+                                <!--input id="field_fechaInicioPlanificacion" type="datetime-local" class="form-control"
                                 disabled="true" name="fechaInicioPlanificacion"
                                 formControlName="fechaInicioPlanificacion" placeholder="YYYY-MM-DD HH:mm" /-->
+                            </div>
                         </div>
-                    </div>
-                    <div *ngIf="this.planEncontrada" class="form-group col-md-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion"
-                            for="field_fechaFinPlanificacion">Fecha Fin Planificacion</label>
-                        <div class="d-flex">
-                            <dt>
-                                {{this.editForm.get(['fechaFinPlanificacion']).value | date: 'mediumDate'}}
-                            </dt>
-                            <!--input id="field_fechaFinPlanificacion" type="datetime-local" class="form-control"
+                        <div *ngIf="this.planEncontrada" class="form-group col-md-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion"
+                                for="field_fechaFinPlanificacion">Fecha Fin Planificacion</label>
+                            <div class="d-flex">
+                                <dt>
+                                    {{this.editForm.get(['fechaFinPlanificacion']).value | date: 'mediumDate'}}
+                                </dt>
+                                <!--input id="field_fechaFinPlanificacion" type="datetime-local" class="form-control"
                                 disabled = "true"
                                 name="fechaFinPlanificacion" formControlName="fechaFinPlanificacion"
                                 placeholder="YYYY-MM-DD HH:mm" /-->
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="form-control-label my-0"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador"
+                                for="field_colaborador">Colaborador</label><strong class = "text-danger">{{'  *'}}</strong>
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <form name="searchForm" class="form-inline">
+                                        <div class="input-group w-100 mt-3">
+                                            <input type="text" class="form-control" [(ngModel)]="this.currentSearch"
+                                                id="currentSearch" name="currentSearch" placeholder="Buscar">
+                                            <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                                                <fa-icon [icon]="'search'"></fa-icon>
+                                            </button>
+                                            <button class="input-group-append btn btn-danger" (click)="clear()"
+                                                *ngIf="currentSearch">
+                                                <fa-icon [icon]="'trash-alt'"></fa-icon>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>                    
+                            <select class="form-control" id="field_colaborador" name="colaborador"
+                                formControlName="colaborador">
+                                <option
+                                    [ngValue]="colaboradorOption.id === editForm.get('colaborador').value?.id ? editForm.get('colaborador').value : colaboradorOption"
+                                    *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
+                                    {{this.utilCol.getStrColaborador(colaboradorOption)}}</option>
+                            </select>
+                            <div
+                                *ngIf="editForm.get('colaborador').invalid && (editForm.get('colaborador').dirty || editForm.get('colaborador').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('colaborador').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label for="field_centroCosto">Centro de Costos</label>
+                            <select class="form-control" id="field_centroCosto" name="centroCosto"
+                                formControlName="centroDeCosto" (change)="cargarCargos()">
+                                <option value="todos">Todos</option>
+                                <option *ngFor="let centroCostoOption of centrosCosto" [ngValue]="centroCostoOption.id">
+                                    {{centroCostoOption.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo"
+                                for="field_cargo">Cargo</label><strong class = "text-danger">{{'  *'}}</strong>
+                            <select class="form-control" name="nombreCargo" id="field_nombreCargo"
+                                formControlName="nombreCargo">
+                                <option [ngValue]="cargoOption.nombre" *ngFor="let cargoOption of cargos">
+                                    {{cargoOption.nombre}}
+                                </option>
+                            </select>
+                            <div
+                                *ngIf="editForm.get('nombreCargo').invalid && (editForm.get('nombreCargo').dirty || editForm.get('nombreCargo').touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('nombreCargo').errors.required"
+                                    jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
+                                for="field_turno">Turno</label><strong class = "text-danger">{{'  *'}}</strong>
+                            <select class="form-control" id="field_nombreTurno" name="nombreTurno"
+                                formControlName="nombreTurno" (change)="this.setHorarioTurno()">
+                                <option class={{turnoOption.color?.toLowerCase()}} [ngValue]="turnoOption.nombre"
+                                    *ngFor="let turnoOption of turnos">
+                                    {{turnoOption.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
 
-                <div class="row">
-                    <div class="form-group col-4">
-                        <label for="field_centroCosto">Centro de Costos</label>
-                        <select class="form-control" id="field_centroCosto" name="centroCosto"
-                            formControlName="centroDeCosto" (change)="cargarCargos()">
-                            <option value="todos">Todos</option>
-                            <option *ngFor="let centroCostoOption of centrosCosto" [ngValue]="centroCostoOption.id">
-                                {{centroCostoOption.nombre}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo"
-                            for="field_cargo">Cargo</label>
-                        <select class="form-control" name="nombreCargo" id="field_nombreCargo"
-                            formControlName="nombreCargo">
-                            <option [ngValue]="cargoOption.nombre" *ngFor="let cargoOption of cargos">
-                                {{cargoOption.nombre}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"
-                            for="field_turno">Turno</label>
-                        <select class="form-control" id="field_nombreTurno" name="nombreTurno"
-                            formControlName="nombreTurno" (change)="this.setHorarioTurno()">
-                            <option class={{turnoOption.color?.toLowerCase()}} [ngValue]="turnoOption.nombre"
-                                *ngFor="let turnoOption of turnos">
-                                {{turnoOption.nombre}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno"
-                            for="field_horaInicioTurno">Hora Inicio Turno</label>
-                        <div class="d-flex">
-                            <!--input id="field_horaInicioTurno" type="datetime-local" class="form-control"
-                            name="horaInicioTurno" formControlName="horaInicioTurno" placeholder="YYYY-MM-DD HH:mm" /-->
-                            <dt>
-                                {{this.editForm.get('horaInicioTurno').value | date: 'hh:mm a'}}
-                            </dt>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno"
-                            for="field_horaFinTurno">Hora Fin Turno</label>
-                        <div class="d-flex">
-                            <!--input id="field_horaFinTurno" type="datetime-local" class="form-control" name="horaFinTurno"
-                            formControlName="horaFinTurno" placeholder="YYYY-MM-DD HH:mm" /-->
-                            <dt>
-                                {{this.editForm.get('horaFinTurno').value | date: 'hh:mm a'}}
-                            </dt>
-                        </div>
-                    </div>
-                    <div class="form-group custom-control custom-checkbox col-md-4">
-                        <input type="checkbox" class="custom-control-input" id="field_inasistenciaJustificada"
-                            formControlName="inasistenciaJustificada">
-                        <label class="custom-control-label" for="field_inasistenciaJustificada">Inasistencia
-                            Justificada</label>                        
-                        <!--label class="form-control-label"
-                            jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada"
-                            for="field_inasistenciaJustificada">Inasistencia Justificada</label>
-                        <input type="checkbox" class="form-control" name="inasistenciaJustificada"
-                            id="field_inasistenciaJustificada" formControlName="inasistenciaJustificada" /-->
-                    </div>
-                </div>
-                
                 <!--div class="form-group">
                     <label class="form-control-label"
                         jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo"
@@ -136,57 +154,92 @@
                     <input type="text" class="form-control" name="nombreCargo" id="field_nombreCargo"
                         formControlName="nombreCargo" />
                 </div-->
-                <div class="form-group">
-                    <label class="form-control-label"
-                        jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia"
-                        for="field_tiposAsistencia">Tipos Asistencia</label>
-                    <input type="text" class="form-control" name="tiposAsistencia" id="field_tiposAsistencia"
-                        formControlName="tiposAsistencia" />
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <div class="row ">
+                        <div class="form-group custom-control custom-checkbox col-4 mt-4">
+                            <input type="checkbox" class="custom-control-input ml-1" id="check1"
+                                formControlName="inasistenciaJustificada" (change)="this.setJustificacionAsistencia()">
+                            <label class="custom-control-label ml-1" for="check1">Inasistencia
+                                Justificada</label>
+                            <!--label class="form-control-label"
+                            jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada"
+                            for="field_inasistenciaJustificada">Inasistencia Justificada</label>
+                        <input type="checkbox" class="form-control" name="inasistenciaJustificada"
+                            id="field_inasistenciaJustificada" formControlName="inasistenciaJustificada" /-->
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.tiposAsistencia"
+                                for="field_tiposAsistencia">Tipos Asistencia</label>
+                            <select class="form-control" id="field_tiposAsistencia" name="tiposAsistencia"
+                                formControlName="tiposAsistencia">
+                                <option value="EntradaTemprano-SalidaTemprano"
+                                    *ngIf="!this.editForm.get('inasistenciaJustificada').value">
+                                    Entrada Temprano - Salida Temprano
+                                </option>
+                                <option value="EntradaTemprano-SalidaTarde"
+                                    *ngIf="!this.editForm.get('inasistenciaJustificada').value">
+                                    Entrada Temprano - Salida Tarde
+                                </option>
+                                <option value="EntradaTarde-SalidaTemprano"
+                                    *ngIf="!this.editForm.get('inasistenciaJustificada').value">
+                                    Entrada Tarde - Salida Temprano
+                                </option>
+                                <option value="EntradaTarde-SalidaTarde"
+                                    *ngIf="!this.editForm.get('inasistenciaJustificada').value">
+                                    Entrada Tarde - Salida Tarde
+                                </option>
+                                <option [ngValue]="null">
+                                    Sin registro
+                                </option>
+                            </select>                            
+                            <!--input type="text" class="form-control" name="tiposAsistencia" id="field_tiposAsistencia"
+                            formControlName="tiposAsistencia" /-->
+                        </div>
+                    </div>
+                </div>
+                <div class="border rounded px-4 py-3 my-3 shadow">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno"
+                                for="field_horaInicioTurno">Hora Inicio Turno</label>
+                            <div class="d-flex">
+                                <!--input id="field_horaInicioTurno" type="datetime-local" class="form-control"
+                            name="horaInicioTurno" formControlName="horaInicioTurno" placeholder="YYYY-MM-DD HH:mm" /-->
+                                <dt>
+                                    {{this.editForm.get('horaInicioTurno').value | date: 'hh:mm a'}}
+                                </dt>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="form-control-label"
+                                jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno"
+                                for="field_horaFinTurno">Hora Fin Turno</label>
+                            <div class="d-flex">
+                                <!--input id="field_horaFinTurno" type="datetime-local" class="form-control" name="horaFinTurno"
+                            formControlName="horaFinTurno" placeholder="YYYY-MM-DD HH:mm" /-->
+                                <dt>
+                                    {{this.editForm.get('horaFinTurno').value | date: 'hh:mm a'}}
+                                </dt>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--div class="form-group">
                     <label class="form-control-label" jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia" for="field_minutosDiferencia">Minutos Diferencia</label>
                     <input type="text" class="form-control" name="minutosDiferencia" id="field_minutosDiferencia"
                            formControlName="minutosDiferencia"/>
                 </div-->
-                <div class="form-group">
+                <!--div class="form-group">
                     <label class="form-control-label"
                         jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno"
                         for="field_nombreTurno">Nombre Turno</label>
                     <input type="text" class="form-control" name="nombreTurno" id="field_nombreTurno"
                         formControlName="nombreTurno" />
-                </div>
+                </div-->
+                
 
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form name="searchForm" class="form-inline">
-                            <div class="input-group w-100 mt-3">
-                                <input type="text" class="form-control" [(ngModel)]="this.currentSearch"
-                                    id="currentSearch" name="currentSearch" placeholder="Buscar">
-                                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                                    <fa-icon [icon]="'search'"></fa-icon>
-                                </button>
-                                <button class="input-group-append btn btn-danger" (click)="clear()"
-                                    *ngIf="currentSearch">
-                                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label class="form-control-label"
-                        jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador"
-                        for="field_colaborador">Colaborador</label>
-                    <select class="form-control" id="field_colaborador" name="colaborador"
-                        formControlName="colaborador">
-                        <option
-                            [ngValue]="colaboradorOption.id === editForm.get('colaborador').value?.id ? editForm.get('colaborador').value : colaboradorOption"
-                            *ngFor="let colaboradorOption of colaboradors; trackBy: trackColaboradorById">
-                            {{this.utilCol.getStrColaborador(colaboradorOption)}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">

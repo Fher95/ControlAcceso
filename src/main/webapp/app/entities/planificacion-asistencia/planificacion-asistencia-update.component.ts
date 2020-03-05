@@ -20,7 +20,6 @@ import { CargoService } from 'app/entities/cargo/cargo.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { CentroCostoService } from 'app/entities/centro-costo/centro-costo.service';
 import { UtilidadesFecha, UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
-import { isUndefined } from 'util';
 
 @Component({
   selector: 'jhi-planificacion-asistencia-update',
@@ -39,6 +38,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
 
   planEncontrada = false;
 
+  fechaSinModificar = true;
+
   planificacionObtenida: IPlanificacionAsistencia;
 
   currentSearch;
@@ -47,16 +48,16 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
     id: [],
     fechaInicioPlanificacion: [],
     fechaFinPlanificacion: [],
-    fechaAsistenciaTurno: [],
+    fechaAsistenciaTurno: [null, [Validators.required]],
     horaInicioTurno: [],
     horaFinTurno: [],
-    nombreCargo: [],
+    nombreCargo: [null, [Validators.required]],
     tiposAsistencia: [],
     minDiferenciaEntrada: [],
     minDiferenciaSalida: [],
-    nombreTurno: [],
+    nombreTurno: [null, [Validators.required]],
     inasistenciaJustificada: [],
-    colaborador: [],
+    colaborador: [null, [Validators.required]],
     centroDeCosto: []
   });
 
@@ -112,8 +113,12 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
       minDiferenciaSalida: planificacionAsistencia.minDiferenciaSalida,
       nombreTurno: planificacionAsistencia.nombreTurno,
       inasistenciaJustificada: planificacionAsistencia.inasistenciaJustificada,
-      colaborador: planificacionAsistencia.colaborador
+      colaborador: planificacionAsistencia.colaborador,
+      centroDeCosto: 'todos'
     });
+    if (planificacionAsistencia !== undefined && planificacionAsistencia !== null) {
+      this.planificacionObtenida = planificacionAsistencia;
+    }
   }
 
   previousState() {
@@ -183,6 +188,7 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
   }
 
   comprobarPlanificacion() {
+    this.fechaSinModificar = false;
     const fecha = this.editForm.get(['fechaAsistenciaTurno']).value;
     if (fecha !== null && fecha !== undefined && fecha !== '') {
       this.planificacionAsistenciaService.findRegistroActual(fecha).subscribe(
@@ -196,7 +202,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
 
   /**
    * Recibe una respuesta de httpResponse, verifica su codigo, y si tiene contenido obtiene el objeto
-   * PlanificacionAsistencia
+   * PlanificacionAsistencia. Este proceso admás actualiza el estado de la variable planEncontrada (boolean)
+   * y el objeto planificacionObtenida (PlanificacionAsistencia)
    * @param res objeto respuesta tipo HttpRespose<PlanificacionAsistencia
    */
   cambiarEstadoEncontrado(res: HttpResponse<IPlanificacionAsistencia>) {
@@ -205,7 +212,9 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
       this.planificacionObtenida = undefined;
       this.editForm.patchValue({
         fechaInicioPlanificacion: null,
-        fechaFinPlanificacion: null
+        fechaFinPlanificacion: null,
+        horaInicioTurno: null,
+        horaFinTurno: null
       });
     } else {
       this.planEncontrada = true;
@@ -220,6 +229,9 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
             ? this.planificacionObtenida.fechaFinPlanificacion.format(DATE_TIME_FORMAT)
             : null
       });
+      if (this.editForm.get('nombreTurno').value) {
+        this.setHorarioTurno();
+      }
     }
   }
 
@@ -363,6 +375,12 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  setJustificacionAsistencia() {
+    if (this.editForm.get('inasistenciaJustificada').value === true) {
+      this.editForm.patchValue({ tiposAsistencia: null });
     }
   }
 }
