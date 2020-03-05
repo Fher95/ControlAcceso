@@ -170,7 +170,7 @@ public class PlanificacionAsistenciaResource {
             objSort = Sort.by(Sort.Direction.ASC, vecOrden[0]);
         }
         Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();        
+        Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         if ("entradas-temprano".equals(filter)) {
             tipoAsistencia = "EntradaTemprano";
         }
@@ -207,18 +207,22 @@ public class PlanificacionAsistenciaResource {
     }
 
     /**
-     * 
+     * Recibe una fecha dentro de la ruta para procesarla y posteriormente
+     * buscar una lista de registros con esa fecha
+     *
+     * @param fecha
+     * @return un unico objeto de ejemplo PlanificacionAsistencia (ResponseEntity)
      */
     @GetMapping("/planificacion-asistencias/comprobarFecha/{fecha}")
     public ResponseEntity<PlanificacionAsistencia> getRegistroPlanActual(@PathVariable String fecha) {
+        if (fecha.equals("")) {
+            return ResponseEntity.noContent().build();
+        }
         String fechaCompleta = fecha + " 00:00";
         Date objFecha = this.convertirStringADate(fechaCompleta);
-        PlanificacionAsistencia objEjemploPlan = new PlanificacionAsistencia();
-        objEjemploPlan.setFechaAsistenciaTurno(objFecha.toInstant());      
-        Example<PlanificacionAsistencia> planEjemplo = Example.of(objEjemploPlan);
         log.debug("REST request to get PlanificacionAsistencia : {}", objFecha.toInstant().toString());
         List<PlanificacionAsistencia> planificacionAsistencias = planificacionAsistenciaRepository
-        .findAll(planEjemplo);
+                .listaAsistenciaPorFecha(objFecha.toInstant());
         if (planificacionAsistencias.size() > 0) {
             return ResponseEntity.ok().body(planificacionAsistencias.get(0));
         }

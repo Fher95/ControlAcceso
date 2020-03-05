@@ -1,5 +1,6 @@
 import { IColaborador } from 'app/shared/model/colaborador.model';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class UtilidadesColaborador {
@@ -79,6 +80,21 @@ export class UtilidadesFecha {
       respuesta = false;
     }
     return respuesta;
+  }
+
+  convertirDateAMoment(parFecha: Date): moment.Moment {
+    const strFecha =
+      parFecha.getFullYear() +
+      '-' +
+      (parFecha.getMonth() + 1) +
+      '-' +
+      parFecha.getDate() +
+      ' ' +
+      parFecha.getHours() +
+      ':' +
+      parFecha.getMinutes();
+    const varMoment = moment(strFecha);
+    return varMoment;
   }
 }
 
