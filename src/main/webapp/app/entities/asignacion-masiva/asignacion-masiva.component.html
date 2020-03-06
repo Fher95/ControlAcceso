@@ -85,17 +85,18 @@
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.cargo"
                             for="field_cargo">Cargo</label>
                         <select class="form-control" id="field_cargo" name="cargo" formControlName="cargo">
+                            <option [ngValue]="null">Mantener Cargos</option>
                             <option [ngValue]="cargoOption"
                                 *ngFor="let cargoOption of cargosTodos; trackBy: trackCargoById">{{cargoOption.nombre}}
                             </option>
                         </select>
-                        <div
+                        <!--div
                             *ngIf="editForm.get('cargo').invalid && (editForm.get('cargo').dirty || editForm.get('cargo').touched)">
                             <small class="form-text text-danger" *ngIf="editForm.get('cargo').errors.required"
                                 jhiTranslate="entity.validation.required">
                                 Debe seleccionar un cargo para poder continuar
                             </small>
-                        </div>
+                        </div-->
                     </div>
                     <div class="form-group col-4">
                         <label class="form-control-label" jhiTranslate="controlAccesoApp.asignacionTurno.turno"

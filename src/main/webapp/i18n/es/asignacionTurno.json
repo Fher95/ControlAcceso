@@ -3,15 +3,15 @@
     "asignacionTurno": {
       "home": {
         "title": "Asignacion de turnos",
-        "createLabel": "Crear nuevo Asignacion Turno",
+        "createLabel": "Crear nueva Asignacion Turno",
         "createOrEditLabel": "Crear o editar Asignacion Turno",
         "notFound": "No se encontraro asignaciones"
       },
       "created": "Un ha generado una nueva asignacion",
       "updated": "Se ha actualizado una asignación",
-      "deleted": "Una asignacion ha sido eliminado con el identificador {{ param }}",
+      "deleted": "Una asignacion ha sido finalizado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar la asignacion {{ id }}?"
+        "question": "¿Seguro que quiere finalizar la asignacion {{ id }}?"
       },
       "detail": {
         "title": "Asignacion Turno"

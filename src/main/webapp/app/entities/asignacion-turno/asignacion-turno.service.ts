@@ -52,6 +52,10 @@ export class AsignacionTurnoService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  finalizarAsignacion(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.resourceUrl}/finalizar/${id}`, { observe: 'response' });
+  }
+
   protected convertDateFromClient(asignacionTurno: IAsignacionTurno): IAsignacionTurno {
     const copy: IAsignacionTurno = Object.assign({}, asignacionTurno, {
       // fecha: asignacionTurno.fecha != null && asignacionTurno.fecha.isValid() ? asignacionTurno.fecha.toJSON() : null

@@ -28,10 +28,14 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
     @Query("select distinct colaborador from Colaborador colaborador where numero_documento like %:id%")
     Page<Colaborador> findColaboradorByNumDocumento(Pageable pageable, @Param("id") String id);
     
+    /*
     @Query("select distinct colaborador from Colaborador colaborador where (lower(nombre_1) like %:nombre1% or nombre_1 is null) "
             + "and (lower(nombre_2) like %:nombre2% or nombre_2 is null) and (lower(apellido_1) like %:apellido1% or apellido_1 is null) "
             + "and (lower(apellido_2) like %:apellido2% or apellido_2 is null)")
     Page<Colaborador> findByNombres(Pageable pageable, @Param("nombre1") String nombre1, @Param("nombre2") String nombre2,
             @Param("apellido1") String apellido1, @Param("apellido2") String apellido2);
+    */
+    @Query("select distinct col from Colaborador col where LOWER(CONCAT(nombre_1, nombre_2, apellido_1, apellido_2)) LIKE %:nombres% ")
+    Page<Colaborador> findByNombres(Pageable pageable, @Param("nombres") String nombres);
 
 }

@@ -63,9 +63,9 @@ public class AsignacionTurnoResource {
      * {@code POST  /asignacion-turnos} : Create a new asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new asignacionTurno, or with status
-     *         {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new asignacionTurno, or with status
+     * {@code 400 (Bad Request)} if the asignacionTurno has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/asignacion-turnos")
@@ -79,7 +79,7 @@ public class AsignacionTurnoResource {
         AsignacionTurno result = asignacionTurnoRepository.save(asignacionTurno);
         return ResponseEntity
                 .created(new URI("/api/asignacion-turnos/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
                 .body(result);
     }
 
@@ -87,11 +87,11 @@ public class AsignacionTurnoResource {
      * {@code PUT  /asignacion-turnos} : Updates an existing asignacionTurno.
      *
      * @param asignacionTurno the asignacionTurno to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated asignacionTurno, or with status {@code 400 (Bad Request)}
-     *         if the asignacionTurno is not valid, or with status
-     *         {@code 500 (Internal Server Error)} if the asignacionTurno couldn't
-     *         be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the updated asignacionTurno, or with status
+     * {@code 400 (Bad Request)} if the asignacionTurno is not valid, or with
+     * status {@code 500 (Internal Server Error)} if the asignacionTurno
+     * couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/asignacion-turnos")
@@ -110,10 +110,10 @@ public class AsignacionTurnoResource {
      * {@code GET  /asignacion-turnos} : get all the asignacionTurnos.
      *
      * @param eagerload flag to eager load entities from relationships (This is
-     *                  applicable for many-to-many).
-     * @param filter    the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of asignacionTurnos in body.
+     * applicable for many-to-many).
+     * @param filter the filter of the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
+     * list of asignacionTurnos in body.
      */
     @GetMapping("/asignacion-turnos")
     public ResponseEntity<List<AsignacionTurno>> getAllAsignacionTurnos(Pageable pageable,
@@ -151,8 +151,8 @@ public class AsignacionTurnoResource {
      * {@code GET  /asignacion-turnos/:id} : get the "id" asignacionTurno.
      *
      * @param id the id of the asignacionTurno to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the asignacionTurno, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+     * body the asignacionTurno, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/asignacion-turnos/{id}")
     public ResponseEntity<AsignacionTurno> getAsignacionTurno(@PathVariable Long id) {
@@ -177,6 +177,26 @@ public class AsignacionTurnoResource {
     }
 
     /* Nuevos metodos */
+    /**
+     * En vez de llamar al metodo Delete, se llama a este para no eliminar el
+     * registro de asignación, sino darlo por finalizado asignandole una fecha
+     * de fin
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/asignacion-turnos/finalizar/{id}")
+    public ResponseEntity<Void> finalizarAsignacionTurno(@PathVariable Long id) {
+        Date fechaActual = new Date();
+        Optional<AsignacionTurno> optional = this.asignacionTurnoRepository.findById(id);
+        AsignacionTurno objAsignacion = optional.get();
+        objAsignacion.setFechaFin(fechaActual.toInstant());
+        log.debug("REST request to delete AsignacionTurno : {}", id);
+        asignacionTurnoRepository.save(objAsignacion);
+        return ResponseEntity.noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+                .build();
+    }
 
     @GetMapping("/asignacion-turnos/colaborador/{id}")
     public List<AsignacionTurno> getAsignacionTurnoColaborador(@PathVariable Long id) {
@@ -223,15 +243,19 @@ public class AsignacionTurnoResource {
             this.asignacionTurnoRepository.save(asignacion);
             AsignacionTurno nuevaAsignacion = new AsignacionTurno();
             nuevaAsignacion.setColaboradors(asignacion.getColaboradors());
-            nuevaAsignacion.setCargo(asignacionMasiva.cargo);
+            if (asignacionMasiva.cargo != null) {
+                nuevaAsignacion.setCargo(asignacionMasiva.cargo);    
+            } else {
+                nuevaAsignacion.setCargo(asignacion.getCargo());
+            }            
             nuevaAsignacion.setTurno(asignacionMasiva.turno);
             nuevaAsignacion.setFecha(fechaActual.toInstant());
             this.asignacionTurnoRepository.save(nuevaAsignacion);
         }
-        Respuesta respuesta = new Respuesta(-3,-2);
-        System.out.println("LA CANTIDAD DE ASIGNACIONES MASIVAS ES: "+contadorAsignaciones);
-        
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName,"hoa","")).body(respuesta);
+        Respuesta respuesta = new Respuesta(-3, -2);
+        System.out.println("LA CANTIDAD DE ASIGNACIONES MASIVAS ES: " + contadorAsignaciones);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "hoa", "")).body(respuesta);
     }
 
     @PutMapping("/asignacion-turnos/cargar-asistencias")
@@ -286,9 +310,9 @@ public class AsignacionTurnoResource {
     }
 
     /**
-     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las
-     * lineas leidas en un vector de Strings
-     * 
+     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas
+     * las lineas leidas en un vector de Strings
+     *
      * @return ArrayList<String> lineasLeídas
      */
     private ArrayList<String> leerArchivo() {
@@ -330,7 +354,7 @@ public class AsignacionTurnoResource {
 
     /**
      * Verifica si el turno que se pretende asignar al colaborador, ya ha sido
-     * 
+     *
      * @param parAsignacionTurno
      * @throws URISyntaxException
      */
@@ -362,7 +386,7 @@ public class AsignacionTurnoResource {
         log.debug("REST request to get numero asignaciones turno : {}", turno_id);
         int cantidad = 0;
         cantidad = asignacionTurnoRepository.asignacionesPorTurno(turno_id);
-        System.out.println("NUMERO DE TURNOS CONTADOS: "+cantidad);
+        System.out.println("NUMERO DE TURNOS CONTADOS: " + cantidad);
         return cantidad;
     }
 }

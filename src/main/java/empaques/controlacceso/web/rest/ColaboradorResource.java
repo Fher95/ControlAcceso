@@ -178,6 +178,24 @@ public class ColaboradorResource {
             vecNombres[2].toLowerCase(), vecNombres[3].toLowerCase()};
 
         Page<Colaborador> page;
+        
+        
+        
+        page = colaboradorRepository.findByNombres(pageable, vecDatos[0] + vecDatos[1] +
+        vecDatos[2] + vecDatos[3]);
+        contElementos = page.getTotalPages();
+        if (contElementos < 1) {
+            ArrayList<String[]> vecCombinaciones = this.getArrayCombinaciones(vecDatos);
+            for (String[] vecOp : vecCombinaciones) {
+                page = colaboradorRepository.findByNombres(pageable, vecOp[0] + vecOp[1] + vecOp[2] + vecOp[3]);
+                contElementos = page.getTotalPages();
+                if (contElementos != 0) {
+                    break;
+                }
+            }
+        }
+        
+        /*
         page = colaboradorRepository.findByNombres(pageable, vecDatos[0], vecDatos[1],
         vecDatos[2], vecDatos[3]);
         contElementos = page.getTotalPages();
@@ -191,6 +209,8 @@ public class ColaboradorResource {
                 }
             }
         }
+        */
+        
         HttpHeaders headers = PaginationUtil
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         System.out.println("Se obtuvieron: " + page.getTotalElements() + " elementos");

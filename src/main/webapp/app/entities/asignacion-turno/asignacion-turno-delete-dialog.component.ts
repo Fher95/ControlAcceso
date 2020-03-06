@@ -25,7 +25,7 @@ export class AsignacionTurnoDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.asignacionTurnoService.delete(id).subscribe(response => {
+    this.asignacionTurnoService.finalizarAsignacion(id).subscribe(response => {
       this.eventManager.broadcast({
         name: 'asignacionTurnoListModification',
         content: 'Deleted an asignacionTurno'
@@ -33,6 +33,15 @@ export class AsignacionTurnoDeleteDialogComponent {
       this.activeModal.dismiss(true);
     });
   }
+  /*
+    this.asignacionTurnoService.delete(id).subscribe(response => {
+      this.eventManager.broadcast({
+        name: 'asignacionTurnoListModification',
+        content: 'Deleted an asignacionTurno'
+      });
+      this.activeModal.dismiss(true);
+    });
+  } */
 }
 
 @Component({
