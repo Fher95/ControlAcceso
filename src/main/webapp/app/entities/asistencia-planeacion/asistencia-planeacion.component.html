@@ -4,16 +4,16 @@
             <div>
                 <h2 id="page-heading" class="mt-4">
                     <span>Asistencias sin registro de entrada</span>
-                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity"
+                    <!--button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity"
                         class="btn btn-primary float-right jh-create-entity create-asistencia-planeacion"
                         [routerLink]="['/asistencia-planeacion/new']">
                         <fa-icon [icon]="'plus'"></fa-icon>
                         <span>
                             Ingresar Asistencia Planeación
                         </span>
-                    </button>
+                    </button-->
                     <button class="btn btn-primary float-right jh-create-entity mx-2 "
-                        >
+                        (click)="this.cargarAsistencias()">
                         <fa-icon [icon]="'history'"></fa-icon>
                         <span>
                             Cargar Asistencias

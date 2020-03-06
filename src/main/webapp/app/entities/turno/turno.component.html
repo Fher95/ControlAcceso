@@ -36,9 +36,9 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th-->
                     <th jhiSortBy="tipo"><span jhiTranslate="controlAccesoApp.turno.tipo">Tipo</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -70,7 +70,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let turno of turnos ;trackBy: trackId">
-                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a [routerLink]="['/turno', turno.id, 'view' ]">{{turno.id}}</a></td>
+                    <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a [routerLink]="['/turno', turno.id, 'view' ]">{{turno.id}}</a></td-->
                     <td jhiTranslate="{{'controlAccesoApp.TipoTurno.' + turno.tipo}}">{{turno.tipo}}</td>
                     <td>{{turno.nombre}}</td>
                     <td>{{turno.descripcion}}</td>

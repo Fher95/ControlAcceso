@@ -32,8 +32,8 @@ export class AsignacionMasivaComponent implements OnInit {
   editForm = this.fb.group({
     turnoSeleccionado: [],
     centroDeCosto: [],
-    cargo: [],
-    turno: []
+    cargo: [null, [Validators.required]],
+    turno: [null, [Validators.required]]
   });
   vecAsignacionesActuales: IAsignacionTurno[] = [];
   turnos: ITurno[] = [];

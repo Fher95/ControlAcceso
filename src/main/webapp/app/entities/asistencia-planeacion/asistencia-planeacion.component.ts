@@ -16,6 +16,7 @@ import { Moment } from 'moment';
 import { IPlanificacionAsistencia, PlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { PlanificacionAsistenciaService } from '../planificacion-asistencia/planificacion-asistencia.service';
 
 @Component({
   selector: 'jhi-asistencia-planeacion',
@@ -43,6 +44,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected asistenciaPlaneacionService: AsistenciaPlaneacionService,
+    protected planificacionAsistenciaService: PlanificacionAsistenciaService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService,
@@ -219,6 +221,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       );
   }
 
+  /*
   cargarAsistencias() {
     this.asistenciaPlaneacionService
       .cargarAsistencia()
@@ -239,7 +242,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
         this.loadAll();
       });
   }
-
+  */
   getStringMinutosRegistro(objAsistencia: IPlanificacionAsistencia, tipoAsistencia: string): string {
     let unidadTiempo = 'minutos';
     let tipoAsis = 'temprano';
@@ -319,5 +322,27 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
       }
     });
     this.cargarAsistenciasPlanificacion(this.tipoAsistencia);
+  }
+
+  cargarAsistencias() {
+    this.planificacionAsistenciaService
+      .cargarAsistencias()
+      .pipe(
+        filter((res: HttpResponse<Respuesta>) => res.ok),
+        map((res: HttpResponse<Respuesta>) => res.body)
+      )
+      .subscribe((res: Respuesta) => {
+        this.mostrarMensaje(res.mensaje, res.tipoMensaje);
+      });
+  }
+
+  mostrarMensaje(parMensaje: string, tipoMensaje: string) {
+    this.jhiAlertService.i18nEnabled = false;
+    if (tipoMensaje === 'Exito') {
+      this.jhiAlertService.info(parMensaje);
+    } else if (tipoMensaje === 'Error') {
+      this.jhiAlertService.error(parMensaje);
+    }
+    this.jhiAlertService.i18nEnabled = true;
   }
 }

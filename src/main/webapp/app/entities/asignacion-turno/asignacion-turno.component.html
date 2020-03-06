@@ -31,9 +31,9 @@
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
                             [callback]="transition.bind(this)">
-                            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                                 <fa-icon [icon]="'sort'"></fa-icon>
-                            </th>
+                            </th-->
                             <th jhiSortBy="fecha"><span
                                     jhiTranslate="controlAccesoApp.asignacionTurno.fecha">Fecha</span>
                                 <fa-icon [icon]="'sort'"></fa-icon>
@@ -56,9 +56,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asignacionTurno of asignacionTurnos ;trackBy: trackId">
-                            <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a
+                            <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a
                                     [routerLink]="['/asignacion-turno', asignacionTurno.id, 'view' ]">{{asignacionTurno.id}}</a>
-                            </td>
+                            </td-->
                             <td>{{asignacionTurno.fecha | date:'mediumDate'}}</td>
                             <td>
                                 <div *ngIf="asignacionTurno.turno">

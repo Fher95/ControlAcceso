@@ -7,23 +7,23 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaInicioPlanificacion">Fecha Inicio Planificacion</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.fechaInicioPlanificacion}}</span>
+                    <span>{{planificacionAsistencia.fechaInicioPlanificacion | date : 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaFinPlanificacion">Fecha Fin Planificacion</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.fechaFinPlanificacion}}</span>
+                    <span>{{planificacionAsistencia.fechaFinPlanificacion | date : 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.fechaAsistenciaTurno">Fecha Asistencia Turno</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.fechaAsistenciaTurno}}</span>
+                    <span>{{planificacionAsistencia.fechaAsistenciaTurno | date : 'mediumDate'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaInicioTurno">Hora Inicio Turno</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.horaInicioTurno}}</span>
+                    <span>{{planificacionAsistencia.horaInicioTurno | date : 'hh:mm a'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.horaFinTurno">Hora Fin Turno</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.horaFinTurno}}</span>
+                    <span>{{planificacionAsistencia.horaFinTurno | date : 'hh:mm a'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreCargo">Nombre Cargo</span></dt>
                 <dd>
@@ -33,9 +33,13 @@
                 <dd>
                     <span>{{planificacionAsistencia.tiposAsistencia}}</span>
                 </dd>
-                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos Diferencia</span></dt>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos Diferencia Entrada</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.minutosDiferencia}}</span>
+                    <span>{{planificacionAsistencia.minDiferenciaEntrada}}</span>
+                </dd>
+                <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.minutosDiferencia">Minutos Diferencia Salida</span></dt>
+                <dd>
+                    <span>{{planificacionAsistencia.minDiferenciaSalida}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.nombreTurno">Nombre Turno</span></dt>
                 <dd>
@@ -43,12 +47,12 @@
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.inasistenciaJustificada">Inasistencia Justificada</span></dt>
                 <dd>
-                    <span>{{planificacionAsistencia.inasistenciaJustificada}}</span>
+                    <span>{{planificacionAsistencia.inasistenciaJustificada? 'Si':'No'}}</span>
                 </dd>
                 <dt><span jhiTranslate="controlAccesoApp.planificacionAsistencia.colaborador">Colaborador</span></dt>
                 <dd>
                     <div *ngIf="planificacionAsistencia.colaborador">
-                        <a [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view']">{{planificacionAsistencia.colaborador?.id}}</a>
+                        <a [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view']">{{this.utilCol.getStrColaborador(planificacionAsistencia.colaborador)}}</a>
                     </div>
                 </dd>
             </dl>

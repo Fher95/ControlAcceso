@@ -36,9 +36,8 @@
         </div>
         <div *ngIf="confirmado" class="form-group">
             <div>
-                <h3>Confirme los datos ingresados</h3>
-                <hr>
-                <p>Verifique los siguientes datos y seleccione Guardar para aceptar.</p>
+                <h3>Verifique los datos ingresados</h3>
+                <hr>                
                 <dt>Desde: </dt>
                 <p *ngIf="this.dateInicio">{{this.dateInicio | date : 'longDate'}}</p>
                 <dt>Hasta: </dt>

@@ -33,7 +33,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
             <th jhiSortBy="nombre"><span jhiTranslate="controlAccesoApp.cargo.nombre">Nombre</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.cargo.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="centroCosto.id"><span jhiTranslate="controlAccesoApp.cargo.centroCosto">Centro Costo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,7 +42,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let cargo of cargos ;trackBy: trackId">
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a [routerLink]="['/cargo', cargo.id, 'view' ]">{{cargo.id}}</a></td>
+                <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'"><a [routerLink]="['/cargo', cargo.id, 'view' ]">{{cargo.id}}</a></td-->
                 <td>{{cargo.nombre}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.Estado.' + cargo.estado}}">{{cargo.estado}}</td>
                 <td>

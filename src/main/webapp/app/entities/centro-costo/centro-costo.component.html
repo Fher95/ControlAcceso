@@ -17,7 +17,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th-->
             <th jhiSortBy="nombre"><span jhiTranslate="controlAccesoApp.centroCosto.nombre">Nombre</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="descripcion"><span jhiTranslate="controlAccesoApp.centroCosto.descripcion">Descripcion</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estado"><span jhiTranslate="controlAccesoApp.centroCosto.estado">Estado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let centroCosto of centroCostos ;trackBy: trackId">
-                <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/centro-costo', centroCosto.id, 'view' ]">{{centroCosto.id}}</a></td>
+                <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/centro-costo', centroCosto.id, 'view' ]">{{centroCosto.id}}</a></td-->
                 <td>{{centroCosto.nombre}}</td>
                 <td>{{centroCosto.descripcion}}</td>
                 <td jhiTranslate="{{'controlAccesoApp.Estado.' + centroCosto.estado}}">{{centroCosto.estado}}</td>

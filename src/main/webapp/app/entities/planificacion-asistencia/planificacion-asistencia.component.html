@@ -4,11 +4,12 @@
         <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.title">Planificacion Asistencias</span>
 
         <button class="btn btn-primary float-right jh-create-entity mx-2" (click)="this.cargarAsistencias()">
+            <fa-icon [icon]="'history'"></fa-icon>
             <span>Cargar Asistencias</span>
         </button>
         <button type="submit" class="btn btn-primary float-right jh-create-entity mx-2"
             [routerLink]="['/planificacion-asistencia', { outlets: { popup:'/generar-planificacion'} }]">
-            <fa-icon [icon]="'plus'"></fa-icon>
+            <fa-icon [icon]="'tasks'"></fa-icon>
             <span>
                 Generar Nueva Planificacion
             </span>

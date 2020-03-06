@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 
 import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asistencia.model';
 
@@ -10,7 +11,7 @@ import { IPlanificacionAsistencia } from 'app/shared/model/planificacion-asisten
 export class PlanificacionAsistenciaDetailComponent implements OnInit {
   planificacionAsistencia: IPlanificacionAsistencia;
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected utilCol: UtilidadesColaborador) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ planificacionAsistencia }) => {

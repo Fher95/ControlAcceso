@@ -84,12 +84,11 @@
                     <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'JEFE_GESTION_HUMANA', 'ASISTENTE_GESTION_HUMANA', 'JEFE_PRODUCCION', 'ASISTENTE_PRODUCCION', 'GERENTE' ,'SUPERVISOR']">
                         <a class="dropdown-item" routerLink="planificacion-asistencia" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="user-clock" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="user-check" fixedWidth="true"></fa-icon>
                             <span >Planificacion Asistencia</span>
                         </a>
                     </li>
-                </ul>
-                
+                </ul>                
             </li>
 
 

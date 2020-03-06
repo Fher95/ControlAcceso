@@ -9,7 +9,8 @@
                 <div class="form-inline mb-2">
                     <dt>Filtrar por turno:</dt>
                     <select class="form-control ml-2" name="turno" id="field_turno"
-                        [(ngModel)]="this.idTurnoSeleccionado" [ngModelOptions]="{standalone: true}" (change)="this.filtrarAsignaciones()">
+                        [(ngModel)]="this.idTurnoSeleccionado" [ngModelOptions]="{standalone: true}"
+                        (change)="this.filtrarAsignaciones()">
                         <option [ngValue]="-1">Todos</option>
                         <option *ngFor="let turno of turnos" [ngValue]="turno.id">{{turno.nombre}}
                         </option>
@@ -18,17 +19,17 @@
                 <div class="form-inline ml-4 mb-2">
                     <dt>Filtrar por cargo:</dt>
                     <select class="form-control ml-2" name="cargo" id="field_cargo"
-                        [(ngModel)]="this.idCargoSeleccionado" [ngModelOptions]="{standalone: true}" (change)="this.filtrarAsignaciones()">
+                        [(ngModel)]="this.idCargoSeleccionado" [ngModelOptions]="{standalone: true}"
+                        (change)="this.filtrarAsignaciones()">
                         <option [ngValue]="-1">Todos</option>
                         <option *ngFor="let cargo of cargos" [ngValue]="cargo.id">{{cargo.nombre}}
                         </option>
                     </select>
                 </div>
             </div>
-            <div class="custom-control custom-checkbox">
+            <div class="custom-control custom-checkbox ml-2 mb-1">
                 <input id="todos" type="checkbox" class="custom-control-input" [(ngModel)]="this.todosSeleccionados"
-                [ngModelOptions]="{standalone: true}"
-                    (change)="this.cambiarSeleccionTodos()"><label for="todos"
+                    [ngModelOptions]="{standalone: true}" (change)="this.cambiarSeleccionTodos()"><label for="todos"
                     class="custom-control-label">Todos</label>
             </div>
             <div style="overflow-y: scroll; height:300px; width: auto;" class=" shadow rounded">
@@ -51,8 +52,8 @@
                             class="custom-control custom-checkbox">
                             <div class="p-2 ">
                                 <input type="checkbox" class="custom-control-input "
-                                    [(ngModel)]="this.arrayAsignacionesMostradas[i].checked" [ngModelOptions]="{standalone: true}"
-                                    id="{{item.asignacionTurno.id}}">
+                                    [(ngModel)]="this.arrayAsignacionesMostradas[i].checked"
+                                    [ngModelOptions]="{standalone: true}" id="{{item.asignacionTurno.id}}">
                                 <label class="custom-control-label " style="width: 90%; height: 100%;"
                                     for="{{item.asignacionTurno.id}}">
                                     <div class="row px-3">
@@ -88,8 +89,10 @@
                                 *ngFor="let cargoOption of cargosTodos; trackBy: trackCargoById">{{cargoOption.nombre}}
                             </option>
                         </select>
-                        <div>
-                            <small class="form-text text-danger">
+                        <div
+                            *ngIf="editForm.get('cargo').invalid && (editForm.get('cargo').dirty || editForm.get('cargo').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('cargo').errors.required"
+                                jhiTranslate="entity.validation.required">
                                 Debe seleccionar un cargo para poder continuar
                             </small>
                         </div>
@@ -103,13 +106,15 @@
                                 *ngFor="let turnoOption of turnosTodos; trackBy: trackTurnoById">{{turnoOption.nombre}}
                             </option>
                         </select>
-                        <div>
-                            <small class="form-text text-danger">
+                        <div
+                            *ngIf="editForm.get('turno').invalid && (editForm.get('turno').dirty || editForm.get('turno').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('turno').errors.required"
+                                jhiTranslate="entity.validation.required">
                                 Debe seleccionar un turno para poder guardar
                             </small>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div>

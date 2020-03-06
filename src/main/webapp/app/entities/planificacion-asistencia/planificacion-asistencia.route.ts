@@ -38,7 +38,15 @@ export const planificacionAsistenciaRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       defaultSort: 'id,asc',
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
@@ -51,7 +59,15 @@ export const planificacionAsistenciaRoute: Routes = [
       planificacionAsistencia: PlanificacionAsistenciaResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -63,7 +79,15 @@ export const planificacionAsistenciaRoute: Routes = [
       planificacionAsistencia: PlanificacionAsistenciaResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -75,7 +99,15 @@ export const planificacionAsistenciaRoute: Routes = [
       planificacionAsistencia: PlanificacionAsistenciaResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -90,7 +122,15 @@ export const planificacionAsistenciaPopupRoute: Routes = [
       planificacionAsistencia: PlanificacionAsistenciaResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
     canActivate: [UserRouteAccessService],
@@ -103,7 +143,15 @@ export const generarPlanificacionPopupRoute: Routes = [
     path: '/generar-planificacion',
     component: GenerarPlanificacionPopupComponent,
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: [
+        'ROLE_ADMIN',
+        'JEFE_GESTION_HUMANA',
+        'ASISTENTE_GESTION_HUMANA',
+        'JEFE_PRODUCCION',
+        'ASISTENTE_PRODUCCION',
+        'GERENTE',
+        'SUPERVISOR'
+      ],
       pageTitle: 'controlAccesoApp.planificacionAsistencia.home.title'
     },
     canActivate: [UserRouteAccessService],

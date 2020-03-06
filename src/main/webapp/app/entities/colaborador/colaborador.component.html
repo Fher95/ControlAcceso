@@ -35,9 +35,9 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+                    <!--th *jhiHasAnyAuthority="'ROLE_ADMIN'" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
-                    </th>
+                    </th-->
                     <th jhiSortBy="nombre1"><span jhiTranslate="controlAccesoApp.colaborador.nombre1">Nombre 1</span>
                         <fa-icon [icon]="'sort'"></fa-icon>
                     </th>
@@ -76,7 +76,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let colaborador of colaboradors ;trackBy: trackId">
-                    <td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/colaborador', colaborador.id, 'view' ]">{{colaborador.id}}</a></td>
+                    <!--td *jhiHasAnyAuthority="'ROLE_ADMIN'" ><a [routerLink]="['/colaborador', colaborador.id, 'view' ]">{{colaborador.id}}</a></td-->
                     <td>{{colaborador.nombre1}}</td>
                     <td>{{colaborador.nombre2}}</td>
                     <td>{{colaborador.apellido1}}</td>
