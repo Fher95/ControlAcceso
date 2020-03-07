@@ -135,14 +135,16 @@ public class PlanificacionAsistenciaResource {
      *
      * @param toDate
      * @param fromDate
+     * @param nombreCol
      * @param pageable the pagination information.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the
      * list of planificacionAsistencias in body.
      */
-    @GetMapping(path = "/planificacion-asistencias", params = {"fromDate", "toDate"})
+    @GetMapping(path = "/planificacion-asistencias", params = {"fromDate", "toDate", "nombreCol"})
     public ResponseEntity<List<PlanificacionAsistencia>> getAllPlanificacionAsistencias(
             @RequestParam(value = "fromDate") LocalDate fromDate, @RequestParam(value = "toDate") LocalDate toDate,
+            @RequestParam(value = "nombreCol") String nombreCol,
             Pageable pageable) {
         Instant from = fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         // Instant to =
@@ -150,11 +152,27 @@ public class PlanificacionAsistenciaResource {
         Instant to = toDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         log.debug("REST request to get a page of PlanificacionAsistencias");
         // Page<PlanificacionAsistencia> page =
-        // planificacionAsistenciaRepository.findAll(pageable);
-        Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAllByDates(from, to, pageable);
+        // planificacionAsistenciaRepository.findAll(pageable);        
+        //Page<PlanificacionAsistencia> page = planificacionAsistenciaRepository.findAllByDates(from, to, pageable);
+        Page<PlanificacionAsistencia> page;
+        if (this.esNumero(nombreCol)) {
+            page = planificacionAsistenciaRepository.findAllPorFehchasYNumCol(pageable, from, to, nombreCol);
+        } else {
+            page = planificacionAsistenciaRepository.findAllPorFehchasYNombresCol(pageable, from, to, nombreCol);
+        }
+        
         HttpHeaders headers = PaginationUtil
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    private boolean esNumero(String cadena) {
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
     }
 
     @GetMapping(path = "/planificacion-asistencias/tipoAsistencia", params = {"fromDate", "toDate", "orden"})
@@ -211,7 +229,8 @@ public class PlanificacionAsistenciaResource {
      * buscar una lista de registros con esa fecha
      *
      * @param fecha
-     * @return un unico objeto de ejemplo PlanificacionAsistencia (ResponseEntity)
+     * @return un unico objeto de ejemplo PlanificacionAsistencia
+     * (ResponseEntity)
      */
     @GetMapping("/planificacion-asistencias/comprobarFecha/{fecha}")
     public ResponseEntity<PlanificacionAsistencia> getRegistroPlanActual(@PathVariable String fecha) {
@@ -486,8 +505,7 @@ public class PlanificacionAsistenciaResource {
                         regEntrada = true;
                     }
                     Date fechaHoraSalida = Date.from(planAsist.getHoraFinTurno());
-                    if (this.mismaFecha(parSalidaAsist, fechaHoraSalida)
-                            && this.horaDentroDeUmbral(parSalidaAsist, fechaHoraSalida, 1)) {
+                    if (this.mismaFecha(parSalidaAsist, fechaHoraSalida)) {
                         long difMilisegundos = (parSalidaAsist.getTime() - fechaHoraSalida.getTime());
                         int numMinutosSalida = (int) ((difMilisegundos / 1000) / 60);
                         if (numMinutosSalida <= 0) {

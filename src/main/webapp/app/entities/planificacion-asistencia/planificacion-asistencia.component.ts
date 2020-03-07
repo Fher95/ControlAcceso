@@ -35,6 +35,8 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
   reverse: any;
   fromDate: string;
   toDate: string;
+  currentSearch = '';
+  contenidoBusqueda = '';
 
   constructor(
     protected planificacionAsistenciaService: PlanificacionAsistenciaService,
@@ -63,7 +65,8 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort(),
         fromDate: this.fromDate,
-        toDate: this.toDate
+        toDate: this.toDate,
+        nombreCol: this.currentSearch
       })
       .subscribe(
         (res: HttpResponse<IPlanificacionAsistencia[]>) => this.paginatePlanificacionAsistencias(res.body, res.headers),
@@ -91,6 +94,7 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
 
   clear() {
     this.page = 0;
+    this.currentSearch = '';
     this.router.navigate([
       '/planificacion-asistencia',
       {
@@ -225,5 +229,17 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     strRes += 'Salida: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
 
     return strRes;
+  }
+
+  search() {
+    const vecPalabras = this.contenidoBusqueda.split(' ');
+    let strBusqueda = '';
+    vecPalabras.forEach(element => {
+      if (element !== '') {
+        strBusqueda += element.toLowerCase();
+      }
+    });
+    this.currentSearch = strBusqueda;
+    this.transition();
   }
 }

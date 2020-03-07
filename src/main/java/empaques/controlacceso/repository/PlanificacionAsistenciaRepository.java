@@ -60,5 +60,13 @@ public interface PlanificacionAsistenciaRepository extends JpaRepository<Planifi
 
     @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia where fechaAsistenciaTurno =:parFecha")
     List<PlanificacionAsistencia> listaAsistenciaPorFecha(@Param("parFecha") Instant parFecha);
+
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col " + 
+    " where pAsistencia.fechaAsistenciaTurno >= :fromDate and pAsistencia.fechaAsistenciaTurno <= :toDate and LOWER(CONCAT(col.nombre1, col.nombre2, col.apellido1, col.apellido2)) LIKE %:nombres%")
+    Page<PlanificacionAsistencia> findAllPorFehchasYNombresCol(Pageable pageable, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, @Param("nombres") String nombres);
+    
+    @Query("select distinct pAsistencia from PlanificacionAsistencia pAsistencia join pAsistencia.colaborador col " + 
+    " where pAsistencia.fechaAsistenciaTurno >= :fromDate and pAsistencia.fechaAsistenciaTurno <= :toDate and col.numeroDocumento LIKE %:numDoc%")
+    Page<PlanificacionAsistencia> findAllPorFehchasYNumCol(Pageable pageable, @Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate, @Param("numDoc") String numDoc);
     
 }

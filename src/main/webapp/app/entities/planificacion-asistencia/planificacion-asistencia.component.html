@@ -21,12 +21,12 @@
             <span jhiTranslate="controlAccesoApp.planificacionAsistencia.home.createLabel">
                 Create a new Planificacion Asistencia
             </span>
-        </button>        
+        </button>
     </h2>
-    <div class="row">
+    <div class="row justify-content-between">
         <div class="col-md-5">
             <h4 jhiTranslate="audits.filter.title">Filter by date</h4>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 ">
                 <div class="input-group-prepend">
                     <span class="input-group-text">del</span>
                 </div>
@@ -34,12 +34,28 @@
                     (ngModelChange)="transition()" required />
 
                 <div class="input-group-append">
-                    <span class="input-group-text" >al</span>
+                    <span class="input-group-text">al</span>
                 </div>
-                <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
-                    (ngModelChange)="transition()" required />
+                <input type="date" class="form-control" name="end" [(ngModel)]="toDate" (ngModelChange)="transition()"
+                    required />
             </div>
-        </div>
+        </div>        
+        <form name="searchForm" class="form-inline col-md-5 ">
+            <div class="col-12">
+                <h4>Buscar colaborador</h4>
+                <div class="input-group mb-3 justify-content-center">
+                    <input type="text" class="form-control" [(ngModel)]="this.contenidoBusqueda" id="currentSearch"
+                        name="currentSearch" placeholder="Ingrese número de documento o nombres">
+                    <button class="input-group-append btn btn-info" (click)="search()">
+                        <fa-icon [icon]="'search'"></fa-icon>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="contenidoBusqueda">
+                        <fa-icon [icon]="'trash-alt'"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+
     </div>
     <jhi-alert></jhi-alert>
     <br />
@@ -125,8 +141,7 @@
                     <td>{{planificacionAsistencia.inasistenciaJustificada ? 'Si' : 'No'}}</td>
                     <td>
                         <div *ngIf="planificacionAsistencia.colaborador">
-                            <a
-                                [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]">
+                            <a [routerLink]="['/colaborador', planificacionAsistencia.colaborador?.id, 'view' ]">
                                 {{planificacionAsistencia.colaborador ? this.colUtil.getStrColaborador(planificacionAsistencia.colaborador) : ''}}
                             </a>
                         </div>
