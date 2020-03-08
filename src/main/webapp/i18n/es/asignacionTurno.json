@@ -7,12 +7,13 @@
         "createOrEditLabel": "Crear o editar Asignacion Turno",
         "notFound": "No se encontraro asignaciones"
       },
-      "created": "Un ha generado una nueva asignacion",
+      "created": "Se ha generado una nueva asignacion",
       "updated": "Se ha actualizado una asignación",
-      "deleted": "Una asignacion ha sido finalizado con el identificador {{ param }}",
+      "deleted": "Se ha finalizado una asignación de turno",
       "delete": {
-        "question": "¿Seguro que quiere finalizar la asignacion {{ id }}?"
+        "question": "¿Seguro que quiere finalizar la asignacion?"
       },
+      "asignados": "{{param}} colaboradores fueron asignados",
       "detail": {
         "title": "Asignacion Turno"
       },

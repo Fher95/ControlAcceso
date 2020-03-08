@@ -11,7 +11,7 @@
       "updated": "Se actualizó una petición.",
       "deleted": "Una peticion ha sido eliminada",
       "delete": {
-        "question": "¿Seguro que quiere eliminar la peticion {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la peticion?"
       },
       "detail": {
         "title": "Peticion"

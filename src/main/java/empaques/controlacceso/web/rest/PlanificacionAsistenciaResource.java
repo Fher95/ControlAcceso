@@ -160,7 +160,7 @@ public class PlanificacionAsistenciaResource {
         } else {
             page = planificacionAsistenciaRepository.findAllPorFehchasYNombresCol(pageable, from, to, nombreCol);
         }
-        
+
         HttpHeaders headers = PaginationUtil
                 .generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -280,7 +280,7 @@ public class PlanificacionAsistenciaResource {
         Instant fechaFin = planificacionAsistencia.getFechaFinPlanificacion();
         if (fechaInicio.compareTo(fechaFin) <= 0) {
             // Se obtiene la lista de asignaciones actuales
-            List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActuales();
+            List<AsignacionTurno> asignacionesActuales = this.asignacionTurnoReposity.findAllAsignacionesActualesLaborales();
             numAsignaciones = asignacionesActuales.size();
             // Se empieza a recorrer cada asignacion para sacar sus datos
             for (int i = 0; i < asignacionesActuales.size(); i++) {
@@ -415,6 +415,14 @@ public class PlanificacionAsistenciaResource {
     @GetMapping("/planificacion-asistencias/cargar-asistencias")
     public ResponseEntity<Respuesta> cargarAsistencias() {
         GestionArchivos gestorArchivos = new GestionArchivos();
+        // Primero compruba la existencia del archivo
+        if (!gestorArchivos.existeArchivo()) {
+            Respuesta varRes = new Respuesta();
+            varRes.tipoMensaje = "Error";
+            varRes.mensaje = "No se encontró el archivo de asistencias";
+            return ResponseEntity.ok().body(varRes);
+        }
+
         // Creación del arreglo de lectura del archivo
         ArrayList<String> lineasArchivo = gestorArchivos.leerLineasArchivo();
         // Se crea una matriz de datos para facilitar la manipulación de los datos de

@@ -7,11 +7,11 @@
         "createOrEditLabel": "Crear o editar Intercambio Turno",
         "notFound": "No se encontraron intercambios de turno"
       },
-      "created": "Un ha registrado un intercambio de turnos.",
-      "updated": "Un ha actualizado un registro de intercambio de turno",
-      "deleted": "Un intercambio de turno ha sido eliminado con el identificador {{ param }}",
+      "created": "Se ha registrado un intercambio de turnos.",
+      "updated": "Se ha actualizado un registro de intercambio de turno",
+      "deleted": "Un intercambio de turno ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar el intercambio de turno {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el intercambio de turno?"
       },
       "detail": {
         "title": "Intercambio Turno"

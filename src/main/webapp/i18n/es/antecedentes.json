@@ -8,10 +8,10 @@
         "notFound": "No se encontraron antecedentes"
       },
       "created": "Antecedente registrado",
-      "updated": "Un Antecedentes ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Antecedentes ha sido eliminado con el identificador {{ param }}",
+      "updated": "Un Antecedente ha sido actualizado",
+      "deleted": "Un Antecedente ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar el antecedentes {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el antecedentes?"
       },
       "detail": {
         "title": "Antecedentes"

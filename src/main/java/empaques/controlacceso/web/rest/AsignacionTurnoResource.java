@@ -253,9 +253,13 @@ public class AsignacionTurnoResource {
             this.asignacionTurnoRepository.save(nuevaAsignacion);
         }
         Respuesta respuesta = new Respuesta(-3, -2);
-        System.out.println("LA CANTIDAD DE ASIGNACIONES MASIVAS ES: " + contadorAsignaciones);
-
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "hoa", "")).body(respuesta);
+        System.out.println("LA CANTIDAD DE ASIGNACIONES MASIVAS ES: " + contadorAsignaciones);        
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "controlAccesoApp.asignacionTurno.asignados",
+                 Integer.toString(contadorAsignaciones))).body(respuesta);
+        
+        /*return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(applicationName,false, "Se reasignaron "+contadorAsignaciones+" colaboradores",
+                 Integer.toString(contadorAsignaciones))).body(respuesta);
+        */
     }
 
     @PutMapping("/asignacion-turnos/cargar-asistencias")

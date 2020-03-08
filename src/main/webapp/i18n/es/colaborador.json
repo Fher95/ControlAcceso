@@ -7,8 +7,8 @@
         "createOrEditLabel": "Crear o editar Colaborador",
         "notFound": "No se encontraron colaboradores"
       },
-      "created": "Se ha creado un nuevo colaborador",
-      "updated": "Colaborador actualizado",
+      "created": "Se ha creado el colaborador {{param}}",
+      "updated": "Colaborador {{param}} ha sido actualizado",
       "deleted": "Un Colaborador ha sido eliminado",
       "delete": {
         "question": "¿Seguro que quiere eliminar al colaborador?"

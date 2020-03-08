@@ -270,7 +270,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
 
   loadColaboradores() {
     this.colaboradorService
-      .query()
+      .query({ soloLaboral: true })
       .pipe(
         filter((mayBeOk: HttpResponse<IColaborador[]>) => mayBeOk.ok),
         map((response: HttpResponse<IColaborador[]>) => response.body)

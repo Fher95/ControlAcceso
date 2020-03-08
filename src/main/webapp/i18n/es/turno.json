@@ -7,11 +7,11 @@
         "createOrEditLabel": "Crear o editar Turno",
         "notFound": "No Turnos found"
       },
-      "created": "Un nuevo Turno ha sido creado con el identificador {{ param }}",
-      "updated": "Un Turno ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Turno ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo turno ha sido creado con el nombre {{ param }}",
+      "updated": "Un turno ha sido actualizado con el nombre {{ param }}",
+      "deleted": "Un turno ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Turno {{ id }}?"
+        "question": "¿Seguro que quiere eliminar turno {{ nombre }}?"
       },
       "detail": {
         "title": "Turno"

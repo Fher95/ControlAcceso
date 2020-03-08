@@ -6,7 +6,7 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <p id="jhi-delete-turno-heading" jhiTranslate="controlAccesoApp.turno.delete.question" [translateValues]="{id: turno.id}">Are you sure you want to delete this Turno?</p>
+        <p id="jhi-delete-turno-heading" jhiTranslate="controlAccesoApp.turno.delete.question" [translateValues]="{nombre: turno.nombre}">Are you sure you want to delete this Turno?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

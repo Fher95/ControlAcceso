@@ -1,6 +1,7 @@
 package empaques.controlacceso.web.rest;
 
 import empaques.controlacceso.domain.Colaborador;
+import empaques.controlacceso.domain.enumeration.Estado;
 import empaques.controlacceso.repository.ColaboradorRepository;
 import empaques.controlacceso.web.rest.errors.BadRequestAlertException;
 
@@ -26,6 +27,7 @@ import java.util.Arrays;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Example;
 
 /**
  * REST controller for managing
@@ -65,9 +67,11 @@ public class ColaboradorResource {
             throw new BadRequestAlertException("A new colaborador cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Colaborador result = colaboradorRepository.save(colaborador);
+        String nombreCompleto = colaborador.getNombre1()+" "+colaborador.getNombre2()+" "+colaborador.getApellido1()
+                +" "+colaborador.getApellido2();
         return ResponseEntity
                 .created(new URI("/api/colaboradors/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, nombreCompleto))
                 .body(result);
     }
 
@@ -90,8 +94,10 @@ public class ColaboradorResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Colaborador result = colaboradorRepository.save(colaborador);
+        String nombreCompleto = colaborador.getNombre1()+" "+colaborador.getNombre2()+" "+colaborador.getApellido1()
+                +" "+colaborador.getApellido2();
         return ResponseEntity.ok().headers(
-                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, colaborador.getId().toString()))
+                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, nombreCompleto))
                 .body(result);
     }
 
@@ -102,17 +108,25 @@ public class ColaboradorResource {
      * @param pageable  the pagination information.
      * @param eagerload flag to eager load entities from relationships (This is
      *                  applicable for many-to-many).
+     * @param soloLaboral
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
      *         of colaboradors in body.
      */
     @GetMapping("/colaboradors")
     public ResponseEntity<List<Colaborador>> getAllColaboradors(Pageable pageable,
-            @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+            @RequestParam(required = false, defaultValue = "false") boolean eagerload,
+            @RequestParam(required = false, defaultValue = "false") boolean soloLaboral) {
         log.debug("REST request to get a page of Colaboradors");
         Page<Colaborador> page;
         if (eagerload) {
             page = colaboradorRepository.findAllWithEagerRelationships(pageable);
         } else {
+            if (soloLaboral) {
+                Colaborador colEjemplo = new Colaborador(); colEjemplo.setEstado(Estado.Activo);
+                Example<Colaborador> ejemCol = Example.of(colEjemplo);
+                List<Colaborador> listaColActivos = colaboradorRepository.findAll(ejemCol);
+                return ResponseEntity.ok().body(listaColActivos);
+            }
             page = colaboradorRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil

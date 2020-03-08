@@ -58,9 +58,9 @@ public class TurnoResource {
         if (turno.getId() != null) {
             throw new BadRequestAlertException("A new turno cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Turno result = turnoRepository.save(turno);
+        Turno result = turnoRepository.save(turno);        
         return ResponseEntity.created(new URI("/api/turnos/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getNombre()))
             .body(result);
     }
 
@@ -81,7 +81,7 @@ public class TurnoResource {
         }
         Turno result = turnoRepository.save(turno);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, turno.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, turno.getNombre()))
             .body(result);
     }
 

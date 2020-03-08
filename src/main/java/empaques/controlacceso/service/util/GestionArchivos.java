@@ -1,4 +1,5 @@
 package empaques.controlacceso.service.util;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,9 +7,17 @@ import java.io.FileReader;
 
 public final class GestionArchivos {
 
+    private final String rutaArchivo = "datosAsistencia.txt";
+    public boolean existeArchivo() {
+        File archivo = new File(this.rutaArchivo);
+        if (!archivo.exists()) {
+            return false;
+        } else return true;        
+    }
+
     /**
-     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas las
-     * lineas leidas en un vector de Strings
+     * Este método lee un archivo en la ruta raíz del proyecto y retorna todas
+     * las lineas leidas en un vector de Strings
      *
      * @return ArrayList<String> lineasLeídas
      */
