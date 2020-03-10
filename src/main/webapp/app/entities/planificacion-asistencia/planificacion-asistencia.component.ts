@@ -197,20 +197,24 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     let strRes = '';
     let unidadTiempo = 'minutos';
     let tipoAsis = 'temprano';
+
     // Tipo entrada
     let minutosTotales = objAsistencia.minDiferenciaEntrada;
     if (objAsistencia.minDiferenciaEntrada === 1 || objAsistencia.minDiferenciaEntrada === -1) {
       unidadTiempo = 'minuto';
     }
-    if (objAsistencia.minDiferenciaEntrada <= 0) {
-      minutosTotales = objAsistencia.minDiferenciaEntrada * -1;
-      if (objAsistencia.minDiferenciaSalida === 0) {
-        tipoAsis = '';
-      }
+    if (objAsistencia.minDiferenciaEntrada === 0) {
+      tipoAsis = '';
+      strRes = 'Entrada: En punto \n';
     } else {
-      tipoAsis = 'tarde';
+      if (objAsistencia.minDiferenciaEntrada < 0) {
+        minutosTotales = objAsistencia.minDiferenciaEntrada * -1;
+      } else {
+        tipoAsis = 'tarde';
+      }
+      strRes = 'Entrada: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis + '\n';
     }
-    strRes = 'Entrada: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis + '\n';
+
     // tipo salida
     unidadTiempo = 'minutos';
     tipoAsis = 'temprano';
@@ -218,15 +222,17 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     if (objAsistencia.minDiferenciaSalida === 1 || objAsistencia.minDiferenciaSalida === -1) {
       unidadTiempo = 'minuto';
     }
-    if (objAsistencia.minDiferenciaSalida <= 0) {
-      minutosTotales = objAsistencia.minDiferenciaSalida * -1;
-      if (objAsistencia.minDiferenciaSalida === 0) {
-        tipoAsis = '';
-      }
+    if (objAsistencia.minDiferenciaSalida === 0) {
+      tipoAsis = '';
+      strRes += 'Salida: En punto';
     } else {
-      tipoAsis = 'tarde';
+      if (objAsistencia.minDiferenciaSalida <= 0) {
+        minutosTotales = objAsistencia.minDiferenciaSalida * -1;
+      } else {
+        tipoAsis = 'tarde';
+      }
+      strRes += 'Salida: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
     }
-    strRes += 'Salida: ' + minutosTotales + ' ' + unidadTiempo + ' ' + tipoAsis;
 
     return strRes;
   }

@@ -51,4 +51,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.eventManager.destroy(this.authSubscription);
     }
   }
+
+  tieneAutoridad(nombreRol: string): boolean {
+    let respuesta = false;
+    this.account.authorities.forEach(element => {
+      if (element === nombreRol) {
+        respuesta = true;
+      }
+    });
+    return respuesta;
+  }
 }

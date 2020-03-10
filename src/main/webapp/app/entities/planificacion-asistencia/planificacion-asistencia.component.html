@@ -136,7 +136,7 @@
                     <td>{{planificacionAsistencia.horaFinTurno | date:'h:mm a'}}</td>
                     <td>{{planificacionAsistencia.nombreCargo}}</td>
                     <td>{{planificacionAsistencia.tiposAsistencia}}</td>
-                    <td>{{this.getStrMinutosAsistencias(planificacionAsistencia)}}</td>
+                    <td><div *ngIf="planificacionAsistencia.tiposAsistencia !=='NoAplica'"> {{this.getStrMinutosAsistencias(planificacionAsistencia)}}</div></td>
                     <td>{{planificacionAsistencia.nombreTurno}}</td>
                     <td>{{planificacionAsistencia.inasistenciaJustificada ? 'Si' : 'No'}}</td>
                     <td>

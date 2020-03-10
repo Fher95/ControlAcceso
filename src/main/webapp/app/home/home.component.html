@@ -9,16 +9,66 @@
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
-                    [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}". </span>
+                    [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}".
+                </span>                
+            </div>
+            <div class="alert alert-success" *ngSwitchCase="true" >
+                <div *ngIf="this.tieneAutoridad('ROLE_ADMIN')">                    
+                    <span>Como <strong> Administrador </strong> usted podrá ver y gestionar información relacionada con:
+                        <br />- Cargos
+                        <br />- Centros de Costo
+                        <br />- Turnos
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                        <br />- Peticiones
+                        <br />- Intercambios de turno
+                    </span>
+                </div>
+                <div *ngIf="this.tieneAutoridad('JEFE_PRODUCCION')">
+                    Jefe de produccion
+                </div>
+                <div *ngIf="this.tieneAutoridad('ASISTENTE_PRODUCCION')">
+                    Asistente de produccion
+                </div>
+                <div *ngIf="this.tieneAutoridad('JEFE_GESTION_HUMANA')">
+                    Jefe de gestion humana
+                </div>
+                <div *ngIf="this.tieneAutoridad('ASISTENTE_GESTION_HUMANA')">
+                    Asistente de gestion bumana
+                </div>
+                <div *ngIf="this.tieneAutoridad('SUPERVISOR')">
+                    Supervisor
+                </div>
+                <div *ngIf="this.tieneAutoridad('GERENTE')">
+                    Gerente
+                </div>
+                <div *ngIf="this.tieneAutoridad('PORTERO')">
+                    Portero
+                </div>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
                 <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>
-                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a><span jhiTranslate="global.messages.info.authenticated.suffix">, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+                <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign
+                    in</a>
+                <span>, puede ingresar si desempeña alguno de los siguientes roles:
+                    <br />- Administrator
+                    <br />- Gerente
+                    <br />- Jefe de producción
+                    <br />- Asistente de producción
+                    <br />- Jefe de gestión humana
+                    <br />- Asistente de gestión humana
+                    <br />- Supervisor
+                    <br />- Portero
+                </span>
             </div>
             <div class="alert alert-warning" *ngSwitchCase="false">
                 <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+                <a class="alert-link" routerLink="account/register"
+                    jhiTranslate="global.messages.info.register.link">Register a new account</a>
+                <span> y espera a que el administrador la apruebe para poder acceder al sistema.</span>
             </div>
         </div>
 

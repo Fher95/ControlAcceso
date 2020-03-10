@@ -7,7 +7,7 @@
         "createOrEditLabel": "Crear o editar Peticion",
         "notFound": "No se encontraron peticiones"
       },
-      "created": "Un ha registrado una nueva petición",
+      "created": "Se ha registrado una nueva petición",
       "updated": "Se actualizó una petición.",
       "deleted": "Una peticion ha sido eliminada",
       "delete": {
