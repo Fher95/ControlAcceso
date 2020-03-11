@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
+                    <label class="form-control-label" jhiTranslate="userManagement.login">Login</label><strong class="text-danger"> *</strong>
                     <input type="text" class="form-control" name="login"
                            formControlName="login">
 
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="userManagement.email">Email</label>
+                    <label class="form-control-label" jhiTranslate="userManagement.email">Email</label><strong class="text-danger"> *</strong>
                     <input type="email" class="form-control" name="email" formControlName="email">
 
                     <div *ngIf="editForm.get('email').invalid && (editForm.get('email').dirty || editForm.get('email').touched)">

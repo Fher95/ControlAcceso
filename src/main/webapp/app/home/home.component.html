@@ -14,7 +14,7 @@
             </div>
             <div class="alert alert-success" *ngSwitchCase="true" >
                 <div *ngIf="this.tieneAutoridad('ROLE_ADMIN')">                    
-                    <span>Como <strong> Administrador </strong> usted podrá ver y gestionar información relacionada con:
+                    <span>Como <strong class="alert-link">Administrador</strong>, usted podrá ver y gestionar información relacionada con:
                         <br />- Cargos
                         <br />- Centros de Costo
                         <br />- Turnos
@@ -27,22 +27,72 @@
                     </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('JEFE_PRODUCCION')">
-                    Jefe de produccion
+                    <span>Como <strong class="alert-link">Jefe de producción</strong>, usted podrá ver y gestionar información relacionada con:
+                        <br />- Cargos
+                        <br />- Centros de Costo
+                        <br />- Turnos
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                        <br />- Peticiones
+                        <br />- Intercambios de turno
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('ASISTENTE_PRODUCCION')">
-                    Asistente de produccion
+                    <span>Como <strong class="alert-link">Asistente de producción</strong>, usted podrá ver y gestionar información relacionada con:
+                        <br />- Cargos
+                        <br />- Centros de Costo
+                        <br />- Turnos
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                        <br />- Peticiones
+                        <br />- Intercambios de turno
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('JEFE_GESTION_HUMANA')">
-                    Jefe de gestion humana
+                    <span>Como <strong class="alert-link">Jefe de gestión humana</strong>, usted podrá ver y gestionar información relacionada con:
+                        <br />- Cargos
+                        <br />- Centros de Costo
+                        <br />- Turnos
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                        <br />- Peticiones
+                        <br />- Intercambios de turno
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('ASISTENTE_GESTION_HUMANA')">
-                    Asistente de gestion bumana
+                    <span>Como <strong class="alert-link">Asistente de gestión humana</strong>, usted podrá ver y gestionar información relacionada con:
+                        <br />- Cargos
+                        <br />- Centros de Costo
+                        <br />- Turnos
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                        <br />- Peticiones
+                        <br />- Intercambios de turno
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('SUPERVISOR')">
-                    Supervisor
+                    <span>Como <strong class="alert-link">Supervisor</strong>, usted podrá ver y gestionar información relacionada con:                        
+                        <br />- Asignacion de turnos
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias                        
+                        <br />- Peticiones de colaboradores
+                        <br />- Intercambios de turno entre colaboradores
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('GERENTE')">
-                    Gerente
+                    <span>Como <strong class="alert-link">Gerente</strong>, usted podrá ver y gestionar información relacionada con:
+                        <br />- Planificaciones semanales de asistencia
+                        <br />- Control de asistencias
+                        <br />- Colaboradores
+                    </span>
                 </div>
                 <div *ngIf="this.tieneAutoridad('PORTERO')">
                     Portero
@@ -68,7 +118,7 @@
                 <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
                 <a class="alert-link" routerLink="account/register"
                     jhiTranslate="global.messages.info.register.link">Register a new account</a>
-                <span> y espera a que el administrador la apruebe para poder acceder al sistema.</span>
+                <span> y espera a que el administrador la active para poder acceder al sistema.</span>
             </div>
         </div>
 
