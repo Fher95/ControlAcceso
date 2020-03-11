@@ -43,7 +43,7 @@ export class PeticionComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected utilidadesCol: UtilidadesColaborador
+    public utilidadesCol: UtilidadesColaborador
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {

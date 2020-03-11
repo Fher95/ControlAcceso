@@ -68,8 +68,8 @@ export class PlanificacionAsistenciaUpdateComponent implements OnInit {
     protected turnoService: TurnoService,
     protected cargoService: CargoService,
     protected centroCostoService: CentroCostoService,
-    protected utilDate: UtilidadesFecha,
-    protected utilCol: UtilidadesColaborador,
+    private utilDate: UtilidadesFecha,
+    public utilCol: UtilidadesColaborador,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}

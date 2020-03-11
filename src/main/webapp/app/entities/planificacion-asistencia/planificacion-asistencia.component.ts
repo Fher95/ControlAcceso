@@ -47,7 +47,7 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
     protected router: Router,
     private datePipe: DatePipe,
     protected eventManager: JhiEventManager,
-    protected colUtil: UtilidadesColaborador
+    public colUtil: UtilidadesColaborador
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {

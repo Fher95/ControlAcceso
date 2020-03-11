@@ -45,7 +45,7 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected colUtil: UtilidadesColaborador
+    public colUtil: UtilidadesColaborador
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.routeData = this.activatedRoute.data.subscribe(data => {

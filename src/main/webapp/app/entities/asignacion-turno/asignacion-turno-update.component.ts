@@ -78,7 +78,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected cargoService: CargoService,
     protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
-    protected utilString: UtilidadesString,
+    private utilString: UtilidadesString,
     private fb: FormBuilder
   ) {}
 

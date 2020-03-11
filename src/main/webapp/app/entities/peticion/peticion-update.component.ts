@@ -48,9 +48,9 @@ export class PeticionUpdateComponent implements OnInit {
     protected colaboradorService: ColaboradorService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    protected utilidadesCol: UtilidadesColaborador,
-    protected utilidadesFecha: UtilidadesFecha,
-    protected utilString: UtilidadesString
+    public utilidadesCol: UtilidadesColaborador,
+    public utilidadesFecha: UtilidadesFecha,
+    public utilString: UtilidadesString
   ) {}
 
   ngOnInit() {

@@ -53,7 +53,7 @@ export class AsignacionMasivaComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     private fb: FormBuilder,
     protected asignacionTurnoService: AsignacionTurnoService,
-    protected utilCol: UtilidadesColaborador,
+    public utilCol: UtilidadesColaborador,
     protected cargoService: CargoService,
     protected centroCostoService: CentroCostoService,
     protected turnoService: TurnoService

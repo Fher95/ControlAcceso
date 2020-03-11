@@ -50,7 +50,7 @@ export class AsistenciaPlaneacionComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     private datePipe: DatePipe,
     protected router: Router,
-    protected utilCol: UtilidadesColaborador
+    public utilCol: UtilidadesColaborador
   ) {}
 
   loadAll() {
