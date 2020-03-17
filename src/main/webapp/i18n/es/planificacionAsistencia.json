@@ -2,22 +2,22 @@
   "controlAccesoApp": {
     "planificacionAsistencia": {
       "home": {
-        "title": "Planificacion Asistencias",
-        "createLabel": "Nuevo Registro Planificacion Asistencia",
-        "createOrEditLabel": "Crear o editar Planificacion Asistencia",
+        "title": "Planificación Asistencias",
+        "createLabel": "Nuevo Registro Planificación Asistencia",
+        "createOrEditLabel": "Crear o editar Planificación Asistencia",
         "notFound": "No se encontraron registros de asistencia planificada"
       },
-      "created": "Un nuevo registro Planificacion Asistencia ha sido creado",
-      "updated": "Un registro Planificacion Asistencia ha sido actualizado",
-      "deleted": "Un registro Planificacion Asistencia ha sido eliminado",
+      "created": "Un nuevo registro Planificación Asistencia ha sido creado",
+      "updated": "Un registro Planificación Asistencia ha sido actualizado",
+      "deleted": "Un registro Planificación Asistencia ha sido eliminado",
       "delete": {
-        "question": "¿Seguro que quiere eliminar registro Planificacion Asistencia?"
+        "question": "¿Seguro que quiere eliminar registro Planificación Asistencia?"
       },
       "detail": {
-        "title": "Planificacion Asistencia"
+        "title": "Planificación Asistencia"
       },
-      "fechaInicioPlanificacion": "Fecha Inicio Planificacion",
-      "fechaFinPlanificacion": "Fecha Fin Planificacion",
+      "fechaInicioPlanificacion": "Fecha Inicio Planificación",
+      "fechaFinPlanificacion": "Fecha Fin Planificación",
       "fechaAsistenciaTurno": "Fecha Asistencia Turno",
       "horaInicioTurno": "Hora Inicio Turno",
       "horaFinTurno": "Hora Fin Turno",

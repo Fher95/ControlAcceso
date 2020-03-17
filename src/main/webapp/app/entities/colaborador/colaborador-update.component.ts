@@ -246,9 +246,7 @@ export class ColaboradorUpdateComponent implements OnInit {
         () => (varCols = [])
       );
     if (varCols !== undefined) {
-      this.jhiAlertService.i18nEnabled = false;
-      this.jhiAlertService.info('El número de documento ingresado ya está asignado');
-      this.jhiAlertService.i18nEnabled = true;
+      this.jhiAlertService.info('mensajeTraducido', { mensaje: 'El número de documento ingresado ya está asignado' });
     }
     this.isSaving = false;
   }

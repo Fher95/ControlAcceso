@@ -180,13 +180,11 @@ export class PlanificacionAsistenciaComponent implements OnInit, OnDestroy {
   }
 
   mostrarMensaje(parMensaje: string, tipoMensaje: string) {
-    this.jhiAlertService.i18nEnabled = false;
     if (tipoMensaje === 'Exito') {
-      this.jhiAlertService.info(parMensaje);
+      this.jhiAlertService.info('mensajeTraducido', { mensaje: parMensaje });
     } else if (tipoMensaje === 'Error') {
-      this.jhiAlertService.error(parMensaje);
+      this.jhiAlertService.error('mensajeTraducido', { mensaje: parMensaje });
     }
-    this.jhiAlertService.i18nEnabled = true;
   }
 
   getStrMinutosAsistencias(objAsistencia: IPlanificacionAsistencia) {
