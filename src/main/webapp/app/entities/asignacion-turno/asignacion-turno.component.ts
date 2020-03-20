@@ -72,7 +72,7 @@ export class AsignacionTurnoComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: HttpResponse<IAsignacionTurno[]>) => this.paginateAsistencias(res.body, res.headers),
 
-        //this.setTurnosTotales();
+        // this.setTurnosTotales();
         (res: HttpErrorResponse) => this.onError(res.message)
       );
   }
