@@ -24,7 +24,7 @@ import { ICargo } from 'app/shared/model/cargo.model';
 import { CargoService } from 'app/entities/cargo/cargo.service';
 import { ICentroCosto } from 'app/shared/model/centro-costo.model';
 import { CentroCostoService } from '../centro-costo/centro-costo.service';
-import { UtilidadesString } from 'app/shared/util/utilidades-generales';
+import { UtilidadesString, UtilidadesColaborador } from 'app/shared/util/utilidades-generales';
 
 @Component({
   selector: 'jhi-asignacion-turno-update',
@@ -79,6 +79,7 @@ export class AsignacionTurnoUpdateComponent implements OnInit {
     protected centroCostoService: CentroCostoService,
     protected activatedRoute: ActivatedRoute,
     private utilString: UtilidadesString,
+    public utilCol: UtilidadesColaborador,
     private fb: FormBuilder
   ) {}
 
