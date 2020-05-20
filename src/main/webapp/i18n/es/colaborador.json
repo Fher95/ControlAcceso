@@ -28,7 +28,7 @@
       "direccionResidencia": "Direccion De Residencia",
       "barrio": "Barrio",
       "fechaIngreso": "Fecha De Ingreso",
-      "tiempoRequerido": "Tiempo Requerido",
+      "tiempoRequerido": "Tiempo Requerido (meses)",
       "cargoDesempeniar": "Cargo A Desempeñar",
       "salario": "Salario",
       "eps": "Eps",

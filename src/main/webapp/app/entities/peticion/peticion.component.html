@@ -75,7 +75,7 @@
                                 [routerLink]="['/colaborador', peticion.colaborador?.id, 'view' ]">{{utilidadesCol.getStrColaborador(peticion.colaborador)}}</a>
                         </div>
                     </td>
-                    <td>{{peticion.tipo + (peticion.tipoPermiso ? ' - ' + peticion.tipoPermiso : '')}}</td>
+                    <td>{{peticion.tipo + (peticion.tipoPermiso ? ' - ' + ( 'controlAccesoApp.TipoPermiso.'+peticion.tipoPermiso | translate ) : '')}}</td>
                     <!--td jhiTranslate="{{'controlAccesoApp.TipoPermiso.' + peticion.tipoPermiso}}">{{peticion.tipoPermiso}}</td-->
 
                     <!--td>{{peticion.constancia}}</td-->

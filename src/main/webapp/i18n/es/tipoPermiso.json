@@ -2,12 +2,16 @@
   "controlAccesoApp": {
     "TipoPermiso": {
       "null": "",
-      "Luto": "Luto",
-      "Compensatorio": "Compensatorio",
-      "Remunerado": "Remunerado",
-      "NoRemunerado": "No Remunerado",
-      "Licencia": "Licencia",
-      "Otro": "Otro"
+      "Incapacidades": "Incapacidades",
+      "AccidenteDeTrabajo": "Accidente de trabajo",
+      "LicenciaDeMaternidad": "Licencia de maternidad",
+      "LicenciaRemunerada": "Licencia remunerada",
+      "PermisoRemunerado": "Permiso remunerado",
+      "CalamidadDomesticaRemunerada": "Calamidad doméstica remunerada",
+      "LicenciaNoRemunerada": "Licencia no remunerada",
+      "Suspension": "Suspensión",
+      "PermisoNoRemunerado": "Permiso no remunerado",
+      "FaltaInjustificada": "Falta injustificada"
     }
   }
 }

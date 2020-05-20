@@ -104,7 +104,27 @@
                                 for="field_tipoPermiso">Tipo Permiso</label>
                             <select class="form-control" name="tipoPermiso" formControlName="tipoPermiso"
                                 id="field_tipoPermiso">
-                                <option value="Luto">{{'controlAccesoApp.TipoPermiso.Luto' | translate}}</option>
+                                <option value="Incapacidades">{{'controlAccesoApp.TipoPermiso.Incapacidades' | translate}}
+                                </option>
+                                <option value="AccidenteDeTrabajo">{{'controlAccesoApp.TipoPermiso.Incapacidades' | translate}}
+                                </option>
+                                <option value="LicenciaDeMaternidad">{{'controlAccesoApp.TipoPermiso.AccidenteDeTrabajo' | translate}}
+                                </option>
+                                <option value="LicenciaRemunerada">{{'controlAccesoApp.TipoPermiso.LicenciaRemunerada' | translate}}
+                                </option>
+                                <option value="PermisoRemunerado">{{'controlAccesoApp.TipoPermiso.PermisoRemunerado' | translate}}
+                                </option>
+                                <option value="CalamidadDomesticaRemunerada">{{'controlAccesoApp.TipoPermiso.CalamidadDomesticaRemunerada' | translate}}
+                                </option>
+                                <option value="LicenciaNoRemunerada">{{'controlAccesoApp.TipoPermiso.LicenciaNoRemunerada' | translate}}
+                                </option>
+                                <option value="Suspension">{{'controlAccesoApp.TipoPermiso.Suspension' | translate}}
+                                </option>
+                                <option value="PermisoNoRemunerado">{{'controlAccesoApp.TipoPermiso.PermisoNoRemunerado' | translate}}
+                                </option>
+                                <option value="FaltaInjustificada">{{'controlAccesoApp.TipoPermiso.FaltaInjustificada' | translate}}
+                                </option>
+                                <!--option value="Luto">{{'controlAccesoApp.TipoPermiso.Luto' | translate}}</option>
                                 <option value="Compensatorio">
                                     {{'controlAccesoApp.TipoPermiso.Compensatorio' | translate}}
                                 </option>
@@ -114,7 +134,7 @@
                                 </option>
                                 <option value="Licencia">{{'controlAccesoApp.TipoPermiso.Licencia' | translate}}
                                 </option>
-                                <option value="Otro">{{'controlAccesoApp.TipoPermiso.Otro' | translate}}</option>
+                                <option value="Otro">{{'controlAccesoApp.TipoPermiso.Otro' | translate}}</option-->
                             </select>
                         </div>
                         <div class="form-group">
@@ -152,7 +172,7 @@
                                 <div *ngIf="this.editForm.get(['tipo']).value === 'Vacaciones'">
                                     <small *ngIf="!(this.editForm.get(['fechaFin']).value)"
                                         class="form-text text-danger">
-                                        Debe seleccionar una fecha de finaliación.
+                                        Debe seleccionar una fecha de finalización.
                                     </small>
                                 </div>
                             </div>

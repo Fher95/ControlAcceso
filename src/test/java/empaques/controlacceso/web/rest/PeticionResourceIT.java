@@ -42,8 +42,8 @@ public class PeticionResourceIT {
     private static final TipoPeticion DEFAULT_TIPO = TipoPeticion.Vacaciones;
     private static final TipoPeticion UPDATED_TIPO = TipoPeticion.Permiso;
 
-    private static final TipoPermiso DEFAULT_TIPO_PERMISO = TipoPermiso.Luto;
-    private static final TipoPermiso UPDATED_TIPO_PERMISO = TipoPermiso.Compensatorio;
+    private static final TipoPermiso DEFAULT_TIPO_PERMISO = TipoPermiso.Incapacidades;
+    private static final TipoPermiso UPDATED_TIPO_PERMISO = TipoPermiso.PermisoRemunerado;
 
     private static final Instant DEFAULT_FECHA_PETICION = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_PETICION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
